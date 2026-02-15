@@ -79,8 +79,8 @@ export const usePortfolio = () => {
           jsonSocials,
         ] = await Promise.all([
           resProfile.json(),
-          resExperience.ok ? resExperience.json() : [],
           resSkills.ok ? resSkills.json() : [],
+          resExperience.ok ? resExperience.json() : [],
           resEducation.ok ? resEducation.json() : [],
           resProject.ok ? resProject.json() : [],
           resAchievement.ok ? resAchievement.json() : [],
