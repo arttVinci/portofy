@@ -1,9 +1,13 @@
-import React from "react";
 import { motion } from "framer-motion";
-import ProjectCards from "../templates/subTemp/components/ProjectCards";
-import { FolderOpen } from "lucide-react";
+import ContactSection from "./ContactSection";
+import { MdOutlineContacts } from "react-icons/md";
+import type { SocialItem } from "../../../types/ui.types";
 
-export default function ProjectsPage() {
+export interface ContactViewProps {
+  socials: SocialItem[];
+}
+
+export default function ContactView({ socials }: ContactViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -13,15 +17,14 @@ export default function ProjectsPage() {
     >
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-          <FolderOpen className="w-7 h-7 text-cyan-400" />
-          Projects
+          <MdOutlineContacts className="w-7 h-7 text-cyan-400" />
+          Contact
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">
-          The following are the certificates and badges that I have obtained
-          throughout my journey, which are academic or other categories.
+          Let's connect with each other and exchange knowledge or experience.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <ProjectCards />
+        <ContactSection socials={socials} />
       </div>
     </motion.div>
   );

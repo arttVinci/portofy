@@ -7,7 +7,7 @@ export interface AboutViewProps {
   experiences: CareerItem[];
   educations: CareerItem[];
 }
-export default function AboutPage({
+export default function AboutView({
   profile,
   experiences,
   educations,

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { TbMail } from "react-icons/tb";
 import { AiFillTikTok } from "react-icons/ai";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import type { SocialItem } from "../../../types/ui.types";
 
-export default function ContactSection() {
+export interface ContactSectionProps {
+  socials: SocialItem[];
+}
+
+export default function ContactSection({ socials }: ContactSectionProps) {
   return (
     <div className="font-sans">
       {" "}
@@ -23,7 +27,7 @@ export default function ContactSection() {
                 onClick={() =>
                   window.open(
                     "https://mail.google.com/mail/?view=cm&fs=1&to=traarzkyy97@gmail.com",
-                    "_blank"
+                    "_blank",
                   )
                 }
                 className="bg-white/90 text-red-700 px-6 py-3 rounded-lg font-bold font-sans flex items-center gap-2 cursor-pointer shadow-sm"
@@ -87,7 +91,7 @@ export default function ContactSection() {
                   onClick={() =>
                     window.open(
                       "https://www.linkedin.com/in/putra-rizky-nugraha",
-                      "_blank"
+                      "_blank",
                     )
                   }
                   className="bg-white/90 text-blue-800 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"

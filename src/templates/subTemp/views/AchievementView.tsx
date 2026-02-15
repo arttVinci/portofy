@@ -1,8 +1,14 @@
 import { motion } from "framer-motion";
-import CertificateCards from "../templates/subTemp/components/CertificateCards";
+import CertificateCards from "../components/CertificateCards";
 import { Award } from "lucide-react";
+import type { AchievementItem } from "../../../types/ui.types";
 
-export default function AchievementsPage() {
+export interface AchievementViewProps {
+  achievements: AchievementItem[];
+}
+export default function AchievementView({
+  achievements,
+}: AchievementViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
