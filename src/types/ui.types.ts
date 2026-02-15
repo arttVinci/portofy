@@ -62,6 +62,7 @@ export interface ProfileItem {
   address: string;
   about: string;
   bio: string;
+  tags: string[];
 }
 
 export interface SkillItem {

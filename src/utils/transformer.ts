@@ -146,6 +146,7 @@ export const transformProfile = (data: Profile): ProfileItem => {
     address: data.address,
     about: data.about,
     bio: data.bio || "",
+    tags: data.tags || [],
   };
 };
 
@@ -160,7 +161,7 @@ export const transformSkill = (data: Skill[]): SkillItem[] => {
   }));
 };
 
-export const transformSocials = (data: Social[]): SocialItem[] => {
+export const transformSocial = (data: Social[]): SocialItem[] => {
   if (!data) return {} as SocialItem[];
 
   return data.map((item) => ({

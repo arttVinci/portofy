@@ -46,7 +46,7 @@ export default function ProfileHeader({ data }: Props) {
         <p className="text-gray-400 text-xs mb-4">@{data.username}</p>
 
         <p className="text-gray-400 text-sm max-w-md mx-auto font-mono tracking-wide">
-          Full Stack Dev | Tech Enthusiast | Clean Code
+          {data.tags.join(" | ")}
         </p>
       </motion.div>
     </div>
