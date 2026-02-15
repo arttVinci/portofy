@@ -1,6 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
-import ContactSection from "../components/ContactSection";
+import ContactSection from "../templates/subTemp/views/ContactSection";
 import { MdOutlineContacts } from "react-icons/md";
 
 export default function ContactPage() {

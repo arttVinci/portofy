@@ -6,6 +6,7 @@ import type {
   ProjectItem,
   AchievementItem,
   SkillItem,
+  SocialItem,
 } from "../../types/ui.types";
 import {
   transformProfile,
@@ -14,6 +15,7 @@ import {
   transformAchievements,
   transformProjects,
   transformSkill,
+  transformSocial,
 } from "../../utils/transformer";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -27,6 +29,7 @@ export const usePortfolio = () => {
   const [educations, setEducations] = useState<CareerItem[]>([]);
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [achievements, setAchievements] = useState<AchievementItem[]>([]);
+  const [socials, setSocials] = useState<SocialItem[]>([]);
 
   const [error, setError] = useState("");
 
@@ -37,6 +40,7 @@ export const usePortfolio = () => {
     setEducations([]);
     setProjects([]);
     setAchievements([]);
+    setSocials([]);
     setError("");
 
     if (!username) return;
@@ -50,6 +54,7 @@ export const usePortfolio = () => {
           resEducation,
           resProject,
           resAchievement,
+          resSocials,
         ] = await Promise.all([
           fetch(`${API_BASE_URL}/api/public/${username}`),
           fetch(`${API_BASE_URL}/api/public/${username}/skills`),
@@ -57,6 +62,7 @@ export const usePortfolio = () => {
           fetch(`${API_BASE_URL}/api/public/${username}/educations`),
           fetch(`${API_BASE_URL}/api/public/${username}/projects`),
           fetch(`${API_BASE_URL}/api/public/${username}/achievements`),
+          fetch(`${API_BASE_URL}/api/public/${username}/socials`),
         ]);
 
         if (resProfile.status === 404)
@@ -70,6 +76,7 @@ export const usePortfolio = () => {
           jsonEducations,
           jsonProjects,
           jsonAchievements,
+          jsonSocials,
         ] = await Promise.all([
           resProfile.json(),
           resExperience.ok ? resExperience.json() : [],
@@ -77,6 +84,7 @@ export const usePortfolio = () => {
           resEducation.ok ? resEducation.json() : [],
           resProject.ok ? resProject.json() : [],
           resAchievement.ok ? resAchievement.json() : [],
+          resSocials.ok ? resSocials.json() : [],
         ]);
 
         setProfile(transformProfile(jsonProfile));
@@ -85,6 +93,7 @@ export const usePortfolio = () => {
         setEducations(transformEducations(jsonEducations));
         setAchievements(transformAchievements(jsonAchievements));
         setProjects(transformProjects(jsonProjects));
+        setSocials(transformSocial(jsonSocials));
       } catch (err) {
         console.error(err);
         setError("Failed to load portfolio.");
@@ -101,6 +110,7 @@ export const usePortfolio = () => {
     educations,
     projects,
     achievements,
+    socials,
     error,
   };
 };

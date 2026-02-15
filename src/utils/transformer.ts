@@ -1,10 +1,11 @@
-import type { Skill } from "../templates/subTemp/components/ProjectTechStack";
 import type {
   Experience,
   Education,
   Achievement,
   Project,
   Profile,
+  Skill,
+  Social,
 } from "../types/api.types";
 import type {
   CareerItem,
@@ -12,6 +13,7 @@ import type {
   AchievementItem,
   ProfileItem,
   SkillItem,
+  SocialItem,
 } from "../types/ui.types";
 
 // Helper: Format Tanggal (2024-01-01 -> Jan 2024)
@@ -147,12 +149,24 @@ export const transformProfile = (data: Profile): ProfileItem => {
   };
 };
 
-export const transformSkill = (data: SkillItem[]): SkillItem[] => {
+export const transformSkill = (data: Skill[]): SkillItem[] => {
   if (!data) return {} as SkillItem[];
 
   return data.map((item) => ({
-    name: item.name,
-    icon: item.icon,
-    color: item.color,
+    id: item.id,
+    title: item.title,
+    iconUrl: item.icon_url,
+    level: item.level,
+  }));
+};
+
+export const transformSocials = (data: Social[]): SocialItem[] => {
+  if (!data) return {} as SocialItem[];
+
+  return data.map((item) => ({
+    id: item.id,
+    title: item.title,
+    platform: item.platform,
+    url: item.platform_url,
   }));
 };

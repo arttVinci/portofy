@@ -80,3 +80,17 @@ export interface Profile {
   about: string;
   bio?: string;
 }
+
+export interface Skill {
+  id: string;
+  title: string;
+  icon_url: string;
+  level: string;
+}
+
+export interface Social {
+  id: string;
+  title: string; // Contoh: "LinkedIn"
+  platform: string; // Contoh: "LinkedIn"
+  platform_url: string; // Contoh: "https://linkedin.com/in/username"
+}

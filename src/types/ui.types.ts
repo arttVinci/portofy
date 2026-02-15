@@ -65,7 +65,15 @@ export interface ProfileItem {
 }
 
 export interface SkillItem {
-  name: string;
-  icon: string;
-  color: string;
+  id: string;
+  title: string;
+  iconUrl: string;
+  level: string;
+}
+
+export interface SocialItem {
+  id: string;
+  title: string; // Contoh: "GitHub", "LinkedIn"
+  platform: string; // Contoh: "GitHub", "LinkedIn"
+  url: string; // Contoh: Link Profil Sosial Media
 }
