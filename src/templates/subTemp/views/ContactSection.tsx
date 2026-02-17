@@ -1,3 +1,4 @@
+import type { ElementType } from "react";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { TbMail } from "react-icons/tb";
 import { AiFillTikTok } from "react-icons/ai";
@@ -46,129 +47,68 @@ export default function ContactSection({ socials }: ContactSectionProps) {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-xl p-6 md:p-8 relative overflow-hidden shadow-lg">
-            <div className="flex justify-between items-start gap-4">
-              <div className="relative z-10 flex-1">
-                <h2 className="text-white text-lg md:text-xl font-bold font-sans tracking-tight mb-1 md:mb-2">
-                  Follow My Journey
-                </h2>
+          {socials.map((social, index) => {
+            const iconMap: Record<string, ElementType> = {
+              Instagram: FaInstagram,
+              LinkedIn: FaLinkedin,
+              GitHub: FaGithub,
+              TikTok: AiFillTikTok,
+            };
 
-                <p className="text-white/90 mb-4 md:mb-6 font-body text-xs md:text-sm">
-                  Follow my creative journey.
-                </p>
+            const backgroundMap: Record<string, string> = {
+              Instagram: "from-purple-600 via-pink-600 to-orange-500",
+              LinkedIn: "from-blue-700 to-blue-900",
+              GitHub: "from-gray-800 to-gray-900",
+              TikTok: "from-black to-gray-800",
+            };
 
-                <motion.button
-                  onClick={() =>
-                    window.open("https://www.instagram.com/artt__r", "_blank")
-                  }
-                  className="bg-white/90 text-pink-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
-                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  Instagram
-                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </motion.button>
+            const textMap: Record<string, string> = {
+              Instagram: "bg-white/90 text-pink-600",
+              LinkedIn: "bg-white/90 text-blue-800",
+              GitHub: "bg-white/90 text-gray-900",
+              TikTok: "bg-white/90 text-black",
+            };
+
+            const Icon = iconMap[social.platform];
+            const Background = backgroundMap[social.platform];
+            const textColor = textMap[social.platform];
+            return (
+              <div
+                key={index}
+                className={`bg-linear-to-br ${Background} rounded-xl p-6 md:p-8 relative overflow-hidden shadow-lg`}
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <div className="relative z-10 flex-1">
+                    <h2 className="text-white text-lg md:text-xl font-bold font-sans tracking-tight mb-1 md:mb-2">
+                      {social.title}
+                    </h2>
+
+                    <p className="text-gray-300 mb-4 md:mb-6 font-body text-xs md:text-sm">
+                      Follow my creative journey.
+                    </p>
+
+                    <motion.button
+                      onClick={() => window.open(social.url, "_blank")}
+                      className={`bg-white/90 ${textColor} px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm`}
+                      whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 17,
+                      }}
+                    >
+                      Instagram
+                      <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                    </motion.button>
+                  </div>
+                  <div className="w-14 h-14 md:w-20 md:h-20 border-white/30 border-2 md:border-4 rounded-xl flex items-center justify-center -rotate-6 shrink-0">
+                    <Icon className="text-white w-7 h-7 md:w-15 md:h-15" />
+                  </div>
+                </div>
               </div>
-              <div className="w-14 h-14 md:w-20 md:h-20 border-white/30 border-2 md:border-4 rounded-xl flex items-center justify-center -rotate-6 shrink-0">
-                <FaInstagram className="text-white w-7 h-7 md:w-15 md:h-15" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-xl p-6 md:p-8 relative overflow-hidden shadow-lg">
-            <div className="flex justify-between items-start gap-4">
-              <div className="relative z-10 flex-1">
-                <h2 className="text-white text-lg md:text-xl font-bold font-sans tracking-tight mb-1 md:mb-2">
-                  Let's Connect
-                </h2>
-
-                <p className="text-blue-100 mb-4 md:mb-6 font-body text-xs md:text-sm">
-                  Connect with me professionally.
-                </p>
-
-                <motion.button
-                  onClick={() =>
-                    window.open(
-                      "https://www.linkedin.com/in/putra-rizky-nugraha",
-                      "_blank",
-                    )
-                  }
-                  className="bg-white/90 text-blue-800 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
-                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  LinkedIn
-                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </motion.button>
-              </div>
-              <div className="w-14 h-14 md:w-20 md:h-20 border-white/30 border-2 md:border-4 rounded-xl flex items-center justify-center rotate-6 shrink-0">
-                <FaLinkedin className="text-white w-7 h-7 md:w-15 md:h-15" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-xl p-6 md:p-8 relative overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-between items-start gap-4">
-              <div className="relative z-10 flex-1">
-                <h2 className="text-white text-lg md:text-xl font-bold font-sans tracking-tight mb-1 md:mb-2">
-                  Join the Fun
-                </h2>
-
-                <p className="text-gray-300 mb-4 md:mb-6 font-body text-xs md:text-sm">
-                  Watch engaging and fun content.
-                </p>
-
-                <motion.button
-                  onClick={() =>
-                    window.open("https://www.tiktok.com/@artt_rzky", "_blank")
-                  }
-                  className="bg-white/90 text-gray-900 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
-                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  TikTok
-                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </motion.button>
-              </div>
-              <div className="w-14 h-14 md:w-20 md:h-20 border-white/30 border-2 md:border-4 rounded-xl flex items-center justify-center -rotate-3 shrink-0 backdrop-blur-sm">
-                <AiFillTikTok className="text-white w-7 h-7 md:w-15 md:h-15" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-linear-to-br from-gray-900 to-black rounded-xl p-6 md:p-8 relative overflow-hidden border border-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-between items-start gap-4">
-              <div className="relative z-10 flex-1">
-                <h2 className="text-white text-lg md:text-xl font-bold font-sans tracking-tight mb-1 md:mb-2">
-                  Explore Code
-                </h2>
-
-                <p className="text-gray-400 mb-4 md:mb-6 font-body text-xs md:text-sm">
-                  Explore my open-source work.
-                </p>
-
-                <motion.button
-                  onClick={() =>
-                    window.open("https://github.com/arttVinci", "_blank")
-                  }
-                  className="bg-white/90 text-black px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
-                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  GitHub
-                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </motion.button>
-              </div>
-
-              <div className="w-14 h-14 md:w-20 md:h-20 border-white/30 border-2 md:border-4 rounded-xl flex items-center justify-center rotate-3 shrink-0 backdrop-blur-sm">
-                <FaGithub className="text-white w-7 h-7 md:w-15 md:h-15" />
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import type { ElementType } from "react";
+
 export interface CareerItem {
   id: string;
   logo: string; // Contoh: URL Logo (Sudah dipastikan tidak null)
@@ -74,7 +76,7 @@ export interface SkillItem {
 
 export interface SocialItem {
   id: string;
-  title: string; // Contoh: "GitHub", "LinkedIn"
+  title: string; // Contoh: Follow my creative journey.
   platform: string; // Contoh: "GitHub", "LinkedIn"
   url: string; // Contoh: Link Profil Sosial Media
 }

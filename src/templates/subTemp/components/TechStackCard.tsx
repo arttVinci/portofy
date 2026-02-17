@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import type { SkillItem } from "../../../types/ui.types";
 
 export interface TechStackCardProps {
-  skill: SkillItem[];
+  skill: SkillItem;
   index: number;
 }
 
-export default function TechStackCard({ skill, index }) {
-  const cardRef = useRef(null);
+export default function TechStackCard({ skill, index }: TechStackCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -37,9 +37,6 @@ export default function TechStackCard({ skill, index }) {
       card.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
-
-  const Icon = tech.Icon;
-
   return (
     <motion.div
       ref={cardRef}
@@ -67,7 +64,11 @@ export default function TechStackCard({ skill, index }) {
       />
       <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-cyan-500/30 transition-all duration-300 z-10" />
       <div className="flex shrink-0 p-2 w-15 h-15 items-center justify-center relative z-10">
-        <Icon size={35} color={tech.color} />
+        <img
+          src={skill.iconUrl}
+          alt={skill.title}
+          className="w-5 h-5 object-contain"
+        />
       </div>
 
       <div
@@ -78,7 +79,7 @@ export default function TechStackCard({ skill, index }) {
         }}
       >
         <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors whitespace-nowrap block pr-3">
-          {tech.name}
+          {skill.title}
         </span>
       </div>
     </motion.div>

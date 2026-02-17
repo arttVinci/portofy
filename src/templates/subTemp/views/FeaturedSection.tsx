@@ -21,7 +21,7 @@ export default function FeaturedSection() {
           to="/projects"
           className="md:col-span-7 md:row-span-2 block group relative h-full"
         >
-          <GlowCard className="h-full overflow-hidden">
+          <GlowCard classname="h-full overflow-hidden">
             <div className="flex flex-col md:flex-row h-full justify-between">
               <div className="p-5 md:p-6 flex flex-col justify-start w-full md:w-[45%] shrink-0 relative z-10">
                 <div className="bg-zinc-800/50 border border-white/10 w-fit p-2.5 md:p-3 rounded-xl mb-4 shadow-sm">
