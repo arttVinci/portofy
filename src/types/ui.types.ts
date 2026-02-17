@@ -1,5 +1,3 @@
-import type { ElementType } from "react";
-
 export interface CareerItem {
   id: string;
   logo: string; // Contoh: URL Logo (Sudah dipastikan tidak null)
