@@ -13,7 +13,6 @@ export interface ContactSectionProps {
 export default function ContactSection({ socials }: ContactSectionProps) {
   return (
     <div className="font-sans">
-      {" "}
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="bg-linear-to-r from-red-600 to-red-700 rounded-xl p-7 relative overflow-hidden shadow-lg">
           <div className="flex justify-between items-start">
