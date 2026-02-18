@@ -4,20 +4,21 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { Menu, Hammer, X } from "lucide-react";
 import { MdVerified } from "react-icons/md";
-import type { ProfileItem } from "../../../types/ui.types";
 
 export interface TempLayoutProps {
-  profileData: ProfileItem | null;
+  portfolioData: any;
 }
 
-export default function MainLayout({ profileData }: TempLayoutProps) {
+export default function TempLayout({ portfolioData }: TempLayoutProps) {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSmartTalkOpen, setIsSmartTalkOpen] = useState(false);
 
+  const profile = portfolioData?.profile;
+
   useEffect(() => {
-    const path = location.pathname.slice(1) || "home";
+    const path = location.pathname.split("/").pop() || "home";
     const menuName = path.charAt(0).toUpperCase() + path.slice(1);
     setActiveMenu(menuName);
   }, [location]);
@@ -68,7 +69,7 @@ export default function MainLayout({ profileData }: TempLayoutProps) {
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
           onOpenSmartTalk={() => setIsSmartTalkOpen(true)}
-          profileData={profileData}
+          profileData={profile}
         />
 
         <motion.main
@@ -78,7 +79,7 @@ export default function MainLayout({ profileData }: TempLayoutProps) {
           className="flex-1 ml-0 lg:ml-66 pt-16 lg:pt-0"
         >
           <div className="max-w-5xl mx-auto py-6 px-6 lg:px-16 lg:py-0">
-            <Outlet />
+            <Outlet context={portfolioData} />
           </div>
         </motion.main>
       </div>

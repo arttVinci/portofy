@@ -12,6 +12,11 @@ export default function MainLayout() {
 
   const { profile, error } = portfolioData;
 
+  const themeName = profile?.theme || "subTemp";
+
+  const SelectedThemeLayout =
+    THEME_REGISTRY[themeName] || THEME_REGISTRY["subTemp"];
+
   if (error) {
     return (
       <div className="flex flex-col h-screen items-center justify-center bg-zinc-950">
@@ -26,21 +31,6 @@ export default function MainLayout() {
       </div>
     );
   }
-
-  if (!profile) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-zinc-950">
-        <p className="text-white font-mono animate-pulse">
-          Loading portfolio...
-        </p>
-      </div>
-    );
-  }
-
-  const themeName = profile.theme || "subTemp";
-
-  const SelectedThemeLayout =
-    THEME_REGISTRY[themeName] || THEME_REGISTRY["subTemp"];
 
   return <SelectedThemeLayout portfolioData={portfolioData} />;
 }
