@@ -4,9 +4,10 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { Menu, Hammer, X } from "lucide-react";
 import { MdVerified } from "react-icons/md";
+import type { PortfolioData } from "../../../types/ui.types";
 
 export interface TempLayoutProps {
-  portfolioData: any;
+  portfolioData: PortfolioData;
 }
 
 export default function TempLayout({ portfolioData }: TempLayoutProps) {

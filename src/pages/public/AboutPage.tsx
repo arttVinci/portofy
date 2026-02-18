@@ -1,9 +1,9 @@
 import { useOutletContext } from "react-router-dom";
 import AboutView from "../../templates/subTemp/views/AboutView";
-import type { AboutItem } from "../../types/ui.types";
+import type { AboutViewProps } from "../../templates/subTemp/views/AboutView";
 
 export default function AboutPage() {
-  const contextData = useOutletContext<AboutItem>();
+  const contextData = useOutletContext<AboutViewProps>();
 
   const template = contextData?.profile.theme || "default";
 

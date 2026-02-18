@@ -80,8 +80,13 @@ export interface SocialItem {
   url: string; // Contoh: Link Profil Sosial Media
 }
 
-export interface AboutItem {
+export interface PortfolioData {
+  username?: string; // Opsional karena bisa undefined
   profile: ProfileItem;
+  skills: SkillItem[];
   experiences: CareerItem[];
   educations: CareerItem[];
+  projects: ProjectItem[];
+  achievements: AchievementItem[];
+  socials: SocialItem[];
 }

@@ -3,10 +3,11 @@ import CareerCard from "../components/CareerCard";
 import type { ProfileItem, CareerItem } from "../../../types/ui.types";
 
 export interface AboutViewProps {
-  profile: ProfileItem | null;
+  profile: ProfileItem;
   experiences: CareerItem[];
   educations: CareerItem[];
 }
+
 export default function AboutView({
   profile,
   experiences,
