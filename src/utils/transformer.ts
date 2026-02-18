@@ -147,6 +147,7 @@ export const transformProfile = (data: Profile): ProfileItem => {
     about: data.about,
     bio: data.bio || "",
     tags: data.tags || [],
+    theme: data.theme || "light",
   };
 };
 

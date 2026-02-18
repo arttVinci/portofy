@@ -63,6 +63,7 @@ export interface ProfileItem {
   about: string;
   bio: string;
   tags: string[];
+  theme: string;
 }
 
 export interface SkillItem {
@@ -77,4 +78,10 @@ export interface SocialItem {
   title: string; // Contoh: Follow my creative journey.
   platform: string; // Contoh: "GitHub", "LinkedIn"
   url: string; // Contoh: Link Profil Sosial Media
+}
+
+export interface AboutItem {
+  profile: ProfileItem;
+  experiences: CareerItem[];
+  educations: CareerItem[];
 }

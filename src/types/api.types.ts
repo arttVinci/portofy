@@ -82,6 +82,7 @@ export interface Profile {
   about: string;
   bio?: string;
   tags: string[];
+  theme: string;
 }
 
 export interface Skill {

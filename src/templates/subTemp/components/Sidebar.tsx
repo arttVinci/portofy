@@ -13,6 +13,7 @@ interface Props {
   onClose: () => void;
   onOpenSmartTalk: () => void;
   profileData: ProfileItem | null;
+  setACtiveMenu: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Sidebar({
@@ -21,6 +22,7 @@ export default function Sidebar({
   onClose,
   onOpenSmartTalk,
   profileData,
+  setACtiveMenu,
 }: Props) {
   const navigate = useNavigate();
 
@@ -42,6 +44,7 @@ export default function Sidebar({
   }, [username]);
 
   const handleMenuClick = (item: any) => {
+    setACtiveMenu(item.label);
     navigate(item.route);
 
     if (window.innerWidth < 1024) {

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { LayoutGrid, Award, Wrench } from "lucide-react";
 import GlowCard from "../components/GlowCard";
@@ -61,7 +60,7 @@ export default function FeaturedSection() {
           to="/achievements"
           className="md:col-span-5 block group h-full min-h-40"
         >
-          <GlowCard className="h-full p-5 md:p-6 flex flex-col justify-center">
+          <GlowCard classname="h-full p-5 md:p-6 flex flex-col justify-center">
             <div className="bg-zinc-800/50 border border-white/10 w-fit p-2.5 md:p-3 rounded-xl mb-4">
               <Award className="w-6 h-6 text-white" />
             </div>
@@ -81,7 +80,7 @@ export default function FeaturedSection() {
           to="/contact"
           className="md:col-span-5 block group h-full min-h-40"
         >
-          <GlowCard className="h-full p-5 md:p-6 flex flex-col justify-center">
+          <GlowCard classname="h-full p-5 md:p-6 flex flex-col justify-center">
             <div className="bg-zinc-800/50 border border-white/10 w-fit p-2.5 md:p-3 rounded-xl mb-4">
               <Wrench className="w-6 h-6 text-white" />
             </div>
