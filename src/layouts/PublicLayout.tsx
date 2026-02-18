@@ -12,7 +12,6 @@ export default function MainLayout() {
 
   const { profile, error } = portfolioData;
 
-  // 5. HANDLE ERROR (Misal: User 404 Not Found / API Golang mati)
   if (error) {
     return (
       <div className="flex flex-col h-screen items-center justify-center bg-zinc-950">
