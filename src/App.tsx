@@ -1,29 +1,26 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/PublicLayout";
-import HomePage from "./templates/subTemp/views/HomePage";
-import AboutPage from "./templates/subTemp/views/AboutView";
-import AchievementsPage from "./templates/subTemp/views/AchievementView";
-import ProjectsPage from "./templates/subTemp/views/ProjectView";
-import ContactPage from "./templates/subTemp/views/ContactView";
-import DetailProjectPage from "./templates/subTemp/views/DetailProjectPage";
-import ScrollToTop from "./components/ui/ScrollToTop";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import PublicLayout from "./layouts/PublicLayout";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="achievements" element={<AchievementsPage />} />
-          <Route path="projects" element={<ProjectsPage />} />
-          <Route path="project/:id" element={<DetailProjectPage />} />
-          <Route path="contact" element={<ContactPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomeLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="pricing" element={<PricingPage />} />
+        <Route path="login" element={<LoginPage />} />
+      </Route>
+
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<DashboardHome />} />
+        <Route path="edit-profile" element={<EditProfilePage />} />
+        <Route path="manage-projects" element={<ManageProjectsPage />} />
+      </Route>
+
+      <Route path="/:username" element={<PublicLayout />}>
+        <Route index element={<AboutPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="projects" element={<ProjectsPage />} />
+      </Route>
+    </Routes>
   );
 }
