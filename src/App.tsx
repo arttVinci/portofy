@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout";
+import HomePage from "./pages/public/HomePage";
+import AboutPage from "./pages/public/AboutPage";
 
 export default function App() {
   return (
