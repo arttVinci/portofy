@@ -17,7 +17,7 @@ export default function App() {
       </Route>
 
       <Route path="/:username" element={<PublicLayout />}>
-        <Route index element={<AboutPage />} />
+        <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="projects" element={<ProjectsPage />} />
       </Route>

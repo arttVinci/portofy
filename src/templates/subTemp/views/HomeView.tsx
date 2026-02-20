@@ -23,6 +23,11 @@ import {
   SiTailwindcss,
   SiDependabot,
 } from "@icons-pack/react-simple-icons";
+import type {
+  ProfileItem,
+  ProjectItem,
+  SkillItem,
+} from "../../../types/ui.types";
 
 const techStack = [
   { name: "HTML5", Icon: SiHtml5, color: "#E34F26" },
@@ -45,7 +50,13 @@ const techStack = [
   { name: "Git", Icon: SiGit, color: "#F05032" },
 ];
 
-export default function HomePage() {
+export interface HomePageProps {
+  profile: ProfileItem;
+  skills: SkillItem[];
+  projects: ProjectItem[];
+}
+
+export default function HomePage({ profile, skills, projects }: HomePageProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -55,36 +66,24 @@ export default function HomePage() {
     >
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-          Hi, I'm Putra Rizky
+          Hi, I'm {profile.fullName ?? "Welcome to my portfolio"}
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">
-          I live in Indonesia, Jawa Barat, Bekasi Utara.
+          I live in I{profile.address ?? "Indonesia"}
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
       </div>
 
       <div className="space-y-6 text-gray-300 leading-relaxed font-normal text-base">
-        <p>
-          <span className="font-mono text-sky-400">
-            I'm Putra Rizky Nugraha
-          </span>
-          , an Information Systems student at Universitas Terbuka and a
-          dedicated Fullstack Developer specializing in{" "}
-          <span className="font-mono text-sky-400">PHP (Laravel)</span>,{" "}
-          <span className="font-mono text-sky-400">Golang</span>, and{" "}
-          <span className="font-mono text-sky-400">React</span>. Passionate
-          about{" "}
-          <span className="font-mono text-sky-400">
-            Clean Code and scalable architecture
-          </span>
-          , I utilize modern tools like{" "}
-          <span className="font-mono text-sky-400">Docker</span> and{" "}
-          <span className="font-mono text-sky-400">MySQL</span> to build robust,
-          user-centric digital solutions. As an active member of the{" "}
-          <span className="font-mono text-sky-400">Google Developer Group</span>
-          , I am a fast learner eager to contribute my technical expertise and
-          professional workflow to impactful software engineering projects.
-        </p>
+        {profile?.bio ? (
+          profile.bio.split("\n").map((text, i) => (
+            <p key={i} className="mb-4">
+              {text}
+            </p>
+          ))
+        ) : (
+          <p>-</p>
+        )}
       </div>
 
       <div className="mt-16">
@@ -100,8 +99,12 @@ export default function HomePage() {
         </div>
 
         <div className="flex flex-wrap gap-2.5 pb-1">
-          {techStack.map((tech, index) => (
-            <TechStackCard key={tech.name} tech={tech} index={index} />
+          {skills.map((skill, index) => (
+            <TechStackCard
+              key={skill.title || index}
+              skill={skill}
+              index={index}
+            />
           ))}
         </div>
       </div>
