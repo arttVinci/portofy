@@ -29,34 +29,13 @@ import type {
   SkillItem,
 } from "../../../types/ui.types";
 
-const techStack = [
-  { name: "HTML5", Icon: SiHtml5, color: "#E34F26" },
-  { name: "CSS", Icon: SiCss, color: "#1572B6" },
-  { name: "Bootstrap", Icon: SiBootstrap, color: "#7952B3" },
-  { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "Golang", Icon: SiGo, color: "#00ADD8" },
-  { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
-  { name: "React", Icon: SiReact, color: "#61DAFB" },
-  { name: "PHP", Icon: SiPhp, color: "#777BB4" },
-  { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
-  { name: "Livewire", Icon: SiLivewire, color: "#4E56A6" },
-  { name: "Filament", Icon: SiFilament, color: "#F59E0B" },
-  { name: "Composer", Icon: SiComposer, color: "#885630" },
-  { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
-  { name: "AI", Icon: SiDependabot, color: "#412991" },
-  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-  { name: "Postman", Icon: SiPostman, color: "#FF6C37" },
-  { name: "GitHub", Icon: SiGithub, color: "#f7f7f7" },
-  { name: "Git", Icon: SiGit, color: "#F05032" },
-];
-
-export interface HomePageProps {
+export interface HomeViewProps {
   profile: ProfileItem;
   skills: SkillItem[];
   projects: ProjectItem[];
 }
 
-export default function HomePage({ profile, skills, projects }: HomePageProps) {
+export default function HomeView({ profile, skills, projects }: HomeViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
