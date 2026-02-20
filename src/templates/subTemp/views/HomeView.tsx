@@ -111,7 +111,7 @@ export default function HomePage({ profile, skills, projects }: HomePageProps) {
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3"></div>
-        <FeaturedSection />
+        <FeaturedSection projects={projects} />
       </div>
     </motion.div>
   );

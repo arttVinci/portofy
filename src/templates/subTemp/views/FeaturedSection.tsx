@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { LayoutGrid, Award, Wrench } from "lucide-react";
 import GlowCard from "../components/GlowCard";
+import type { ProjectItem } from "../../../types/ui.types";
 
-export default function FeaturedSection() {
+export interface FeaturedSectionProps {
+  projects: ProjectItem[];
+}
+
+export default function FeaturedSection({ projects }: FeaturedSectionProps) {
   return (
     <section className="mt-7 pb-3">
       <div className="mb-6 md:mb-8 px-1 md:px-0">
@@ -35,23 +40,19 @@ export default function FeaturedSection() {
                 </p>
               </div>
 
-              <div className="relative flex-1 flex flex-col gap-3 md:gap-4 p-5 pt-0 md:p-1 md:pl-2 overflow-hidden">
-                <div className="w-full aspect-video rounded-lg border border-white/10 overflow-hidden shrink-0 shadow-lg shadow-black/40">
-                  <img
-                    src="/images/projects/dekatku/project1.png"
-                    className="w-full h-full object-cover"
-                    alt="Project Dekatku"
-                  />
-                </div>
-
-                <div className="w-full aspect-video rounded-lg border border-white/10 overflow-hidden shrink-0 shadow-lg shadow-black/40">
-                  <img
-                    src="/images/projects/golang-api-ecommerce/6.png"
-                    className="w-full h-full object-cover"
-                    alt="Project Ecommerce"
-                  />
-                </div>
-              </div>
+              {projects &&
+                projects.length > 0 &&
+                projects.slice(0, 2).map((project) => (
+                  <div className="relative flex-1 flex flex-col gap-3 md:gap-4 p-5 pt-0 md:p-1 md:pl-2 overflow-hidden">
+                    <div className="w-full aspect-video rounded-lg border border-white/10 overflow-hidden shrink-0 shadow-lg shadow-black/40">
+                      <img
+                        src={project.image}
+                        className="w-full h-full object-cover"
+                        alt={project.title}
+                      />
+                    </div>
+                  </div>
+                ))}
             </div>
           </GlowCard>
         </Link>
