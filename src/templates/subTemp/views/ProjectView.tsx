@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import ProjectCards from "../components/ProjectCards";
 import { FolderOpen } from "lucide-react";
-import type { ProjectItem } from "../../../types/ui.types";
+import type { ProfileItem, ProjectItem } from "../../../types/ui.types";
 
 export interface ProjectViewProps {
+  profile: ProfileItem;
   projects: ProjectItem[];
   username: string;
 }
@@ -21,8 +22,8 @@ export default function ProjectView({ projects, username }: ProjectViewProps) {
           Projects
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">
-          The following are the certificates and badges that I have obtained
-          throughout my journey, which are academic or other categories.
+          Here are some of the selected projects that showcase my passion for
+          building impactful software solutions.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
         <ProjectCards projects={projects} username={username} />

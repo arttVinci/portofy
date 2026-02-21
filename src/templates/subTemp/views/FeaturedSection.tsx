@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { LayoutGrid, Award, Wrench } from "lucide-react";
 import GlowCard from "../components/GlowCard";
-import type { ProjectItem } from "../../../types/ui.types";
+import type { ProfileItem, ProjectItem } from "../../../types/ui.types";
 
 export interface FeaturedSectionProps {
+  profile: ProfileItem;
   projects: ProjectItem[];
 }
 

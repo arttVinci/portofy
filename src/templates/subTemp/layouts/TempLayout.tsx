@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { Menu, Hammer, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 import type { PortfolioData } from "../../../types/ui.types";
 
@@ -29,7 +29,7 @@ export default function TempLayout({ portfolioData }: TempLayoutProps) {
         <div className="flex items-center gap-6">
           <div className="relative">
             <img
-              src="/images/profile3.jpg"
+              src={profile?.avatar || "/images/default-avatar.png"}
               alt="Avatar"
               className="w-9 h-9 rounded-full border border-zinc-700 object-cover"
             />
@@ -38,7 +38,7 @@ export default function TempLayout({ portfolioData }: TempLayoutProps) {
 
           <div className="flex items-center gap-2">
             <h1 className="text-white font-semibold text-md tracking-wide">
-              Putra Rizky
+              {portfolioData?.username || "User"}
             </h1>
             <MdVerified className="w-4 h-4 text-blue-400 mt-1" />
           </div>

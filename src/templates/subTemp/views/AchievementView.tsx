@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import CertificateCards from "../components/CertificateCards";
 import { Award } from "lucide-react";
-import type { AchievementItem } from "../../../types/ui.types";
+import type { AchievementItem, ProfileItem } from "../../../types/ui.types";
 
 export interface AchievementViewProps {
+  profile: ProfileItem;
   achievements: AchievementItem[];
 }
 export default function AchievementView({

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
 import { PiCertificate } from "react-icons/pi";
-import { Home, User, FolderOpen, Send, MessageSquare, X } from "lucide-react";
+import { Home, User, FolderOpen, Send, X } from "lucide-react";
 import type { ProfileItem } from "../../../types/ui.types";
 
 interface Props {

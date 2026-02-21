@@ -5,9 +5,10 @@ import ProjectTechStack from "../components/ProjectTechStack";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import GlowCard from "../components/GlowCard";
 import ImageGallery from "../components/ImageGallery";
-import type { ProjectItem } from "../../../types/ui.types";
+import type { ProfileItem, ProjectItem } from "../../../types/ui.types";
 
 export interface DetailProjectViewProps {
+  profile: ProfileItem;
   project: ProjectItem;
 }
 

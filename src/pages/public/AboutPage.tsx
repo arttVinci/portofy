@@ -5,7 +5,7 @@ import type { AboutViewProps } from "../../templates/subTemp/views/AboutView";
 export default function AboutPage() {
   const contextData = useOutletContext<AboutViewProps>();
 
-  const template = contextData?.profile.theme || "default";
+  const template = contextData?.profile?.theme || "default";
 
   if (template === "subTemp") {
     return <AboutView {...contextData} />;

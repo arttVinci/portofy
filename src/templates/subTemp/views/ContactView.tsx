@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import ContactSection from "./ContactSection";
 import { MdOutlineContacts } from "react-icons/md";
-import type { SocialItem } from "../../../types/ui.types";
+import type { ProfileItem, SocialItem } from "../../../types/ui.types";
 
 export interface ContactViewProps {
+  profile: ProfileItem;
   socials: SocialItem[];
 }
 
-export default function ContactView({ socials }: ContactViewProps) {
+export default function ContactView({ socials, profile }: ContactViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -24,7 +25,7 @@ export default function ContactView({ socials }: ContactViewProps) {
           Let's connect with each other and exchange knowledge or experience.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <ContactSection socials={socials} />
+        <ContactSection profile={profile} socials={socials} />
       </div>
     </motion.div>
   );

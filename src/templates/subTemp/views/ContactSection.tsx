@@ -4,9 +4,10 @@ import { TbMail } from "react-icons/tb";
 import { AiFillTikTok } from "react-icons/ai";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import type { SocialItem } from "../../../types/ui.types";
+import type { ProfileItem, SocialItem } from "../../../types/ui.types";
 
 export interface ContactSectionProps {
+  profile: ProfileItem;
   socials: SocialItem[];
 }
 
@@ -97,7 +98,7 @@ export default function ContactSection({ socials }: ContactSectionProps) {
                         damping: 17,
                       }}
                     >
-                      Instagram
+                      {social.platform}
                       <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
                     </motion.button>
                   </div>

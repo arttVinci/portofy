@@ -69,7 +69,7 @@ export default function HomeView({ profile, skills, projects }: HomeViewProps) {
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3"></div>
-        <FeaturedSection projects={projects} />
+        <FeaturedSection profile={profile} projects={projects} />
       </div>
     </motion.div>
   );
