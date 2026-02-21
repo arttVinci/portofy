@@ -3,9 +3,13 @@ import ProjectCard from "./ProjectCard";
 
 export interface ProjectCardsProps {
   projects: ProjectItem[];
+  username: string;
 }
 
-export default function ProjectCards({ projects }: ProjectCardsProps) {
+export default function ProjectCards({
+  projects,
+  username,
+}: ProjectCardsProps) {
   return (
     <section className="mt-4 pb-3">
       <div className="mb-4">
@@ -18,7 +22,12 @@ export default function ProjectCards({ projects }: ProjectCardsProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         {projects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
+          <ProjectCard
+            key={project.id}
+            project={project}
+            index={index}
+            username={username}
+          />
         ))}
       </div>
     </section>

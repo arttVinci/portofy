@@ -1,7 +1,6 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProjectTechStack from "../components/ProjectTechStack";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import GlowCard from "../components/GlowCard";

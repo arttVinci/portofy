@@ -6,18 +6,25 @@ import ProjectTechStack from "./ProjectTechStack";
 import { useNavigate } from "react-router-dom";
 import type { ProjectItem } from "../../../types/ui.types";
 
+const APP_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 export interface ProjectCardProps {
   project: ProjectItem;
+  username: string;
   index: number;
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+  index,
+  username,
+}: ProjectCardProps) {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const navigate = useNavigate();
 
   const handleViewDetail = () => {
-    navigate(`${API_BASE_URL}/${username}/${project.id}`);
+    navigate(`${APP_BASE_URL}/${username}/projects/${project.id}`);
   };
 
   return (

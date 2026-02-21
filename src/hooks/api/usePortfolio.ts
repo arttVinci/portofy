@@ -56,13 +56,13 @@ export const usePortfolio = () => {
           resAchievement,
           resSocials,
         ] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/public/${username}`),
-          fetch(`${API_BASE_URL}/api/public/${username}/skills`),
-          fetch(`${API_BASE_URL}/api/public/${username}/experiences`),
-          fetch(`${API_BASE_URL}/api/public/${username}/educations`),
-          fetch(`${API_BASE_URL}/api/public/${username}/projects`),
-          fetch(`${API_BASE_URL}/api/public/${username}/achievements`),
-          fetch(`${API_BASE_URL}/api/public/${username}/socials`),
+          fetch(`${API_BASE_URL}/public/${username}`),
+          fetch(`${API_BASE_URL}/public/${username}/skills`),
+          fetch(`${API_BASE_URL}/public/${username}/experiences`),
+          fetch(`${API_BASE_URL}/public/${username}/educations`),
+          fetch(`${API_BASE_URL}/public/${username}/projects`),
+          fetch(`${API_BASE_URL}/public/${username}/achievements`),
+          fetch(`${API_BASE_URL}/public/${username}/socials`),
         ]);
 
         if (resProfile.status === 404)

@@ -5,8 +5,9 @@ import type { ProjectItem } from "../../../types/ui.types";
 
 export interface ProjectViewProps {
   projects: ProjectItem[];
+  username: string;
 }
-export default function ProjectView({ projects }: ProjectViewProps) {
+export default function ProjectView({ projects, username }: ProjectViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -24,7 +25,7 @@ export default function ProjectView({ projects }: ProjectViewProps) {
           throughout my journey, which are academic or other categories.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <ProjectCards projects={projects} />
+        <ProjectCards projects={projects} username={username} />
       </div>
     </motion.div>
   );
