@@ -17,7 +17,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   const navigate = useNavigate();
 
   const handleViewDetail = () => {
-    navigate(`/project/${project.id}`);
+    navigate(`${API_BASE_URL}/${username}/${project.id}`);
   };
 
   return (

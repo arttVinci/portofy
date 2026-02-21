@@ -14,7 +14,6 @@ export default function TempLayout({ portfolioData }: TempLayoutProps) {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSmartTalkOpen, setIsSmartTalkOpen] = useState(false);
 
   const profile = portfolioData?.profile;
 
@@ -69,7 +68,6 @@ export default function TempLayout({ portfolioData }: TempLayoutProps) {
           setACtiveMenu={setActiveMenu}
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
-          onOpenSmartTalk={() => setIsSmartTalkOpen(true)}
           profileData={profile}
         />
 

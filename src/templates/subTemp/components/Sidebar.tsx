@@ -11,7 +11,6 @@ interface Props {
   activeMenu: string;
   isOpen: boolean;
   onClose: () => void;
-  onOpenSmartTalk: () => void;
   profileData: ProfileItem | null;
   setACtiveMenu: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -20,7 +19,6 @@ export default function Sidebar({
   activeMenu,
   isOpen,
   onClose,
-  onOpenSmartTalk,
   profileData,
   setACtiveMenu,
 }: Props) {
@@ -94,19 +92,6 @@ export default function Sidebar({
               index={index}
             />
           ))}
-
-          <motion.button
-            onClick={onOpenSmartTalk}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-56 relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-7 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
-          >
-            <MessageSquare className="w-5 h-5" />
-            <span>Smart Talk</span>
-          </motion.button>
 
           <div className="px-5 pb-6 pt-2 mt-8 text-center border-t border-zinc-700">
             <p className="text-gray-500 text-xs">
