@@ -2,16 +2,17 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { projectsData } from "../data/ProjectsData";
 import ProjectTechStack from "../components/ProjectTechStack";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import GlowCard from "../components/GlowCard";
 import ImageGallery from "../components/ImageGallery";
+import type { ProjectItem } from "../../../types/ui.types";
 
-export default function DetailProjectPage() {
-  const { id } = useParams();
-  const project = projectsData.find((data) => data.id === parseInt(id));
+export interface DetailProjectViewProps {
+  project: ProjectItem;
+}
 
+export default function DetailProjectPage({ project }: DetailProjectViewProps) {
   if (!project) {
     console.log("data tidak ditemukan!");
     return <div className="text-white p-10">Project not found</div>;
@@ -50,8 +51,12 @@ export default function DetailProjectPage() {
               Tech Stack :
             </span>
             <div className="flex flex-wrap gap-2">
-              {project.techStack.map((tech, index) => (
-                <ProjectTechStack key={tech.name} tech={tech} index={index} />
+              {project.skill.map((skill, index) => (
+                <ProjectTechStack
+                  key={skill.name}
+                  skill={skill}
+                  index={index}
+                />
               ))}
             </div>
           </div>
@@ -60,7 +65,7 @@ export default function DetailProjectPage() {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={project.githubUrl}
+              href={project.repoUrl}
               className="flex items-center gap-2 px-3 py-2 md:px-0 md:py-0 bg-white/5 md:bg-transparent rounded-lg md:rounded-none text-cyan-400 hover:text-cyan-300 transition-colors text-sm md:text-base"
             >
               <SiGithub className="w-5 h-5 text-gray-300" />
@@ -72,7 +77,7 @@ export default function DetailProjectPage() {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={project.liveUrl}
+              href={project.demoUrl}
               className="flex items-center gap-2 px-3 py-2 md:px-0 md:py-0 bg-white/5 md:bg-transparent rounded-lg md:rounded-none text-cyan-400 hover:text-cyan-300 transition-colors text-sm md:text-base"
             >
               <ExternalLink className="w-5 h-5 text-gray-300" />
@@ -96,7 +101,7 @@ export default function DetailProjectPage() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <GlowCard className="h-full">
+        <GlowCard classname="h-full">
           <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
             <span className="text-orange-400">⚡</span>
             Challenges
@@ -106,7 +111,7 @@ export default function DetailProjectPage() {
           </p>
         </GlowCard>
 
-        <GlowCard className="h-full">
+        <GlowCard classname="h-full">
           <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
             <span className="text-green-400">💡</span>
             Solution
@@ -117,7 +122,7 @@ export default function DetailProjectPage() {
         </GlowCard>
       </div>
 
-      <GlowCard certi={true} className={"rounded-2xl md:rounded-3xl mt-6"}>
+      <GlowCard certi={true} classname={"rounded-2xl md:rounded-3xl mt-6"}>
         <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2 mb-6">
           <span className="text-cyan-400 animate-pulse">✨</span>
           <span className="relative">Key Features</span>
@@ -141,7 +146,7 @@ export default function DetailProjectPage() {
               </h4>
 
               <ul className="space-y-3 pl-4 md:pl-6">
-                {feature.key.map((item, itemIndex) => (
+                {feature.items.map((item, itemIndex) => (
                   <motion.li
                     key={itemIndex}
                     initial={{ opacity: 0, x: -10 }}
