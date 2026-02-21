@@ -27,7 +27,7 @@ export default function HomeView({ profile, skills, projects }: HomeViewProps) {
           Hi, I'm {profile.fullName ?? "Welcome to my portfolio"}
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">
-          I live in I{profile.address ?? "Indonesia"}
+          I live in {profile.address ?? "Indonesia"}
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
       </div>
