@@ -3,12 +3,17 @@ import { LayoutGrid, Award, Wrench } from "lucide-react";
 import GlowCard from "../components/GlowCard";
 import type { ProfileItem, ProjectItem } from "../../../types/ui.types";
 
+const APP_BASE_URL = import.meta.env.VITE_APP_URL || "http://localhost:8080";
+
 export interface FeaturedSectionProps {
   profile: ProfileItem;
   projects: ProjectItem[];
 }
 
-export default function FeaturedSection({ projects }: FeaturedSectionProps) {
+export default function FeaturedSection({
+  profile,
+  projects,
+}: FeaturedSectionProps) {
   return (
     <section className="mt-7 pb-3">
       <div className="mb-6 md:mb-8 px-1 md:px-0">
@@ -23,7 +28,7 @@ export default function FeaturedSection({ projects }: FeaturedSectionProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-auto md:auto-rows-[180px] gap-4 md:gap-6">
         <Link
-          to="/projects"
+          to={`${APP_BASE_URL}/${profile.username}/projects`}
           className="md:col-span-7 md:row-span-2 block group relative h-full"
         >
           <GlowCard classname="h-full overflow-hidden">

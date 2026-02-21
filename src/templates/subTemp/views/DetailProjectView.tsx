@@ -7,12 +7,17 @@ import GlowCard from "../components/GlowCard";
 import ImageGallery from "../components/ImageGallery";
 import type { ProfileItem, ProjectItem } from "../../../types/ui.types";
 
+const APP_BASE_URL = import.meta.env.VITE_APP_URL || "http://localhost:8080";
+
 export interface DetailProjectViewProps {
   profile: ProfileItem;
   project: ProjectItem;
 }
 
-export default function DetailProjectView({ project }: DetailProjectViewProps) {
+export default function DetailProjectView({
+  project,
+  profile,
+}: DetailProjectViewProps) {
   if (!project) {
     console.log("data tidak ditemukan!");
     return <div className="text-white p-10">Project not found</div>;
@@ -27,7 +32,7 @@ export default function DetailProjectView({ project }: DetailProjectViewProps) {
     >
       <div>
         <Link
-          to={"/projects"}
+          to={`${APP_BASE_URL}/${profile.username}/projects`}
           className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-all duration-200 group mb-5 md:mb-7"
         >
           <MoveLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" />
