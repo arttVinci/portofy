@@ -1,28 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Briefcase, CodeXml } from "lucide-react";
+import { CodeXml } from "lucide-react";
 import TechStackCard from "../components/TechStackCard";
 import FeaturedSection from "./FeaturedSection";
-import {
-  SiBootstrap,
-  SiComposer,
-  SiCss,
-  SiDocker,
-  SiFilament,
-  SiGit,
-  SiGithub,
-  SiGo,
-  SiHtml5,
-  SiJavascript,
-  SiLaravel,
-  SiLivewire,
-  SiMysql,
-  SiPhp,
-  SiPostman,
-  SiReact,
-  SiTailwindcss,
-  SiDependabot,
-} from "@icons-pack/react-simple-icons";
 import type {
   ProfileItem,
   ProjectItem,

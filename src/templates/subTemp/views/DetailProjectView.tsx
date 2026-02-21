@@ -11,7 +11,7 @@ export interface DetailProjectViewProps {
   project: ProjectItem;
 }
 
-export default function DetailProjectPage({ project }: DetailProjectViewProps) {
+export default function DetailProjectView({ project }: DetailProjectViewProps) {
   if (!project) {
     console.log("data tidak ditemukan!");
     return <div className="text-white p-10">Project not found</div>;
