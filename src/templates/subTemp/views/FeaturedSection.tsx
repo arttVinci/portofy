@@ -48,9 +48,12 @@ export default function FeaturedSection({
 
               {projects &&
                 projects.length > 0 &&
-                projects.slice(0, 2).map((project) => (
+                projects.slice(0, 2).map((project, index) => (
                   <div className="relative flex-1 flex flex-col gap-3 md:gap-4 p-5 pt-0 md:p-1 md:pl-2 overflow-hidden">
-                    <div className="w-full aspect-video rounded-lg border border-white/10 overflow-hidden shrink-0 shadow-lg shadow-black/40">
+                    <div
+                      key={index}
+                      className="w-full aspect-video rounded-lg border border-white/10 overflow-hidden shrink-0 shadow-lg shadow-black/40"
+                    >
                       <img
                         src={project.image}
                         className="w-full h-full object-cover"

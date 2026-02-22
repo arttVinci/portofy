@@ -29,7 +29,7 @@ export default function ExperienceCard({ data, index }: Props) {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <img
-              src={data.logo}
+              src={data.logo || "/default-logo.png"}
               alt={`${data.organization} Logo`}
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover p-1 cursor-pointer"
             />

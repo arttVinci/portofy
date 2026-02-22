@@ -1,5 +1,3 @@
-import type { ElementType } from "react";
-
 export interface Experience {
   id: string;
   position: string; // Contoh: Jabatan (Backend Developer)

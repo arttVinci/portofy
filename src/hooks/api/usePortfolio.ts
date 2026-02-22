@@ -14,8 +14,8 @@ import {
   transformEducations,
   transformAchievements,
   transformProjects,
-  transformSkill,
-  transformSocial,
+  // transformSkill,
+  // transformSocial,
 } from "../../utils/transformer";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -49,20 +49,20 @@ export const usePortfolio = () => {
       try {
         const [
           resProfile,
-          resSkills,
+          // resSkills,
           resExperience,
           resEducation,
           resProject,
           resAchievement,
-          resSocials,
+          // resSocials,
         ] = await Promise.all([
           fetch(`${API_BASE_URL}/public/${username}`),
-          fetch(`${API_BASE_URL}/public/${username}/skills`),
+          // fetch(`${API_BASE_URL}/public/${username}/skills`),
           fetch(`${API_BASE_URL}/public/${username}/experiences`),
           fetch(`${API_BASE_URL}/public/${username}/educations`),
           fetch(`${API_BASE_URL}/public/${username}/projects`),
           fetch(`${API_BASE_URL}/public/${username}/achievements`),
-          fetch(`${API_BASE_URL}/public/${username}/socials`),
+          // fetch(`${API_BASE_URL}/public/${username}/socials`),
         ]);
 
         if (resProfile.status === 404)
@@ -71,29 +71,29 @@ export const usePortfolio = () => {
 
         const [
           jsonProfile,
-          jsonSkills,
+          // jsonSkills,
           jsonExperiences,
           jsonEducations,
           jsonProjects,
           jsonAchievements,
-          jsonSocials,
+          // jsonSocials,
         ] = await Promise.all([
           resProfile.json(),
-          resSkills.ok ? resSkills.json() : [],
+          // resSkills.ok ? resSkills.json() : [],
           resExperience.ok ? resExperience.json() : [],
           resEducation.ok ? resEducation.json() : [],
           resProject.ok ? resProject.json() : [],
           resAchievement.ok ? resAchievement.json() : [],
-          resSocials.ok ? resSocials.json() : [],
+          // resSocials.ok ? resSocials.json() : [],
         ]);
 
-        setProfile(transformProfile(jsonProfile));
-        setSkills(transformSkill(jsonSkills));
-        setExperiences(transformExperiences(jsonExperiences));
-        setEducations(transformEducations(jsonEducations));
-        setAchievements(transformAchievements(jsonAchievements));
-        setProjects(transformProjects(jsonProjects));
-        setSocials(transformSocial(jsonSocials));
+        setProfile(transformProfile(jsonProfile.data));
+        // setSkills(transformSkill(jsonSkills));
+        setExperiences(transformExperiences(jsonExperiences.data));
+        setEducations(transformEducations(jsonEducations.data));
+        setAchievements(transformAchievements(jsonAchievements.data));
+        setProjects(transformProjects(jsonProjects.data));
+        // setSocials(transformSocial(jsonSocials));
       } catch (err) {
         console.error(err);
         setError("Failed to load portfolio.");
