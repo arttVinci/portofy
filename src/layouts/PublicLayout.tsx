@@ -10,12 +10,23 @@ const THEME_REGISTRY: Record<string, React.ElementType> = {
 export default function MainLayout() {
   const portfolioData = usePortfolio();
 
-  const { profile, error } = portfolioData;
+  const { profile, error, isLoading } = portfolioData;
 
   const themeName = profile?.theme || "subTemp";
 
   const SelectedThemeLayout =
     THEME_REGISTRY[themeName] || THEME_REGISTRY["subTemp"];
+
+  console.log("PLSS JANGAN NULL  :", portfolioData.error);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-zinc-950 text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <span className="ml-3">Loading Portfolio...</span>
+      </div>
+    );
+  }
 
   if (error) {
     return (

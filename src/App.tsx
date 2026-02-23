@@ -6,10 +6,15 @@ import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ContactPage from "./pages/public/ContactPage";
 import ProjectPage from "./pages/public/ProjectPage";
+import HomeLayout from "./layouts/HomeLayout";
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<HomeLayout />}>
+        <Route index element={<HomeLayout />} />
+      </Route>
+
       <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />

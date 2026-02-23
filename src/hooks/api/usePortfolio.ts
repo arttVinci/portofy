@@ -23,6 +23,8 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 export const usePortfolio = () => {
   const { username } = useParams();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [profile, setProfile] = useState<ProfileItem | null>(null);
   const [skills, setSkills] = useState<SkillItem[]>([]);
   const [experiences, setExperiences] = useState<CareerItem[]>([]);
@@ -42,6 +44,7 @@ export const usePortfolio = () => {
     setAchievements([]);
     setSocials([]);
     setError("");
+    setIsLoading(true);
 
     if (!username) return;
 
@@ -87,20 +90,26 @@ export const usePortfolio = () => {
           // resSocials.ok ? resSocials.json() : [],
         ]);
 
+        console.log("plss masuk:", jsonProfile);
+
         setProfile(transformProfile(jsonProfile.data));
         // setSkills(transformSkill(jsonSkills));
         setExperiences(transformExperiences(jsonExperiences.data));
         setEducations(transformEducations(jsonEducations.data));
         setAchievements(transformAchievements(jsonAchievements.data));
         setProjects(transformProjects(jsonProjects.data));
-        // setSocials(transformSocial(jsonSocials));
+        // setSocials(transformSocial(jsonSocials));\
       } catch (err) {
         console.error(err);
         setError("Failed to load portfolio.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [username]);
+
+  console.log("plss ada datanya :", profile);
 
   return {
     username,
@@ -112,5 +121,6 @@ export const usePortfolio = () => {
     achievements,
     socials,
     error,
+    isLoading,
   };
 };
