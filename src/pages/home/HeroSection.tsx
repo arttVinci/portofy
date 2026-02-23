@@ -1,4 +1,10 @@
 import { motion } from "framer-motion";
+import RotatingText from "../../components/ui/RotatingText";
+
+/*
+  Add to index.html:
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+*/
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -8,6 +14,7 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, ease: smoothEase, delay },
 });
 
+// Fake portfolio card data
 const cards = [
   {
     name: "Ariana K.",
@@ -65,6 +72,7 @@ export default function HeroSection() {
       className="relative min-h-screen bg-[#fafaf9] overflow-hidden flex flex-col items-center"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
+      {/* ── Subtle grid background ── */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -76,6 +84,7 @@ export default function HeroSection() {
         }}
       />
 
+      {/* ── Soft radial glow center ── */}
       <div
         className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
         style={{
@@ -86,7 +95,8 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center text-center pt-32 px-6 max-w-4xl mx-auto">
+      {/* ── HERO CONTENT ── */}
+      <div className="relative z-10 flex flex-col items-center text-center pt-32 px-6 max-w-5xl mx-auto">
         {/* Badge */}
         <motion.div {...fadeUp(0.1)}>
           <span
@@ -102,24 +112,33 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
+        {/* Headline */}
         <motion.h1
           {...fadeUp(0.2)}
-          className="mt-6 text-[58px] leading-[1.08] font-normal tracking-[-0.03em] text-gray-900"
+          className="mt-6 text-[58px] leading-[1.08] font-normal tracking-[-0.03em] text-gray-900 flex flex-wrap items-baseline justify-center gap-x-3"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          Portfolio kamu,{" "}
-          <span
-            className="italic"
-            style={{
-              background: "linear-gradient(135deg, #6366f1, #a855f7)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            tanpa satu baris kode.
-          </span>
+          <span>Portfolio kamu,</span>
+          <RotatingText
+            texts={[
+              "Siap dalam 3 langkah.",
+              "Tampil profesional.",
+              "HR & Recruiter terkesan.",
+              "Cukup isi form.",
+            ]}
+            mainClassName="italic text-indigo-500 overflow-hidden justify-start"
+            staggerFrom="last"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-120%" }}
+            staggerDuration={0.025}
+            splitLevelClassName="overflow-hidden pb-1"
+            transition={{ type: "spring", damping: 28, stiffness: 380 }}
+            rotationInterval={2500}
+          />
         </motion.h1>
 
+        {/* Sub */}
         <motion.p
           {...fadeUp(0.3)}
           className="mt-5 text-[17px] text-gray-500 leading-[1.65] max-w-xl"
@@ -128,6 +147,7 @@ export default function HeroSection() {
           dunia — dalam hitungan menit, bukan minggu.
         </motion.p>
 
+        {/* CTA buttons */}
         <motion.div {...fadeUp(0.4)} className="mt-8 flex items-center gap-3">
           <a
             href="#"
@@ -144,6 +164,7 @@ export default function HeroSection() {
           </a>
         </motion.div>
 
+        {/* Steps */}
         <motion.div {...fadeUp(0.45)} className="mt-10 flex items-center gap-6">
           {steps.map((s, i) => (
             <div key={s.num} className="flex items-center gap-3">
@@ -161,6 +182,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
+      {/* ── FLOATING PORTFOLIO CARDS ── */}
       <div className="relative z-10 mt-20 w-full max-w-5xl mx-auto px-6">
         <div
           className="relative flex justify-center items-end"
@@ -194,6 +216,7 @@ export default function HeroSection() {
                     "0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(255,255,255,0.8) inset",
                 }}
               >
+                {/* Card header */}
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className="size-10 rounded-full flex items-center justify-center text-[13px] font-bold"
@@ -212,6 +235,7 @@ export default function HeroSection() {
                   </div>
                 </div>
 
+                {/* Fake preview bar */}
                 <div
                   className="w-full h-20 rounded-lg mb-3 overflow-hidden"
                   style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
@@ -260,6 +284,7 @@ export default function HeroSection() {
                   ))}
                 </div>
 
+                {/* Footer */}
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] text-gray-400">
                     {card.views} views
@@ -274,21 +299,24 @@ export default function HeroSection() {
           ))}
         </div>
 
+        {/* Platform floor line */}
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 1, ease: smoothEase, delay: 0.8 }}
-          className="mt-6 mx-auto h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"
+          className="mt-6 mx-auto h-px bg-linear-to-r from-transparent via-gray-200 to-transparent"
           style={{ maxWidth: 600 }}
         />
       </div>
 
+      {/* ── SOCIAL PROOF ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1 }}
         className="relative z-10 mt-12 pb-24 flex flex-col items-center gap-3"
       >
+        {/* Avatars stack */}
         <div className="flex items-center gap-3">
           <div className="flex -space-x-2.5">
             {["#6366f1", "#f97316", "#22c55e", "#ec4899", "#eab308"].map(
@@ -307,6 +335,7 @@ export default function HeroSection() {
           </p>
         </div>
 
+        {/* Stars */}
         <div className="flex items-center gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <svg
