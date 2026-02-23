@@ -7,11 +7,6 @@ import {
 } from "framer-motion";
 import { HiArrowRight } from "react-icons/hi2";
 
-/*
-  Tambahkan ke index.html atau global CSS:
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-*/
-
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 interface MenuItem {
@@ -29,7 +24,7 @@ const menuItems: MenuItem[] = [
       "Explore our core product features and capabilities built for modern teams.",
     icon: (
       <svg
-        className="size-[18px] text-gray-600"
+        className="size-4.5 text-gray-600"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -52,7 +47,7 @@ const menuItems: MenuItem[] = [
       "Simple, transparent pricing that grows with your business — no surprises.",
     icon: (
       <svg
-        className="size-[18px] text-gray-600"
+        className="size-4.5 text-gray-600"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -74,7 +69,7 @@ const menuItems: MenuItem[] = [
       "Browse our showcase of projects built by teams around the world.",
     icon: (
       <svg
-        className="size-[18px] text-gray-600"
+        className="size-4.5 text-gray-600"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -93,7 +88,6 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-// --- Variants ---
 const dropdownVariants: Variants = {
   hidden: { opacity: 0, y: -14, scaleY: 0.93, transformOrigin: "top" },
   visible: {
@@ -137,7 +131,6 @@ const storyVariants: Variants = {
   },
 };
 
-// --- Menu Item Row ---
 function MenuItemRow({ item }: { item: MenuItem }) {
   const t: Transition = { duration: 0.28, ease: smoothEase };
 
@@ -150,7 +143,6 @@ function MenuItemRow({ item }: { item: MenuItem }) {
       initial="rest"
       animate="rest"
     >
-      {/* BG fade — layoutId trick: plain div, opacity only, no overflow-hidden needed */}
       <motion.span
         aria-hidden
         className="pointer-events-none absolute inset-0 rounded-xl"
@@ -158,8 +150,6 @@ function MenuItemRow({ item }: { item: MenuItem }) {
         variants={{ rest: { opacity: 0 }, hovered: { opacity: 1 } }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       />
-
-      {/* Icon box */}
       <motion.div
         className="relative shrink-0 flex items-center justify-center size-10 rounded-xl"
         variants={{
@@ -177,7 +167,6 @@ function MenuItemRow({ item }: { item: MenuItem }) {
         {item.icon}
       </motion.div>
 
-      {/* Text */}
       <div className="relative grow min-w-0">
         <p className="text-[15px] font-semibold leading-[1.3] tracking-[-0.01em] text-gray-900">
           {item.label}
@@ -187,7 +176,6 @@ function MenuItemRow({ item }: { item: MenuItem }) {
         </p>
       </div>
 
-      {/* Arrow: slides right + darkens on hover */}
       <motion.div
         className="relative shrink-0"
         variants={{
@@ -196,13 +184,12 @@ function MenuItemRow({ item }: { item: MenuItem }) {
         }}
         transition={{ duration: 0.25, ease: smoothEase }}
       >
-        <HiArrowRight className="size-[15px]" />
+        <HiArrowRight className="size-3.75" />
       </motion.div>
     </motion.a>
   );
 }
 
-// --- Navbar ---
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -248,8 +235,7 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      <nav className="relative max-w-[85rem] w-full mx-auto flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8">
-        {/* ── KIRI: Logo ── */}
+      <nav className="relative max-w-340 w-full mx-auto flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8">
         <a
           href="#"
           aria-label="Brand"
@@ -258,14 +244,11 @@ export default function Navbar() {
           Brand
         </a>
 
-        {/* ── KANAN: Nav links + divider + CTA ── */}
         <div className="flex items-center gap-1">
-          {/* Nav links */}
           <a href="#" className={navLinkClass}>
             Landing
           </a>
 
-          {/* Resources mega menu */}
           <div className="static">
             <button
               type="button"
@@ -293,7 +276,6 @@ export default function Navbar() {
               </motion.svg>
             </button>
 
-            {/* Mega Menu — full width relative to nav */}
             <AnimatePresence>
               {isOpen && (
                 <motion.div
@@ -319,7 +301,6 @@ export default function Navbar() {
                         </div>
                       </div>
 
-                      {/* Right — customer story */}
                       <motion.div
                         variants={storyVariants}
                         className="col-span-2 bg-gray-50 border-l border-gray-100 p-6 flex flex-col"
@@ -381,10 +362,8 @@ export default function Navbar() {
             Blog
           </a>
 
-          {/* Divider */}
           <div className="mx-2 h-5 w-px bg-gray-200" />
 
-          {/* CTA Buttons */}
           <a
             href="#"
             className="px-3.5 py-2 inline-flex items-center text-[14px] font-medium rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors duration-150 focus:outline-none"
@@ -398,7 +377,6 @@ export default function Navbar() {
             Get started
           </a>
         </div>
-        {/* ── END KANAN ── */}
       </nav>
     </motion.header>
   );
