@@ -8,6 +8,8 @@ export default function HomeLayout() {
       <Navbar />
       <HeroSection />
       <HowItWorksSection />
+      <HowItWorksSection />
+      <HowItWorksSection />
     </>
   );
 }

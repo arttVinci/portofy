@@ -1,6 +1,3 @@
-// CardSwap.tsx — ukuran 19:6 ratio untuk step-by-step demo
-// Rasio 19:6 = width:height, misal 760:240 atau 950:300
-
 import React, {
   Children,
   cloneElement,
@@ -10,9 +7,10 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import gsap from "gsap";
 
 import type { ReactElement, ReactNode, RefObject } from "react";
+
+import gsap from "gsap";
 
 export interface CardSwapProps {
   width?: number | string;
@@ -36,7 +34,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       {...rest}
-      className={`absolute top-1/2 left-1/2 rounded-2xl border border-white/10 [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] ${customClass ?? ""} ${rest.className ?? ""}`.trim()}
+      className={`absolute top-1/2 left-1/2 rounded-xl border border-white [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] ${customClass ?? ""} ${rest.className ?? ""}`.trim()}
     />
   ),
 );
@@ -76,14 +74,14 @@ const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
   });
 
 const CardSwap: React.FC<CardSwapProps> = ({
-  width = 760,
-  height = 240,
-  cardDistance = 50,
-  verticalDistance = 60,
-  delay = 3500,
-  pauseOnHover = true,
+  width = 500,
+  height = 400,
+  cardDistance = 60,
+  verticalDistance = 70,
+  delay = 5000,
+  pauseOnHover = false,
   onCardClick,
-  skewAmount = 4,
+  skewAmount = 6,
   easing = "elastic",
   children,
 }) => {
@@ -118,6 +116,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const order = useRef<number[]>(
     Array.from({ length: childArr.length }, (_, i) => i),
   );
+
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const intervalRef = useRef<number>(0);
   const container = useRef<HTMLDivElement>(null);
@@ -134,16 +133,18 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
     const swap = () => {
       if (order.current.length < 2) return;
+
       const [front, ...rest] = order.current;
       const elFront = refs[front].current!;
       const tl = gsap.timeline();
       tlRef.current = tl;
 
       tl.to(elFront, {
-        y: "+=600",
+        y: "+=500",
         duration: config.durDrop,
         ease: config.ease,
       });
+
       tl.addLabel("promote", `-=${config.durDrop * config.promoteOverlap}`);
       rest.forEach((idx, i) => {
         const el = refs[idx].current!;
@@ -187,6 +188,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         },
         "return",
       );
+
       tl.call(() => {
         order.current = [...rest, front];
       });
@@ -222,8 +224,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
           key: i,
           ref: refs[i],
           style: { width, height, ...(child.props.style ?? {}) },
-          onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-            child.props.onClick?.(e);
+          onClick: (e) => {
+            child.props.onClick?.(e as React.MouseEvent<HTMLDivElement>);
             onCardClick?.(i);
           },
         } as CardProps & React.RefAttributes<HTMLDivElement>)
@@ -233,7 +235,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   return (
     <div
       ref={container}
-      className="relative perspective-[900px] overflow-visible"
+      className="absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]"
       style={{ width, height }}
     >
       {rendered}

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import RotatingText from "../../components/ui/RotatingText";
+import Particles from "../../components/ui/Particles"; // sesuaikan path import Particles kamu
 
 /*
   Add to index.html:
@@ -19,42 +20,42 @@ const cards = [
   {
     name: "Ariana K.",
     role: "Product Designer",
-    color: "#f0f4ff",
-    accent: "#6366f1",
+    color: "#1e1b4b",
+    accent: "#818cf8",
     rotate: -6,
     x: -180,
     y: 20,
     delay: 0.5,
     avatar: "AK",
-    avatarBg: "#e0e7ff",
+    avatarBg: "#312e81",
     tags: ["UI/UX", "Figma", "Research"],
     views: "2.4k",
   },
   {
     name: "Marcus T.",
     role: "Full Stack Dev",
-    color: "#f0fdf4",
-    accent: "#22c55e",
+    color: "#052e16",
+    accent: "#4ade80",
     rotate: 3,
     x: 0,
     y: -10,
     delay: 0.35,
     avatar: "MT",
-    avatarBg: "#dcfce7",
+    avatarBg: "#14532d",
     tags: ["React", "Node.js", "AWS"],
     views: "5.1k",
   },
   {
     name: "Yuki S.",
     role: "Motion Designer",
-    color: "#fff7ed",
-    accent: "#f97316",
+    color: "#1c1008",
+    accent: "#fb923c",
     rotate: 7,
     x: 175,
     y: 30,
     delay: 0.55,
     avatar: "YS",
-    avatarBg: "#ffedd5",
+    avatarBg: "#431407",
     tags: ["After Effects", "3D", "Branding"],
     views: "3.8k",
   },
@@ -69,16 +70,35 @@ const steps = [
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-screen bg-[#fafaf9] overflow-hidden flex flex-col items-center"
-      style={{ fontFamily: "'Inter', sans-serif" }}
+      id="hero-section"
+      className="relative min-h-screen overflow-hidden flex flex-col items-center"
+      style={{
+        fontFamily: "'Inter', sans-serif",
+        backgroundColor: "#0a0a0f",
+      }}
     >
+      {/* ── Particles Background ── */}
+      <div className="absolute inset-0 z-0">
+        <Particles
+          particleColors={["#ffffff"]}
+          particleCount={700}
+          particleSpread={10}
+          speed={0.4}
+          particleBaseSize={100}
+          moveParticlesOnHover
+          alphaParticles={false}
+          disableRotation={false}
+          pixelRatio={1}
+        />
+      </div>
+
       {/* ── Subtle grid background ── */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 z-[1]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
           `,
           backgroundSize: "48px 48px",
         }}
@@ -86,12 +106,12 @@ export default function HeroSection() {
 
       {/* ── Soft radial glow center ── */}
       <div
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 z-[1]"
         style={{
           width: 900,
           height: 500,
           background:
-            "radial-gradient(ellipse at center, rgba(99,102,241,0.10) 0%, transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, transparent 70%)",
         }}
       />
 
@@ -102,12 +122,12 @@ export default function HeroSection() {
           <span
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-wide border"
             style={{
-              backgroundColor: "#ede9fe",
-              borderColor: "#c4b5fd",
-              color: "#5b21b6",
+              backgroundColor: "rgba(109,40,217,0.25)",
+              borderColor: "rgba(167,139,250,0.4)",
+              color: "#c4b5fd",
             }}
           >
-            <span className="size-1.5 rounded-full bg-violet-500 animate-pulse inline-block" />
+            <span className="size-1.5 rounded-full bg-violet-400 animate-pulse inline-block" />
             No-code · Instant · Gratis untuk mulai
           </span>
         </motion.div>
@@ -115,7 +135,7 @@ export default function HeroSection() {
         {/* Headline */}
         <motion.h1
           {...fadeUp(0.2)}
-          className="mt-6 text-[58px] leading-[1.08] font-normal tracking-[-0.03em] text-gray-900 flex flex-wrap items-baseline justify-center gap-x-3"
+          className="mt-6 text-[58px] leading-[1.08] font-normal tracking-[-0.03em] text-white flex flex-wrap items-baseline justify-center gap-x-3"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
           <span>Portfolio kamu,</span>
@@ -126,7 +146,7 @@ export default function HeroSection() {
               "HR & Recruiter terkesan.",
               "Cukup isi form.",
             ]}
-            mainClassName="italic text-indigo-500 overflow-hidden justify-start"
+            mainClassName="italic text-indigo-400 overflow-hidden justify-start"
             staggerFrom="last"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -141,7 +161,8 @@ export default function HeroSection() {
         {/* Sub */}
         <motion.p
           {...fadeUp(0.3)}
-          className="mt-5 text-[17px] text-gray-500 leading-[1.65] max-w-xl"
+          className="mt-5 text-[17px] leading-[1.65] max-w-xl"
+          style={{ color: "rgba(255,255,255,0.5)" }}
         >
           Pilih template, isi profil kamu, dan portfolio siap ditampilkan ke
           dunia — dalam hitungan menit, bukan minggu.
@@ -151,14 +172,30 @@ export default function HeroSection() {
         <motion.div {...fadeUp(0.4)} className="mt-8 flex items-center gap-3">
           <a
             href="#"
-            className="px-6 py-3 rounded-xl text-[15px] font-semibold text-white shadow-lg shadow-indigo-200 transition-all duration-200 hover:shadow-indigo-300 hover:-translate-y-0.5 active:translate-y-0"
-            style={{ background: "linear-gradient(135deg, #6366f1, #7c3aed)" }}
+            className="px-6 py-3 rounded-xl text-[15px] font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+            style={{
+              background: "linear-gradient(135deg, #6366f1, #7c3aed)",
+              boxShadow: "0 8px 32px rgba(99,102,241,0.35)",
+            }}
           >
             Buat portfolio gratis →
           </a>
           <a
             href="#"
-            className="px-6 py-3 rounded-xl text-[15px] font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors duration-150"
+            className="px-6 py-3 rounded-xl text-[15px] font-medium transition-colors duration-150"
+            style={{
+              color: "rgba(255,255,255,0.7)",
+              backgroundColor: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.12)",
+            }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                "rgba(255,255,255,0.12)")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                "rgba(255,255,255,0.07)")
+            }
           >
             Lihat contoh
           </a>
@@ -169,13 +206,26 @@ export default function HeroSection() {
           {steps.map((s, i) => (
             <div key={s.num} className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold text-indigo-400">
+                <span
+                  className="text-[11px] font-bold"
+                  style={{ color: "#818cf8" }}
+                >
                   {s.num}
                 </span>
-                <span className="text-[13px] text-gray-500">{s.label}</span>
+                <span
+                  className="text-[13px]"
+                  style={{ color: "rgba(255,255,255,0.45)" }}
+                >
+                  {s.label}
+                </span>
               </div>
               {i < steps.length - 1 && (
-                <span className="text-gray-300 text-xs">──</span>
+                <span
+                  className="text-xs"
+                  style={{ color: "rgba(255,255,255,0.2)" }}
+                >
+                  ──
+                </span>
               )}
             </div>
           ))}
@@ -209,11 +259,12 @@ export default function HeroSection() {
               style={{ x: card.x }}
             >
               <div
-                className="w-56 rounded-2xl p-4 border border-white/80"
+                className="w-56 rounded-2xl p-4"
                 style={{
                   backgroundColor: card.color,
+                  border: "1px solid rgba(255,255,255,0.08)",
                   boxShadow:
-                    "0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(255,255,255,0.8) inset",
+                    "0 8px 32px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset",
                 }}
               >
                 {/* Card header */}
@@ -228,17 +279,25 @@ export default function HeroSection() {
                     {card.avatar}
                   </div>
                   <div>
-                    <p className="text-[13px] font-semibold text-gray-800 leading-tight">
+                    <p
+                      className="text-[13px] font-semibold leading-tight"
+                      style={{ color: "rgba(255,255,255,0.9)" }}
+                    >
                       {card.name}
                     </p>
-                    <p className="text-[11px] text-gray-500">{card.role}</p>
+                    <p
+                      className="text-[11px]"
+                      style={{ color: "rgba(255,255,255,0.4)" }}
+                    >
+                      {card.role}
+                    </p>
                   </div>
                 </div>
 
                 {/* Fake preview bar */}
                 <div
                   className="w-full h-20 rounded-lg mb-3 overflow-hidden"
-                  style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
+                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                 >
                   <div className="flex gap-1 p-2">
                     {[40, 70, 55].map((w, i) => (
@@ -261,7 +320,7 @@ export default function HeroSection() {
                         style={{
                           height: h * 6,
                           backgroundColor: card.accent,
-                          opacity: 0.12 + i * 0.06,
+                          opacity: 0.15 + i * 0.08,
                         }}
                       />
                     ))}
@@ -275,7 +334,7 @@ export default function HeroSection() {
                       key={t}
                       className="px-2 py-0.5 rounded-full text-[10px] font-medium"
                       style={{
-                        backgroundColor: `${card.accent}18`,
+                        backgroundColor: `${card.accent}22`,
                         color: card.accent,
                       }}
                     >
@@ -286,12 +345,20 @@ export default function HeroSection() {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-gray-400">
+                  <span
+                    className="text-[11px]"
+                    style={{ color: "rgba(255,255,255,0.3)" }}
+                  >
                     {card.views} views
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="size-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                    <span className="text-[10px] text-gray-400">Live</span>
+                    <span
+                      className="text-[10px]"
+                      style={{ color: "rgba(255,255,255,0.3)" }}
+                    >
+                      Live
+                    </span>
                   </div>
                 </div>
               </div>
@@ -304,8 +371,12 @@ export default function HeroSection() {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 1, ease: smoothEase, delay: 0.8 }}
-          className="mt-6 mx-auto h-px bg-linear-to-r from-transparent via-gray-200 to-transparent"
-          style={{ maxWidth: 600 }}
+          className="mt-6 mx-auto h-px"
+          style={{
+            maxWidth: 600,
+            background:
+              "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)",
+          }}
         />
       </div>
 
@@ -323,15 +394,27 @@ export default function HeroSection() {
               (c, i) => (
                 <div
                   key={i}
-                  className="size-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
-                  style={{ backgroundColor: c, zIndex: 5 - i }}
+                  className="size-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                  style={{
+                    backgroundColor: c,
+                    zIndex: 5 - i,
+                    border: "2px solid #0a0a0f",
+                  }}
                 />
               ),
             )}
           </div>
-          <p className="text-[13px] text-gray-500">
-            <span className="font-semibold text-gray-800">12,000+</span> kreator
-            sudah punya portfolio mereka
+          <p
+            className="text-[13px]"
+            style={{ color: "rgba(255,255,255,0.45)" }}
+          >
+            <span
+              className="font-semibold"
+              style={{ color: "rgba(255,255,255,0.85)" }}
+            >
+              12,000+
+            </span>{" "}
+            kreator sudah punya portfolio mereka
           </p>
         </div>
 
@@ -347,7 +430,10 @@ export default function HeroSection() {
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           ))}
-          <span className="ml-1.5 text-[13px] text-gray-500">
+          <span
+            className="ml-1.5 text-[13px]"
+            style={{ color: "rgba(255,255,255,0.45)" }}
+          >
             4.9 dari 2,000+ review
           </span>
         </div>

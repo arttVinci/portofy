@@ -129,8 +129,8 @@ export default function HowItWorksSection() {
           >
             <div
               style={{
-                width: 480,
-                height: 380,
+                width: 620,
+                height: 180,
                 position: "relative",
               }}
             >
@@ -139,10 +139,8 @@ export default function HowItWorksSection() {
                 height={295}
                 cardDistance={44}
                 verticalDistance={50}
-                delay={3000}
-                pauseOnHover
-                skewAmount={4}
-                easing="elastic"
+                delay={5000}
+                pauseOnHover={false}
               >
                 <Card>
                   <StepCard
