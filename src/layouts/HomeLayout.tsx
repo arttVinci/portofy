@@ -1,4 +1,4 @@
-import Navbar from "../components/ui/Navbar";
+import Navbar from "../components/navigation/Navbar";
 import HeroSection from "../pages/home/HeroSection";
 import HowItWorksSection from "../pages/home/HowItsWorkSection";
 import TemplateShowcase from "../pages/home/TemplateShowcase";

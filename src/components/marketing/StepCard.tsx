@@ -1,3 +1,14 @@
+import type { ReactNode } from "react";
+
+export interface StepCardProps {
+  step: string;
+  title: string;
+  desc: string;
+  icon: ReactNode;
+  bg: string;
+  accent: string;
+}
+
 export default function StepCard({
   step,
   title,
@@ -5,14 +16,7 @@ export default function StepCard({
   icon,
   bg,
   accent,
-}: {
-  step: string;
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-  bg: string;
-  accent: string;
-}) {
+}: StepCardProps) {
   return (
     <div
       className="w-full h-full rounded-2xl flex items-center gap-10 px-12 py-8 select-none"
@@ -29,7 +33,6 @@ export default function StepCard({
         {icon}
       </div>
 
-      {/* Center: text */}
       <div className="grow min-w-0">
         <div
           className="inline-block text-[11px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-3"
@@ -48,7 +51,6 @@ export default function StepCard({
         </p>
       </div>
 
-      {/* Right: step number */}
       <div
         className="shrink-0 text-[80px] font-bold leading-none tracking-tighter select-none"
         style={{

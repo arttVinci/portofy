@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import StepCard from "../../components/ui/StepCard";
+import StepCard from "../../components/marketing/StepCard";
 import CardSwap, { Card } from "../../components/ui/CardSwap";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];

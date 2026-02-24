@@ -59,10 +59,8 @@ export default function IconBlocksSection() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 items-start gap-10">
         {features.map((f) => (
           <motion.div key={f.title} {...fadeUp(f.delay)}>
-            {/* Icon */}
             <div style={{ color: "rgba(255,255,255,0.85)" }}>{f.icon}</div>
 
-            {/* Divider line */}
             <div
               className="mt-6 h-px"
               style={{
@@ -76,7 +74,6 @@ export default function IconBlocksSection() {
               />
             </div>
 
-            {/* Text */}
             <div className="mt-5">
               <h3
                 className="text-[15px] font-semibold leading-snug"
