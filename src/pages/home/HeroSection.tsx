@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import RotatingText from "../../components/ui/RotatingText";
-import Particles from "../../components/ui/Particles"; // sesuaikan path import Particles kamu
-
-/*
-  Add to index.html:
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-*/
+import Particles from "../../components/ui/Particles";
+import IconBlocksSection from "../../components/ui/IconBlockSection";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -14,52 +10,6 @@ const fadeUp = (delay = 0) => ({
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.7, ease: smoothEase, delay },
 });
-
-// Fake portfolio card data
-const cards = [
-  {
-    name: "Ariana K.",
-    role: "Product Designer",
-    color: "#1e1b4b",
-    accent: "#818cf8",
-    rotate: -6,
-    x: -180,
-    y: 20,
-    delay: 0.5,
-    avatar: "AK",
-    avatarBg: "#312e81",
-    tags: ["UI/UX", "Figma", "Research"],
-    views: "2.4k",
-  },
-  {
-    name: "Marcus T.",
-    role: "Full Stack Dev",
-    color: "#052e16",
-    accent: "#4ade80",
-    rotate: 3,
-    x: 0,
-    y: -10,
-    delay: 0.35,
-    avatar: "MT",
-    avatarBg: "#14532d",
-    tags: ["React", "Node.js", "AWS"],
-    views: "5.1k",
-  },
-  {
-    name: "Yuki S.",
-    role: "Motion Designer",
-    color: "#1c1008",
-    accent: "#fb923c",
-    rotate: 7,
-    x: 175,
-    y: 30,
-    delay: 0.55,
-    avatar: "YS",
-    avatarBg: "#431407",
-    tags: ["After Effects", "3D", "Branding"],
-    views: "3.8k",
-  },
-];
 
 const steps = [
   { num: "01", label: "Pilih template" },
@@ -233,152 +183,7 @@ export default function HeroSection() {
       </div>
 
       {/* ── FLOATING PORTFOLIO CARDS ── */}
-      <div className="relative z-10 mt-20 w-full max-w-5xl mx-auto px-6">
-        <div
-          className="relative flex justify-center items-end"
-          style={{ height: 280 }}
-        >
-          {cards.map((card) => (
-            <motion.div
-              key={card.name}
-              initial={{ opacity: 0, y: 60, rotate: card.rotate }}
-              animate={{ opacity: 1, y: 0, rotate: card.rotate }}
-              transition={{
-                duration: 0.8,
-                ease: smoothEase,
-                delay: card.delay,
-              }}
-              whileHover={{
-                y: -12,
-                rotate: 0,
-                scale: 1.03,
-                zIndex: 20,
-                transition: { duration: 0.35, ease: smoothEase },
-              }}
-              className="absolute cursor-pointer"
-              style={{ x: card.x }}
-            >
-              <div
-                className="w-56 rounded-2xl p-4"
-                style={{
-                  backgroundColor: card.color,
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  boxShadow:
-                    "0 8px 32px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset",
-                }}
-              >
-                {/* Card header */}
-                <div className="flex items-center gap-3 mb-3">
-                  <div
-                    className="size-10 rounded-full flex items-center justify-center text-[13px] font-bold"
-                    style={{
-                      backgroundColor: card.avatarBg,
-                      color: card.accent,
-                    }}
-                  >
-                    {card.avatar}
-                  </div>
-                  <div>
-                    <p
-                      className="text-[13px] font-semibold leading-tight"
-                      style={{ color: "rgba(255,255,255,0.9)" }}
-                    >
-                      {card.name}
-                    </p>
-                    <p
-                      className="text-[11px]"
-                      style={{ color: "rgba(255,255,255,0.4)" }}
-                    >
-                      {card.role}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Fake preview bar */}
-                <div
-                  className="w-full h-20 rounded-lg mb-3 overflow-hidden"
-                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                >
-                  <div className="flex gap-1 p-2">
-                    {[40, 70, 55].map((w, i) => (
-                      <div
-                        key={i}
-                        className="h-2 rounded-full"
-                        style={{
-                          width: `${w}%`,
-                          backgroundColor: card.accent,
-                          opacity: 0.3 + i * 0.2,
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <div className="px-2 flex gap-1 mt-1">
-                    {[3, 5, 4].map((h, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 rounded"
-                        style={{
-                          height: h * 6,
-                          backgroundColor: card.accent,
-                          opacity: 0.15 + i * 0.08,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {card.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 rounded-full text-[10px] font-medium"
-                      style={{
-                        backgroundColor: `${card.accent}22`,
-                        color: card.accent,
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-[11px]"
-                    style={{ color: "rgba(255,255,255,0.3)" }}
-                  >
-                    {card.views} views
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="size-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                    <span
-                      className="text-[10px]"
-                      style={{ color: "rgba(255,255,255,0.3)" }}
-                    >
-                      Live
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Platform floor line */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: smoothEase, delay: 0.8 }}
-          className="mt-6 mx-auto h-px"
-          style={{
-            maxWidth: 600,
-            background:
-              "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)",
-          }}
-        />
-      </div>
+      <IconBlocksSection />
 
       {/* ── SOCIAL PROOF ── */}
       <motion.div

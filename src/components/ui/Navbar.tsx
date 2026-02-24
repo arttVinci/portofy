@@ -6,6 +6,7 @@ import {
   type Transition,
 } from "framer-motion";
 import { HiArrowRight } from "react-icons/hi2";
+import { Info, HelpCircle, Mail, ScrollText } from "lucide-react";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -16,77 +17,48 @@ interface MenuItem {
   icon: React.ReactNode;
 }
 
+// ── Mega menu "Tentang" ──────────────────────────────────────────────────────
 const menuItems: MenuItem[] = [
   {
-    label: "Product",
-    href: "#",
+    label: "Tentang Kami",
+    href: "/about",
     description:
-      "Explore our core product features and capabilities built for modern teams.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="size-4"
-      >
-        <rect width="7" height="7" x="14" y="3" rx="1" />
-        <path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3" />
-      </svg>
-    ),
+      "Kenalan sama orang di balik platform ini — kenapa kami bikin, dan misi kami ke depan.",
+    icon: <Info size={16} strokeWidth={1.8} />,
   },
   {
-    label: "Pricing",
-    href: "#",
+    label: "FAQ",
+    href: "/faq",
     description:
-      "Simple, transparent pricing that grows with your business — no surprises.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="size-4"
-      >
-        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-      </svg>
-    ),
+      "Pertanyaan yang sering ditanya — dari fitur gratis, cara kerja, sampai soal privasi data.",
+    icon: <HelpCircle size={16} strokeWidth={1.8} />,
   },
   {
-    label: "Gallery",
-    href: "#",
+    label: "Hubungi Kami",
+    href: "/contact",
     description:
-      "Browse our showcase of projects built by teams around the world.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="size-4"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-        <circle cx="9" cy="9" r="2" />
-        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-      </svg>
-    ),
+      "Ada pertanyaan, saran, atau kolaborasi? Kami biasanya balas dalam 1x24 jam.",
+    icon: <Mail size={16} strokeWidth={1.8} />,
+  },
+  {
+    label: "Changelog",
+    href: "/changelog",
+    description:
+      "Lihat fitur & perbaikan terbaru yang baru kami rilis — platform ini terus berkembang.",
+    icon: <ScrollText size={16} strokeWidth={1.8} />,
   },
 ];
+
+// ── Featured portfolio sidebar ───────────────────────────────────────────────
+const featuredPortfolio = {
+  name: "Rizky Aditya",
+  role: "UI/UX Designer · Bandung",
+  quote:
+    "Dalam 10 menit portfolio gw udah live. Langsung dapet interview dari 3 perusahaan minggu itu.",
+  avatar: "RA",
+  avatarBg: "#312e81",
+  views: "4.2k views bulan ini",
+};
 
 const dropdownVariants: Variants = {
   hidden: { opacity: 0, y: -14, scaleY: 0.93, transformOrigin: "top" },
@@ -97,8 +69,8 @@ const dropdownVariants: Variants = {
     transition: {
       duration: 0.26,
       ease: smoothEase,
-      staggerChildren: 0.08,
-      delayChildren: 0.06,
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
     } as Transition,
   },
   exit: {
@@ -127,7 +99,7 @@ const storyVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: smoothEase, delay: 0.2 } as Transition,
+    transition: { duration: 0.3, ease: smoothEase, delay: 0.18 } as Transition,
   },
 };
 
@@ -137,7 +109,7 @@ function MenuItemRow({ item, isDark }: { item: MenuItem; isDark: boolean }) {
     <motion.a
       href={item.href}
       variants={menuItemVariants}
-      className="flex items-center gap-4 px-4 py-4 rounded-xl cursor-pointer relative"
+      className="flex items-center gap-4 px-4 py-3.5 rounded-xl cursor-pointer relative"
       whileHover="hovered"
       initial="rest"
       animate="rest"
@@ -172,14 +144,14 @@ function MenuItemRow({ item, isDark }: { item: MenuItem; isDark: boolean }) {
       </motion.div>
       <div className="relative grow min-w-0">
         <p
-          className="text-[15px] font-semibold leading-[1.3] tracking-[-0.01em]"
+          className="text-[14px] font-semibold leading-[1.3] tracking-[-0.01em]"
           style={{ color: isDark ? "rgba(255,255,255,0.9)" : "#111827" }}
         >
           {item.label}
         </p>
         <p
-          className="mt-1 text-[13px] font-normal leading-[1.55]"
-          style={{ color: isDark ? "rgba(255,255,255,0.45)" : "#6b7280" }}
+          className="mt-0.5 text-[12px] font-normal leading-[1.55]"
+          style={{ color: isDark ? "rgba(255,255,255,0.4)" : "#6b7280" }}
         >
           {item.description}
         </p>
@@ -253,15 +225,33 @@ export default function Navbar() {
   const textHover = isDark ? "#ffffff" : "#111827";
   const brandColor = isDark ? "#ffffff" : "#111827";
   const borderColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
-  // Subtle hover bg — dark: white tint, light: black tint
   const hoverBg = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.04)";
 
-  // Mega menu adaptive colors
   const megaBg = isDark ? "#16161e" : "#ffffff";
   const megaBorder = isDark ? "rgba(255,255,255,0.08)" : "#e5e7eb";
   const megaSidebarBg = isDark ? "#0f0f16" : "#f9fafb";
   const megaSidebarBorder = isDark ? "rgba(255,255,255,0.06)" : "#f3f4f6";
   const megaLabel = isDark ? "rgba(255,255,255,0.3)" : "#9ca3af";
+
+  const navLinkStyle = {
+    color: textColor,
+    transition: "color 0.3s ease, background-color 0.2s ease",
+  };
+  const onEnter = (e: React.MouseEvent<HTMLElement>) => {
+    (e.currentTarget as HTMLElement).style.color = textHover;
+    (e.currentTarget as HTMLElement).style.backgroundColor = hoverBg;
+  };
+  const onLeave = (e: React.MouseEvent<HTMLElement>) => {
+    (e.currentTarget as HTMLElement).style.color = textColor;
+    (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+  };
+
+  const navLinks = [
+    { label: "Fitur", href: "#fitur" },
+    { label: "Template", href: "#template" },
+    { label: "Harga", href: "#harga" },
+    { label: "Blog", href: "/blog" },
+  ];
 
   return (
     <motion.header
@@ -278,65 +268,47 @@ export default function Navbar() {
       }}
     >
       <nav className="relative max-w-screen-xl w-full mx-auto flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8">
-        {/* Brand */}
+        {/* ── Brand ── */}
         <a
-          href="#"
+          href="/"
           className="flex-none font-bold text-[18px] tracking-[-0.02em] focus:outline-none"
           style={{ color: brandColor, transition: "color 0.4s ease" }}
         >
-          Brand
+          PortofId
         </a>
 
         <div className="flex items-center gap-0.5">
-          {/* Nav links */}
-          {["Landing", "Work", "Blog"].map((label) => (
+          {/* ── Plain nav links ── */}
+          {navLinks.map(({ label, href }) => (
             <a
               key={label}
-              href="#"
+              href={href}
               className="px-3 py-1.5 text-[14px] font-medium rounded-lg focus:outline-none"
-              style={{
-                color: textColor,
-                transition: "color 0.3s ease, background-color 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = textHover;
-                el.style.backgroundColor = hoverBg;
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = textColor;
-                el.style.backgroundColor = "transparent";
-              }}
+              style={navLinkStyle}
+              onMouseEnter={onEnter}
+              onMouseLeave={onLeave}
             >
               {label}
             </a>
           ))}
 
-          {/* Resources dropdown */}
+          {/* ── Tentang dropdown ── */}
           <div className="relative">
             <button
               type="button"
               onClick={() => (isOpen ? setIsOpen(false) : openMenu())}
               onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = textHover;
-                el.style.backgroundColor = hoverBg;
+                onEnter(e);
                 openMenu();
               }}
               onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = textColor;
-                el.style.backgroundColor = "transparent";
+                onLeave(e);
                 scheduleClose();
               }}
               className="px-3 py-1.5 flex items-center gap-1 text-[14px] font-medium rounded-lg focus:outline-none cursor-pointer"
-              style={{
-                color: textColor,
-                transition: "color 0.3s ease, background-color 0.2s ease",
-              }}
+              style={navLinkStyle}
             >
-              Resources
+              Tentang
               <motion.svg
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.22 }}
@@ -378,13 +350,13 @@ export default function Navbar() {
                     }}
                   >
                     <div className="grid grid-cols-5">
-                      {/* Left — menu items */}
+                      {/* ── Left: menu items ── */}
                       <div className="col-span-3 p-3">
                         <p
                           className="px-4 pt-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.08em]"
                           style={{ color: megaLabel }}
                         >
-                          Explore
+                          Tentang Platform
                         </p>
                         <div className="flex flex-col">
                           {menuItems.map((item) => (
@@ -397,7 +369,7 @@ export default function Navbar() {
                         </div>
                       </div>
 
-                      {/* Right — customer stories */}
+                      {/* ── Right: portfolio showcase ── */}
                       <motion.div
                         variants={storyVariants}
                         className="col-span-2 p-6 flex flex-col"
@@ -410,50 +382,123 @@ export default function Navbar() {
                           className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-4"
                           style={{ color: megaLabel }}
                         >
-                          Customer stories
+                          Portfolio minggu ini
                         </p>
+
                         <a
-                          className="group flex flex-col gap-3 focus:outline-none"
                           href="#"
+                          className="group flex flex-col gap-4 focus:outline-none"
                         >
-                          <div className="overflow-hidden rounded-xl">
-                            <img
-                              className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
-                              src="https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&auto=format&fit=crop&w=560&q=80"
-                              alt="Customer Story"
-                            />
-                          </div>
-                          <div>
-                            <p
-                              className="text-[13px] font-normal leading-[1.6]"
-                              style={{
-                                color: isDark
-                                  ? "rgba(255,255,255,0.5)"
-                                  : "#6b7280",
-                              }}
-                            >
-                              Preline Projects has proved to be the most
-                              efficient cloud based project tracking and bug
-                              tracking tool.
-                            </p>
-                            <p className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-semibold text-indigo-400 group-hover:underline underline-offset-2">
-                              Learn more
-                              <svg
-                                className="size-3.5 transition-transform group-hover:translate-x-1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                          {/* Mini portfolio card */}
+                          <div
+                            className="w-full rounded-xl p-4 transition-transform duration-300 group-hover:scale-[1.02]"
+                            style={{
+                              backgroundColor: isDark ? "#1e1b4b" : "#eef2ff",
+                              border: `1px solid ${isDark ? "rgba(99,102,241,0.2)" : "rgba(99,102,241,0.15)"}`,
+                            }}
+                          >
+                            <div className="flex items-center gap-3 mb-3">
+                              <div
+                                className="size-10 rounded-full flex items-center justify-center text-[12px] font-bold"
+                                style={{
+                                  backgroundColor: featuredPortfolio.avatarBg,
+                                  color: "#818cf8",
+                                }}
                               >
-                                <path d="m9 18 6-6-6-6" />
-                              </svg>
-                            </p>
+                                {featuredPortfolio.avatar}
+                              </div>
+                              <div>
+                                <p
+                                  className="text-[13px] font-semibold"
+                                  style={{
+                                    color: isDark
+                                      ? "rgba(255,255,255,0.9)"
+                                      : "#1e1b4b",
+                                  }}
+                                >
+                                  {featuredPortfolio.name}
+                                </p>
+                                <p
+                                  className="text-[11px]"
+                                  style={{
+                                    color: isDark
+                                      ? "rgba(255,255,255,0.4)"
+                                      : "#6b7280",
+                                  }}
+                                >
+                                  {featuredPortfolio.role}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex flex-col gap-1.5 mb-3">
+                              {[80, 60, 40].map((w, i) => (
+                                <div
+                                  key={i}
+                                  className="h-1.5 rounded-full"
+                                  style={{
+                                    width: `${w}%`,
+                                    backgroundColor: "#818cf8",
+                                    opacity: 0.25 + i * 0.15,
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span
+                                className="text-[10px]"
+                                style={{
+                                  color: isDark
+                                    ? "rgba(255,255,255,0.3)"
+                                    : "#9ca3af",
+                                }}
+                              >
+                                {featuredPortfolio.views}
+                              </span>
+                              <div className="flex items-center gap-1">
+                                <span className="size-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
+                                <span
+                                  className="text-[10px]"
+                                  style={{
+                                    color: isDark
+                                      ? "rgba(255,255,255,0.3)"
+                                      : "#9ca3af",
+                                  }}
+                                >
+                                  Live
+                                </span>
+                              </div>
+                            </div>
                           </div>
+
+                          {/* Quote */}
+                          <p
+                            className="text-[12px] leading-[1.65] italic"
+                            style={{
+                              color: isDark
+                                ? "rgba(255,255,255,0.45)"
+                                : "#6b7280",
+                            }}
+                          >
+                            "{featuredPortfolio.quote}"
+                          </p>
+
+                          <p className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-indigo-400 group-hover:underline underline-offset-2">
+                            Lihat portfolionya
+                            <svg
+                              className="size-3.5 transition-transform group-hover:translate-x-1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="m9 18 6-6-6-6" />
+                            </svg>
+                          </p>
                         </a>
                       </motion.div>
                     </div>
@@ -463,28 +508,7 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          <a
-            href="#"
-            className="px-3 py-1.5 text-[14px] font-medium rounded-lg focus:outline-none"
-            style={{
-              color: textColor,
-              transition: "color 0.3s ease, background-color 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.color = textHover;
-              el.style.backgroundColor = hoverBg;
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.color = textColor;
-              el.style.backgroundColor = "transparent";
-            }}
-          >
-            Account
-          </a>
-
-          {/* Divider */}
+          {/* ── Divider ── */}
           <div
             className="mx-2 h-5 w-px"
             style={{
@@ -493,9 +517,9 @@ export default function Navbar() {
             }}
           />
 
-          {/* Sign in */}
+          {/* ── Masuk ── */}
           <a
-            href="#"
+            href="/login"
             className="px-3.5 py-1.5 inline-flex items-center text-[14px] font-medium rounded-lg border focus:outline-none transition-all duration-200"
             style={{
               borderColor: isDark ? "rgba(255,255,255,0.15)" : "#d1d5db",
@@ -511,12 +535,12 @@ export default function Navbar() {
                 "transparent";
             }}
           >
-            Sign in
+            Masuk
           </a>
 
-          {/* Get started */}
+          {/* ── Mulai Gratis ── */}
           <a
-            href="#"
+            href="/register"
             className="ml-1.5 px-3.5 py-1.5 inline-flex items-center text-[14px] font-semibold rounded-lg text-white focus:outline-none transition-all duration-200 hover:-translate-y-px"
             style={{
               background: "linear-gradient(135deg, #6366f1, #7c3aed)",
@@ -525,7 +549,7 @@ export default function Navbar() {
                 : "0 2px 8px rgba(99,102,241,0.25)",
             }}
           >
-            Get started
+            Mulai Gratis →
           </a>
         </div>
       </nav>
