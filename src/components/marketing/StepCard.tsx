@@ -22,7 +22,6 @@ export default function StepCard({
       className="w-full h-full rounded-2xl flex items-center gap-10 px-12 py-8 select-none"
       style={{ background: bg }}
     >
-      {/* Left: icon area */}
       <div
         className="shrink-0 size-24 rounded-2xl flex items-center justify-center text-4xl shadow-lg"
         style={{
