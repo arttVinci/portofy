@@ -9,19 +9,16 @@ interface FeatureSpotlightSectionProps {
     title: string;
     desc: string;
     points: string[];
-    mockContent: "speed" | "analytics";
+    mockContent: string;
     reverse?: boolean;
   };
-
-  key: number;
 }
 
-export default function FeatureHeroSection({
+export default function FeatureSpotlightSection({
   spotlight,
-  key,
 }: FeatureSpotlightSectionProps) {
   return (
-    <section key={key} className="py-16 max-w-5xl mx-auto px-6">
+    <section className="py-16 max-w-5xl mx-auto px-6">
       <div
         className={`flex flex-col ${spotlight.reverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-14`}
       >

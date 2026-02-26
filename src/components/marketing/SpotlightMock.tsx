@@ -1,7 +1,7 @@
 import { Zap } from "lucide-react";
 
 interface SpotlightMockProps {
-  type: "speed" | "analytics";
+  type: string;
 }
 export default function SpotlightMock({ type }: SpotlightMockProps) {
   if (type === "speed") {
