@@ -221,6 +221,10 @@ export default function Navbar() {
     "faq",
     "cta-banner",
     "featured",
+    "feature-hero-section",
+    "feature-grid-section",
+    "feature-spotlight-section",
+    "feature-comparison-table-section",
   ]);
 
   function openMenu() {

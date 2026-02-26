@@ -23,7 +23,10 @@ const comparisonItems = [
 
 export default function FeatureComparisonTableSection() {
   return (
-    <section className="py-20 max-w-3xl mx-auto px-6">
+    <section
+      id="feature-comparison-table-section"
+      className="py-20 max-w-3xl mx-auto px-6"
+    >
       <motion.div {...fadeUp(0)} className="text-center mb-12">
         <p
           className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"

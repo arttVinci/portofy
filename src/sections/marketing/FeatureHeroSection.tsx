@@ -11,7 +11,10 @@ const fadeUp = (delay = 0) => ({
 
 export default function FeatureHeroSection() {
   return (
-    <section className="relative pt-40 pb-20 text-center overflow-hidden">
+    <section
+      id="feature-hero-section"
+      className="relative pt-40 pb-20 text-center overflow-hidden"
+    >
       <div
         className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
         style={{

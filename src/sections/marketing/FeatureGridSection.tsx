@@ -88,7 +88,7 @@ const features = [
 
 export default function FeatureHeroSection() {
   return (
-    <section className="py-20 max-w-5xl mx-auto px-6">
+    <section id="feature-grid-section" className="py-20 max-w-5xl mx-auto px-6">
       <motion.div
         {...fadeUp(0)}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"

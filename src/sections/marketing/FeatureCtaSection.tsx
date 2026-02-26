@@ -4,7 +4,7 @@ const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 export default function FeatureCtaSection() {
   return (
-    <section className="py-20 max-w-4xl mx-auto px-6">
+    <section id="feature-cta-section" className="py-20 max-w-4xl mx-auto px-6">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}

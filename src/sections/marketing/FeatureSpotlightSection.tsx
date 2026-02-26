@@ -18,7 +18,10 @@ export default function FeatureSpotlightSection({
   spotlight,
 }: FeatureSpotlightSectionProps) {
   return (
-    <section className="py-16 max-w-5xl mx-auto px-6">
+    <section
+      id="feature-spotlight-section"
+      className="py-16 max-w-5xl mx-auto px-6"
+    >
       <div
         className={`flex flex-col ${spotlight.reverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-14`}
       >
