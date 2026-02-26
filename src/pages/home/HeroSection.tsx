@@ -44,7 +44,7 @@ export default function HeroSection() {
 
       {/* ── Subtle grid background ── */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1]"
+        className="pointer-events-none absolute inset-0 z-1"
         style={{
           backgroundImage: `
             linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
@@ -56,7 +56,7 @@ export default function HeroSection() {
 
       {/* ── Soft radial glow center ── */}
       <div
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 z-[1]"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 z-1"
         style={{
           width: 900,
           height: 500,

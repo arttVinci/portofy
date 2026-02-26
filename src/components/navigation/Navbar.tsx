@@ -171,7 +171,7 @@ function MenuItemRow({ item, isDark }: { item: MenuItem; isDark: boolean }) {
 }
 
 // ─── Hook: detect dark section overlap ───────────────────────────────────────
-function useNavTheme(darkSectionId = "hero-section") {
+function useNavTheme(darkSectionId: string) {
   const [isDark, setIsDark] = useState(true);
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -267,7 +267,7 @@ export default function Navbar() {
         transition: "background-color 0.4s ease, border-color 0.4s ease",
       }}
     >
-      <nav className="relative max-w-screen-xl w-full mx-auto flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8">
+      <nav className="relative max-w-7xl w-full mx-auto flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8">
         {/* ── Brand ── */}
         <a
           href="/"
