@@ -7,6 +7,7 @@ import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ContactPage from "./pages/public/ContactPage";
 import ProjectPage from "./pages/public/ProjectPage";
 import HomeLayout from "./layouts/HomeLayout";
+import FeaturedPage from "./pages/home/FeaturedPage";
 
 export default function App() {
   return (
@@ -14,6 +15,8 @@ export default function App() {
       <Route path="/" element={<HomeLayout />}>
         <Route index element={<HomeLayout />} />
       </Route>
+
+      <Route path="fitur" element={<FeaturedPage />} />
 
       <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
