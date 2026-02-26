@@ -11,7 +11,7 @@ const stats = [
 export default function CtaBannerSection() {
   return (
     <section
-      id="cta"
+      id="cta-banner"
       className="relative py-28 overflow-hidden"
       style={{
         backgroundColor: "#0a0a0f",

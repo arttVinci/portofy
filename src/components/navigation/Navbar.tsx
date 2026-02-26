@@ -218,6 +218,9 @@ export default function Navbar() {
     "template",
     "preview",
     "pricing",
+    "faq",
+    "cta-banner",
+    "featured",
   ]);
 
   function openMenu() {
@@ -257,7 +260,7 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { label: "Fitur", href: "#fitur" },
+    { label: "Fitur", href: "/fitur" },
     { label: "Template", href: "#template" },
     { label: "Langganan", href: "#harga" },
     { label: "Blog", href: "/blog" },
