@@ -1,12 +1,12 @@
 import Navbar from "../components/navigation/Navbar";
-import CtaBannerSection from "../pages/home/CtaBannerSection";
-import FaqSection from "../pages/home/FaqSection";
-import Footer from "../pages/home/Footer";
-import HeroSection from "../pages/home/HeroSection";
-import HowItWorksSection from "../pages/home/HowItsWorkSection";
-import LivePreviewSection from "../pages/home/LivePreviewSection";
-import PricingSection from "../pages/home/PricingSection";
-import TemplateShowcase from "../pages/home/TemplateShowcase";
+import CtaBannerSection from "../sections/marketing/CtaBannerSection";
+import FaqSection from "../sections/marketing/FaqSection";
+import Footer from "../sections/marketing/Footer";
+import HeroSection from "../sections/marketing/HeroSection";
+import HowItWorksSection from "../sections/marketing/HowItsWorkSection";
+import LivePreviewSection from "../sections/marketing/LivePreviewSection";
+import PricingSection from "../sections/marketing/PricingSection";
+import TemplateShowcase from "../sections/marketing/TemplateShowcase";
 
 export default function HomeLayout() {
   return (
