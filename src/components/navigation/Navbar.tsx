@@ -170,8 +170,7 @@ function MenuItemRow({ item, isDark }: { item: MenuItem; isDark: boolean }) {
   );
 }
 
-// ─── Hook: detect dark section overlap ───────────────────────────────────────
-function useNavTheme(darkSectionId: string) {
+function useNavTheme(darkSectionIds: string[]) {
   const [isDark, setIsDark] = useState(true);
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -186,11 +185,17 @@ function useNavTheme(darkSectionId: string) {
       else if (diff < -6) setNavVisible(true);
       lastScrollY.current = currentY;
 
-      const darkEl = document.getElementById(darkSectionId);
-      if (darkEl) {
-        const darkBottom = darkEl.offsetTop + darkEl.offsetHeight;
-        setIsDark(currentY + 64 < darkBottom);
-      }
+      // cek semua section — kalau navbar overlap salah satunya = dark
+      const navBottom = currentY + 64;
+      const isOverDark = darkSectionIds.some((id) => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const top = el.offsetTop;
+        const bottom = top + el.offsetHeight;
+        return navBottom >= top && navBottom <= bottom;
+      });
+
+      setIsDark(isOverDark);
     }
 
     window.addEventListener("scroll", update, { passive: true });
@@ -200,7 +205,7 @@ function useNavTheme(darkSectionId: string) {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [darkSectionId]);
+  }, [darkSectionIds]);
 
   return { isDark, navVisible };
 }
@@ -208,7 +213,12 @@ function useNavTheme(darkSectionId: string) {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { isDark, navVisible } = useNavTheme("hero-section");
+  const { isDark, navVisible } = useNavTheme([
+    "hero-section",
+    "template",
+    "preview",
+    "pricing",
+  ]);
 
   function openMenu() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -263,7 +273,7 @@ export default function Navbar() {
         borderBottom: `1px solid ${borderColor}`,
         backgroundColor: isDark
           ? "rgba(10,10,15,0.5)"
-          : "rgba(255,255,255,0.9)",
+          : "rgba(238, 234, 227, 1)",
         transition: "background-color 0.4s ease, border-color 0.4s ease",
       }}
     >

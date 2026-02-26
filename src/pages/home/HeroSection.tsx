@@ -27,21 +27,6 @@ export default function HeroSection() {
         backgroundColor: "#0a0a0f",
       }}
     >
-      {/* ── Particles Background ── */}
-      <div className="absolute inset-0 z-0">
-        <Particles
-          particleColors={["#ffffff"]}
-          particleCount={700}
-          particleSpread={10}
-          speed={0.4}
-          particleBaseSize={100}
-          moveParticlesOnHover
-          alphaParticles={false}
-          disableRotation={false}
-          pixelRatio={1}
-        />
-      </div>
-
       {/* ── Subtle grid background ── */}
       <div
         className="pointer-events-none absolute inset-0 z-1"
@@ -51,17 +36,6 @@ export default function HeroSection() {
             linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
           `,
           backgroundSize: "48px 48px",
-        }}
-      />
-
-      {/* ── Soft radial glow center ── */}
-      <div
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 z-1"
-        style={{
-          width: 900,
-          height: 500,
-          background:
-            "radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, transparent 70%)",
         }}
       />
 

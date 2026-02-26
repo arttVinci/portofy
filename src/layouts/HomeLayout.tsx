@@ -1,4 +1,7 @@
 import Navbar from "../components/navigation/Navbar";
+import CtaBannerSection from "../pages/home/CtaBannerSection";
+import FaqSection from "../pages/home/FaqSection";
+import Footer from "../pages/home/Footer";
 import HeroSection from "../pages/home/HeroSection";
 import HowItWorksSection from "../pages/home/HowItsWorkSection";
 import LivePreviewSection from "../pages/home/LivePreviewSection";
@@ -14,6 +17,9 @@ export default function HomeLayout() {
       <TemplateShowcase />
       <LivePreviewSection />
       <PricingSection />
+      <FaqSection />
+      <CtaBannerSection />
+      <Footer />
     </>
   );
 }

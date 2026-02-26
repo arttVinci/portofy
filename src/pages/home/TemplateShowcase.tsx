@@ -192,7 +192,7 @@ export default function TemplateShowcaseSection() {
 
   return (
     <section
-      id="hero-section"
+      id="template"
       className="relative py-28 overflow-hidden"
       style={{
         backgroundColor: "#0a0a0f",

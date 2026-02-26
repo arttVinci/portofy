@@ -63,12 +63,6 @@ export default function LivePreviewSection() {
     }));
   };
 
-  const hasAnyInput =
-    field.name.trim() ||
-    field.role ||
-    field.bio.trim() ||
-    field.skills.length > 0;
-
   return (
     <section
       id="preview"

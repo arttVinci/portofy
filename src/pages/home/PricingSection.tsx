@@ -84,7 +84,7 @@ export default function PricingSection() {
 
   return (
     <section
-      id="harga"
+      id="pricing"
       className="relative py-28 overflow-hidden"
       style={{
         backgroundColor: "#0a0a0f",

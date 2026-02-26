@@ -1,181 +1,504 @@
-import { motion } from "framer-motion";
-import StepCard from "../../components/marketing/StepCard";
-import CardSwap, { Card } from "../../components/ui/CardSwap";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
-
-const fadeLeft = (delay = 0) => ({
-  initial: { opacity: 0, x: -32 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: smooth, delay },
-});
-
-const fadeRight = (delay = 0) => ({
-  initial: { opacity: 0, x: 32 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: smooth, delay },
-});
 
 const steps = [
   {
     num: "01",
-    label: "Pilih template",
-    desc: "Klik template yang kamu suka, langsung preview hasilnya.",
+    label: "Pilih Template",
+    desc: "Pilih dari puluhan template profesional. Tinggal klik, langsung bisa preview hasilnya secara realtime.",
+    mockContent: "template",
   },
   {
     num: "02",
-    label: "Isi profil & karya",
-    desc: "Form simpel — nama, bio, skill, upload foto proyek. Drag & drop.",
+    label: "Isi Profil & Karya",
+    desc: "Form sederhana — nama, bio, skill, dan upload proyek. Tidak perlu coding, drag & drop saja.",
+    mockContent: "form",
   },
   {
     num: "03",
-    label: "Publish & share",
-    desc: "Satu klik publish. Dapat link unik, langsung bisa dibagikan.",
+    label: "Publish & Share",
+    desc: "Satu klik publish. Dapat URL unik yang bisa langsung dibagikan ke recruiter atau LinkedIn.",
+    mockContent: "publish",
   },
 ];
 
-export default function HowItWorksSection() {
-  return (
-    <section
-      className="py-28 bg-white overflow-hidden"
-      style={{ fontFamily: "'Inter', sans-serif" }}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex flex-col lg:flex-row items-center gap-16 xl:gap-24">
-          <div className="w-full lg:w-105 shrink-0 flex flex-col">
-            <motion.span
-              {...fadeLeft(0)}
-              className="inline-block text-[12px] font-semibold uppercase tracking-widest text-indigo-500 mb-4"
-            >
-              Cara kerja
-            </motion.span>
-
-            <motion.h2
-              {...fadeLeft(0.08)}
-              className="text-[40px] font-normal tracking-[-0.025em] text-gray-900 leading-[1.15] mb-5"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Dari nol ke portfolio online,{" "}
-              <span className="italic">dalam hitungan menit.</span>
-            </motion.h2>
-
-            <motion.p
-              {...fadeLeft(0.14)}
-              className="text-[15px] text-gray-500 leading-[1.7] mb-10"
-            >
-              Gak perlu tau coding, design, atau urusan hosting. Platform kami
-              yang handle semua yang teknis — kamu cukup fokus nunjukkin karya
-              terbaik ke dunia. Daftar, pilih template, isi profil, dan
-              portfolio kamu udah siap online.
-            </motion.p>
-
-            <div className="relative flex flex-col gap-6">
-              <div className="absolute left-4.25 top-9 bottom-9 w-px bg-indigo-100" />
-
-              {steps.map((s, i) => (
-                <motion.div
-                  key={s.num}
-                  {...fadeLeft(0.2 + i * 0.09)}
-                  className="flex items-start gap-4 relative"
-                >
-                  <div className="relative shrink-0 size-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center z-10">
-                    <span className="text-[11px] font-bold text-indigo-500">
-                      {s.num}
-                    </span>
-                  </div>
-                  <div className="pt-1">
-                    <p className="text-[14px] font-semibold text-gray-800 leading-tight">
-                      {s.label}
-                    </p>
-                    <p className="text-[13px] text-gray-400 mt-1 leading-relaxed">
-                      {s.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div {...fadeLeft(0.48)} className="mt-10">
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-semibold text-white shadow-md shadow-indigo-100 hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-200"
-                style={{
-                  background: "linear-gradient(135deg, #6366f1, #7c3aed)",
-                }}
-              >
-                Coba sekarang — gratis
-                <svg
-                  className="size-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div
-            {...fadeRight(0.22)}
-            className="flex-1 flex items-center justify-center w-full"
-          >
+// ── Mock screen per step ──────────────────────────────────────────────────────
+function MockScreen({ content }: { content: string }) {
+  if (content === "template") {
+    return (
+      <div className="p-6 h-full flex flex-col">
+        <p
+          className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-4"
+          style={{ color: "#9ca3af" }}
+        >
+          Pilih Template
+        </p>
+        <div className="grid grid-cols-3 gap-3 flex-1">
+          {[
+            { name: "Minimal", active: true },
+            { name: "Editorial", active: false },
+            { name: "Grid", active: false },
+            { name: "Résumé", active: false },
+            { name: "Mono", active: false },
+            { name: "Studio", active: false },
+          ].map((t) => (
             <div
+              key={t.name}
+              className="rounded-xl flex flex-col overflow-hidden"
               style={{
-                width: 620,
-                height: 180,
-                position: "relative",
+                backgroundColor: t.active ? "#ffffff" : "#f3f4f6",
+                border: t.active ? "1.5px solid #6366f1" : "1px solid #e5e7eb",
+                boxShadow: t.active
+                  ? "0 4px 16px rgba(99,102,241,0.12)"
+                  : "none",
               }}
             >
-              <CardSwap
-                width={620}
-                height={295}
-                cardDistance={44}
-                verticalDistance={50}
-                delay={5000}
-                pauseOnHover={false}
+              <div
+                className="flex-1 m-2 rounded-lg"
+                style={{
+                  backgroundColor: t.active ? "#f0f4ff" : "#e9eaec",
+                  minHeight: 56,
+                }}
               >
-                <Card>
-                  <StepCard
-                    step="01"
-                    title="Pilih template favoritmu"
-                    desc="Puluhan template siap pakai — dari minimalis, kreatif, hingga profesional. Tinggal klik, langsung preview."
-                    icon="🎨"
-                    bg="linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%)"
-                    accent="#6366f1"
-                  />
-                </Card>
-                <Card>
-                  <StepCard
-                    step="02"
-                    title="Isi profil & karya kamu"
-                    desc="Form sederhana untuk nama, bio, skill, dan upload proyek. Drag & drop foto, isi deskripsi — selesai."
-                    icon="✏️"
-                    bg="linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)"
-                    accent="#16a34a"
-                  />
-                </Card>
-                <Card>
-                  <StepCard
-                    step="03"
-                    title="Publish & share ke dunia"
-                    desc="Satu klik publish. Dapat link unik portfoliomu — bagikan ke recruiter, klien, atau LinkedIn."
-                    icon="🚀"
-                    bg="linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)"
-                    accent="#ea580c"
-                  />
-                </Card>
-              </CardSwap>
+                <div className="p-2 space-y-1.5">
+                  {[70, 50, 60].map((w, i) => (
+                    <div
+                      key={i}
+                      className="h-1.5 rounded-full"
+                      style={{
+                        width: `${w}%`,
+                        backgroundColor: t.active
+                          ? "rgba(99,102,241,0.35)"
+                          : "rgba(0,0,0,0.1)",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <p
+                className="text-center text-[10px] pb-2 font-medium"
+                style={{ color: t.active ? "#6366f1" : "#9ca3af" }}
+              >
+                {t.name}
+              </p>
             </div>
-          </motion.div>
+          ))}
         </div>
+      </div>
+    );
+  }
+
+  if (content === "form") {
+    return (
+      <div className="p-6 h-full flex flex-col gap-3">
+        <p
+          className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-1"
+          style={{ color: "#9ca3af" }}
+        >
+          Isi Profil
+        </p>
+        {[
+          { label: "Nama Lengkap", value: "Budi Santoso" },
+          { label: "Profesi", value: "UI/UX Designer" },
+          {
+            label: "Bio Singkat",
+            value: "Saya seorang designer dengan 3 tahun pengalaman...",
+          },
+        ].map((f) => (
+          <div key={f.label}>
+            <p
+              className="text-[10px] mb-1 font-medium"
+              style={{ color: "#6b7280" }}
+            >
+              {f.label}
+            </p>
+            <div
+              className="w-full px-3 py-2 rounded-lg text-[12px]"
+              style={{
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                color: "#374151",
+              }}
+            >
+              {f.value}
+            </div>
+          </div>
+        ))}
+        <div className="mt-1">
+          <p
+            className="text-[10px] mb-2 font-medium"
+            style={{ color: "#6b7280" }}
+          >
+            Skill
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {["Figma", "React", "Tailwind", "After Effects"].map((s) => (
+              <span
+                key={s}
+                className="px-2.5 py-1 rounded-full text-[10px] font-medium"
+                style={{
+                  backgroundColor: "#eef2ff",
+                  color: "#6366f1",
+                  border: "1px solid #c7d2fe",
+                }}
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // publish
+  return (
+    <div className="p-6 h-full flex flex-col items-center justify-center text-center gap-4">
+      <div
+        className="size-16 rounded-2xl flex items-center justify-center text-2xl"
+        style={{
+          backgroundColor: "#eef2ff",
+          border: "1px solid #c7d2fe",
+        }}
+      >
+        🚀
+      </div>
+      <div>
+        <p
+          className="text-[16px] font-semibold mb-2"
+          style={{ color: "#1a1a24" }}
+        >
+          Portfolio kamu live!
+        </p>
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px]"
+          style={{
+            backgroundColor: "#f3f4f6",
+            border: "1px solid #e5e7eb",
+          }}
+        >
+          <span className="size-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
+          <span style={{ color: "#9ca3af" }}>portofolio.id/</span>
+          <span className="font-semibold" style={{ color: "#374151" }}>
+            budisantoso
+          </span>
+        </div>
+      </div>
+      <div className="w-full grid grid-cols-3 gap-2 mt-2">
+        {[
+          { label: "Views", val: "0" },
+          { label: "Klik", val: "0" },
+          { label: "Bagikan", val: "—" },
+        ].map((s) => (
+          <div
+            key={s.label}
+            className="rounded-xl py-3 text-center"
+            style={{
+              backgroundColor: "#ffffff",
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            <p className="text-[14px] font-bold" style={{ color: "#374151" }}>
+              {s.val}
+            </p>
+            <p className="text-[10px] mt-0.5" style={{ color: "#9ca3af" }}>
+              {s.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function HowItWorksSection() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  return (
+    <section
+      id="cara-kerja"
+      className="relative py-28 overflow-hidden"
+      style={{
+        backgroundColor: "#eeeae3",
+        fontFamily: "'Inter', sans-serif",
+      }}
+    >
+      {/* Grid lines */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: "48px 48px",
+        }}
+      />
+      {/* Indigo glow */}
+      <div
+        className="pointer-events-none absolute top-0 right-0"
+        style={{
+          width: 560,
+          height: 400,
+          background:
+            "radial-gradient(ellipse at top right, rgba(99,102,241,0.1) 0%, transparent 65%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 left-0"
+        style={{
+          width: 460,
+          height: 360,
+          background:
+            "radial-gradient(ellipse at bottom left, rgba(124,58,237,0.07) 0%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto px-6">
+        {/* ── Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: smooth }}
+          className="text-center mb-14"
+        >
+          <p
+            className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
+            style={{ color: "rgba(99,102,241,0.7)" }}
+          >
+            Cara Kerja
+          </p>
+          <h2
+            className="text-[44px] font-normal leading-[1.1] tracking-[-0.03em]"
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+              color: "#1a1a24",
+            }}
+          >
+            Dari nol ke live,{" "}
+            <span className="italic" style={{ color: "#6366f1" }}>
+              dalam 3 langkah.
+            </span>
+          </h2>
+        </motion.div>
+
+        {/* ── Stepper ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: smooth, delay: 0.1 }}
+          className="relative flex items-start justify-between mb-10 gap-4"
+        >
+          {/* Base connector line */}
+          <div
+            className="absolute top-5 left-0 right-0 h-px"
+            style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
+          />
+          {/* Active progress */}
+          <motion.div
+            className="absolute top-5 left-0 h-px"
+            style={{ backgroundColor: "#6366f1" }}
+            animate={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }}
+            transition={{ duration: 0.4, ease: smooth }}
+          />
+
+          {steps.map((step, i) => {
+            const isActive = i === activeStep;
+            const isDone = i < activeStep;
+            return (
+              <button
+                key={step.num}
+                onClick={() => setActiveStep(i)}
+                className="relative flex flex-col items-center gap-3 flex-1 cursor-pointer focus:outline-none"
+              >
+                {/* Circle */}
+                <motion.div
+                  animate={{
+                    backgroundColor: isActive
+                      ? "#6366f1"
+                      : isDone
+                        ? "#6366f1"
+                        : "#e5e7eb",
+                    borderColor: isActive || isDone ? "#6366f1" : "#d1d5db",
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="size-10 rounded-full flex items-center justify-center z-10 border-2"
+                >
+                  {isDone ? (
+                    <svg
+                      className="size-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                  ) : (
+                    <span
+                      className="text-[11px] font-bold"
+                      style={{ color: isActive ? "#ffffff" : "#9ca3af" }}
+                    >
+                      {step.num}
+                    </span>
+                  )}
+                </motion.div>
+
+                {/* Label + desc */}
+                <div className="text-center">
+                  <p
+                    className="text-[13px] font-semibold transition-colors duration-200"
+                    style={{ color: isActive ? "#1a1a24" : "#6b7280" }}
+                  >
+                    {step.label}
+                  </p>
+                  <motion.p
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      maxHeight: isActive ? 60 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="text-[12px] mt-1 leading-relaxed max-w-[160px] mx-auto overflow-hidden"
+                    style={{ color: "#8888a0" }}
+                  >
+                    {step.desc}
+                  </motion.p>
+                </div>
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* ── Mock screen ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: smooth, delay: 0.2 }}
+        >
+          {/* Browser chrome */}
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{
+              backgroundColor: "#f9fafb",
+              border: "1px solid #e5e7eb",
+              boxShadow:
+                "0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05)",
+            }}
+          >
+            {/* Browser bar */}
+            <div
+              className="flex items-center gap-2 px-4 py-3"
+              style={{
+                backgroundColor: "#ffffff",
+                borderBottom: "1px solid #f3f4f6",
+              }}
+            >
+              <div className="flex gap-1.5">
+                {["#ff5f56", "#ffbd2e", "#27c93f"].map((c, i) => (
+                  <div
+                    key={i}
+                    className="size-2.5 rounded-full"
+                    style={{ backgroundColor: c, opacity: 0.7 }}
+                  />
+                ))}
+              </div>
+              <div
+                className="flex-1 mx-2 h-5 rounded-md flex items-center px-3"
+                style={{ backgroundColor: "#f3f4f6" }}
+              >
+                <span className="text-[10px]" style={{ color: "#9ca3af" }}>
+                  app.portofolio.id/
+                  {steps[activeStep].mockContent === "publish"
+                    ? "dashboard"
+                    : "onboarding"}
+                </span>
+              </div>
+              {/* Step pills */}
+              <div className="flex gap-1.5 shrink-0">
+                {steps.map((_, i) => (
+                  <div
+                    key={i}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: i === activeStep ? 16 : 6,
+                      height: 6,
+                      backgroundColor:
+                        i === activeStep
+                          ? "#6366f1"
+                          : i < activeStep
+                            ? "#a5b4fc"
+                            : "#e5e7eb",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Mock content */}
+            <div style={{ minHeight: 360, backgroundColor: "#f9fafb" }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStep}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25, ease: smooth }}
+                  style={{ minHeight: 360 }}
+                >
+                  <MockScreen content={steps[activeStep].mockContent} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Nav buttons */}
+          <div className="mt-6 flex items-center justify-between">
+            <button
+              onClick={() => setActiveStep((p) => Math.max(0, p - 1))}
+              disabled={activeStep === 0}
+              className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.05)",
+                color: activeStep === 0 ? "rgba(0,0,0,0.2)" : "#6b7280",
+                border: "1px solid rgba(0,0,0,0.08)",
+                cursor: activeStep === 0 ? "not-allowed" : "pointer",
+              }}
+            >
+              ← Sebelumnya
+            </button>
+
+            {activeStep < steps.length - 1 ? (
+              <button
+                onClick={() => setActiveStep((p) => p + 1)}
+                className="px-5 py-2 rounded-xl text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #7c3aed)",
+                  boxShadow: "0 4px 16px rgba(99,102,241,0.25)",
+                }}
+              >
+                Selanjutnya →
+              </button>
+            ) : (
+              <a
+                href="/register"
+                className="px-5 py-2 rounded-xl text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #7c3aed)",
+                  boxShadow: "0 4px 16px rgba(99,102,241,0.25)",
+                }}
+              >
+                Mulai Gratis →
+              </a>
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
