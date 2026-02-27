@@ -265,8 +265,8 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Fitur", href: "/fitur" },
-    { label: "Template", href: "#template" },
-    { label: "Langganan", href: "#harga" },
+    { label: "Template", href: "/template" },
+    { label: "Langganan", href: "/pricing" },
     { label: "Blog", href: "/blog" },
   ];
 
