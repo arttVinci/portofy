@@ -10,6 +10,7 @@ import FeaturedPage from "./pages/home/FeaturedPage";
 import TemplatePage from "./pages/home/TemplatePage";
 import PricingPage from "./pages/home/PricingPage";
 import BlogPage from "./pages/home/BlogPage";
+import AboutUsPage from "./pages/home/AboutUsPage";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="template" element={<TemplatePage />} />
         <Route path="pricing" element={<PricingPage />} />
         <Route path="blog" element={<BlogPage />} />
+        <Route path="about" element={<AboutUsPage />} />
       </Route>
 
       <Route path="/:username" element={<PublicLayout />}>
