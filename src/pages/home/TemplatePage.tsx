@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, ArrowRight } from "lucide-react";
+import HeroSection from "../../components/marketing/HeroSection";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -145,7 +146,6 @@ const templates = [
 
 const categories = ["Semua", "Minimal", "Creative", "Professional"];
 
-// ── Template card mock preview ────────────────────────────────────────────────
 function MockPreview({
   template,
   hovered,
@@ -414,53 +414,13 @@ export default function TemplatePage() {
 
       <div className="relative z-10">
         {/* ── HERO ── */}
-        <section className="relative pt-40 pb-16 text-center overflow-hidden">
-          <div
-            className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
-            style={{
-              width: 800,
-              height: 400,
-              background:
-                "radial-gradient(ellipse at center top, rgba(99,102,241,0.1) 0%, transparent 65%)",
-            }}
-          />
-          <div className="relative max-w-3xl mx-auto px-6">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth }}
-              className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-              style={{ color: "rgba(255,255,255,0.25)" }}
-            >
-              Template
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: smooth, delay: 0.06 }}
-              className="text-[52px] font-normal leading-[1.08] tracking-[-0.03em] text-white mb-5"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Pilih template,{" "}
-              <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                langsung jadi.
-              </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth, delay: 0.12 }}
-              className="text-[15px] leading-relaxed max-w-sm mx-auto"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              {templates.length} template siap pakai, dirancang oleh designer
-              profesional untuk berbagai industri.
-            </motion.p>
-          </div>
-        </section>
+        <HeroSection
+          tagline="Template"
+          title="Pilih template"
+          italicTitle="langsung jadi."
+          description="template siap pakai, dirancang oleh designer profesional untuk berbagai industri."
+          templatesCount={templates.length}
+        />
 
         {/* ── FILTER BAR ── */}
         <div

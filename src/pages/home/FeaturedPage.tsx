@@ -1,8 +1,8 @@
-import FeatureHeroSection from "../../sections/marketing/FeatureHeroSection";
-import FeatureGridSection from "../../sections/marketing/FeatureGridSection";
-import FeatureSpotlightSection from "../../sections/marketing/FeatureSpotlightSection";
-import FeatureComparisonTableSection from "../../sections/marketing/FeatureComparisonTableSection";
-import FeatureCtaSection from "../../sections/marketing/FeatureCtaSection";
+import FeatureHeroSection from "../../sections/marketing/feature/FeatureHeroSection";
+import FeatureGridSection from "../../sections/marketing/feature/FeatureGridSection";
+import FeatureSpotlightSection from "../../sections/marketing/feature/FeatureSpotlightSection";
+import FeatureComparisonTableSection from "../../sections/marketing/feature/FeatureComparisonTableSection";
+import FeatureCtaSection from "../../sections/marketing/feature/FeatureCtaSection";
 
 const spotlights = [
   {

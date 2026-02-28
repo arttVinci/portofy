@@ -13,13 +13,13 @@ import BlogPage from "./pages/home/BlogPage";
 import AboutUsPage from "./pages/home/AboutUsPage";
 import FaqPage from "./pages/home/FaqPage";
 import ChangelogPage from "./pages/home/ChangelogPage";
+import ContactPage from "./pages/home/ContactPage";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";
 import AboutPage from "./pages/public/AboutPage";
 import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
-import ContactPage from "./pages/public/ContactPage";
 import ProjectPage from "./pages/public/ProjectPage";
 
 export default function App() {
