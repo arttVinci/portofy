@@ -3,6 +3,7 @@ import FeatureGridSection from "../../sections/marketing/feature/FeatureGridSect
 import FeatureSpotlightSection from "../../sections/marketing/feature/FeatureSpotlightSection";
 import FeatureComparisonTableSection from "../../sections/marketing/feature/FeatureComparisonTableSection";
 import FeatureCtaSection from "../../sections/marketing/feature/FeatureCtaSection";
+import HeroSection from "../../components/marketing/HeroSection";
 
 const spotlights = [
   {
@@ -56,7 +57,12 @@ export default function FiturPage() {
 
       <div className="relative z-10">
         {/* ── HERO ── */}
-        <FeatureHeroSection />
+        <HeroSection
+          tagline="Features"
+          title="Everything you need"
+          italicTitle="is already here."
+          description="From a no-code editor to comprehensive analytics — one platform for building a truly professional portfolio."
+        />
         {/* ── FEATURE GRID ── */}
         <FeatureGridSection />
 

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Children } from "react";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -8,6 +9,7 @@ interface HeroSectionProps {
   italicTitle: string;
   description: string;
   templatesCount?: number;
+  children?: React.ReactNode;
 }
 
 export default function HeroSection({
@@ -16,6 +18,7 @@ export default function HeroSection({
   italicTitle,
   description,
   templatesCount,
+  children,
 }: HeroSectionProps) {
   return (
     <section className="relative pt-40 pb-16 text-center overflow-hidden">
@@ -59,6 +62,8 @@ export default function HeroSection({
         >
           {templatesCount} {description}
         </motion.p>
+
+        {children && children}
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Minus, Plus } from "lucide-react";
+import HeroSection from "../../components/marketing/HeroSection";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -238,110 +239,70 @@ export default function PricingPage() {
       />
 
       <div className="relative z-10">
-        {/* ── HERO ── */}
-        <section className="relative pt-40 pb-16 text-center overflow-hidden">
-          <div
-            className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
-            style={{
-              width: 800,
-              height: 400,
-              background:
-                "radial-gradient(ellipse at center top, rgba(99,102,241,0.1) 0%, transparent 65%)",
-            }}
-          />
-          <div className="relative max-w-2xl mx-auto px-6">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth }}
-              className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-              style={{ color: "rgba(255,255,255,0.25)" }}
+        {/* Hero Section */}
+        <HeroSection
+          tagline="Price"
+          title="Start free"
+          italicTitle="upgrade when ready."
+          description="No hidden fees. Cancel anytime."
+        >
+          {/* Toggle */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-3"
+          >
+            <span
+              className="text-[13px] font-medium"
+              style={{
+                color: !yearly
+                  ? "rgba(255,255,255,0.8)"
+                  : "rgba(255,255,255,0.3)",
+              }}
             >
-              Harga
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: smooth, delay: 0.06 }}
-              className="text-[52px] font-normal leading-[1.08] tracking-[-0.03em] text-white mb-5"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
+              Bulanan
+            </span>
+            <button
+              onClick={() => setYearly((v) => !v)}
+              className="relative w-10 h-5 rounded-full transition-colors duration-300 cursor-pointer focus:outline-none"
+              style={{
+                backgroundColor: yearly
+                  ? "rgba(255,255,255,0.25)"
+                  : "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.15)",
+              }}
             >
-              Mulai gratis,{" "}
+              <motion.span
+                animate={{ x: yearly ? 20 : 2 }}
+                transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                className="absolute top-0.5 size-4 rounded-full block"
+                style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
+              />
+            </button>
+            <span
+              className="text-[13px] font-medium flex items-center gap-1.5"
+              style={{
+                color: yearly
+                  ? "rgba(255,255,255,0.8)"
+                  : "rgba(255,255,255,0.3)",
+              }}
+            >
+              Tahunan
               <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                upgrade kalau siap.
-              </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth, delay: 0.12 }}
-              className="text-[15px] leading-relaxed mb-8"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              Tidak ada biaya tersembunyi. Batalkan kapan saja.
-            </motion.p>
-
-            {/* Toggle */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-3"
-            >
-              <span
-                className="text-[13px] font-medium"
+                className="px-1.5 py-0.5 rounded-full text-[10px] font-semibold"
                 style={{
-                  color: !yearly
-                    ? "rgba(255,255,255,0.8)"
-                    : "rgba(255,255,255,0.3)",
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.5)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  opacity: yearly ? 1 : 0.5,
                 }}
               >
-                Bulanan
+                Hemat 20%
               </span>
-              <button
-                onClick={() => setYearly((v) => !v)}
-                className="relative w-10 h-5 rounded-full transition-colors duration-300 cursor-pointer focus:outline-none"
-                style={{
-                  backgroundColor: yearly
-                    ? "rgba(255,255,255,0.25)"
-                    : "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                }}
-              >
-                <motion.span
-                  animate={{ x: yearly ? 20 : 2 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  className="absolute top-0.5 size-4 rounded-full block"
-                  style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-                />
-              </button>
-              <span
-                className="text-[13px] font-medium flex items-center gap-1.5"
-                style={{
-                  color: yearly
-                    ? "rgba(255,255,255,0.8)"
-                    : "rgba(255,255,255,0.3)",
-                }}
-              >
-                Tahunan
-                <span
-                  className="px-1.5 py-0.5 rounded-full text-[10px] font-semibold"
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.08)",
-                    color: "rgba(255,255,255,0.5)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    opacity: yearly ? 1 : 0.5,
-                  }}
-                >
-                  Hemat 20%
-                </span>
-              </span>
-            </motion.div>
-          </div>
-        </section>
+            </span>
+          </motion.div>
+        </HeroSection>
 
         {/* ── PRICING CARDS ── */}
         <section className="max-w-4xl mx-auto px-6 pb-20">

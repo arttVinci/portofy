@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
+import HeroSection from "../../components/marketing/HeroSection";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -149,58 +150,12 @@ export default function FAQPage() {
 
       <div className="relative z-10">
         {/* ── HERO ── */}
-        <section className="relative pt-40 pb-16 overflow-hidden">
-          <div
-            className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
-            style={{
-              width: 800,
-              height: 400,
-              background:
-                "radial-gradient(ellipse at center top, rgba(255,255,255,0.05) 0%, transparent 65%)",
-            }}
-          />
-          <div className="relative max-w-3xl mx-auto px-6 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth }}
-              className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-              style={{ color: "rgba(255,255,255,0.25)" }}
-            >
-              FAQ
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: smooth, delay: 0.06 }}
-              className="text-white mb-5"
-              style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontSize: "clamp(40px, 5.5vw, 56px)",
-                lineHeight: 1.08,
-                letterSpacing: "-0.03em",
-              }}
-            >
-              Ada pertanyaan?{" "}
-              <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-              >
-                Kami siap jawab.
-              </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: smooth, delay: 0.12 }}
-              className="text-[15px] leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              Temukan jawaban dari pertanyaan yang paling sering ditanyakan.
-              Tidak ketemu? Hubungi kami langsung.
-            </motion.p>
-          </div>
-        </section>
+        <HeroSection
+          tagline="FAQ"
+          title="Have questions?"
+          italicTitle="We're ready to answer them."
+          description="Find answers to the most frequently asked questions. Still have questions? Contact us directly."
+        />
 
         {/* ── MAIN CONTENT ── */}
         <section className="max-w-5xl mx-auto px-6 pb-24">
