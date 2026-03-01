@@ -1,9 +1,9 @@
-import FeatureHeroSection from "../../sections/marketing/feature/FeatureHeroSection";
 import FeatureGridSection from "../../sections/marketing/feature/FeatureGridSection";
 import FeatureSpotlightSection from "../../sections/marketing/feature/FeatureSpotlightSection";
 import FeatureComparisonTableSection from "../../sections/marketing/feature/FeatureComparisonTableSection";
-import FeatureCtaSection from "../../sections/marketing/feature/FeatureCtaSection";
 import HeroSection from "../../components/marketing/HeroSection";
+import CtaBanner from "../../components/marketing/CtaBanner";
+import CtaButton from "../../components/ui/CtaButton";
 
 const spotlights = [
   {
@@ -75,8 +75,33 @@ export default function FiturPage() {
         {/* ── COMPARISON TABLE ── */}
         <FeatureComparisonTableSection />
 
-        {/* ── CTA ── */}
-        <FeatureCtaSection />
+        {/* Cta Banner */}
+        <CtaBanner
+          tag="Mulai Sekarang"
+          title="Semua fitur ini,"
+          italicTitle="gratis untuk dicoba."
+          description="Tidak perlu kartu kredit. Daftar sekarang dan portfolio kamu online dalam 3 menit."
+          classname="py-20 max-w-4xl mx-auto px-6"
+          motionDivClassname="relative rounded-3xl overflow-hidden text-center px-8 py-20"
+        >
+          <CtaButton
+            title="Buat Portfolio Gratis →"
+            route="/register"
+            font="font-semibold"
+            backgroundColor="rgba(255,255,255,0.9)"
+            textColor="text-[#0a0a0f]"
+          />
+          <CtaButton
+            title="Lihat Harga"
+            route="/pricing"
+            font="font-medium"
+            backgroundColor="transparent"
+            textColor="rgba(255,255,255,0.5)"
+            borderColor="rgba(255,255,255,0.1)"
+            onMouseEnterColor="rgba(255,255,255,0.85)"
+            onMouseEnterBorderColor="rgba(255,255,255,0.2)"
+          />
+        </CtaBanner>
       </div>
     </div>
   );

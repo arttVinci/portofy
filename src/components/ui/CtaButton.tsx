@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 interface CtaButtonProps {
   title: string;
+  route: string;
   font?: string;
   backgroundColor?: string;
   textColor?: string;
@@ -14,6 +15,7 @@ interface CtaButtonProps {
 
 export default function CtaButton({
   title,
+  route,
   font = "",
   backgroundColor,
   textColor,
@@ -26,7 +28,7 @@ export default function CtaButton({
 
   return (
     <Link
-      to="/register"
+      to={route}
       className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[14px] ${font} transition-all duration-200`}
       style={{
         color: isHovered ? onMouseEnterColor || textColor : textColor,

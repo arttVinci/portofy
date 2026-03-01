@@ -110,12 +110,14 @@ export default function CtaBannerSection() {
           <div className="flex items-center justify-center gap-3">
             <CtaButton
               title="Buat Portfolio Gratis →"
+              route="/register"
               font="font-semibold"
               backgroundColor="rgba(255,255,255,0.9)"
               textColor="text-[#0a0a0f]"
             />
             <CtaButton
               title="Lihat Template"
+              route="/template"
               font="font-medium"
               backgroundColor="transparent"
               textColor="rgba(255,255,255,0.5)"

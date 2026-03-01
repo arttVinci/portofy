@@ -1,18 +1,11 @@
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
 import HeroSection from "../../components/marketing/HeroSection";
-import TemplateCard from "../../components/marketing/TemplateCard";
 import type { TemplateItem } from "../../types/ui.types";
-import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
-import ButtonGetStarted from "../../components/ui/CtaButton";
-import CategoryFilters from "../../components/marketing/CategoryFilters";
-import EmptySearch from "../../components/ui/EmptySearch";
+import CtaBanner from "../../components/marketing/CtaBanner";
+import CtaButton from "../../components/ui/CtaButton";
+import TemplateShowcaseSection from "../../sections/marketing/TemplateShowcaseSection";
 
-const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
-
-// ── Template data ─────────────────────────────────────────────────────────────
-const templates = [
+// Template Data
+const templates: TemplateItem[] = [
   {
     id: "1",
     name: "Minimal",
@@ -146,32 +139,10 @@ const templates = [
   },
 ];
 
+// Categories Template
 const categories = ["Semua", "Minimal", "Creative", "Professional"];
 
-// ── Preview Modal ─────────────────────────────────────────────────────────────
-
 export default function TemplatePage() {
-  const [activeCategory, setActiveCategory] = useState("Semua");
-  const [search, setSearch] = useState("");
-  const [previewTemplate, setPreviewTemplate] = useState<TemplateItem | null>(
-    null,
-  );
-  const [showProOnly, setShowProOnly] = useState(false);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  const filtered = useMemo(() => {
-    return templates.filter((t) => {
-      const matchCat =
-        activeCategory === "Semua" || t.category === activeCategory;
-      const matchSearch =
-        search === "" ||
-        t.name.toLowerCase().includes(search.toLowerCase()) ||
-        t.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
-      const matchPro = !showProOnly || t.isPro;
-      return matchCat && matchSearch && matchPro;
-    });
-  }, [activeCategory, search, showProOnly]);
-
   return (
     <div
       id="template-page"
@@ -194,7 +165,7 @@ export default function TemplatePage() {
       />
 
       <div className="relative z-10">
-        {/* ── HERO ── */}
+        {/* Hero Section */}
         <HeroSection
           tagline="Template"
           title="Pilih template"
@@ -203,178 +174,28 @@ export default function TemplatePage() {
           templatesCount={templates.length}
         />
 
-        {/* ── FILTER BAR ── */}
-        <div
-          className="py-4"
-          style={{
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-          }}
+        <TemplateShowcaseSection
+          templates={templates}
+          categories={categories}
+        />
+
+        {/* Cta Banner */}
+        <CtaBanner
+          tag="Belum yakin?"
+          title="Coba dulu,"
+          italicTitle=" gratis selamanya."
+          description="Daftar gratis dan mulai pakai template mana saja."
+          classname="py-16 max-w-5xl mx-auto px-6"
+          motionDivClassname="rounded-2xl p-10 text-center relative overflow-hidden"
         >
-          <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center gap-3">
-            {/* Search */}
-            <div className="relative flex-1 w-full sm:w-auto">
-              <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2"
-                style={{ color: "rgba(255,255,255,0.3)" }}
-              />
-              <input
-                type="text"
-                placeholder="Cari template..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-xl text-[13px] outline-none"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.75)",
-                }}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)")
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")
-                }
-              />
-            </div>
-
-            {/* Category Filter */}
-            <CategoryFilters
-              categories={categories}
-              activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
-            />
-
-            {/* Pro toggle */}
-            <button
-              onClick={() => setShowProOnly((v) => !v)}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[12px] font-medium transition-all duration-150 cursor-pointer shrink-0"
-              style={{
-                backgroundColor: showProOnly
-                  ? "rgba(167,139,250,0.12)"
-                  : "transparent",
-                color: showProOnly ? "#c4b5fd" : "rgba(255,255,255,0.35)",
-                border: showProOnly
-                  ? "1px solid rgba(167,139,250,0.25)"
-                  : "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              ✦ Pro only
-            </button>
-          </div>
-        </div>
-
-        {/* ── GRID ── */}
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          {/* Result count */}
-          <motion.p
-            className="text-[12px] mb-6"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-            animate={{ opacity: 1 }}
-          >
-            Menampilkan {filtered.length} template
-            {activeCategory !== "Semua" && ` · ${activeCategory}`}
-            {search && ` · "${search}"`}
-          </motion.p>
-
-          <AnimatePresence mode="wait">
-            {filtered.length > 0 ? (
-              <motion.div
-                key={activeCategory + search + showProOnly}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-              >
-                {filtered.map((template, i) => (
-                  <TemplateCard
-                    key={template.id}
-                    template={template}
-                    i={i}
-                    hoveredId={hoveredId}
-                    setHoveredId={setHoveredId}
-                    setPreviewTemplate={setPreviewTemplate}
-                  />
-                ))}
-              </motion.div>
-            ) : (
-              <EmptySearch
-                title="Template tidak ditemukan"
-                description="Coba cari dengan kata kunci lain."
-                actionText="Reset Pencarian"
-                onAction={() => {
-                  setSearch("");
-                  setActiveCategory("Semua");
-                  setShowProOnly(false);
-                }}
-              />
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* ── CTA ── */}
-        <section className="py-16 max-w-5xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: smooth }}
-            className="rounded-2xl p-10 text-center relative overflow-hidden"
-            style={{
-              backgroundColor: "#0e0e14",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
-          >
-            <div
-              className="absolute top-0 left-0 right-0 h-px"
-              style={{
-                background:
-                  "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)",
-              }}
-            />
-            <p
-              className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-3"
-              style={{ color: "rgba(255,255,255,0.2)" }}
-            >
-              Belum yakin?
-            </p>
-            <h2
-              className="text-[32px] font-normal tracking-[-0.025em] text-white mb-3"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Coba dulu,{" "}
-              <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                gratis selamanya.
-              </span>
-            </h2>
-            <p
-              className="text-[14px] mb-6"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              Daftar gratis dan mulai pakai template mana saja.
-            </p>
-            <ButtonGetStarted
-              title="Mulai Gratis →"
-              backgroundColor="rgba(255,255,255,0.9)"
-              textColor="text-[#0a0a0f]"
-            />
-          </motion.div>
-        </section>
-      </div>
-
-      {/* ── Preview Modal ── */}
-      <AnimatePresence>
-        {previewTemplate && (
-          <PreviewModalTemplate
-            template={previewTemplate}
-            onClose={() => setPreviewTemplate(null)}
+          <CtaButton
+            title="Mulai Gratis →"
+            route="/register"
+            backgroundColor="rgba(255,255,255,0.9)"
+            textColor="text-[#0a0a0f]"
           />
-        )}
-      </AnimatePresence>
+        </CtaBanner>
+      </div>
     </div>
   );
 }
