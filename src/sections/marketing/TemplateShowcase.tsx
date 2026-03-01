@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { TemplateItem } from "../../types/ui.types";
+import TemplateCard from "../../components/marketing/TemplateCard";
+import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const templates = [
   {
-    id: 1,
+    id: "1",
     name: "Minimal",
     category: "Minimal",
     tags: ["Clean", "Developer", "Simple"],
@@ -19,7 +22,7 @@ const templates = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "Editorial",
     category: "Creative",
     tags: ["Bold", "Designer", "Typography"],
@@ -33,12 +36,11 @@ const templates = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "Grid",
     category: "Creative",
     tags: ["Gallery", "Visual", "Photographer"],
     description: "Berbasis grid untuk menampilkan portofolio visual.",
-    badge: null,
     views: "4.5k",
     lines: [
       { w: "55%", h: 8 },
@@ -47,7 +49,7 @@ const templates = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     name: "Résumé",
     category: "Professional",
     tags: ["Corporate", "Business", "Formal"],
@@ -61,12 +63,11 @@ const templates = [
     ],
   },
   {
-    id: 5,
+    id: "5",
     name: "Mono",
     category: "Minimal",
     tags: ["Monochrome", "Writer", "Blogger"],
     description: "Monokrom dan tenang. Ideal untuk penulis & peneliti.",
-    badge: null,
     views: "2.9k",
     lines: [
       { w: "70%", h: 8 },
@@ -75,12 +76,11 @@ const templates = [
     ],
   },
   {
-    id: 6,
+    id: "6",
     name: "Studio",
     category: "Professional",
     tags: ["Agency", "Bold", "Freelancer"],
     description: "Berkarakter kuat. Tampil beda dari ribuan pelamar.",
-    badge: null,
     views: "2.1k",
     lines: [
       { w: "85%", h: 12 },
@@ -92,98 +92,12 @@ const templates = [
 
 const categories = ["Semua", "Minimal", "Creative", "Professional"];
 
-function MockPreview({
-  template,
-  hovered,
-}: {
-  template: (typeof templates)[0];
-  hovered: boolean;
-}) {
-  return (
-    <div
-      className="w-full rounded-xl overflow-hidden transition-all duration-300"
-      style={{
-        backgroundColor: "#111116",
-        border: `1px solid ${hovered ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.06)"}`,
-      }}
-    >
-      {/* Browser bar */}
-      <div
-        className="flex items-center gap-2 px-3 py-2.5"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-      >
-        <div className="flex gap-1.5">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="size-2 rounded-full"
-              style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
-            />
-          ))}
-        </div>
-        <div
-          className="flex-1 h-4 rounded-md mx-2"
-          style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="px-4 py-5" style={{ minHeight: 170 }}>
-        {/* Nav */}
-        <div className="flex items-center justify-between mb-5">
-          <div
-            className="h-2 w-10 rounded-full"
-            style={{ backgroundColor: "rgba(255,255,255,0.55)" }}
-          />
-          <div className="flex gap-2">
-            {[16, 20, 14].map((w, i) => (
-              <div
-                key={i}
-                className="h-1.5 rounded-full"
-                style={{ width: w, backgroundColor: "rgba(255,255,255,0.1)" }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Lines */}
-        <div className="space-y-2.5 mb-5">
-          {template.lines.map((line, i) => (
-            <div
-              key={i}
-              className="rounded-full"
-              style={{
-                width: line.w,
-                height: line.h,
-                backgroundColor:
-                  i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.1)",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Cards row */}
-        <div className="grid grid-cols-3 gap-2">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="rounded-lg"
-              style={{
-                height: 32,
-                backgroundColor: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.05)",
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function TemplateShowcaseSection() {
   const [activeCategory, setActiveCategory] = useState("Semua");
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [previewTemplate, setPreviewTemplate] = useState<TemplateItem | null>(
+    null,
+  );
 
   const filtered =
     activeCategory === "Semua"
@@ -240,7 +154,7 @@ export default function TemplateShowcaseSection() {
               </span>
             </h2>
             <p
-              className="text-[14px] leading-relaxed max-w-[260px]"
+              className="text-[14px] leading-relaxed max-w-65"
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
               Dirancang agar rekruter berhenti scroll dan mulai baca profil
@@ -289,156 +203,14 @@ export default function TemplateShowcaseSection() {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((template, i) => (
-              <motion.div
+              <TemplateCard
                 key={template.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.97,
-                  transition: { duration: 0.15 },
-                }}
-                transition={{
-                  duration: 0.4,
-                  ease: smoothEase,
-                  delay: i * 0.05,
-                }}
-                onHoverStart={() => setHoveredId(template.id)}
-                onHoverEnd={() => setHoveredId(null)}
-                className="cursor-pointer"
-              >
-                <div
-                  className="rounded-2xl overflow-hidden transition-all duration-300"
-                  style={{
-                    backgroundColor: "#0e0e14",
-                    border: `1px solid ${
-                      hoveredId === template.id
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(255,255,255,0.05)"
-                    }`,
-                    transform:
-                      hoveredId === template.id
-                        ? "translateY(-4px)"
-                        : "translateY(0)",
-                    boxShadow:
-                      hoveredId === template.id
-                        ? "0 20px 48px rgba(0,0,0,0.5)"
-                        : "0 4px 16px rgba(0,0,0,0.25)",
-                  }}
-                >
-                  {/* Preview */}
-                  <div className="p-3 pb-0">
-                    <MockPreview
-                      template={template}
-                      hovered={hoveredId === template.id}
-                    />
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        <h3
-                          className="text-[14px] font-semibold"
-                          style={{ color: "rgba(255,255,255,0.8)" }}
-                        >
-                          {template.name}
-                        </h3>
-                        {template.badge && (
-                          <span
-                            className="px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide"
-                            style={{
-                              backgroundColor: "rgba(255,255,255,0.07)",
-                              color: "rgba(255,255,255,0.45)",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                            }}
-                          >
-                            {template.badge}
-                          </span>
-                        )}
-                      </div>
-                      <span
-                        className="text-[11px]"
-                        style={{ color: "rgba(255,255,255,0.18)" }}
-                      >
-                        {template.views} views
-                      </span>
-                    </div>
-
-                    <p
-                      className="text-[12px] leading-relaxed mb-3"
-                      style={{ color: "rgba(255,255,255,0.3)" }}
-                    >
-                      {template.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {template.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 rounded-full text-[10px]"
-                          style={{
-                            backgroundColor: "rgba(255,255,255,0.04)",
-                            color: "rgba(255,255,255,0.25)",
-                            border: "1px solid rgba(255,255,255,0.07)",
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                      <button
-                        className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200"
-                        style={{
-                          backgroundColor: "rgba(255,255,255,0.88)",
-                          color: "#0a0a0f",
-                        }}
-                        onMouseEnter={(e) =>
-                          ((
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "#ffffff")
-                        }
-                        onMouseLeave={(e) =>
-                          ((
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "rgba(255,255,255,0.88)")
-                        }
-                      >
-                        Pakai Template
-                      </button>
-                      <button
-                        className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
-                        style={{
-                          backgroundColor: "rgba(255,255,255,0.04)",
-                          color: "rgba(255,255,255,0.35)",
-                          border: "1px solid rgba(255,255,255,0.07)",
-                        }}
-                        onMouseEnter={(e) => {
-                          (
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "rgba(255,255,255,0.08)";
-                          (e.currentTarget as HTMLElement).style.color =
-                            "rgba(255,255,255,0.65)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "rgba(255,255,255,0.04)";
-                          (e.currentTarget as HTMLElement).style.color =
-                            "rgba(255,255,255,0.35)";
-                        }}
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                template={template}
+                i={i}
+                hoveredId={hoveredId}
+                setHoveredId={setHoveredId}
+                setPreviewTemplate={setPreviewTemplate}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -494,6 +266,14 @@ export default function TemplateShowcaseSection() {
           />
         </motion.div>
       </div>
+      <AnimatePresence>
+        {previewTemplate && (
+          <PreviewModalTemplate
+            template={previewTemplate}
+            onClose={() => setPreviewTemplate(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

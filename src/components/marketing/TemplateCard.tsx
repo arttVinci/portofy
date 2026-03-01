@@ -9,7 +9,7 @@ interface TemplateCardProps {
   i: number;
   hoveredId: string | null;
   setHoveredId: (id: string | null) => void;
-  setPreviewTemplate: (template: TemplateCardProps["template"] | null) => void;
+  setPreviewTemplate: (template: TemplateItem | null) => void;
 }
 
 export default function TemplateCard({
