@@ -220,11 +220,13 @@ export default function Navbar() {
     "pricing",
     "faq",
     "cta-banner",
+    "feature-page",
     "featured",
     "feature-hero-section",
     "feature-grid-section",
     "feature-spotlight-section",
     "feature-comparison-table-section",
+    "template-page",
   ]);
 
   function openMenu() {

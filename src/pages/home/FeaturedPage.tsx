@@ -37,6 +37,7 @@ const spotlights = [
 export default function FiturPage() {
   return (
     <div
+      id="feature-page"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",
