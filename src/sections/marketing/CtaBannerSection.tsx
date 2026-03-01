@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ButtonGetStarted from "../../components/ui/ButtonGetStarted";
+import CtaButton from "../../components/ui/CtaButton";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -108,33 +108,21 @@ export default function CtaBannerSection() {
 
           {/* CTA buttons */}
           <div className="flex items-center justify-center gap-3">
-            <ButtonGetStarted
+            <CtaButton
               title="Buat Portfolio Gratis →"
+              font="font-semibold"
               backgroundColor="rgba(255,255,255,0.9)"
               textColor="text-[#0a0a0f]"
             />
-            <a
-              href="#template"
-              className="px-7 py-3.5 rounded-xl text-[14px] font-medium transition-all duration-200"
-              style={{
-                color: "rgba(255,255,255,0.5)",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.85)";
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(255,255,255,0.2)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.5)";
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(255,255,255,0.1)";
-              }}
-            >
-              Lihat Template
-            </a>
+            <CtaButton
+              title="Lihat Template"
+              font="font-medium"
+              backgroundColor="transparent"
+              textColor="rgba(255,255,255,0.5)"
+              borderColor="rgba(255,255,255,0.1)"
+              onMouseEnterColor="rgba(255,255,255,0.85)"
+              onMouseEnterBorderColor="rgba(255,255,255,0.2)"
+            />
           </div>
 
           {/* Trust note */}

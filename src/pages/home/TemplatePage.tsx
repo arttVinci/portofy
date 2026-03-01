@@ -5,7 +5,7 @@ import HeroSection from "../../components/marketing/HeroSection";
 import TemplateCard from "../../components/marketing/TemplateCard";
 import type { TemplateItem } from "../../types/ui.types";
 import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
-import ButtonGetStarted from "../../components/ui/ButtonGetStarted";
+import ButtonGetStarted from "../../components/ui/CtaButton";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
