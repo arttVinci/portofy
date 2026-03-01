@@ -6,6 +6,7 @@ import TemplateCard from "../../components/marketing/TemplateCard";
 import type { TemplateItem } from "../../types/ui.types";
 import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
 import ButtonGetStarted from "../../components/ui/CtaButton";
+import CategoryFilters from "../../components/marketing/CategoryFilters";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -235,32 +236,12 @@ export default function TemplatePage() {
               />
             </div>
 
-            {/* Category pills */}
-            <div className="flex items-center gap-1.5 shrink-0">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className="px-3.5 py-1.5 rounded-full text-[12px] font-medium transition-all duration-150 cursor-pointer"
-                  style={{
-                    backgroundColor:
-                      activeCategory === cat
-                        ? "rgba(255,255,255,0.1)"
-                        : "transparent",
-                    color:
-                      activeCategory === cat
-                        ? "rgba(255,255,255,0.85)"
-                        : "rgba(255,255,255,0.35)",
-                    border:
-                      activeCategory === cat
-                        ? "1px solid rgba(255,255,255,0.15)"
-                        : "1px solid transparent",
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            {/* Category Filter */}
+            <CategoryFilters
+              categories={categories}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
 
             {/* Pro toggle */}
             <button

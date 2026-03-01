@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { TemplateItem } from "../../types/ui.types";
 import TemplateCard from "../../components/marketing/TemplateCard";
 import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
+import CategoryFilters from "../../components/marketing/CategoryFilters";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -164,42 +165,16 @@ export default function TemplateShowcaseSection() {
         </motion.div>
 
         {/* ── Filter ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex items-center gap-1.5 mb-10"
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className="px-3.5 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 cursor-pointer"
-              style={{
-                backgroundColor:
-                  activeCategory === cat
-                    ? "rgba(255,255,255,0.09)"
-                    : "transparent",
-                color:
-                  activeCategory === cat
-                    ? "rgba(255,255,255,0.85)"
-                    : "rgba(255,255,255,0.3)",
-                border:
-                  activeCategory === cat
-                    ? "1px solid rgba(255,255,255,0.15)"
-                    : "1px solid transparent",
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
+        <CategoryFilters
+          categories={categories}
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+        />
 
         {/* ── Grid ── */}
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10"
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((template, i) => (
