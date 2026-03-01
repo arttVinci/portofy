@@ -90,3 +90,15 @@ export interface PortfolioData {
   achievements: AchievementItem[];
   socials: SocialItem[];
 }
+
+export interface TemplateItem {
+  id: string;
+  name: string;
+  category: string;
+  tags: string[];
+  description: string;
+  badge?: string;
+  views: string;
+  isPro?: boolean;
+  lines: { w: string; h: number }[];
+}

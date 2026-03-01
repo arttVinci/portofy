@@ -2,17 +2,19 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, ArrowRight } from "lucide-react";
 import HeroSection from "../../components/marketing/HeroSection";
+import TemplateCard from "../../components/marketing/TemplateCard";
+import type { TemplateItem } from "../../types/ui.types";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 // ── Template data ─────────────────────────────────────────────────────────────
 const templates = [
   {
-    id: 1,
+    id: "1",
     name: "Minimal",
     category: "Minimal",
     tags: ["Clean", "Developer", "Simple"],
-    desc: "Bersih dan fokus. Biarkan karya kamu yang bicara.",
+    description: "Bersih dan fokus. Biarkan karya kamu yang bicara.",
     badge: "Paling Populer",
     views: "8.2k",
     isPro: false,
@@ -23,11 +25,11 @@ const templates = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "Editorial",
     category: "Creative",
     tags: ["Bold", "Designer", "Typography"],
-    desc: "Layout magazine dengan tipografi kuat dan berani.",
+    description: "Layout magazine dengan tipografi kuat dan berani.",
     badge: "Trending",
     views: "6.1k",
     isPro: false,
@@ -38,12 +40,11 @@ const templates = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "Grid",
     category: "Creative",
     tags: ["Gallery", "Visual", "Photographer"],
-    desc: "Berbasis grid untuk menampilkan portofolio visual.",
-    badge: null,
+    description: "Berbasis grid untuk menampilkan portofolio visual.",
     views: "4.5k",
     isPro: false,
     lines: [
@@ -53,11 +54,11 @@ const templates = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     name: "Résumé",
     category: "Professional",
     tags: ["Corporate", "Business", "Formal"],
-    desc: "Profesional dan terstruktur. Cocok untuk fresh graduate.",
+    description: "Profesional dan terstruktur. Cocok untuk fresh graduate.",
     badge: "Baru",
     views: "3.4k",
     isPro: false,
@@ -68,12 +69,11 @@ const templates = [
     ],
   },
   {
-    id: 5,
+    id: "5",
     name: "Mono",
     category: "Minimal",
     tags: ["Monochrome", "Writer", "Blogger"],
-    desc: "Monokrom dan tenang. Ideal untuk penulis & peneliti.",
-    badge: null,
+    description: "Monokrom dan tenang. Ideal untuk penulis & peneliti.",
     views: "2.9k",
     isPro: true,
     lines: [
@@ -83,12 +83,11 @@ const templates = [
     ],
   },
   {
-    id: 6,
+    id: "6",
     name: "Studio",
     category: "Professional",
     tags: ["Agency", "Bold", "Freelancer"],
-    desc: "Berkarakter kuat. Tampil beda dari ribuan pelamar.",
-    badge: null,
+    description: "Berkarakter kuat. Tampil beda dari ribuan pelamar.",
     views: "2.1k",
     isPro: true,
     lines: [
@@ -98,12 +97,11 @@ const templates = [
     ],
   },
   {
-    id: 7,
+    id: "7",
     name: "Slate",
     category: "Professional",
     tags: ["Modern", "Corporate"],
-    desc: "Modern dan profesional. Layout dua kolom yang terorganisir.",
-    badge: null,
+    description: "Modern dan profesional. Layout dua kolom yang terorganisir.",
     views: "3.9k",
     isPro: false,
     lines: [
@@ -113,11 +111,11 @@ const templates = [
     ],
   },
   {
-    id: 8,
+    id: "8",
     name: "Dusk",
     category: "Minimal",
     tags: ["Dark", "Elegant"],
-    desc: "Dark mode elegan dengan tipografi yang kuat dan premium.",
+    description: "Dark mode elegan dengan tipografi yang kuat dan premium.",
     badge: "Baru",
     views: "2.1k",
     isPro: true,
@@ -128,12 +126,12 @@ const templates = [
     ],
   },
   {
-    id: 9,
+    id: "9",
     name: "Bloom",
     category: "Creative",
     tags: ["Pastel", "Playful"],
-    desc: "Warna lembut dan playful. Untuk illustrator dan content creator.",
-    badge: null,
+    description:
+      "Warna lembut dan playful. Untuk illustrator dan content creator.",
     views: "5.5k",
     isPro: false,
     lines: [
@@ -373,11 +371,11 @@ function PreviewModal({
 export default function TemplatePage() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [search, setSearch] = useState("");
-  const [previewTemplate, setPreviewTemplate] = useState<
-    (typeof templates)[0] | null
-  >(null);
+  const [previewTemplate, setPreviewTemplate] = useState<TemplateItem | null>(
+    null,
+  );
   const [showProOnly, setShowProOnly] = useState(false);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return templates.filter((t) => {
@@ -504,7 +502,7 @@ export default function TemplatePage() {
         </div>
 
         {/* ── GRID ── */}
-        <div className="max-w-5xl mx-auto px-6 py-12">
+        <div className="max-w-6xl mx-auto px-6 py-12">
           {/* Result count */}
           <motion.p
             className="text-[12px] mb-6"
@@ -527,168 +525,14 @@ export default function TemplatePage() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
               >
                 {filtered.map((template, i) => (
-                  <motion.div
+                  <TemplateCard
                     key={template.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{
-                      opacity: 0,
-                      scale: 0.97,
-                      transition: { duration: 0.15 },
-                    }}
-                    transition={{
-                      duration: 0.4,
-                      ease: smooth,
-                      delay: i * 0.05,
-                    }}
-                    onHoverStart={() => setHoveredId(template.id)}
-                    onHoverEnd={() => setHoveredId(null)}
-                    className="cursor-pointer"
-                  >
-                    <div
-                      className="rounded-2xl overflow-hidden transition-all duration-300"
-                      style={{
-                        backgroundColor: "#0e0e14",
-                        border: `1px solid ${hoveredId === template.id ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`,
-                        transform:
-                          hoveredId === template.id
-                            ? "translateY(-4px)"
-                            : "translateY(0)",
-                        boxShadow:
-                          hoveredId === template.id
-                            ? "0 20px 48px rgba(0,0,0,0.5)"
-                            : "0 4px 16px rgba(0,0,0,0.25)",
-                      }}
-                    >
-                      {/* Preview */}
-                      <div className="p-3 pb-0">
-                        <MockPreview
-                          template={template}
-                          hovered={hoveredId === template.id}
-                        />
-                      </div>
-
-                      {/* Info */}
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center gap-2">
-                            <h3
-                              className="text-[14px] font-semibold"
-                              style={{ color: "rgba(255,255,255,0.8)" }}
-                            >
-                              {template.name}
-                            </h3>
-                            {template.badge && (
-                              <span
-                                className="px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide"
-                                style={{
-                                  backgroundColor: "rgba(255,255,255,0.07)",
-                                  color: "rgba(255,255,255,0.45)",
-                                  border: "1px solid rgba(255,255,255,0.1)",
-                                }}
-                              >
-                                {template.badge}
-                              </span>
-                            )}
-                            {template.isPro && (
-                              <span
-                                className="px-2 py-0.5 rounded-full text-[9px] font-bold"
-                                style={{
-                                  backgroundColor: "rgba(109,40,217,0.2)",
-                                  color: "#c4b5fd",
-                                  border: "1px solid rgba(167,139,250,0.2)",
-                                }}
-                              >
-                                PRO
-                              </span>
-                            )}
-                          </div>
-                          <span
-                            className="text-[11px]"
-                            style={{ color: "rgba(255,255,255,0.18)" }}
-                          >
-                            {template.views} views
-                          </span>
-                        </div>
-
-                        <p
-                          className="text-[12px] leading-relaxed mb-3"
-                          style={{ color: "rgba(255,255,255,0.3)" }}
-                        >
-                          {template.desc}
-                        </p>
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1 mb-4">
-                          {template.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2 py-0.5 rounded-full text-[10px]"
-                              style={{
-                                backgroundColor: "rgba(255,255,255,0.04)",
-                                color: "rgba(255,255,255,0.25)",
-                                border: "1px solid rgba(255,255,255,0.07)",
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Actions */}
-                        <div className="flex gap-2">
-                          <button
-                            className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200"
-                            style={{
-                              backgroundColor: "rgba(255,255,255,0.88)",
-                              color: "#0a0a0f",
-                            }}
-                            onMouseEnter={(e) =>
-                              ((
-                                e.currentTarget as HTMLElement
-                              ).style.backgroundColor = "#ffffff")
-                            }
-                            onMouseLeave={(e) =>
-                              ((
-                                e.currentTarget as HTMLElement
-                              ).style.backgroundColor =
-                                "rgba(255,255,255,0.88)")
-                            }
-                          >
-                            Pakai Template
-                          </button>
-                          <button
-                            onClick={() => setPreviewTemplate(template)}
-                            className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200 cursor-pointer"
-                            style={{
-                              backgroundColor: "rgba(255,255,255,0.04)",
-                              color: "rgba(255,255,255,0.35)",
-                              border: "1px solid rgba(255,255,255,0.07)",
-                            }}
-                            onMouseEnter={(e) => {
-                              (
-                                e.currentTarget as HTMLElement
-                              ).style.backgroundColor =
-                                "rgba(255,255,255,0.08)";
-                              (e.currentTarget as HTMLElement).style.color =
-                                "rgba(255,255,255,0.65)";
-                            }}
-                            onMouseLeave={(e) => {
-                              (
-                                e.currentTarget as HTMLElement
-                              ).style.backgroundColor =
-                                "rgba(255,255,255,0.04)";
-                              (e.currentTarget as HTMLElement).style.color =
-                                "rgba(255,255,255,0.35)";
-                            }}
-                          >
-                            Preview
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                    template={template}
+                    i={i}
+                    hoveredId={hoveredId}
+                    setHoveredId={setHoveredId}
+                    setPreviewTemplate={setPreviewTemplate}
+                  />
                 ))}
               </motion.div>
             ) : (
