@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import ButtonGetStarted from "../../../components/ui/ButtonGetStarted";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -55,20 +56,11 @@ export default function FeatureCtaSection() {
           dalam 3 menit.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <a
-            href="/register"
-            className="px-7 py-3 rounded-xl text-[14px] font-semibold text-[#0a0a0f] transition-all duration-200 hover:-translate-y-0.5"
-            style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor = "#fff")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor =
-                "rgba(255,255,255,0.9)")
-            }
-          >
-            Buat Portfolio Gratis →
-          </a>
+          <ButtonGetStarted
+            title="Buat Portfolio Gratis →"
+            backgroundColor="rgba(255,255,255,0.9)"
+            textColor="text-[#0a0a0f]"
+          />
           <a
             href="#harga"
             className="px-7 py-3 rounded-xl text-[14px] font-medium transition-all duration-200"

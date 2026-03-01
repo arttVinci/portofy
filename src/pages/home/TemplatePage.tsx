@@ -5,6 +5,7 @@ import HeroSection from "../../components/marketing/HeroSection";
 import TemplateCard from "../../components/marketing/TemplateCard";
 import type { TemplateItem } from "../../types/ui.types";
 import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
+import ButtonGetStarted from "../../components/ui/ButtonGetStarted";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -398,21 +399,11 @@ export default function TemplatePage() {
             >
               Daftar gratis dan mulai pakai template mana saja.
             </p>
-            <a
-              href="/register"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[14px] font-semibold text-[#0a0a0f] transition-all duration-200 hover:-translate-y-0.5"
-              style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.backgroundColor =
-                  "#fff")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.backgroundColor =
-                  "rgba(255,255,255,0.9)")
-              }
-            >
-              Mulai Gratis →
-            </a>
+            <ButtonGetStarted
+              title="Mulai Gratis →"
+              backgroundColor="rgba(255,255,255,0.9)"
+              textColor="text-[#0a0a0f]"
+            />
           </motion.div>
         </section>
       </div>

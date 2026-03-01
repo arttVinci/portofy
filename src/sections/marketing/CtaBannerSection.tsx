@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import ButtonGetStarted from "../../components/ui/ButtonGetStarted";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -107,21 +108,11 @@ export default function CtaBannerSection() {
 
           {/* CTA buttons */}
           <div className="flex items-center justify-center gap-3">
-            <a
-              href="/register"
-              className="px-7 py-3.5 rounded-xl text-[14px] font-semibold text-[#0a0a0f] transition-all duration-200 hover:-translate-y-0.5"
-              style={{ backgroundColor: "rgba(255,255,255,0.92)" }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.backgroundColor =
-                  "#ffffff")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.backgroundColor =
-                  "rgba(255,255,255,0.92)")
-              }
-            >
-              Buat Portfolio Gratis →
-            </a>
+            <ButtonGetStarted
+              title="Buat Portfolio Gratis →"
+              backgroundColor="rgba(255,255,255,0.9)"
+              textColor="text-[#0a0a0f]"
+            />
             <a
               href="#template"
               className="px-7 py-3.5 rounded-xl text-[14px] font-medium transition-all duration-200"
