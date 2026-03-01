@@ -288,10 +288,33 @@ export default function Navbar() {
         {/* ── Brand ── */}
         <a
           href="/"
-          className="flex-none font-bold text-[18px] tracking-[-0.02em] focus:outline-none"
+          className="flex-none flex items-center gap-2.5 focus:outline-none"
           style={{ color: brandColor, transition: "color 0.4s ease" }}
         >
-          PortofId
+          <img
+            src="../../../public/images/portofLogo.png"
+            alt="portof logo"
+            className="w-11 h-11"
+          />
+
+          <span
+            className="text-[25px] font-semibold"
+            style={{
+              letterSpacing: "-0.025em",
+              transition: "opacity 0.4s ease",
+            }}
+          >
+            <span
+              style={{ color: isDark ? "rgba(255,255,255,0.9)" : "#4b5563" }}
+            >
+              por
+            </span>
+            <span
+              style={{ color: isDark ? "rgba(255,255,255,0.32)" : "#9ca3af" }}
+            >
+              tof
+            </span>
+          </span>
         </a>
 
         <div className="flex items-center gap-0.5">
