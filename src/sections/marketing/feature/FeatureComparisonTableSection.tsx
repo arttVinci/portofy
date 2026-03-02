@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import ChecklistIcon from "../../../components/marketing/ChecklistIcon";
+import ComparisonTable from "../../../components/marketing/ComparisonTable";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -11,14 +12,39 @@ const fadeUp = (delay = 0) => ({
 });
 
 const comparisonItems = [
-  { label: "Tidak perlu coding", us: true, diy: false, notion: false },
-  { label: "Template profesional", us: true, diy: false, notion: false },
-  { label: "URL bersih", us: true, diy: true, notion: false },
-  { label: "Custom domain", us: true, diy: true, notion: false },
-  { label: "Analytics bawaan", us: true, diy: false, notion: false },
-  { label: "SEO otomatis", us: true, diy: false, notion: false },
-  { label: "AI Bio Generator", us: true, diy: false, notion: false },
-  { label: "Siap dalam 3 menit", us: true, diy: false, notion: false },
+  {
+    label: "Tidak perlu coding",
+    feature1: true,
+    feature2: false,
+    feature3: false,
+  },
+  {
+    label: "Template profesional",
+    feature1: true,
+    feature2: false,
+    feature3: false,
+  },
+  { label: "URL bersih", feature1: true, feature2: true, feature3: false },
+  { label: "Custom domain", feature1: true, feature2: true, feature3: false },
+  {
+    label: "Analytics bawaan",
+    feature1: true,
+    feature2: false,
+    feature3: false,
+  },
+  { label: "SEO otomatis", feature1: true, feature2: false, feature3: false },
+  {
+    label: "AI Bio Generator",
+    feature1: true,
+    feature2: false,
+    feature3: false,
+  },
+  {
+    label: "Siap dalam 3 menit",
+    feature1: true,
+    feature2: false,
+    feature3: false,
+  },
 ];
 
 export default function FeatureComparisonTableSection() {
@@ -88,27 +114,12 @@ export default function FeatureComparisonTableSection() {
 
         {/* Rows */}
         {comparisonItems.map((item, i) => (
-          <div
+          <ComparisonTable
             key={item.label}
-            className="grid grid-cols-4 px-5 py-3.5"
-            style={{
-              backgroundColor: i % 2 === 0 ? "#0e0e14" : "#0a0a0f",
-              borderBottom:
-                i < comparisonItems.length - 1
-                  ? "1px solid rgba(255,255,255,0.04)"
-                  : "none",
-            }}
-          >
-            <p
-              className="text-[12px]"
-              style={{ color: "rgba(255,255,255,0.5)" }}
-            >
-              {item.label}
-            </p>
-            <ChecklistIcon val={item.us} />
-            <ChecklistIcon val={item.diy} />
-            <ChecklistIcon val={item.notion} />
-          </div>
+            item={item}
+            i={i}
+            itemLength={comparisonItems.length}
+          />
         ))}
       </motion.div>
     </section>

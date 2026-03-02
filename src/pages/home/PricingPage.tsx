@@ -2,6 +2,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Minus, Plus } from "lucide-react";
 import HeroSection from "../../components/marketing/HeroSection";
+import ChecklistIcon from "../../components/marketing/ChecklistIcon";
+import ComparisonTable from "../../components/marketing/ComparisonTable";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -84,59 +86,134 @@ const comparisonGroups = [
     rows: [
       {
         label: "Jumlah portfolio",
-        free: "1",
-        pro: "Tidak terbatas",
-        team: "Tidak terbatas",
+        feature1: "1",
+        feature2: "Tidak terbatas",
+        feature3: "Tidak terbatas",
       },
       {
         label: "Template tersedia",
-        free: "3 template",
-        pro: "Semua template",
-        team: "Semua template",
+        feature1: "3 template",
+        feature2: "Semua template",
+        feature3: "Semua template",
       },
       {
         label: "URL portofolio.id/username",
-        free: true,
-        pro: true,
-        team: true,
+        feature1: true,
+        feature2: true,
+        feature3: true,
       },
-      { label: "Custom domain", free: false, pro: true, team: true },
-      { label: "Hapus watermark", free: false, pro: true, team: true },
+      {
+        label: "Custom domain",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
+      {
+        label: "Hapus watermark",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
     ],
   },
   {
     group: "Analytics & SEO",
     rows: [
-      { label: "Statistik views dasar", free: true, pro: true, team: true },
-      { label: "Analytics lengkap", free: false, pro: true, team: true },
-      { label: "Sumber traffic", free: false, pro: true, team: true },
-      { label: "SEO otomatis", free: true, pro: true, team: true },
+      {
+        label: "Statistik views dasar",
+        feature1: true,
+        feature2: true,
+        feature3: true,
+      },
+      {
+        label: "Analytics lengkap",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
+      {
+        label: "Sumber traffic",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
+      { label: "SEO otomatis", feature1: true, feature2: true, feature3: true },
     ],
   },
   {
     group: "Fitur Lanjutan",
     rows: [
-      { label: "AI Bio Generator", free: false, pro: true, team: true },
-      { label: "Export PDF", free: false, pro: true, team: true },
-      { label: "Password protect", free: false, pro: true, team: true },
+      {
+        label: "AI Bio Generator",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
+      { label: "Export PDF", feature1: false, feature2: true, feature3: true },
+      {
+        label: "Password protect",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
     ],
   },
   {
     group: "Team & Admin",
     rows: [
-      { label: "Dashboard admin", free: false, pro: false, team: true },
-      { label: "Hingga 50 anggota", free: false, pro: false, team: true },
-      { label: "Bulk onboarding", free: false, pro: false, team: true },
-      { label: "Laporan tim", free: false, pro: false, team: true },
+      {
+        label: "Dashboard admin",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
+      {
+        label: "Hingga 50 anggota",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
+      {
+        label: "Bulk onboarding",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
+      {
+        label: "Laporan tim",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
     ],
   },
   {
     group: "Support",
     rows: [
-      { label: "Panduan & dokumentasi", free: true, pro: true, team: true },
-      { label: "Email support", free: false, pro: true, team: true },
-      { label: "Priority support", free: false, pro: false, team: true },
-      { label: "Onboarding khusus", free: false, pro: false, team: true },
+      {
+        label: "Panduan & dokumentasi",
+        feature1: true,
+        feature2: true,
+        feature3: true,
+      },
+      {
+        label: "Email support",
+        feature1: false,
+        feature2: true,
+        feature3: true,
+      },
+      {
+        label: "Priority support",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
+      {
+        label: "Onboarding khusus",
+        feature1: false,
+        feature2: false,
+        feature3: true,
+      },
     ],
   },
 ];
@@ -177,41 +254,6 @@ function formatPrice(price: number) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price);
-}
-
-function CellValue({ val }: { val: boolean | string }) {
-  if (typeof val === "string") {
-    return (
-      <p
-        className="text-[12px] text-center font-medium"
-        style={{ color: "rgba(255,255,255,0.55)" }}
-      >
-        {val}
-      </p>
-    );
-  }
-  return val ? (
-    <div className="flex justify-center">
-      <div
-        className="size-5 rounded-full flex items-center justify-center"
-        style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-      >
-        <Check
-          size={10}
-          strokeWidth={2.5}
-          style={{ color: "rgba(255,255,255,0.6)" }}
-        />
-      </div>
-    </div>
-  ) : (
-    <div className="flex justify-center">
-      <Minus
-        size={12}
-        strokeWidth={1.5}
-        style={{ color: "rgba(255,255,255,0.15)" }}
-      />
-    </div>
-  );
 }
 
 export default function PricingPage() {
@@ -592,7 +634,7 @@ export default function PricingPage() {
                   }}
                 >
                   <p
-                    className="text-[10px] font-bold uppercase tracking-[0.1em]"
+                    className="text-[10px] font-bold uppercase tracking-wides"
                     style={{ color: "rgba(255,255,255,0.2)" }}
                   >
                     {group.group}
@@ -600,28 +642,13 @@ export default function PricingPage() {
                 </div>
 
                 {/* Rows */}
-                {group.rows.map((row, ri) => (
-                  <div
-                    key={row.label}
-                    className="grid grid-cols-4 px-6 py-3.5"
-                    style={{
-                      backgroundColor: ri % 2 === 0 ? "#0e0e14" : "#0a0a0f",
-                      borderBottom:
-                        ri < group.rows.length - 1
-                          ? "1px solid rgba(255,255,255,0.03)"
-                          : "none",
-                    }}
-                  >
-                    <p
-                      className="text-[12px]"
-                      style={{ color: "rgba(255,255,255,0.5)" }}
-                    >
-                      {row.label}
-                    </p>
-                    <CellValue val={row.free} />
-                    <CellValue val={row.pro} />
-                    <CellValue val={row.team} />
-                  </div>
+                {group.rows.map((item, i) => (
+                  <ComparisonTable
+                    key={item.label}
+                    item={item}
+                    i={i}
+                    itemLength={group.rows.length}
+                  />
                 ))}
               </div>
             ))}

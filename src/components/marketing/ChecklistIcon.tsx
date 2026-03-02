@@ -1,32 +1,29 @@
+import { Check, Minus } from "lucide-react";
+
 interface ChecklistIconProps {
-  val: boolean;
+  val: boolean | string;
 }
 
 export default function ChecklistIcon({ val }: ChecklistIconProps) {
   return val ? (
-    <div className="flex items-center justify-center">
+    <div className="flex justify-center">
       <div
         className="size-5 rounded-full flex items-center justify-center"
-        style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+        style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
       >
-        <svg
-          className="size-3"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="rgba(255,255,255,0.7)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20 6L9 17l-5-5" />
-        </svg>
+        <Check
+          size={10}
+          strokeWidth={2.5}
+          style={{ color: "rgba(255,255,255,0.6)" }}
+        />
       </div>
     </div>
   ) : (
-    <div className="flex items-center justify-center">
-      <div
-        className="size-1.5 rounded-full"
-        style={{ backgroundColor: "rgba(255,255,255,0.15)" }}
+    <div className="flex justify-center">
+      <Minus
+        size={12}
+        strokeWidth={1.5}
+        style={{ color: "rgba(255,255,255,0.15)" }}
       />
     </div>
   );
