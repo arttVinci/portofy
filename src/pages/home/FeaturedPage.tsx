@@ -57,17 +57,17 @@ export default function FiturPage() {
       />
 
       <div className="relative z-10">
-        {/* ── HERO ── */}
+        {/* Hero Section */}
         <HeroSection
           tagline="Features"
           title="Everything you need"
           italicTitle="is already here."
           description="From a no-code editor to comprehensive analytics — one platform for building a truly professional portfolio."
         />
-        {/* ── FEATURE GRID ── */}
+        {/* FeatureGrid Section */}
         <FeatureGridSection />
 
-        {/* ── SPOTLIGHT SECTIONS ── */}
+        {/* Spotlights Section */}
         {spotlights.map((s, idx) => (
           <FeatureSpotlightSection key={idx} spotlight={s} />
         ))}

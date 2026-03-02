@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
-import type { TemplateItem } from "../../types/ui.types";
+import type { TemplateItem } from "../../../types/ui.types";
 import { AnimatePresence, motion } from "framer-motion";
-import TemplateCard from "../../components/marketing/TemplateCard";
-import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
-import CategoryFilters from "../../components/marketing/CategoryFilters";
-import EmptySearch from "../../components/ui/EmptySearch";
-import SearchInput from "../../components/ui/SearchInput";
+import TemplateCard from "../../../components/marketing/TemplateCard";
+import PreviewModalTemplate from "../../../components/marketing/PreviewModalTemplate";
+import CategoryFilters from "../../../components/marketing/CategoryFilters";
+import EmptySearch from "../../../components/ui/EmptySearch";
+import SearchInput from "../../../components/ui/SearchInput";
 
 interface TemplateShowcaseSectionProps {
   templates: TemplateItem[];

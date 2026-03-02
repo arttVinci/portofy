@@ -2,7 +2,7 @@ import HeroSection from "../../components/marketing/HeroSection";
 import type { TemplateItem } from "../../types/ui.types";
 import CtaBanner from "../../components/marketing/CtaBanner";
 import CtaButton from "../../components/ui/CtaButton";
-import TemplateShowcaseSection from "../../sections/marketing/TemplateShowcaseSection";
+import TemplateShowcaseSection from "../../sections/marketing/template/TemplateShowcaseSection";
 
 // Template Data
 const templates: TemplateItem[] = [
