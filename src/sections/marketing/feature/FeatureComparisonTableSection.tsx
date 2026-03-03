@@ -1,15 +1,8 @@
 import { motion } from "framer-motion";
-import ChecklistIcon from "../../../components/marketing/ChecklistIcon";
 import ComparisonTable from "../../../components/marketing/ComparisonTable";
+import SectionHeader from "../../../components/marketing/SectionHeader";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.6, ease: smooth, delay },
-});
 
 const comparisonItems = [
   {
@@ -53,23 +46,11 @@ export default function FeatureComparisonTableSection() {
       id="feature-comparison-table-section"
       className="py-20 max-w-3xl mx-auto px-6"
     >
-      <motion.div {...fadeUp(0)} className="text-center mb-12">
-        <p
-          className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-          style={{ color: "rgba(255,255,255,0.25)" }}
-        >
-          Perbandingan
-        </p>
-        <h2
-          className="text-[36px] font-normal leading-[1.1] tracking-[-0.03em] text-white"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          Kenapa pilih{" "}
-          <span className="italic" style={{ color: "rgba(255,255,255,0.4)" }}>
-            platform kami?
-          </span>
-        </h2>
-      </motion.div>
+      <SectionHeader
+        tag="Perbandingan"
+        title="Kenapa pilih"
+        italicTitle="platform kami?"
+      />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
