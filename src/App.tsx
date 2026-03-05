@@ -21,6 +21,7 @@ import AboutPage from "./pages/public/AboutPage";
 import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ProjectPage from "./pages/public/ProjectPage";
+import Register from "./pages/auth/Register";
 
 export default function App() {
   return (
@@ -36,6 +37,8 @@ export default function App() {
         <Route path="changelog" element={<ChangelogPage />} />
         <Route path="contact" element={<ContactPage />} />
       </Route>
+
+      <Route path="/register" element={<Register />} />
 
       <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<PortfolioHomePage />} />{" "}
