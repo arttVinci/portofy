@@ -4,9 +4,6 @@ import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 
 import SuccessScreen from "../../components/auth/SuccessScreen";
 import InputLabel from "../../components/auth/InputLabel";
-import CvUpload from "../../components/auth/CvUploud";
-import AvatarUpload from "../../components/auth/AvatarUploud";
-import TagInput from "../../components/auth/TagInput";
 import TemplateCard from "../../components/marketing/TemplateCard";
 
 import IStyle from "../../components/utils/IStyle";
@@ -15,6 +12,7 @@ import type { TemplateItem } from "../../types/ui.types";
 
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
+import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -512,7 +510,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* ── STEP 2: OTP ── */}
+                        {/* Step 2 Otp Code Email*/}
                         {step === 2 && (
                           <OtpCodeStepper
                             email={form.email}
@@ -521,163 +519,25 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* ── STEP 3: kiri form, kanan CV upload ── */}
+                        {/* Step 3 Create User Profile and CV Upload */}
                         {step === 3 && (
-                          <div
-                            className="grid grid-cols-2 divide-x"
-                            style={{ borderColor: "rgba(255,255,255,0.06)" }}
-                          >
-                            {/* Left: profile form */}
-                            <div
-                              className="p-5 space-y-3 overflow-y-auto"
-                              style={{ maxHeight: 480 }}
-                            >
-                              <p
-                                className="text-[11px] font-semibold uppercase tracking-[0.08em]"
-                                style={{ color: "rgba(255,255,255,0.25)" }}
-                              >
-                                Isi manual
-                              </p>
-
-                              {/* Avatar + Nama */}
-                              <div className="flex items-start gap-4">
-                                <AvatarUpload
-                                  preview={avatarPreview}
-                                  onChange={setAvatarPreview}
-                                />
-                                <div className="flex-1">
-                                  <InputLabel text="Nama Lengkap" />
-                                  <input
-                                    type="text"
-                                    placeholder="Nama di portfolio"
-                                    value={form.fullName}
-                                    onChange={(e) =>
-                                      set("fullName", e.target.value)
-                                    }
-                                    onFocus={() => setFocused("fullName")}
-                                    onBlur={() => setFocused(null)}
-                                    style={IStyle(focused === "fullName")}
-                                  />
-                                </div>
-                              </div>
-
-                              <div>
-                                <InputLabel
-                                  text="Bio Singkat"
-                                  hint="1 kalimat"
-                                />
-                                <input
-                                  type="text"
-                                  placeholder="Seorang designer yang suka clean UI"
-                                  value={form.bio}
-                                  onChange={(e) => set("bio", e.target.value)}
-                                  onFocus={() => setFocused("bio")}
-                                  onBlur={() => setFocused(null)}
-                                  style={IStyle(focused === "bio")}
-                                />
-                              </div>
-
-                              <div>
-                                <InputLabel text="About" hint="opsional" />
-                                <textarea
-                                  rows={3}
-                                  placeholder="Ceritakan lebih detail tentang dirimu..."
-                                  value={form.about}
-                                  onChange={(e) => set("about", e.target.value)}
-                                  onFocus={() => setFocused("about")}
-                                  onBlur={() => setFocused(null)}
-                                  style={
-                                    {
-                                      ...IStyle(focused === "about"),
-                                      resize: "none",
-                                    } as React.CSSProperties
-                                  }
-                                />
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-2.5">
-                                <div>
-                                  <InputLabel
-                                    text="Tanggal Lahir"
-                                    hint="opsional"
-                                  />
-                                  <input
-                                    type="date"
-                                    value={form.birthdate}
-                                    onChange={(e) =>
-                                      set("birthdate", e.target.value)
-                                    }
-                                    onFocus={() => setFocused("birthdate")}
-                                    onBlur={() => setFocused(null)}
-                                    style={{
-                                      ...IStyle(focused === "birthdate"),
-                                      colorScheme: "dark",
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  <InputLabel
-                                    text="Alamat / Kota"
-                                    hint="opsional"
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="Jakarta, ID"
-                                    value={form.address}
-                                    onChange={(e) =>
-                                      set("address", e.target.value)
-                                    }
-                                    onFocus={() => setFocused("address")}
-                                    onBlur={() => setFocused(null)}
-                                    style={IStyle(focused === "address")}
-                                  />
-                                </div>
-                              </div>
-
-                              <div>
-                                <InputLabel
-                                  text="Website / Sosmed"
-                                  hint="opsional"
-                                />
-                                <input
-                                  type="text"
-                                  placeholder="https://linkedin.com/in/username"
-                                  value={form.website}
-                                  onChange={(e) =>
-                                    set("website", e.target.value)
-                                  }
-                                  onFocus={() => setFocused("website")}
-                                  onBlur={() => setFocused(null)}
-                                  style={IStyle(focused === "website")}
-                                />
-                              </div>
-
-                              <div>
-                                <InputLabel
-                                  text="Tags"
-                                  hint={`${tags.length}/10`}
-                                />
-                                <TagInput tags={tags} onChange={setTags} />
-                              </div>
-                            </div>
-
-                            {/* Right: CV upload */}
-                            <div className="p-5 flex flex-col">
-                              <p
-                                className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-3"
-                                style={{ color: "rgba(255,255,255,0.25)" }}
-                              >
-                                Atau upload CV
-                              </p>
-                              <div className="flex-1">
-                                <CvUpload
-                                  file={cvFile}
-                                  onFile={setCvFile}
-                                  onClear={() => setCvFile(null)}
-                                />
-                              </div>
-                            </div>
-                          </div>
+                          <CreateUserProfile
+                            fullName={form.fullName}
+                            bio={form.bio}
+                            about={form.about}
+                            birthdate={form.birthdate}
+                            address={form.address}
+                            website={form.website}
+                            tags={tags}
+                            avatarPreview={avatarPreview}
+                            cvFile={cvFile}
+                            focused={focused}
+                            set={set}
+                            setFocused={setFocused}
+                            setAvatarPreview={setAvatarPreview}
+                            setTags={setTags}
+                            setCvFile={setCvFile}
+                          />
                         )}
 
                         {/* ── STEP 4: profesi & skill ── */}
