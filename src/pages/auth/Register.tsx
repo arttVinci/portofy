@@ -14,7 +14,7 @@ import IStyle from "../../components/utils/IStyle";
 
 import type { TemplateItem } from "../../types/ui.types";
 
-import CreateAccountSection from "../../sections/auth/CreateAccountSection";
+import CreateAccountSection from "../../sections/auth/Register/StepperForm/CreateAccountSection";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 

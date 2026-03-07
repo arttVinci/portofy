@@ -1,8 +1,8 @@
 import { Check, Eye, EyeOff } from "lucide-react";
-import InputLabel from "../../components/auth/InputLabel";
-import IStyle from "../../components/utils/IStyle";
+import InputLabel from "../../../../components/auth/InputLabel";
+import IStyle from "../../../../components/utils/IStyle";
 
-import SsoButton from "../../components/auth/ssoButton";
+import SsoButton from "../../../../components/auth/ssoButton";
 
 interface CreateAccountSectionProps {
   username: string;
