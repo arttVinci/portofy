@@ -1,10 +1,9 @@
 import { Check, Eye, EyeOff } from "lucide-react";
 import InputLabel from "../../../../components/auth/InputLabel";
 import IStyle from "../../../../components/utils/IStyle";
+import SsoButton from "../../../../components/auth/SsoButton";
 
-import SsoButton from "../../../../components/auth/ssoButton";
-
-interface CreateAccountSectionProps {
+interface CreateAccountStepperProps {
   username: string;
   email: string;
   password: string;
@@ -18,7 +17,7 @@ interface CreateAccountSectionProps {
   setShowPw: (v: boolean) => void;
   setShowCpw: (v: boolean) => void;
 }
-export default function CreateAccountSection({
+export default function CreateAccountSteppera({
   username,
   email,
   password,
@@ -31,9 +30,9 @@ export default function CreateAccountSection({
   setFocused,
   setShowPw,
   setShowCpw,
-}: CreateAccountSectionProps) {
+}: CreateAccountStepperProps) {
   return (
-    <section
+    <div
       className="grid grid-cols-2 divide-x"
       style={{ borderColor: "rgba(255,255,255,0.06)" }}
     >
@@ -240,6 +239,6 @@ export default function CreateAccountSection({
           SSO otomatis melanjutkan ke step berikutnya.
         </p>
       </div>
-    </section>
+    </div>
   );
 }

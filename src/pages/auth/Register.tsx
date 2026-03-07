@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 
 import SuccessScreen from "../../components/auth/SuccessScreen";
 import InputLabel from "../../components/auth/InputLabel";
 import CvUpload from "../../components/auth/CvUploud";
 import AvatarUpload from "../../components/auth/AvatarUploud";
 import TagInput from "../../components/auth/TagInput";
-import OtpInput from "../../components/auth/OtpInput";
 import TemplateCard from "../../components/marketing/TemplateCard";
 
 import IStyle from "../../components/utils/IStyle";
 
 import type { TemplateItem } from "../../types/ui.types";
 
-import CreateAccountSection from "../../sections/auth/Register/StepperForm/CreateAccountSection";
+import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
+import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -496,7 +496,7 @@ export default function RegisterPage() {
                       >
                         {/* Step 1 Create Account */}
                         {step === 1 && (
-                          <CreateAccountSection
+                          <CreateAccountStepper
                             username={form.username}
                             email={form.email}
                             password={form.password}
@@ -514,50 +514,11 @@ export default function RegisterPage() {
 
                         {/* ── STEP 2: OTP ── */}
                         {step === 2 && (
-                          <div className="p-10 flex flex-col items-center text-center space-y-6">
-                            <div>
-                              <p
-                                className="text-[13px] mb-1"
-                                style={{ color: "rgba(255,255,255,0.5)" }}
-                              >
-                                Kode 6 digit dikirim ke
-                              </p>
-                              <p
-                                className="text-[14px] font-semibold"
-                                style={{ color: "rgba(255,255,255,0.85)" }}
-                              >
-                                {form.email}
-                              </p>
-                            </div>
-
-                            <OtpInput value={otp} onChange={setOtp} />
-
-                            <div className="flex flex-col items-center gap-2">
-                              <p
-                                className="text-[11px]"
-                                style={{ color: "rgba(255,255,255,0.25)" }}
-                              >
-                                Tidak menerima kode?
-                              </p>
-                              <button
-                                type="button"
-                                className="text-[12px] font-semibold cursor-pointer transition-colors duration-150"
-                                style={{ color: "rgba(255,255,255,0.45)" }}
-                                onMouseEnter={(e) =>
-                                  ((
-                                    e.currentTarget as HTMLElement
-                                  ).style.color = "rgba(255,255,255,0.8)")
-                                }
-                                onMouseLeave={(e) =>
-                                  ((
-                                    e.currentTarget as HTMLElement
-                                  ).style.color = "rgba(255,255,255,0.45)")
-                                }
-                              >
-                                Kirim ulang kode
-                              </button>
-                            </div>
-                          </div>
+                          <OtpCodeStepper
+                            email={form.email}
+                            otp={otp}
+                            setOtp={setOtp}
+                          />
                         )}
 
                         {/* ── STEP 3: kiri form, kanan CV upload ── */}
