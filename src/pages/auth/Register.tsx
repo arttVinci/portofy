@@ -494,7 +494,7 @@ export default function RegisterPage() {
                         exit="exit"
                         transition={{ duration: 0.22, ease: smooth }}
                       >
-                        {/* ── STEP 1: kiri email, kanan SSO ── */}
+                        {/* Step 1 Create Account */}
                         {step === 1 && (
                           <CreateAccountSection
                             username={form.username}
