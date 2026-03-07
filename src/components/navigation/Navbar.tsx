@@ -215,18 +215,17 @@ export default function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { isDark, navVisible } = useNavTheme([
     "hero-section",
-    "template",
+    "template-page",
     "preview",
     "pricing",
     "faq",
     "cta-banner",
     "feature-page",
     "featured",
-    "feature-hero-section",
-    "feature-grid-section",
-    "feature-spotlight-section",
-    "feature-comparison-table-section",
-    "template-page",
+    "blog",
+    "about",
+    "changelog",
+    "contact",
   ]);
 
   function openMenu() {

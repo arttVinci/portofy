@@ -99,6 +99,7 @@ export default function AboutPage() {
 
   return (
     <div
+      id="about"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

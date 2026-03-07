@@ -130,6 +130,7 @@ export default function FAQPage() {
 
   return (
     <div
+      id="faq"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

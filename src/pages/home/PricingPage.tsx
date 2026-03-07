@@ -262,6 +262,7 @@ export default function PricingPage() {
 
   return (
     <div
+      id="pricing"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

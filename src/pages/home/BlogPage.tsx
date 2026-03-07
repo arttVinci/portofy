@@ -378,6 +378,7 @@ export default function BlogPage() {
 
   return (
     <div
+      id="blog"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

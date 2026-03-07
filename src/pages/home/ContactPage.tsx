@@ -83,6 +83,7 @@ export default function ContactPage() {
 
   return (
     <div
+      id="contact"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

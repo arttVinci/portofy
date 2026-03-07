@@ -1,21 +1,21 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Check,
-  Eye,
-  EyeOff,
-  ArrowRight,
-  ArrowLeft,
-  ExternalLink,
-  LayoutDashboard,
-  Camera,
-  X,
-  Plus,
-} from "lucide-react";
+import { Check, Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react";
+
+import SuccessScreen from "../../components/auth/SuccessScreen";
+import InputLabel from "../../components/auth/InputLabel";
+import CvUpload from "../../components/auth/CvUploud";
+import AvatarUpload from "../../components/auth/AvatarUploud";
+import TagInput from "../../components/auth/TagInput";
+import OtpInput from "../../components/auth/OtpInput";
+import TemplateCard from "../../components/marketing/TemplateCard";
+
+import IStyle from "../../components/utils/IStyle";
+
+import type { TemplateItem } from "../../types/ui.types";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-// ── Steps ─────────────────────────────────────────────────────────────────────
 const steps = [
   { num: 1, title: "Buat Akun", desc: "Username, email & password" },
   { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
@@ -24,11 +24,138 @@ const steps = [
   { num: 5, title: "Pilih Template", desc: "Tampilan awal" },
 ];
 
-const templates = [
-  { id: "minimal", name: "Minimal", desc: "Bersih, fokus konten" },
-  { id: "editorial", name: "Editorial", desc: "Tipografi bold" },
-  { id: "grid", name: "Grid", desc: "Galeri berbasis grid" },
-  { id: "resume", name: "Résumé", desc: "Format CV modern" },
+const templates: TemplateItem[] = [
+  {
+    id: "1",
+    name: "Minimal",
+    category: "Minimal",
+    tags: ["Clean", "Developer", "Simple"],
+    description: "Bersih dan fokus. Biarkan karya kamu yang bicara.",
+    badge: "Paling Populer",
+    views: "8.2k",
+    isPro: false,
+    lines: [
+      { w: "75%", h: 10 },
+      { w: "50%", h: 6 },
+      { w: "60%", h: 6 },
+    ],
+  },
+  {
+    id: "2",
+    name: "Editorial",
+    category: "Creative",
+    tags: ["Bold", "Designer", "Typography"],
+    description: "Layout magazine dengan tipografi kuat dan berani.",
+    badge: "Trending",
+    views: "6.1k",
+    isPro: false,
+    lines: [
+      { w: "90%", h: 14 },
+      { w: "65%", h: 6 },
+      { w: "40%", h: 6 },
+    ],
+  },
+  {
+    id: "3",
+    name: "Grid",
+    category: "Creative",
+    tags: ["Gallery", "Visual", "Photographer"],
+    description: "Berbasis grid untuk menampilkan portofolio visual.",
+    views: "4.5k",
+    isPro: false,
+    lines: [
+      { w: "55%", h: 8 },
+      { w: "70%", h: 6 },
+      { w: "45%", h: 6 },
+    ],
+  },
+  {
+    id: "4",
+    name: "Résumé",
+    category: "Professional",
+    tags: ["Corporate", "Business", "Formal"],
+    description: "Profesional dan terstruktur. Cocok untuk fresh graduate.",
+    badge: "Baru",
+    views: "3.4k",
+    isPro: false,
+    lines: [
+      { w: "60%", h: 8 },
+      { w: "80%", h: 6 },
+      { w: "55%", h: 6 },
+    ],
+  },
+  {
+    id: "5",
+    name: "Mono",
+    category: "Minimal",
+    tags: ["Monochrome", "Writer", "Blogger"],
+    description: "Monokrom dan tenang. Ideal untuk penulis & peneliti.",
+    views: "2.9k",
+    isPro: true,
+    lines: [
+      { w: "70%", h: 8 },
+      { w: "55%", h: 6 },
+      { w: "65%", h: 6 },
+    ],
+  },
+  {
+    id: "6",
+    name: "Studio",
+    category: "Professional",
+    tags: ["Agency", "Bold", "Freelancer"],
+    description: "Berkarakter kuat. Tampil beda dari ribuan pelamar.",
+    views: "2.1k",
+    isPro: true,
+    lines: [
+      { w: "85%", h: 12 },
+      { w: "50%", h: 6 },
+      { w: "60%", h: 6 },
+    ],
+  },
+  {
+    id: "7",
+    name: "Slate",
+    category: "Professional",
+    tags: ["Modern", "Corporate"],
+    description: "Modern dan profesional. Layout dua kolom yang terorganisir.",
+    views: "3.9k",
+    isPro: false,
+    lines: [
+      { w: "65%", h: 9 },
+      { w: "45%", h: 6 },
+      { w: "70%", h: 6 },
+    ],
+  },
+  {
+    id: "8",
+    name: "Dusk",
+    category: "Minimal",
+    tags: ["Dark", "Elegant"],
+    description: "Dark mode elegan dengan tipografi yang kuat dan premium.",
+    badge: "Baru",
+    views: "2.1k",
+    isPro: true,
+    lines: [
+      { w: "80%", h: 11 },
+      { w: "60%", h: 6 },
+      { w: "50%", h: 6 },
+    ],
+  },
+  {
+    id: "9",
+    name: "Bloom",
+    category: "Creative",
+    tags: ["Pastel", "Playful"],
+    description:
+      "Warna lembut dan playful. Untuk illustrator dan content creator.",
+    views: "5.5k",
+    isPro: false,
+    lines: [
+      { w: "72%", h: 9 },
+      { w: "55%", h: 6 },
+      { w: "62%", h: 6 },
+    ],
+  },
 ];
 
 const professions = [
@@ -45,704 +172,6 @@ const professions = [
   "Lainnya",
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function iStyle(focused: boolean): React.CSSProperties {
-  return {
-    width: "100%",
-    backgroundColor: "rgba(255,255,255,0.04)",
-    border: `1px solid ${focused ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)"}`,
-    borderRadius: 10,
-    padding: "9px 12px",
-    fontSize: 13,
-    color: "rgba(255,255,255,0.85)",
-    outline: "none",
-    transition: "border-color 0.15s",
-    fontFamily: "'Inter', sans-serif",
-  };
-}
-
-function Lbl({ text, hint }: { text: string; hint?: string }) {
-  return (
-    <div className="flex items-center justify-between mb-1.5">
-      <span
-        className="text-[10px] font-semibold uppercase tracking-[0.08em]"
-        style={{ color: "rgba(255,255,255,0.3)" }}
-      >
-        {text}
-      </span>
-      {hint && (
-        <span
-          className="text-[10px]"
-          style={{ color: "rgba(255,255,255,0.18)" }}
-        >
-          {hint}
-        </span>
-      )}
-    </div>
-  );
-}
-
-// ── Template Card ─────────────────────────────────────────────────────────────
-function TemplateCard({
-  t,
-  selected,
-  onClick,
-}: {
-  t: (typeof templates)[0];
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="relative rounded-xl overflow-hidden text-left w-full cursor-pointer transition-all duration-200"
-      style={{
-        backgroundColor: "#0e0e14",
-        border: `1.5px solid ${selected ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.07)"}`,
-        transform: selected ? "translateY(-2px)" : "none",
-      }}
-    >
-      <div
-        className="h-24 relative overflow-hidden"
-        style={{
-          backgroundColor: "#111118",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        <div className="flex items-center gap-1 p-2">
-          {[0.3, 0.2, 0.12].map((o, i) => (
-            <div
-              key={i}
-              className="size-1.5 rounded-full"
-              style={{ backgroundColor: `rgba(255,255,255,${o})` }}
-            />
-          ))}
-        </div>
-        <div className="px-2.5 pb-2 space-y-1.5">
-          {t.id === "minimal" && (
-            <>
-              <div
-                className="h-2.5 rounded-full w-3/4"
-                style={{ backgroundColor: "rgba(255,255,255,0.18)" }}
-              />
-              <div className="flex gap-1 mt-1">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="h-6 flex-1 rounded-md"
-                    style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-          {t.id === "editorial" && (
-            <>
-              <div
-                className="h-4 rounded-sm w-4/5"
-                style={{ backgroundColor: "rgba(255,255,255,0.18)" }}
-              />
-              <div
-                className="h-px w-full mt-2"
-                style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-              />
-            </>
-          )}
-          {t.id === "grid" && (
-            <div className="grid grid-cols-3 gap-1 mt-1">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  className="h-5 rounded"
-                  style={{
-                    backgroundColor: `rgba(255,255,255,${0.05 + i * 0.02})`,
-                  }}
-                />
-              ))}
-            </div>
-          )}
-          {t.id === "resume" && (
-            <div className="flex gap-1.5">
-              <div className="w-1/3 space-y-1">
-                <div
-                  className="h-1.5 rounded-full"
-                  style={{ backgroundColor: "rgba(255,255,255,0.15)" }}
-                />
-                <div
-                  className="h-1.5 rounded-full"
-                  style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
-                />
-              </div>
-              <div className="flex-1 space-y-1">
-                <div
-                  className="h-1.5 rounded-full"
-                  style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                />
-                <div
-                  className="h-1.5 rounded-full w-4/5"
-                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        {selected && (
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
-          >
-            <div
-              className="size-5 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-            >
-              <Check size={10} strokeWidth={3} color="#0a0a0f" />
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="px-2.5 py-2">
-        <p
-          className="text-[12px] font-semibold"
-          style={{ color: "rgba(255,255,255,0.8)" }}
-        >
-          {t.name}
-        </p>
-        <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>
-          {t.desc}
-        </p>
-      </div>
-    </button>
-  );
-}
-
-// ── CV Upload ─────────────────────────────────────────────────────────────────
-function CvUpload({
-  file,
-  onFile,
-  onClear,
-}: {
-  file: File | null;
-  onFile: (f: File) => void;
-  onClear: () => void;
-}) {
-  const [drag, setDrag] = useState(false);
-
-  if (file) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.97 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="h-full flex flex-col items-center justify-center text-center p-6 rounded-xl"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.1)",
-        }}
-      >
-        <div
-          className="size-12 rounded-xl flex items-center justify-center mb-3"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.07)",
-            border: "1px solid rgba(255,255,255,0.1)",
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M3 2a1 1 0 0 1 1-1h6l4 4v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2z"
-              stroke="rgba(255,255,255,0.6)"
-              strokeWidth="1.2"
-              fill="none"
-            />
-            <path
-              d="M9 1v4h4"
-              stroke="rgba(255,255,255,0.35)"
-              strokeWidth="1.2"
-              fill="none"
-            />
-            <path
-              d="M5 9h6M5 11.5h4"
-              stroke="rgba(255,255,255,0.4)"
-              strokeWidth="1.1"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
-        <p
-          className="text-[12px] font-semibold mb-1 max-w-[140px] truncate"
-          style={{ color: "rgba(255,255,255,0.8)" }}
-        >
-          {file.name}
-        </p>
-        <div className="flex items-center gap-1 mb-4">
-          <span className="size-1.5 rounded-full bg-white opacity-50 animate-pulse inline-block" />
-          <span
-            className="text-[10px] font-semibold"
-            style={{ color: "rgba(255,255,255,0.4)" }}
-          >
-            Siap diproses AI
-          </span>
-        </div>
-        <button
-          onClick={onClear}
-          className="text-[11px] font-medium cursor-pointer transition-colors duration-150"
-          style={{ color: "rgba(255,255,255,0.25)" }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.color =
-              "rgba(255,255,255,0.6)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.color =
-              "rgba(255,255,255,0.25)")
-          }
-        >
-          Ganti file
-        </button>
-      </motion.div>
-    );
-  }
-
-  return (
-    <label
-      className="h-full flex flex-col items-center justify-center text-center p-6 rounded-xl cursor-pointer transition-all duration-200"
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDrag(true);
-      }}
-      onDragLeave={() => setDrag(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDrag(false);
-        const f = e.dataTransfer.files[0];
-        if (f) onFile(f);
-      }}
-      style={{
-        backgroundColor: drag
-          ? "rgba(255,255,255,0.06)"
-          : "rgba(255,255,255,0.02)",
-        border: `1.5px dashed ${drag ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.09)"}`,
-        borderRadius: 12,
-        transition: "all 0.2s",
-        minHeight: 220,
-      }}
-    >
-      <input
-        type="file"
-        accept=".pdf,.doc,.docx"
-        className="sr-only"
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) onFile(f);
-        }}
-      />
-      <div
-        className="size-10 rounded-xl flex items-center justify-center mb-3"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.09)",
-        }}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M8 11V3M8 3L5 6M8 3l3 3"
-            stroke="rgba(255,255,255,0.55)"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 12v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1"
-            stroke="rgba(255,255,255,0.2)"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-      <p
-        className="text-[13px] font-semibold mb-1"
-        style={{ color: "rgba(255,255,255,0.65)" }}
-      >
-        Upload CV
-      </p>
-      <p
-        className="text-[11px] leading-relaxed mb-3"
-        style={{ color: "rgba(255,255,255,0.28)" }}
-      >
-        AI otomatis isi form dari CV-mu
-      </p>
-      <div
-        className="px-3 py-1.5 rounded-full mb-2"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        <span
-          className="text-[10px] font-medium"
-          style={{ color: "rgba(255,255,255,0.25)" }}
-        >
-          Klik atau drag ke sini
-        </span>
-      </div>
-      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.15)" }}>
-        PDF, DOC, DOCX · maks. 5MB
-      </p>
-    </label>
-  );
-}
-
-// ── Avatar Upload ─────────────────────────────────────────────────────────────
-function AvatarUpload({
-  preview,
-  onChange,
-}: {
-  preview: string | null;
-  onChange: (url: string) => void;
-}) {
-  const ref = useRef<HTMLInputElement>(null);
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
-    onChange(url);
-  };
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <button
-        type="button"
-        onClick={() => ref.current?.click()}
-        className="relative size-20 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-200"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.05)",
-          border: "1.5px dashed rgba(255,255,255,0.12)",
-        }}
-      >
-        {preview ? (
-          <img
-            src={preview}
-            alt="avatar"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-            <Camera size={18} style={{ color: "rgba(255,255,255,0.3)" }} />
-          </div>
-        )}
-        <div
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        >
-          <Camera size={16} style={{ color: "rgba(255,255,255,0.8)" }} />
-        </div>
-      </button>
-      <input
-        ref={ref}
-        type="file"
-        accept="image/*"
-        className="sr-only"
-        onChange={handleFile}
-      />
-      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.2)" }}>
-        Foto profil
-      </p>
-    </div>
-  );
-}
-
-// ── Tag input ─────────────────────────────────────────────────────────────────
-function TagInput({
-  tags,
-  onChange,
-}: {
-  tags: string[];
-  onChange: (t: string[]) => void;
-}) {
-  const [val, setVal] = useState("");
-  const add = () => {
-    const trimmed = val.trim();
-    if (trimmed && !tags.includes(trimmed) && tags.length < 10) {
-      onChange([...tags, trimmed]);
-      setVal("");
-    }
-  };
-  const remove = (t: string) => onChange(tags.filter((x) => x !== t));
-  return (
-    <div>
-      <div className="flex flex-wrap gap-1.5 mb-2 min-h-[28px]">
-        {tags.map((t) => (
-          <span
-            key={t}
-            className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.08)",
-              color: "rgba(255,255,255,0.7)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-          >
-            {t}
-            <button
-              type="button"
-              onClick={() => remove(t)}
-              className="cursor-pointer hover:opacity-70"
-            >
-              <X size={9} />
-            </button>
-          </span>
-        ))}
-      </div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Tambah tag..."
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              add();
-            }
-          }}
-          style={{ ...iStyle(false), flex: 1, paddingTop: 7, paddingBottom: 7 }}
-        />
-        <button
-          type="button"
-          onClick={add}
-          className="size-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-150"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.07)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            color: "rgba(255,255,255,0.5)",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor =
-              "rgba(255,255,255,0.12)";
-            (e.currentTarget as HTMLElement).style.color =
-              "rgba(255,255,255,0.85)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor =
-              "rgba(255,255,255,0.07)";
-            (e.currentTarget as HTMLElement).style.color =
-              "rgba(255,255,255,0.5)";
-          }}
-        >
-          <Plus size={13} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ── Success Screen ────────────────────────────────────────────────────────────
-function SuccessScreen({ name, username }: { name: string; username: string }) {
-  const displayName = name.split(" ")[0] || username;
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.96, y: 16 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: smooth }}
-      className="rounded-2xl overflow-hidden relative"
-      style={{
-        backgroundColor: "#0e0e14",
-        border: "1px solid rgba(255,255,255,0.1)",
-      }}
-    >
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent)",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2"
-        style={{
-          width: 400,
-          height: 200,
-          background:
-            "radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, transparent 70%)",
-        }}
-      />
-      <div className="relative px-8 py-14 text-center">
-        <motion.div
-          initial={{ scale: 0, rotate: -20 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{
-            delay: 0.15,
-            duration: 0.5,
-            type: "spring",
-            stiffness: 260,
-            damping: 18,
-          }}
-          className="size-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.15)",
-          }}
-        >
-          <Check
-            size={28}
-            strokeWidth={2}
-            style={{ color: "rgba(255,255,255,0.85)" }}
-          />
-        </motion.div>
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4, ease: smooth }}
-          className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-3"
-          style={{ color: "rgba(255,255,255,0.25)" }}
-        >
-          Portfolio Berhasil Dibuat
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.38, duration: 0.45, ease: smooth }}
-          className="text-white mb-2"
-          style={{
-            fontFamily: "'Instrument Serif', serif",
-            fontSize: 28,
-            lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          Selamat datang,{" "}
-          <em style={{ color: "rgba(255,255,255,0.5)" }}>{displayName}!</em>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.46 }}
-          className="text-[13px] mb-1"
-          style={{ color: "rgba(255,255,255,0.35)" }}
-        >
-          Portfolio kamu sudah live di
-        </motion.p>
-        <motion.a
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.52 }}
-          href={`https://portof.id/${username}`}
-          className="inline-flex items-center gap-1.5 text-[13px] font-semibold mb-8 hover:opacity-70 transition-opacity"
-          style={{ color: "rgba(255,255,255,0.6)" }}
-        >
-          portof.id/{username || "username"} <ExternalLink size={12} />
-        </motion.a>
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.4, ease: smooth }}
-          className="flex flex-col sm:flex-row gap-3"
-        >
-          <a
-            href={`https://portof.id/${username}`}
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-semibold transition-all duration-200 hover:-translate-y-0.5"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.9)",
-              color: "#0a0a0f",
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor = "#fff")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor =
-                "rgba(255,255,255,0.9)")
-            }
-          >
-            <ExternalLink size={15} /> Lihat Portfolioku
-          </a>
-          <a
-            href="/dashboard"
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 hover:-translate-y-0.5"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.05)",
-              color: "rgba(255,255,255,0.6)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.color =
-                "rgba(255,255,255,0.85)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(255,255,255,0.2)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.color =
-                "rgba(255,255,255,0.6)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(255,255,255,0.1)";
-            }}
-          >
-            <LayoutDashboard size={15} /> Ke Dashboard
-          </a>
-        </motion.div>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.75 }}
-          className="mt-5 text-[11px]"
-          style={{ color: "rgba(255,255,255,0.18)" }}
-        >
-          Kamu bisa edit portfolio kapan saja dari dashboard.
-        </motion.p>
-      </div>
-    </motion.div>
-  );
-}
-
-// ── OTP Input ─────────────────────────────────────────────────────────────────
-function OtpInput({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  const refs = Array.from({ length: 6 }, () => useRef<HTMLInputElement>(null));
-  const digits = value.padEnd(6, "").split("").slice(0, 6);
-
-  const handleKey = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace") {
-      const next = value.slice(0, -1);
-      onChange(next);
-      if (i > 0) refs[i - 1].current?.focus();
-    }
-  };
-
-  const handleChange = (i: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const char = e.target.value.replace(/\D/g, "").slice(-1);
-    if (!char) return;
-    const arr = digits.map((d, idx) => (idx === i ? char : d));
-    const joined = arr.join("").replace(/ /g, "");
-    onChange(joined);
-    if (i < 5) refs[i + 1].current?.focus();
-  };
-
-  return (
-    <div className="flex gap-2 justify-center">
-      {digits.map((d, i) => (
-        <input
-          key={i}
-          ref={refs[i]}
-          type="text"
-          inputMode="numeric"
-          maxLength={1}
-          value={d === " " ? "" : d}
-          onChange={(e) => handleChange(i, e)}
-          onKeyDown={(e) => handleKey(i, e)}
-          className="size-12 text-center text-[20px] font-bold rounded-xl transition-all duration-150"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.05)",
-            border: `1.5px solid ${d && d !== " " ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}`,
-            color: "rgba(255,255,255,0.9)",
-            outline: "none",
-            fontFamily: "'Inter', sans-serif",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// ── Main ──────────────────────────────────────────────────────────────────────
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
@@ -755,6 +184,8 @@ export default function RegisterPage() {
   const [otpSent, setOtpSent] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     username: "",
@@ -850,7 +281,7 @@ export default function RegisterPage() {
 
       {/* ── LEFT BRANDING ── */}
       <div
-        className="hidden lg:flex flex-col justify-between w-[360px] shrink-0 relative overflow-hidden px-10 py-10"
+        className="hidden lg:flex flex-col justify-between w-90 shrink-0 relative overflow-hidden px-10 py-10"
         style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div
@@ -896,7 +327,7 @@ export default function RegisterPage() {
               ))}
             </div>
             <p
-              className="text-[10px] font-semibold tracking-[0.1em] uppercase mb-2"
+              className="text-[10px] font-semibold tracking-widest uppercase mb-2"
               style={{ color: "rgba(255,255,255,0.2)" }}
             >
               Langkah {step} dari {steps.length}
@@ -996,7 +427,7 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        <div className="w-full max-w-[780px]">
+        <div className="w-full max-w-195">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div
@@ -1092,7 +523,7 @@ export default function RegisterPage() {
                       >
                         {/* ── STEP 1: kiri email, kanan SSO ── */}
                         {step === 1 && (
-                          <div
+                          <section
                             className="grid grid-cols-2 divide-x"
                             style={{ borderColor: "rgba(255,255,255,0.06)" }}
                           >
@@ -1106,7 +537,7 @@ export default function RegisterPage() {
                               </p>
 
                               <div>
-                                <Lbl
+                                <InputLabel
                                   text="Username"
                                   hint="huruf, angka, _ , -"
                                 />
@@ -1133,7 +564,7 @@ export default function RegisterPage() {
                                     onFocus={() => setFocused("username")}
                                     onBlur={() => setFocused(null)}
                                     style={{
-                                      ...iStyle(focused === "username"),
+                                      ...IStyle(focused === "username"),
                                       paddingLeft: 82,
                                     }}
                                   />
@@ -1154,7 +585,7 @@ export default function RegisterPage() {
                               </div>
 
                               <div>
-                                <Lbl text="Email" />
+                                <InputLabel text="Email" />
                                 <input
                                   type="email"
                                   placeholder="email@kamu.com"
@@ -1162,12 +593,15 @@ export default function RegisterPage() {
                                   onChange={(e) => set("email", e.target.value)}
                                   onFocus={() => setFocused("email")}
                                   onBlur={() => setFocused(null)}
-                                  style={iStyle(focused === "email")}
+                                  style={IStyle(focused === "email")}
                                 />
                               </div>
 
                               <div>
-                                <Lbl text="Password" hint="min. 6 karakter" />
+                                <InputLabel
+                                  text="Password"
+                                  hint="min. 6 karakter"
+                                />
                                 <div className="relative">
                                   <input
                                     type={showPw ? "text" : "password"}
@@ -1179,7 +613,7 @@ export default function RegisterPage() {
                                     onFocus={() => setFocused("password")}
                                     onBlur={() => setFocused(null)}
                                     style={{
-                                      ...iStyle(focused === "password"),
+                                      ...IStyle(focused === "password"),
                                       paddingRight: 40,
                                     }}
                                   />
@@ -1199,7 +633,7 @@ export default function RegisterPage() {
                               </div>
 
                               <div>
-                                <Lbl text="Konfirmasi Password" />
+                                <InputLabel text="Konfirmasi Password" />
                                 <div className="relative">
                                   <input
                                     type={showCpw ? "text" : "password"}
@@ -1211,7 +645,7 @@ export default function RegisterPage() {
                                     onFocus={() => setFocused("confirmPw")}
                                     onBlur={() => setFocused(null)}
                                     style={{
-                                      ...iStyle(focused === "confirmPw"),
+                                      ...IStyle(focused === "confirmPw"),
                                       paddingRight: 40,
                                       borderColor:
                                         form.confirmPw && !pwMatch
@@ -1324,7 +758,7 @@ export default function RegisterPage() {
                                 SSO otomatis melanjutkan ke step berikutnya.
                               </p>
                             </div>
-                          </div>
+                          </section>
                         )}
 
                         {/* ── STEP 2: OTP ── */}
@@ -1400,7 +834,7 @@ export default function RegisterPage() {
                                   onChange={setAvatarPreview}
                                 />
                                 <div className="flex-1">
-                                  <Lbl text="Nama Lengkap" />
+                                  <InputLabel text="Nama Lengkap" />
                                   <input
                                     type="text"
                                     placeholder="Nama di portfolio"
@@ -1410,13 +844,16 @@ export default function RegisterPage() {
                                     }
                                     onFocus={() => setFocused("fullName")}
                                     onBlur={() => setFocused(null)}
-                                    style={iStyle(focused === "fullName")}
+                                    style={IStyle(focused === "fullName")}
                                   />
                                 </div>
                               </div>
 
                               <div>
-                                <Lbl text="Bio Singkat" hint="1 kalimat" />
+                                <InputLabel
+                                  text="Bio Singkat"
+                                  hint="1 kalimat"
+                                />
                                 <input
                                   type="text"
                                   placeholder="Seorang designer yang suka clean UI"
@@ -1424,12 +861,12 @@ export default function RegisterPage() {
                                   onChange={(e) => set("bio", e.target.value)}
                                   onFocus={() => setFocused("bio")}
                                   onBlur={() => setFocused(null)}
-                                  style={iStyle(focused === "bio")}
+                                  style={IStyle(focused === "bio")}
                                 />
                               </div>
 
                               <div>
-                                <Lbl text="About" hint="opsional" />
+                                <InputLabel text="About" hint="opsional" />
                                 <textarea
                                   rows={3}
                                   placeholder="Ceritakan lebih detail tentang dirimu..."
@@ -1439,7 +876,7 @@ export default function RegisterPage() {
                                   onBlur={() => setFocused(null)}
                                   style={
                                     {
-                                      ...iStyle(focused === "about"),
+                                      ...IStyle(focused === "about"),
                                       resize: "none",
                                     } as React.CSSProperties
                                   }
@@ -1448,7 +885,10 @@ export default function RegisterPage() {
 
                               <div className="grid grid-cols-2 gap-2.5">
                                 <div>
-                                  <Lbl text="Tanggal Lahir" hint="opsional" />
+                                  <InputLabel
+                                    text="Tanggal Lahir"
+                                    hint="opsional"
+                                  />
                                   <input
                                     type="date"
                                     value={form.birthdate}
@@ -1458,13 +898,16 @@ export default function RegisterPage() {
                                     onFocus={() => setFocused("birthdate")}
                                     onBlur={() => setFocused(null)}
                                     style={{
-                                      ...iStyle(focused === "birthdate"),
+                                      ...IStyle(focused === "birthdate"),
                                       colorScheme: "dark",
                                     }}
                                   />
                                 </div>
                                 <div>
-                                  <Lbl text="Alamat / Kota" hint="opsional" />
+                                  <InputLabel
+                                    text="Alamat / Kota"
+                                    hint="opsional"
+                                  />
                                   <input
                                     type="text"
                                     placeholder="Jakarta, ID"
@@ -1474,13 +917,16 @@ export default function RegisterPage() {
                                     }
                                     onFocus={() => setFocused("address")}
                                     onBlur={() => setFocused(null)}
-                                    style={iStyle(focused === "address")}
+                                    style={IStyle(focused === "address")}
                                   />
                                 </div>
                               </div>
 
                               <div>
-                                <Lbl text="Website / Sosmed" hint="opsional" />
+                                <InputLabel
+                                  text="Website / Sosmed"
+                                  hint="opsional"
+                                />
                                 <input
                                   type="text"
                                   placeholder="https://linkedin.com/in/username"
@@ -1490,12 +936,15 @@ export default function RegisterPage() {
                                   }
                                   onFocus={() => setFocused("website")}
                                   onBlur={() => setFocused(null)}
-                                  style={iStyle(focused === "website")}
+                                  style={IStyle(focused === "website")}
                                 />
                               </div>
 
                               <div>
-                                <Lbl text="Tags" hint={`${tags.length}/10`} />
+                                <InputLabel
+                                  text="Tags"
+                                  hint={`${tags.length}/10`}
+                                />
                                 <TagInput tags={tags} onChange={setTags} />
                               </div>
                             </div>
@@ -1523,7 +972,7 @@ export default function RegisterPage() {
                         {step === 4 && (
                           <div className="p-6 space-y-5">
                             <div>
-                              <Lbl text="Profesi" />
+                              <InputLabel text="Profesi" />
                               <div className="flex flex-wrap gap-1.5 mt-1">
                                 {professions.map((p) => (
                                   <button
@@ -1550,7 +999,10 @@ export default function RegisterPage() {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <Lbl text="Skill Utama" hint="pisahkan koma" />
+                                <InputLabel
+                                  text="Skill Utama"
+                                  hint="pisahkan koma"
+                                />
                                 <input
                                   type="text"
                                   placeholder="Figma, React, Branding..."
@@ -1560,11 +1012,11 @@ export default function RegisterPage() {
                                   }
                                   onFocus={() => setFocused("skills")}
                                   onBlur={() => setFocused(null)}
-                                  style={iStyle(focused === "skills")}
+                                  style={IStyle(focused === "skills")}
                                 />
                               </div>
                               <div>
-                                <Lbl text="Pengalaman" />
+                                <InputLabel text="Pengalaman" />
                                 <div className="flex gap-2">
                                   {["< 1 thn", "1–3 thn", "3+ thn"].map(
                                     (exp) => (
@@ -1606,12 +1058,13 @@ export default function RegisterPage() {
                               dashboard.
                             </p>
                             <div className="grid grid-cols-4 gap-3">
-                              {templates.map((t) => (
+                              {templates.map((template, i) => (
                                 <TemplateCard
-                                  key={t.id}
-                                  t={t}
-                                  selected={form.template === t.id}
-                                  onClick={() => set("template", t.id)}
+                                  key={template.id}
+                                  template={template}
+                                  i={i}
+                                  hoveredId={hoveredId}
+                                  setHoveredId={setHoveredId}
                                 />
                               ))}
                             </div>

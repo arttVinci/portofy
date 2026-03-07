@@ -273,6 +273,7 @@ export default function ChangelogPage() {
 
   return (
     <div
+      id="changelog"
       style={{
         backgroundColor: "#0a0a0f",
         fontFamily: "'Inter', sans-serif",

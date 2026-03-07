@@ -9,7 +9,7 @@ interface TemplateCardProps {
   i: number;
   hoveredId: string | null;
   setHoveredId: (id: string | null) => void;
-  setPreviewTemplate: (template: TemplateItem | null) => void;
+  setPreviewTemplate?: (template: TemplateItem | null) => void;
 }
 
 export default function TemplateCard({
@@ -147,7 +147,7 @@ export default function TemplateCard({
               Pakai Template
             </button>
             <button
-              onClick={() => setPreviewTemplate(template)}
+              onClick={() => setPreviewTemplate?.(template)}
               className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200 cursor-pointer"
               style={{
                 backgroundColor: "rgba(255,255,255,0.04)",
