@@ -204,17 +204,18 @@ export default function RegisterPage() {
     template: "minimal",
   });
 
-  const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (key: string, value: string) =>
+    setForm((form) => ({ ...form, [key]: value }));
 
   const pwMatch = form.password === form.confirmPw;
-  const pwStrong = form.password.length >= 6;
+  // const pwStrong = form.password.length >= 6;
 
   const canNext = () => {
-    if (step === 1)
-      return form.username.length >= 3 && form.email && pwStrong && pwMatch;
-    if (step === 2) return otp.length === 6;
-    if (step === 3) return form.fullName.length > 0;
-    if (step === 4) return form.profession.length > 0;
+    // if (step === 1)
+    //   return form.username.length >= 3 && form.email && pwStrong && pwMatch;
+    // if (step === 2) return otp.length === 6;
+    // if (step === 3) return form.fullName.length > 0;
+    // if (step === 4) return form.profession.length > 0;
     return true;
   };
 
@@ -385,7 +386,7 @@ export default function RegisterPage() {
       </div>
 
       {/* ── RIGHT FORM ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 relative z-10">
         <div className="lg:hidden mb-8">
           <a href="/">
             <span
@@ -398,7 +399,7 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        <div className="w-full max-w-195">
+        <div className="w-full max-w-250">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div

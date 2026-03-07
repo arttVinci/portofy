@@ -21,28 +21,31 @@ export default function TagInput({
   const remove = (t: string) => onChange(tags.filter((x) => x !== t));
   return (
     <div>
-      <div className="flex flex-wrap gap-1.5 mb-2 min-h-7">
-        {tags.map((t) => (
-          <span
-            key={t}
-            className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.08)",
-              color: "rgba(255,255,255,0.7)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-          >
-            {t}
-            <button
-              type="button"
-              onClick={() => remove(t)}
-              className="cursor-pointer hover:opacity-70"
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-2 min-h-7">
+          {tags.map((t) => (
+            <span
+              key={t}
+              className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.08)",
+                color: "rgba(255,255,255,0.7)",
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
             >
-              <X size={9} />
-            </button>
-          </span>
-        ))}
-      </div>
+              {t}
+              <button
+                type="button"
+                onClick={() => remove(t)}
+                className="cursor-pointer hover:opacity-70"
+              >
+                <X size={9} />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="flex gap-2">
         <input
           type="text"

@@ -40,11 +40,14 @@ export default function OtpCodeStepper({
 }: CreateUserProfileProps) {
   return (
     <div
-      className="grid grid-cols-2 divide-x"
+      className="grid grid-cols-5 divide-x"
       style={{ borderColor: "rgba(255,255,255,0.06)" }}
     >
       {/* Left: profile form */}
-      <div className="p-5 space-y-3 overflow-y-auto" style={{ maxHeight: 480 }}>
+      <div
+        className="p-5 col-span-3 space-y-3 overflow-y-auto no-scrollbar"
+        style={{ maxHeight: 480 }}
+      >
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.08em]"
           style={{ color: "rgba(255,255,255,0.25)" }}
@@ -149,7 +152,7 @@ export default function OtpCodeStepper({
       </div>
 
       {/* Right: CV upload */}
-      <div className="p-5 flex flex-col">
+      <div className="p-5 flex flex-col col-span-2">
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-3"
           style={{ color: "rgba(255,255,255,0.25)" }}
