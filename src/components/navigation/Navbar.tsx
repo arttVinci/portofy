@@ -216,6 +216,7 @@ export default function Navbar() {
   const { isDark, navVisible } = useNavTheme([
     "hero-section",
     "template-page",
+    "template-showcase",
     "preview",
     "pricing",
     "faq",

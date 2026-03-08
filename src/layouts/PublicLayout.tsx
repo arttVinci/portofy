@@ -1,5 +1,5 @@
 import React from "react";
-import { usePortfolio } from "../hooks/api/usePortfolio";
+import { usePortfolio } from "../hooks/queries/usePortfolio";
 
 import SubTempLayout from "../templates/subTemp/layouts/TempLayout";
 

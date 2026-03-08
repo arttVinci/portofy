@@ -3,16 +3,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 
 import SuccessScreen from "../../components/auth/SuccessScreen";
-import InputLabel from "../../components/auth/InputLabel";
 import TemplateCard from "../../components/marketing/TemplateCard";
-
-import IStyle from "../../components/utils/IStyle";
 
 import type { TemplateItem } from "../../types/ui.types";
 
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
+import { useRegisterUser } from "../../hooks/mutations/auth";
+import type { RegisterUserRequest } from "../../types/entities/auth";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -20,8 +19,7 @@ const steps = [
   { num: 1, title: "Buat Akun", desc: "Username, email & password" },
   { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
   { num: 3, title: "Profil Kamu", desc: "Avatar, bio & detail" },
-  { num: 4, title: "Setup Portfolio", desc: "Profesi & skill" },
-  { num: 5, title: "Pilih Template", desc: "Tampilan awal" },
+  { num: 4, title: "Pilih Template", desc: "Tampilan awal" },
 ];
 
 const templates: TemplateItem[] = [
@@ -69,110 +67,11 @@ const templates: TemplateItem[] = [
       { w: "45%", h: 6 },
     ],
   },
-  {
-    id: "4",
-    name: "Résumé",
-    category: "Professional",
-    tags: ["Corporate", "Business", "Formal"],
-    description: "Profesional dan terstruktur. Cocok untuk fresh graduate.",
-    badge: "Baru",
-    views: "3.4k",
-    isPro: false,
-    lines: [
-      { w: "60%", h: 8 },
-      { w: "80%", h: 6 },
-      { w: "55%", h: 6 },
-    ],
-  },
-  {
-    id: "5",
-    name: "Mono",
-    category: "Minimal",
-    tags: ["Monochrome", "Writer", "Blogger"],
-    description: "Monokrom dan tenang. Ideal untuk penulis & peneliti.",
-    views: "2.9k",
-    isPro: true,
-    lines: [
-      { w: "70%", h: 8 },
-      { w: "55%", h: 6 },
-      { w: "65%", h: 6 },
-    ],
-  },
-  {
-    id: "6",
-    name: "Studio",
-    category: "Professional",
-    tags: ["Agency", "Bold", "Freelancer"],
-    description: "Berkarakter kuat. Tampil beda dari ribuan pelamar.",
-    views: "2.1k",
-    isPro: true,
-    lines: [
-      { w: "85%", h: 12 },
-      { w: "50%", h: 6 },
-      { w: "60%", h: 6 },
-    ],
-  },
-  {
-    id: "7",
-    name: "Slate",
-    category: "Professional",
-    tags: ["Modern", "Corporate"],
-    description: "Modern dan profesional. Layout dua kolom yang terorganisir.",
-    views: "3.9k",
-    isPro: false,
-    lines: [
-      { w: "65%", h: 9 },
-      { w: "45%", h: 6 },
-      { w: "70%", h: 6 },
-    ],
-  },
-  {
-    id: "8",
-    name: "Dusk",
-    category: "Minimal",
-    tags: ["Dark", "Elegant"],
-    description: "Dark mode elegan dengan tipografi yang kuat dan premium.",
-    badge: "Baru",
-    views: "2.1k",
-    isPro: true,
-    lines: [
-      { w: "80%", h: 11 },
-      { w: "60%", h: 6 },
-      { w: "50%", h: 6 },
-    ],
-  },
-  {
-    id: "9",
-    name: "Bloom",
-    category: "Creative",
-    tags: ["Pastel", "Playful"],
-    description:
-      "Warna lembut dan playful. Untuk illustrator dan content creator.",
-    views: "5.5k",
-    isPro: false,
-    lines: [
-      { w: "72%", h: 9 },
-      { w: "55%", h: 6 },
-      { w: "62%", h: 6 },
-    ],
-  },
-];
-
-const professions = [
-  "UI/UX Designer",
-  "Frontend Developer",
-  "Backend Developer",
-  "Fullstack Developer",
-  "Product Manager",
-  "Motion Designer",
-  "Graphic Designer",
-  "Content Creator",
-  "Copywriter",
-  "Data Analyst",
-  "Lainnya",
 ];
 
 export default function RegisterPage() {
+  const { register, isLoading, error } = useRegisterUser();
+
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
   const [showPw, setShowPw] = useState(false);
@@ -186,6 +85,14 @@ export default function RegisterPage() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const [createAccountForm, setAccountForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPw: "",
+    no_telp: "",
+  });
 
   const [form, setForm] = useState({
     username: "",
@@ -204,11 +111,33 @@ export default function RegisterPage() {
     template: "minimal",
   });
 
-  const set = (key: string, value: string) =>
-    setForm((form) => ({ ...form, [key]: value }));
+  const handleCreateUser = async () => {
+    console.log("berhasil klik");
+    try {
+      const registerAccountData: RegisterUserRequest = {
+        id: createAccountForm.username, // Sementara pakai username sebagai ID, nanti bisa diganti dengan UUID/CUID dari backend
+        username: createAccountForm.username,
+        password: createAccountForm.password,
+        email: createAccountForm.email,
+        no_telp: createAccountForm.no_telp,
+      };
+
+      const registerResult = await register(registerAccountData);
+      console.log("Registration successful:", registerResult);
+    } catch (err) {
+      console.error("Registration error:", err);
+    }
+  };
+
+  const set = (key: string, value: string) => {
+    if (step === 1) {
+      setAccountForm((f) => ({ ...f, [key]: value }));
+    }
+    setForm((f) => ({ ...f, [key]: value }));
+  };
 
   const pwMatch = form.password === form.confirmPw;
-  // const pwStrong = form.password.length >= 6;
+  const pwStrong = form.password.length >= 8;
 
   const canNext = () => {
     // if (step === 1)
@@ -358,9 +287,7 @@ export default function RegisterPage() {
                 `Kode 6 digit dikirim ke ${form.email || "emailmu"}.`}
               {step === 3 &&
                 "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri."}
-              {step === 4 &&
-                "Pilih profesi dan skill agar portfoliomu lebih relevan."}
-              {step === 5 && "Template bisa diganti kapan saja dari dashboard."}
+              {step === 4 && "Template bisa diganti kapan saja dari dashboard."}
             </p>
           </motion.div>
         </div>
@@ -541,87 +468,8 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* ── STEP 4: profesi & skill ── */}
+                        {/* Step 4: Pilih Template */}
                         {step === 4 && (
-                          <div className="p-6 space-y-5">
-                            <div>
-                              <InputLabel text="Profesi" />
-                              <div className="flex flex-wrap gap-1.5 mt-1">
-                                {professions.map((p) => (
-                                  <button
-                                    key={p}
-                                    type="button"
-                                    onClick={() => set("profession", p)}
-                                    className="px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-150 cursor-pointer"
-                                    style={{
-                                      backgroundColor:
-                                        form.profession === p
-                                          ? "rgba(255,255,255,0.12)"
-                                          : "rgba(255,255,255,0.04)",
-                                      border: `1px solid ${form.profession === p ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.07)"}`,
-                                      color:
-                                        form.profession === p
-                                          ? "rgba(255,255,255,0.9)"
-                                          : "rgba(255,255,255,0.4)",
-                                    }}
-                                  >
-                                    {p}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <InputLabel
-                                  text="Skill Utama"
-                                  hint="pisahkan koma"
-                                />
-                                <input
-                                  type="text"
-                                  placeholder="Figma, React, Branding..."
-                                  value={form.skills}
-                                  onChange={(e) =>
-                                    set("skills", e.target.value)
-                                  }
-                                  onFocus={() => setFocused("skills")}
-                                  onBlur={() => setFocused(null)}
-                                  style={IStyle(focused === "skills")}
-                                />
-                              </div>
-                              <div>
-                                <InputLabel text="Pengalaman" />
-                                <div className="flex gap-2">
-                                  {["< 1 thn", "1–3 thn", "3+ thn"].map(
-                                    (exp) => (
-                                      <button
-                                        key={exp}
-                                        type="button"
-                                        onClick={() => set("experience", exp)}
-                                        className="flex-1 py-2 rounded-xl text-[11px] font-medium transition-all duration-150 cursor-pointer"
-                                        style={{
-                                          backgroundColor:
-                                            form.experience === exp
-                                              ? "rgba(255,255,255,0.1)"
-                                              : "rgba(255,255,255,0.04)",
-                                          border: `1px solid ${form.experience === exp ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.07)"}`,
-                                          color:
-                                            form.experience === exp
-                                              ? "rgba(255,255,255,0.85)"
-                                              : "rgba(255,255,255,0.35)",
-                                        }}
-                                      >
-                                        {exp}
-                                      </button>
-                                    ),
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* ── STEP 5: template ── */}
-                        {step === 5 && (
                           <div className="p-6">
                             <p
                               className="text-[12px] mb-4"
@@ -630,12 +478,13 @@ export default function RegisterPage() {
                               Pilih tampilan awal — bisa diganti kapan saja dari
                               dashboard.
                             </p>
-                            <div className="grid grid-cols-4 gap-3">
+                            <div className="grid grid-cols-3 gap-3">
                               {templates.map((template, i) => (
                                 <TemplateCard
                                   key={template.id}
                                   template={template}
                                   i={i}
+                                  noPreview={true}
                                   hoveredId={hoveredId}
                                   setHoveredId={setHoveredId}
                                 />
@@ -672,9 +521,9 @@ export default function RegisterPage() {
                       <div />
                     )}
 
-                    {step < 5 ? (
+                    {step < 4 ? (
                       <button
-                        onClick={goNext}
+                        onClick={step === 1 ? handleCreateUser : goNext}
                         disabled={!canNext()}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                         style={{

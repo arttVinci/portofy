@@ -8,6 +8,7 @@ interface TemplateCardProps {
   template: TemplateItem;
   i: number;
   hoveredId: string | null;
+  noPreview?: boolean;
   setHoveredId: (id: string | null) => void;
   setPreviewTemplate?: (template: TemplateItem | null) => void;
 }
@@ -16,6 +17,7 @@ export default function TemplateCard({
   template,
   i,
   hoveredId,
+  noPreview,
   setHoveredId,
   setPreviewTemplate,
 }: TemplateCardProps) {
@@ -130,7 +132,7 @@ export default function TemplateCard({
           {/* Actions */}
           <div className="flex gap-2">
             <button
-              className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200"
+              className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200 cursor-pointer"
               style={{
                 backgroundColor: "rgba(255,255,255,0.88)",
                 color: "#0a0a0f",
@@ -146,29 +148,31 @@ export default function TemplateCard({
             >
               Pakai Template
             </button>
-            <button
-              onClick={() => setPreviewTemplate?.(template)}
-              className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200 cursor-pointer"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.04)",
-                color: "rgba(255,255,255,0.35)",
-                border: "1px solid rgba(255,255,255,0.07)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor =
-                  "rgba(255,255,255,0.08)";
-                (e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.65)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor =
-                  "rgba(255,255,255,0.04)";
-                (e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.35)";
-              }}
-            >
-              Preview
-            </button>
+            {!noPreview && (
+              <button
+                onClick={() => setPreviewTemplate?.(template)}
+                className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200 cursor-pointer"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.04)",
+                  color: "rgba(255,255,255,0.35)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor =
+                    "rgba(255,255,255,0.08)";
+                  (e.currentTarget as HTMLElement).style.color =
+                    "rgba(255,255,255,0.65)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor =
+                    "rgba(255,255,255,0.04)";
+                  (e.currentTarget as HTMLElement).style.color =
+                    "rgba(255,255,255,0.35)";
+                }}
+              >
+                Preview
+              </button>
+            )}
           </div>
         </div>
       </div>

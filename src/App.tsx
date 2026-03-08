@@ -40,14 +40,14 @@ export default function App() {
 
       <Route path="/register" element={<Register />} />
 
-      <Route path="/:username" element={<PublicLayout />}>
+      {/* <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<PortfolioHomePage />} />{" "}
         <Route path="about" element={<AboutPage />} />
         <Route path="achievements" element={<AchievementPage />} />
         <Route path="projects" element={<ProjectPage />} />
         <Route path="projects/:projectId" element={<DetailProjectPage />} />
         <Route path="contact" element={<ContactPage />} />
-      </Route>
+      </Route> */}
     </Routes>
   );
 }
