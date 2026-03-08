@@ -129,8 +129,14 @@ export default function RegisterPage() {
   };
 
   const handleCreateProfile = async () => {
-    try {
+    if(avatarImageFile) {
 
+      const formData = new FormData();
+        formData.append("profile_image", avatarImageFile);
+        formData.append("user_id", createProfileForm.user_id);
+    }
+    try {
+      
     }
   };
 

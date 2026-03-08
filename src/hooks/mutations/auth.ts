@@ -17,7 +17,7 @@ export const useRegisterUser = () => {
 
     try {
       const result = await registerUser(data);
-      console.log("Registration successful:", result.errors);
+      console.log("Registration successful:", result.data);
       return result.data;
     } catch (err: any) {
       setError("Registration failed :" + (err.message || "Unknown error"));
