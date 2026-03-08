@@ -128,6 +128,12 @@ export default function RegisterPage() {
     }
   };
 
+  const handleCreateProfile = async () => {
+    try {
+
+    }
+  };
+
   const set = (key: string, value: string) => {
     if (step === 1) {
       setAccountForm((f) => ({ ...f, [key]: value }));

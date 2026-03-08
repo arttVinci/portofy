@@ -4,11 +4,13 @@ import type {
   RegisterUserRequest,
 } from "../types/entities/auth";
 
+import type { WebResponse } from "../types/base/api";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export const registerUser = async (
   data: RegisterUserRequest,
-): Promise<LoginUserResponse> => {
+): Promise<WebResponse<LoginUserResponse>> => {
   const response = await fetch(`${API_BASE_URL}/users`, {
     method: "POST",
     headers: {
@@ -29,7 +31,7 @@ export const registerUser = async (
 
 export const loginUser = async (
   data: LoginUserRequest,
-): Promise<LoginUserResponse> => {
+): Promise<WebResponse<LoginUserResponse>> => {
   const response = await fetch(`${API_BASE_URL}/users/_login`, {
     method: "POST",
     headers: {

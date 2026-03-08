@@ -1,7 +1,7 @@
-export interface BaseApiResponse<T = any> {
-  success: boolean;
-  message: string;
+export interface WebResponse<T = any> {
   data: T;
+  paging?: PageMetadata;
+  errors?: string;
 }
 
 export interface ApiErrorResponse {
@@ -10,16 +10,16 @@ export interface ApiErrorResponse {
   errors?: Record<string, string[]>;
 }
 
-export interface PaginationMeta {
+export interface PageMetadata {
   page: number;
-  limit: number;
-  totalItems: number;
-  totalPages: number;
+  size: number;
+  total_item: number;
+  total_page: number;
 }
 
 export interface PaginatedApiResponse<T> {
   success: boolean;
   message: string;
   data: T[];
-  meta: PaginationMeta;
+  meta: PageMetadata;
 }
