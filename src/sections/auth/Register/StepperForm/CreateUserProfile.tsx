@@ -18,6 +18,7 @@ interface CreateUserProfileProps {
   setAvatarPreview: (v: string | null) => void;
   setTags: (tags: string[]) => void;
   setCvFile: (file: File | null) => void;
+  setAvatarImageFile: (file: File | null) => void;
 }
 export default function OtpCodeStepper({
   fullName,
@@ -33,6 +34,7 @@ export default function OtpCodeStepper({
   setAvatarPreview,
   setTags,
   setCvFile,
+  setAvatarImageFile,
 }: CreateUserProfileProps) {
   return (
     <div
@@ -53,7 +55,11 @@ export default function OtpCodeStepper({
 
         {/* Avatar + Nama */}
         <div className="flex items-start gap-4">
-          <AvatarUpload preview={avatarPreview} onChange={setAvatarPreview} />
+          <AvatarUpload
+            preview={avatarPreview}
+            setAvatarPreviewUrl={setAvatarPreview}
+            setAvatarImageFile={setAvatarImageFile}
+          />
           <div className="flex-1">
             <InputLabel text="Nama Lengkap" />
             <input

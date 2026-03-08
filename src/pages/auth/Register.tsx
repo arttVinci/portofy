@@ -84,7 +84,8 @@ export default function RegisterPage() {
   const [otpSent, setOtpSent] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+  const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -453,12 +454,13 @@ export default function RegisterPage() {
                             about={createProfileForm.about}
                             address={createProfileForm.address}
                             tags={tags}
-                            avatarPreview={avatarPreview}
+                            avatarPreview={avatarPreviewUrl}
                             cvFile={cvFile}
                             focused={focused}
                             set={set}
                             setFocused={setFocused}
-                            setAvatarPreview={setAvatarPreview}
+                            setAvatarPreview={setAvatarPreviewUrl}
+                            setAvatarImageFile={setAvatarImageFile}
                             setTags={setTags}
                             setCvFile={setCvFile}
                           />

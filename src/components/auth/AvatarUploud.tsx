@@ -3,17 +3,20 @@ import { useRef } from "react";
 
 export default function AvatarUpload({
   preview,
-  onChange,
+  setAvatarPreviewUrl,
+  setAvatarImageFile,
 }: {
   preview: string | null;
-  onChange: (url: string) => void;
+  setAvatarPreviewUrl: (url: string) => void;
+  setAvatarImageFile: (image: File) => void;
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
-    onChange(url);
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setAvatarImageFile(file);
+    setAvatarPreviewUrl(url);
   };
   return (
     <div className="flex flex-col items-center gap-2">
