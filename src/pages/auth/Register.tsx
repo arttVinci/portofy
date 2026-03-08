@@ -12,6 +12,7 @@ import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStep
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
 import { useRegisterUser } from "../../hooks/mutations/auth";
 import type { RegisterUserRequest } from "../../types/entities/auth";
+import { generateUserId } from "../../utils/generateId";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -82,6 +83,7 @@ export default function RegisterPage() {
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -94,28 +96,23 @@ export default function RegisterPage() {
     no_telp: "",
   });
 
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPw: "",
-    fullName: "",
-    bio: "",
-    about: "",
+  const [createProfileForm, setProfileForm] = useState({
+    user_id: "",
+    full_name: "",
+    url_profile: "",
     address: "",
-    birthdate: "",
-    website: "",
-    profession: "",
-    skills: "",
-    experience: "",
-    template: "minimal",
+    about: "",
+    bio: "",
+    theme: "minimal",
+    tags: [],
   });
 
   const handleCreateUser = async () => {
-    console.log("berhasil klik");
     try {
+      const idUser = generateUserId(createAccountForm.username);
+
       const registerAccountData: RegisterUserRequest = {
-        id: createAccountForm.username, // Sementara pakai username sebagai ID, nanti bisa diganti dengan UUID/CUID dari backend
+        id: idUser,
         username: createAccountForm.username,
         password: createAccountForm.password,
         email: createAccountForm.email,
@@ -124,6 +121,7 @@ export default function RegisterPage() {
 
       const registerResult = await register(registerAccountData);
       console.log("Registration successful:", registerResult);
+      goNext();
     } catch (err) {
       console.error("Registration error:", err);
     }
@@ -133,11 +131,11 @@ export default function RegisterPage() {
     if (step === 1) {
       setAccountForm((f) => ({ ...f, [key]: value }));
     }
-    setForm((f) => ({ ...f, [key]: value }));
+    setProfileForm((f) => ({ ...f, [key]: value }));
   };
 
-  const pwMatch = form.password === form.confirmPw;
-  const pwStrong = form.password.length >= 8;
+  const pwMatch = createAccountForm.password === createAccountForm.confirmPw;
+  const pwStrong = createAccountForm.password.length >= 8;
 
   const canNext = () => {
     // if (step === 1)
@@ -284,7 +282,7 @@ export default function RegisterPage() {
               {step === 1 &&
                 "Daftar dengan email atau langsung pakai akun Google / GitHub."}
               {step === 2 &&
-                `Kode 6 digit dikirim ke ${form.email || "emailmu"}.`}
+                `Kode 6 digit dikirim ke ${createAccountForm.email || "emailmu"}.`}
               {step === 3 &&
                 "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri."}
               {step === 4 && "Template bisa diganti kapan saja dari dashboard."}
@@ -326,7 +324,7 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        <div className="w-full max-w-250">
+        <div className="w-full max-w-240">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div
@@ -423,10 +421,10 @@ export default function RegisterPage() {
                         {/* Step 1 Create Account */}
                         {step === 1 && (
                           <CreateAccountStepper
-                            username={form.username}
-                            email={form.email}
-                            password={form.password}
-                            confirmPw={form.confirmPw}
+                            username={createAccountForm.username}
+                            email={createAccountForm.email}
+                            password={createAccountForm.password}
+                            confirmPw={createAccountForm.confirmPw}
                             showPw={showPw}
                             showCpw={showCpw}
                             pwMatch={pwMatch}
@@ -441,7 +439,7 @@ export default function RegisterPage() {
                         {/* Step 2 Otp Code Email*/}
                         {step === 2 && (
                           <OtpCodeStepper
-                            email={form.email}
+                            email={createAccountForm.email}
                             otp={otp}
                             setOtp={setOtp}
                           />
@@ -450,12 +448,10 @@ export default function RegisterPage() {
                         {/* Step 3 Create User Profile and CV Upload */}
                         {step === 3 && (
                           <CreateUserProfile
-                            fullName={form.fullName}
-                            bio={form.bio}
-                            about={form.about}
-                            birthdate={form.birthdate}
-                            address={form.address}
-                            website={form.website}
+                            fullName={createProfileForm.full_name}
+                            bio={createProfileForm.bio}
+                            about={createProfileForm.about}
+                            address={createProfileForm.address}
                             tags={tags}
                             avatarPreview={avatarPreview}
                             cvFile={cvFile}
@@ -593,7 +589,10 @@ export default function RegisterPage() {
                 </p>
               </motion.div>
             ) : (
-              <SuccessScreen name={form.fullName} username={form.username} />
+              <SuccessScreen
+                name={createProfileForm.full_name}
+                username={createAccountForm.username}
+              />
             )}
           </AnimatePresence>
         </div>

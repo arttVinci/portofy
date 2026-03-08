@@ -22,6 +22,7 @@ import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ProjectPage from "./pages/public/ProjectPage";
 import Register from "./pages/auth/Register";
+import LoginPage from "./pages/auth/LoginPage";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
       </Route>
 
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<LoginPage />} />
 
       {/* <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<PortfolioHomePage />} />{" "}

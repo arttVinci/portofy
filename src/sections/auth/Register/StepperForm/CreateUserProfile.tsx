@@ -8,12 +8,10 @@ interface CreateUserProfileProps {
   fullName: string;
   bio: string;
   about: string;
-  birthdate: string;
   address: string;
-  website: string;
   tags: string[];
   avatarPreview: string | null;
-  cvFile: File | null;
+  cvFile?: File | null;
   focused: string | null;
   set: (field: string, value: string) => void;
   setFocused: (field: string | null) => void;
@@ -25,9 +23,7 @@ export default function OtpCodeStepper({
   fullName,
   bio,
   about,
-  birthdate,
   address,
-  website,
   tags,
   avatarPreview,
   cvFile,
@@ -86,7 +82,7 @@ export default function OtpCodeStepper({
         </div>
 
         <div>
-          <InputLabel text="About" hint="opsional" />
+          <InputLabel text="About" />
           <textarea
             rows={3}
             placeholder="Ceritakan lebih detail tentang dirimu..."
@@ -103,45 +99,16 @@ export default function OtpCodeStepper({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
-          <div>
-            <InputLabel text="Tanggal Lahir" hint="opsional" />
-            <input
-              type="date"
-              value={birthdate}
-              onChange={(e) => set("birthdate", e.target.value)}
-              onFocus={() => setFocused("birthdate")}
-              onBlur={() => setFocused(null)}
-              style={{
-                ...IStyle(focused === "birthdate"),
-                colorScheme: "dark",
-              }}
-            />
-          </div>
-          <div>
-            <InputLabel text="Alamat / Kota" hint="opsional" />
-            <input
-              type="text"
-              placeholder="Jakarta, ID"
-              value={address}
-              onChange={(e) => set("address", e.target.value)}
-              onFocus={() => setFocused("address")}
-              onBlur={() => setFocused(null)}
-              style={IStyle(focused === "address")}
-            />
-          </div>
-        </div>
-
         <div>
-          <InputLabel text="Website / Sosmed" hint="opsional" />
+          <InputLabel text="Alamat / Kota" />
           <input
             type="text"
-            placeholder="https://linkedin.com/in/username"
-            value={website}
-            onChange={(e) => set("website", e.target.value)}
-            onFocus={() => setFocused("website")}
+            placeholder="Jakarta, ID"
+            value={address}
+            onChange={(e) => set("address", e.target.value)}
+            onFocus={() => setFocused("address")}
             onBlur={() => setFocused(null)}
-            style={IStyle(focused === "website")}
+            style={IStyle(focused === "address")}
           />
         </div>
 
@@ -152,21 +119,23 @@ export default function OtpCodeStepper({
       </div>
 
       {/* Right: CV upload */}
-      <div className="p-5 flex flex-col col-span-2">
-        <p
-          className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-3"
-          style={{ color: "rgba(255,255,255,0.25)" }}
-        >
-          Atau upload CV
-        </p>
-        <div className="flex-1">
-          <CvUpload
-            file={cvFile}
-            onFile={setCvFile}
-            onClear={() => setCvFile(null)}
-          />
+      {!cvFile && (
+        <div className="p-5 flex flex-col col-span-2">
+          <p
+            className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-3"
+            style={{ color: "rgba(255,255,255,0.25)" }}
+          >
+            Atau upload CV
+          </p>
+          <div className="flex-1">
+            <CvUpload
+              file={cvFile || null}
+              onFile={setCvFile}
+              onClear={() => setCvFile(null)}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
