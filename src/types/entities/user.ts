@@ -9,8 +9,8 @@ export interface UserResponse {
 
 export interface UpdateUserRequest {
   id: string;
-  password?: string;
-  username?: string;
+  password: string;
+  username: string;
   no_telp?: string;
   email?: string;
 }

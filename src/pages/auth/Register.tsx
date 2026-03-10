@@ -12,8 +12,11 @@ import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStep
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
 import { useRegisterUser } from "../../hooks/mutations/auth";
 import type { RegisterUserRequest } from "../../types/entities/auth";
-import { generateUserId } from "../../utils/generateId";
-import { useHandleImageProfile } from "../../hooks/mutations/useProfile";
+import {
+  useCreateProfile,
+  useHandleImageProfile,
+} from "../../hooks/mutations/useProfile";
+import type { CreateProfileRequest } from "../../types/entities/profile";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -71,9 +74,37 @@ const templates: TemplateItem[] = [
   },
 ];
 
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPw: string;
+  phone: string;
+  fullName: string;
+  profileUrl: string;
+  address: string;
+  about: string;
+  bio: string;
+  theme: string;
+  tags: string[];
+  userId: string;
+}
+
 export default function RegisterPage() {
-  const { register, isLoading, error } = useRegisterUser();
-  const { imageProfile } = useHandleImageProfile();
+  const {
+    register,
+    isLoading: isRegisterLoading,
+    error: registerError,
+  } = useRegisterUser();
+
+  const {
+    createProfile,
+    isLoading: isProfileLoading,
+    error: profileError,
+  } = useCreateProfile();
+
+  // Sekalian buat yang upload foto biar error-nya ga nabrak juga
+  const { imageProfile, error: uploadError } = useHandleImageProfile();
 
   const [token, setToken] = useState<string>("");
 
@@ -93,7 +124,7 @@ export default function RegisterPage() {
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Account
     username: "",
     email: "",
@@ -102,10 +133,12 @@ export default function RegisterPage() {
     phone: "",
     // Profile
     fullName: "",
+    profileUrl: "",
     address: "",
     about: "",
     bio: "",
     theme: "minimal",
+    tags: [],
     userId: "",
   });
 
@@ -151,11 +184,33 @@ export default function RegisterPage() {
     }
   };
 
-  // const handleCreateProfile = async () => {
-  //   try {
+  const handleCreateProfile = async () => {
+    try {
+      if (!formData.userId || !token) {
+        console.error("Akses ditolak: User ID atau Token belum ada.");
+        return;
+      }
 
-  //   }
-  // };
+      // 2. Mapping dari State (camelCase) ke Payload API (snake_case)
+      const payload: CreateProfileRequest = {
+        user_id: formData.userId,
+        full_name: formData.fullName,
+        url_profile: formData.profileUrl,
+        address: formData.address,
+        about: formData.about,
+        bio: formData.bio,
+        theme: formData.theme,
+        tags: formData.tags,
+      };
+
+      const response = await createProfile(payload, token);
+
+      console.log("Apakah masuk:", response);
+      setDone(true);
+    } catch (err) {
+      console.error("Gagal nge-build profil:", err);
+    }
+  };
 
   const handleFormChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -576,7 +631,7 @@ export default function RegisterPage() {
                       </button>
                     ) : (
                       <button
-                        onClick={() => setDone(true)}
+                        onClick={handleCreateProfile}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                         style={{
                           backgroundColor: "rgba(255,255,255,0.9)",

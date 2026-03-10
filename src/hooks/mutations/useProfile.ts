@@ -4,16 +4,13 @@ import type {
   ImageProfileResponse,
   ProfileResponse,
 } from "../../types/entities/profile";
-import {
-  createProfile,
-  handleImageProfile,
-} from "../../services/profile.service";
+import { create, handleImageProfile } from "../../services/profile.service";
 
 export const useCreateProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createProfileData = async (
+  const createProfile = async (
     data: CreateProfileRequest,
     token: string,
   ): Promise<ProfileResponse> => {
@@ -21,25 +18,27 @@ export const useCreateProfile = () => {
     setError(null);
 
     try {
-      const result = await createProfile(data, token);
+      const result = await create(data, token);
       console.log("Succes Create Profile :", result.data);
       return result.data;
     } catch (err: any) {
-      setError("Failed create profile :" + (err.message || "Unknown error"));
-      throw null;
+      const errorMsg = err.message || "Unknown error";
+      setError("Failed create profile: " + errorMsg);
+      throw new Error(errorMsg);
     } finally {
       setIsLoading(false);
     }
   };
 
   return {
-    createProfileData,
+    createProfile,
     isLoading,
     error,
   };
 };
 
 export const useHandleImageProfile = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const imageProfile = async (
@@ -52,12 +51,16 @@ export const useHandleImageProfile = () => {
       console.log("Succes create image :", result.data);
       return result.data;
     } catch (err: any) {
-      setError("Failed create profile :" + (err.message || "Unknown error"));
-      throw null;
+      const errorMsg = err.message || "Unknown error";
+      setError("Failed upload profile image: " + errorMsg);
+      throw new Error(errorMsg);
+    } finally {
+      setIsLoading(false);
     }
   };
   return {
     imageProfile,
+    isLoading,
     error,
   };
 };

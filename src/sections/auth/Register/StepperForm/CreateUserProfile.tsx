@@ -20,7 +20,7 @@ interface CreateUserProfileProps {
   setCvFile: (file: File | null) => void;
   setAvatarImageFile: (file: File | null) => void;
 }
-export default function OtpCodeStepper({
+export default function CreateUserProfile({
   fullName,
   bio,
   about,
