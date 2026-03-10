@@ -19,3 +19,12 @@ export interface CreateProfileRequest {
   theme: string;
   tags: string[];
 }
+
+export interface HandleImageProfile {
+  user_id: string;
+  image_profile: File;
+}
+
+export interface ImageProfileResponse {
+  url_profil: string;
+}

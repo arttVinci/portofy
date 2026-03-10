@@ -1,6 +1,7 @@
 import type { WebResponse } from "../types/base/api";
 import type {
   CreateProfileRequest,
+  ImageProfileResponse,
   ProfileResponse,
 } from "../types/entities/profile";
 
@@ -20,6 +21,24 @@ export const createProfile = async (
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.errors || "Registration failed");
+  }
+
+  const responseData = await response.json();
+
+  return responseData;
+};
+
+export const handleImageProfile = async (
+  data: FormData,
+): Promise<WebResponse<ImageProfileResponse>> => {
+  const response = await fetch(`${API_BASE_URL}/images/profile`, {
+    method: "POST",
+    body: data,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed get url profile");
   }
 
   const responseData = await response.json();
