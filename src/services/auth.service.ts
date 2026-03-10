@@ -42,7 +42,7 @@ export const loginUser = async (
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.errors || "Registration failed");
+    throw new Error(errorData.errors || "Login failed");
   }
 
   const responseData = await response.json();

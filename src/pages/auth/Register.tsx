@@ -13,6 +13,7 @@ import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUs
 import { useRegisterUser } from "../../hooks/mutations/auth";
 import type { RegisterUserRequest } from "../../types/entities/auth";
 import { generateUserId } from "../../utils/generateId";
+import { useHandleImageProfile } from "../../hooks/mutations/useProfile";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -72,6 +73,9 @@ const templates: TemplateItem[] = [
 
 export default function RegisterPage() {
   const { register, isLoading, error } = useRegisterUser();
+  const { imageProfile } = useHandleImageProfile();
+
+  const [token, setToken] = useState<string>("");
 
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
@@ -89,65 +93,76 @@ export default function RegisterPage() {
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const [createAccountForm, setAccountForm] = useState({
+  const [formData, setFormData] = useState({
+    // Account
     username: "",
     email: "",
     password: "",
     confirmPw: "",
-    no_telp: "",
-  });
-
-  const [createProfileForm, setProfileForm] = useState({
-    user_id: "",
-    full_name: "",
-    url_profile: "",
+    phone: "",
+    // Profile
+    fullName: "",
     address: "",
     about: "",
     bio: "",
     theme: "minimal",
-    tags: [],
+    userId: "",
   });
 
   const handleCreateUser = async () => {
     try {
-      const idUser = generateUserId(createAccountForm.username);
-
-      const registerAccountData: RegisterUserRequest = {
-        id: idUser,
-        username: createAccountForm.username,
-        password: createAccountForm.password,
-        email: createAccountForm.email,
-        no_telp: createAccountForm.no_telp,
+      const payload: RegisterUserRequest = {
+        username: formData.username,
+        password: formData.password,
+        email: formData.email,
+        no_telp: formData.phone,
       };
 
-      const registerResult = await register(registerAccountData);
-      console.log("Registration successful:", registerResult);
+      const response = await register(payload);
+
+      setToken(response.token);
+      localStorage.setItem("token", response.token);
+
+      setFormData((prev) => ({ ...prev, userId: response.user.id }));
+
       goNext();
     } catch (err) {
-      console.error("Registration error:", err);
+      console.error("Registration fail:", err);
     }
   };
 
-  const handleCreateProfile = async () => {
+  const handleImageProfile = async () => {
+    if (!avatarImageFile) {
+      goNext();
+      return;
+    }
+
     try {
-      if(avatarImageFile) {
+      const uploadData = new FormData();
+      uploadData.append("image_profile", avatarImageFile);
+      uploadData.append("id_user", formData.userId);
 
-      const formData = new FormData();
-        formData.append("file_image", avatarImageFile);
-        formData.append("user_id", createProfileForm.user_id);
-    }
+      const response = await imageProfile(uploadData, token);
+
+      setFormData((prev) => ({ ...prev, profileUrl: response.url_profil }));
+      goNext();
+    } catch (err) {
+      console.error("Upload error:", err);
     }
   };
 
-  const set = (key: string, value: string) => {
-    if (step === 1) {
-      setAccountForm((f) => ({ ...f, [key]: value }));
-    }
-    setProfileForm((f) => ({ ...f, [key]: value }));
+  // const handleCreateProfile = async () => {
+  //   try {
+
+  //   }
+  // };
+
+  const handleFormChange = (key: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const pwMatch = createAccountForm.password === createAccountForm.confirmPw;
-  const pwStrong = createAccountForm.password.length >= 8;
+  const pwMatch = formData.password === formData.confirmPw;
+  const pwStrong = formData.password.length >= 8;
 
   const canNext = () => {
     // if (step === 1)
@@ -294,7 +309,7 @@ export default function RegisterPage() {
               {step === 1 &&
                 "Daftar dengan email atau langsung pakai akun Google / GitHub."}
               {step === 2 &&
-                `Kode 6 digit dikirim ke ${createAccountForm.email || "emailmu"}.`}
+                `Kode 6 digit dikirim ke ${formData.email || "emailmu"}.`}
               {step === 3 &&
                 "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri."}
               {step === 4 && "Template bisa diganti kapan saja dari dashboard."}
@@ -433,15 +448,15 @@ export default function RegisterPage() {
                         {/* Step 1 Create Account */}
                         {step === 1 && (
                           <CreateAccountStepper
-                            username={createAccountForm.username}
-                            email={createAccountForm.email}
-                            password={createAccountForm.password}
-                            confirmPw={createAccountForm.confirmPw}
+                            username={formData.username}
+                            email={formData.email}
+                            password={formData.password}
+                            confirmPw={formData.confirmPw}
                             showPw={showPw}
                             showCpw={showCpw}
                             pwMatch={pwMatch}
                             focused={focused}
-                            set={set}
+                            set={handleFormChange}
                             setFocused={setFocused}
                             setShowPw={setShowPw}
                             setShowCpw={setShowCpw}
@@ -451,7 +466,7 @@ export default function RegisterPage() {
                         {/* Step 2 Otp Code Email*/}
                         {step === 2 && (
                           <OtpCodeStepper
-                            email={createAccountForm.email}
+                            email={formData.email}
                             otp={otp}
                             setOtp={setOtp}
                           />
@@ -460,15 +475,15 @@ export default function RegisterPage() {
                         {/* Step 3 Create User Profile and CV Upload */}
                         {step === 3 && (
                           <CreateUserProfile
-                            fullName={createProfileForm.full_name}
-                            bio={createProfileForm.bio}
-                            about={createProfileForm.about}
-                            address={createProfileForm.address}
+                            fullName={formData.fullName}
+                            bio={formData.bio}
+                            about={formData.about}
+                            address={formData.address}
                             tags={tags}
                             avatarPreview={avatarPreviewUrl}
                             cvFile={cvFile}
                             focused={focused}
-                            set={set}
+                            set={handleFormChange}
                             setFocused={setFocused}
                             setAvatarPreview={setAvatarPreviewUrl}
                             setAvatarImageFile={setAvatarImageFile}
@@ -532,7 +547,12 @@ export default function RegisterPage() {
 
                     {step < 4 ? (
                       <button
-                        onClick={step === 1 ? handleCreateUser : goNext}
+                        onClick={step === 3 ? handleImageProfile : goNext}
+                        // onClick={
+                        //   step === 1
+                        //     ? handleCreateUser
+                        //     : ((goNext || step === 3) ?? handleImageProfile)
+                        // }
                         disabled={!canNext()}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                         style={{
@@ -603,8 +623,8 @@ export default function RegisterPage() {
               </motion.div>
             ) : (
               <SuccessScreen
-                name={createProfileForm.full_name}
-                username={createAccountForm.username}
+                name={formData.fullName}
+                username={formData.username}
               />
             )}
           </AnimatePresence>

@@ -11,17 +11,18 @@ export const useRegisterUser = () => {
 
   const register = async (
     data: RegisterUserRequest,
-  ): Promise<LoginUserResponse | null> => {
+  ): Promise<LoginUserResponse> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const result = await registerUser(data);
-      console.log("Registration successful:", result.data);
-      return result.data;
+      const response = await registerUser(data);
+      console.log("Registration successful:", response.data);
+      return response.data;
     } catch (err: any) {
-      setError("Registration failed :" + (err.message || "Unknown error"));
-      throw null;
+      const errorMsg = err.message || "Unknown error";
+      setError("Registration failed: " + errorMsg);
+      throw new Error(errorMsg);
     } finally {
       setIsLoading(false);
     }

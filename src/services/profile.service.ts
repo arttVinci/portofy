@@ -9,18 +9,20 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export const createProfile = async (
   data: CreateProfileRequest,
+  token: string,
 ): Promise<WebResponse<ProfileResponse>> => {
   const response = await fetch(`${API_BASE_URL}/profiles`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.errors || "Registration failed");
+    throw new Error(errorData.errors || "Create Profile failed");
   }
 
   const responseData = await response.json();
@@ -30,9 +32,13 @@ export const createProfile = async (
 
 export const handleImageProfile = async (
   data: FormData,
+  token: string,
 ): Promise<WebResponse<ImageProfileResponse>> => {
   const response = await fetch(`${API_BASE_URL}/images/profile`, {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: data,
   });
 

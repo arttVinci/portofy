@@ -1,6 +1,6 @@
 export interface UserResponse {
-  id?: string;
-  username?: string;
+  id: string;
+  username: string;
   no_telp?: string;
   email?: string;
   created_at?: number;
