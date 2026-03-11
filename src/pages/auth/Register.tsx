@@ -694,6 +694,7 @@ export default function RegisterPage() {
                     ) : (
                       <button
                         onClick={handleCreateProfile}
+                        disabled={isProfileLoading}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                         style={{
                           backgroundColor: "rgba(255,255,255,0.9)",
