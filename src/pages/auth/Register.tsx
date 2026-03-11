@@ -103,7 +103,6 @@ export default function RegisterPage() {
     error: profileError,
   } = useCreateProfile();
 
-  // Sekalian buat yang upload foto biar error-nya ga nabrak juga
   const { imageProfile, error: uploadError } = useHandleImageProfile();
 
   const [token, setToken] = useState<string>("");
@@ -117,7 +116,6 @@ export default function RegisterPage() {
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
 
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
@@ -212,7 +210,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handleFormChange = (key: string, value: string) => {
+  const handleFormChange = (key: string, value: string | string[]) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -534,15 +532,14 @@ export default function RegisterPage() {
                             bio={formData.bio}
                             about={formData.about}
                             address={formData.address}
-                            tags={tags}
+                            tags={formData.tags}
                             avatarPreview={avatarPreviewUrl}
                             cvFile={cvFile}
                             focused={focused}
-                            set={handleFormChange}
+                            setForm={handleFormChange}
                             setFocused={setFocused}
                             setAvatarPreview={setAvatarPreviewUrl}
                             setAvatarImageFile={setAvatarImageFile}
-                            setTags={setTags}
                             setCvFile={setCvFile}
                           />
                         )}

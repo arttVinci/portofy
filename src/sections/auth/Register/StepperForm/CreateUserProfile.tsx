@@ -13,10 +13,9 @@ interface CreateUserProfileProps {
   avatarPreview: string | null;
   cvFile?: File | null;
   focused: string | null;
-  set: (field: string, value: string) => void;
+  setForm: (field: string, value: string | string[]) => void;
   setFocused: (field: string | null) => void;
   setAvatarPreview: (v: string | null) => void;
-  setTags: (tags: string[]) => void;
   setCvFile: (file: File | null) => void;
   setAvatarImageFile: (file: File | null) => void;
 }
@@ -29,10 +28,9 @@ export default function CreateUserProfile({
   avatarPreview,
   cvFile,
   focused,
-  set,
+  setForm,
   setFocused,
   setAvatarPreview,
-  setTags,
   setCvFile,
   setAvatarImageFile,
 }: CreateUserProfileProps) {
@@ -66,7 +64,7 @@ export default function CreateUserProfile({
               type="text"
               placeholder="Nama di portfolio"
               value={fullName}
-              onChange={(e) => set("fullName", e.target.value)}
+              onChange={(e) => setForm("fullName", e.target.value)}
               onFocus={() => setFocused("fullName")}
               onBlur={() => setFocused(null)}
               style={IStyle(focused === "fullName")}
@@ -80,7 +78,7 @@ export default function CreateUserProfile({
             type="text"
             placeholder="Seorang designer yang suka clean UI"
             value={bio}
-            onChange={(e) => set("bio", e.target.value)}
+            onChange={(e) => setForm("bio", e.target.value)}
             onFocus={() => setFocused("bio")}
             onBlur={() => setFocused(null)}
             style={IStyle(focused === "bio")}
@@ -93,7 +91,7 @@ export default function CreateUserProfile({
             rows={3}
             placeholder="Ceritakan lebih detail tentang dirimu..."
             value={about}
-            onChange={(e) => set("about", e.target.value)}
+            onChange={(e) => setForm("about", e.target.value)}
             onFocus={() => setFocused("about")}
             onBlur={() => setFocused(null)}
             style={
@@ -111,7 +109,7 @@ export default function CreateUserProfile({
             type="text"
             placeholder="Jakarta, ID"
             value={address}
-            onChange={(e) => set("address", e.target.value)}
+            onChange={(e) => setForm("address", e.target.value)}
             onFocus={() => setFocused("address")}
             onBlur={() => setFocused(null)}
             style={IStyle(focused === "address")}
@@ -120,7 +118,7 @@ export default function CreateUserProfile({
 
         <div>
           <InputLabel text="Tags" hint={`${tags.length}/10`} />
-          <TagInput tags={tags} onChange={setTags} />
+          <TagInput tags={tags} setForm={setForm} />
         </div>
       </div>
 

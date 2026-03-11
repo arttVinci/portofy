@@ -3,22 +3,24 @@ import { useState } from "react";
 
 import IStyle from "../utils/IStyle";
 
-export default function TagInput({
-  tags,
-  onChange,
-}: {
+interface TagInputProps {
   tags: string[];
-  onChange: (t: string[]) => void;
-}) {
-  const [val, setVal] = useState("");
+  setForm: (field: string, value: string[]) => void;
+}
+export default function TagInput({ tags, setForm }: TagInputProps) {
+  const [value, setValue] = useState("");
   const add = () => {
-    const trimmed = val.trim();
+    const trimmed = value.trim();
     if (trimmed && !tags.includes(trimmed) && tags.length < 10) {
-      onChange([...tags, trimmed]);
-      setVal("");
+      setForm("tags", [...tags, trimmed]);
+      setValue("");
     }
   };
-  const remove = (t: string) => onChange(tags.filter((x) => x !== t));
+  const remove = (t: string) =>
+    setForm(
+      "tags",
+      tags.filter((x) => x !== t),
+    );
   return (
     <div>
       {tags.length > 0 && (
@@ -50,8 +52,8 @@ export default function TagInput({
         <input
           type="text"
           placeholder="Tambah tag..."
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
