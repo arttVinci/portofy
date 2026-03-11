@@ -34,7 +34,7 @@ export const handleImageProfile = async (
   data: FormData,
   token: string,
 ): Promise<WebResponse<ImageProfileResponse>> => {
-  const response = await fetch(`${API_BASE_URL}/images/profile`, {
+  const response = await fetch(`${API_BASE_URL}/profiles/image`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

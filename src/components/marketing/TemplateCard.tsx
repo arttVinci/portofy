@@ -11,6 +11,7 @@ interface TemplateCardProps {
   noPreview?: boolean;
   setHoveredId: (id: string | null) => void;
   setPreviewTemplate?: (template: TemplateItem | null) => void;
+  setForm?: (field: string, value: string | string[]) => void;
 }
 
 export default function TemplateCard({
@@ -20,6 +21,7 @@ export default function TemplateCard({
   noPreview,
   setHoveredId,
   setPreviewTemplate,
+  setForm,
 }: TemplateCardProps) {
   return (
     <motion.div
@@ -124,7 +126,7 @@ export default function TemplateCard({
                   border: "1px solid rgba(255,255,255,0.07)",
                 }}
               >
-                {tag}
+                {tag}x
               </span>
             ))}
           </div>
@@ -133,6 +135,7 @@ export default function TemplateCard({
           <div className="flex gap-2">
             <button
               className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200 cursor-pointer"
+              onClick={() => setForm?.("theme", template.id)}
               style={{
                 backgroundColor: "rgba(255,255,255,0.88)",
                 color: "#0a0a0f",

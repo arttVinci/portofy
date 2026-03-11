@@ -97,8 +97,8 @@ export interface TemplateItem {
   category: string;
   tags: string[];
   description: string;
-  badge?: string;
+  badge: string;
   views: string;
-  isPro?: boolean;
+  isPro: boolean;
   lines: { w: string; h: number }[];
 }

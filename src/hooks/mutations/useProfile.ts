@@ -5,6 +5,7 @@ import type {
   ProfileResponse,
 } from "../../types/entities/profile";
 import { create, handleImageProfile } from "../../services/profile.service";
+import type { WebResponse } from "../../types/base/api";
 
 export const useCreateProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,14 +14,14 @@ export const useCreateProfile = () => {
   const createProfile = async (
     data: CreateProfileRequest,
     token: string,
-  ): Promise<ProfileResponse> => {
+  ): Promise<WebResponse<ProfileResponse>> => {
     setIsLoading(true);
     setError(null);
 
     try {
       const result = await create(data, token);
       console.log("Succes Create Profile :", result.data);
-      return result.data;
+      return result;
     } catch (err: any) {
       const errorMsg = err.message || "Unknown error";
       setError("Failed create profile: " + errorMsg);
@@ -44,12 +45,12 @@ export const useHandleImageProfile = () => {
   const imageProfile = async (
     data: FormData,
     token: string,
-  ): Promise<ImageProfileResponse> => {
+  ): Promise<WebResponse<ImageProfileResponse>> => {
     try {
       const result = await handleImageProfile(data, token);
 
       console.log("Succes create image :", result.data);
-      return result.data;
+      return result;
     } catch (err: any) {
       const errorMsg = err.message || "Unknown error";
       setError("Failed upload profile image: " + errorMsg);

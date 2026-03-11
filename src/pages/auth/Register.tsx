@@ -103,7 +103,11 @@ export default function RegisterPage() {
     error: profileError,
   } = useCreateProfile();
 
-  const { imageProfile, error: uploadError } = useHandleImageProfile();
+  const {
+    imageProfile,
+    isLoading: isUploadLoading,
+    error: uploadError,
+  } = useHandleImageProfile();
 
   const [token, setToken] = useState<string>("");
 
@@ -168,6 +172,9 @@ export default function RegisterPage() {
       return;
     }
 
+    console.log(avatarImageFile);
+    console.log(avatarPreviewUrl);
+
     try {
       const uploadData = new FormData();
       uploadData.append("image_profile", avatarImageFile);
@@ -175,7 +182,9 @@ export default function RegisterPage() {
 
       const response = await imageProfile(uploadData, token);
 
-      setFormData((prev) => ({ ...prev, profileUrl: response.url_profil }));
+      handleFormChange("profileUrl", response.data.url_profile);
+
+      console.log("cobaa", response.data.url_profile);
       goNext();
     } catch (err) {
       console.error("Upload error:", err);
@@ -189,7 +198,6 @@ export default function RegisterPage() {
         return;
       }
 
-      // 2. Mapping dari State (camelCase) ke Payload API (snake_case)
       const payload: CreateProfileRequest = {
         user_id: formData.userId,
         full_name: formData.fullName,
@@ -218,11 +226,12 @@ export default function RegisterPage() {
   const pwStrong = formData.password.length >= 8;
 
   const canNext = () => {
-    // if (step === 1)
-    //   return form.username.length >= 3 && form.email && pwStrong && pwMatch;
+    if (step === 1)
+      return (
+        formData.username.length >= 3 && formData.email && pwStrong && pwMatch
+      );
     // if (step === 2) return otp.length === 6;
-    // if (step === 3) return form.fullName.length > 0;
-    // if (step === 4) return form.profession.length > 0;
+    if (step === 3) return formData.fullName.length > 3;
     return true;
   };
 
@@ -562,6 +571,7 @@ export default function RegisterPage() {
                                   i={i}
                                   noPreview={true}
                                   hoveredId={hoveredId}
+                                  setForm={handleFormChange}
                                   setHoveredId={setHoveredId}
                                 />
                               ))}
@@ -599,13 +609,18 @@ export default function RegisterPage() {
 
                     {step < 4 ? (
                       <button
-                        onClick={step === 3 ? handleImageProfile : goNext}
-                        // onClick={
-                        //   step === 1
-                        //     ? handleCreateUser
-                        //     : ((goNext || step === 3) ?? handleImageProfile)
-                        // }
-                        disabled={!canNext()}
+                        onClick={
+                          step === 1
+                            ? handleCreateUser
+                            : step === 3
+                              ? handleImageProfile
+                              : goNext
+                        }
+                        disabled={
+                          !canNext() ||
+                          (step === 1 && isRegisterLoading) ||
+                          (step === 3 && isUploadLoading)
+                        }
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                         style={{
                           backgroundColor: "rgba(255,255,255,0.9)",
@@ -623,8 +638,17 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)";
                         }}
                       >
-                        {step === 1 ? "Kirim Kode" : "Lanjut"}{" "}
-                        <ArrowRight size={14} />
+                        {step === 1 && isRegisterLoading
+                          ? "Mendaftar..."
+                          : step === 3 && isUploadLoading
+                            ? "Mengunggah..."
+                            : step === 1
+                              ? "Kirim Kode"
+                              : "Lanjut"}
+
+                        {!isRegisterLoading && !isUploadLoading && (
+                          <ArrowRight size={14} />
+                        )}
                       </button>
                     ) : (
                       <button
@@ -645,7 +669,8 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)")
                         }
                       >
-                        Buat Portfolio <ArrowRight size={14} />
+                        {isProfileLoading ? "Membangun..." : "Buat Portfolio"}
+                        {!isProfileLoading && <ArrowRight size={14} />}
                       </button>
                     )}
                   </div>

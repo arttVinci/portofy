@@ -26,5 +26,5 @@ export interface HandleImageProfile {
 }
 
 export interface ImageProfileResponse {
-  url_profil: string;
+  url_profile: string;
 }
