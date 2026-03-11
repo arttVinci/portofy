@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 
@@ -253,6 +253,37 @@ export default function RegisterPage() {
     exit: (d: number) => ({ opacity: 0, x: d > 0 ? -24 : 24 }),
   };
 
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    const savedStep = localStorage.getItem("registerStep");
+    const savedUserData = localStorage.getItem("registerData");
+
+    if (savedToken) {
+      setToken(savedToken);
+
+      if (savedStep) {
+        setStep(parseInt(savedStep, 10));
+        setDir(1);
+      } else {
+        setStep(2);
+      }
+      if (savedUserData) {
+        const parsedData = JSON.parse(savedUserData);
+        setFormData((prev) => ({
+          ...prev,
+          userId: parsedData.userId,
+          email: parsedData.email,
+          username: parsedData.username,
+        }));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token && step > 1) {
+      localStorage.setItem("registerStep", step.toString());
+    }
+  }, [step, token]);
   return (
     <div
       className="flex min-h-screen"
