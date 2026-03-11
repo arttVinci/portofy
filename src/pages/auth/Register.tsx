@@ -160,6 +160,13 @@ export default function RegisterPage() {
 
       setFormData((prev) => ({ ...prev, userId: response.user.id }));
 
+      const crucialData = {
+        userId: response.user.id,
+        email: formData.email,
+        username: formData.username,
+      };
+      localStorage.setItem("registerData", JSON.stringify(crucialData));
+
       goNext();
     } catch (err) {
       console.error("Registration fail:", err);
@@ -215,6 +222,9 @@ export default function RegisterPage() {
       setDone(true);
     } catch (err) {
       console.error("Gagal nge-build profil:", err);
+    } finally {
+      localStorage.removeItem("registerStep");
+      localStorage.removeItem("registerData");
     }
   };
 
