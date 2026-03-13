@@ -7,10 +7,11 @@ import TemplateCard from "../../components/marketing/TemplateCard";
 
 import type { TemplateItem } from "../../@types/ui.types";
 
+import { useAuth } from "../../hooks/mutations/useAuth";
+
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
-import { useRegisterUser } from "../../hooks/mutations/useAuth";
 import type { RegisterUserRequest } from "../../@types/entities/auth";
 import {
   useCreateProfile,
@@ -92,10 +93,12 @@ interface FormData {
 
 export default function RegisterPage() {
   const {
-    register,
-    isLoading: isRegisterLoading,
-    error: registerError,
-  } = useRegisterUser();
+    createUser,
+    loading: isLoadingUser,
+    error: userError,
+    validationErrors,
+    clearError,
+  } = useAuth();
 
   const {
     createProfile,
@@ -153,7 +156,11 @@ export default function RegisterPage() {
         no_telp: formData.phone,
       };
 
-      const response = await register(payload);
+      const response = await createUser(payload);
+
+      if (!response) {
+        return;
+      }
 
       setToken(response.token);
       localStorage.setItem("token", response.token);
@@ -232,6 +239,10 @@ export default function RegisterPage() {
 
   const handleFormChange = (key: string, value: string | string[]) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+
+    if (validationErrors) {
+      clearError();
+    }
   };
 
   const pwMatch = formData.password === formData.confirmPw;
@@ -661,7 +672,7 @@ export default function RegisterPage() {
                         }
                         disabled={
                           !canNext() ||
-                          (step === 1 && isRegisterLoading) ||
+                          (step === 1 && isLoadingUser) ||
                           (step === 3 && isUploadLoading)
                         }
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
@@ -681,7 +692,7 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)";
                         }}
                       >
-                        {step === 1 && isRegisterLoading
+                        {step === 1 && isLoadingUser
                           ? "Mendaftar..."
                           : step === 3 && isUploadLoading
                             ? "Mengunggah..."
@@ -689,7 +700,7 @@ export default function RegisterPage() {
                               ? "Kirim Kode"
                               : "Lanjut"}
 
-                        {!isRegisterLoading && !isUploadLoading && (
+                        {!isLoadingUser && !isUploadLoading && (
                           <ArrowRight size={14} />
                         )}
                       </button>
