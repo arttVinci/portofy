@@ -1,13 +1,13 @@
-export interface WebResponse<T = any> {
+export interface ApiResponse<T = any> {
   data: T;
   paging?: PageMetadata;
   errors?: string;
 }
 
 export interface ApiErrorResponse {
-  success: boolean;
   message: string;
   errors?: Record<string, string[]>;
+  statusCode: number;
 }
 
 export interface PageMetadata {

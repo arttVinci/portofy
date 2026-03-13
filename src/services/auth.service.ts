@@ -2,31 +2,26 @@ import type {
   LoginUserRequest,
   LoginUserResponse,
   RegisterUserRequest,
-} from "../types/entities/auth";
+} from "../@types/entities/auth";
 
-import type { WebResponse } from "../types/base/api";
+import { apiClient } from "../api/apiClient";
+
+import type { WebResponse } from "../@types/base/api";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export const registerUser = async (
-  data: RegisterUserRequest,
+  payload: RegisterUserRequest,
 ): Promise<WebResponse<LoginUserResponse>> => {
-  const response = await fetch(`${API_BASE_URL}/users`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.errors || "Registration failed");
+  try {
+    const response = await apiClient.post("/users", payload);
+    return response.data;
+  } catch (error) {
+    throw new ApiError(
+      error.response?.data?.message || "Failed to create user",
+      error.response?.status || 500,
+    );
   }
-
-  const responseData = await response.json();
-
-  return responseData;
 };
 
 export const loginUser = async (
