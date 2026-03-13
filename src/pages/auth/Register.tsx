@@ -10,7 +10,7 @@ import type { TemplateItem } from "../../@types/ui.types";
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
-import { useRegisterUser } from "../../hooks/mutations/auth";
+import { useRegisterUser } from "../../hooks/mutations/useAuth";
 import type { RegisterUserRequest } from "../../@types/entities/auth";
 import {
   useCreateProfile,

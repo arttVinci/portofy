@@ -3,44 +3,21 @@ import type {
   LoginUserResponse,
   RegisterUserRequest,
 } from "../@types/entities/auth";
+import type { AxiosResponse } from "axios";
 
-import { apiClient } from "../api/apiClient";
+import apiClient from "../api/apiClient";
 
-import type { WebResponse } from "../@types/base/api";
+import type { ApiResponse } from "../@types/base/api";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+class AuthService {
+  private readonly BASE_PATH = "/users";
 
-export const registerUser = async (
-  payload: RegisterUserRequest,
-): Promise<WebResponse<LoginUserResponse>> => {
-  try {
-    const response = await apiClient.post("/users", payload);
-    return response.data;
-  } catch (error) {
-    throw new ApiError(
-      error.response?.data?.message || "Failed to create user",
-      error.response?.status || 500,
-    );
+  async createUser(payload: RegisterUserRequest): Promise<LoginUserResponse> {
+    const response: AxiosResponse<ApiResponse<LoginUserResponse>> =
+      await apiClient.post(this.BASE_PATH, payload);
+
+    return response.data.data;
   }
-};
+}
 
-export const loginUser = async (
-  data: LoginUserRequest,
-): Promise<WebResponse<LoginUserResponse>> => {
-  const response = await fetch(`${API_BASE_URL}/users/_login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.errors || "Login failed");
-  }
-
-  const responseData = await response.json();
-
-  return responseData;
-};
+export default new AuthService();

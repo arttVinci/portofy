@@ -11,8 +11,6 @@ export class ApiError extends Error {
     this.name = "ApiError";
     this.statusCode = statusCode;
     this.errors = errors;
-
-    Error.captureStackTrace(this, this.constructor);
   }
   isValidationError(): boolean {
     return this.statusCode === 422;
