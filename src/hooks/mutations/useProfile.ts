@@ -1,67 +1,90 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
-} from "../../types/entities/profile";
-import { create, handleImageProfile } from "../../services/profile.service";
-import type { WebResponse } from "../../types/base/api";
+} from "../../@types/entities/profile";
+import profileService from "../../services/profile.service";
+import { ApiError } from "../../api/apiError";
 
-export const useCreateProfile = () => {
-  const [isLoading, setIsLoading] = useState(false);
+interface UseProfileReturn {
+  createProfile: (
+    payload: CreateProfileRequest,
+  ) => Promise<ProfileResponse | null>;
+  handleImageProfile: (
+    payload: FormData,
+  ) => Promise<ImageProfileResponse | null>;
+  loading: boolean;
+  error: string | null;
+  validationErrors: Record<string, string[]> | null;
+  clearError: () => void;
+}
+
+export const useProfile = (): UseProfileReturn => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Record<
+    string,
+    string[]
+  > | null>(null);
 
-  const createProfile = async (
-    data: CreateProfileRequest,
-    token: string,
-  ): Promise<WebResponse<ProfileResponse>> => {
-    setIsLoading(true);
+  const clearError = useCallback(() => {
     setError(null);
+    setValidationErrors(null);
+  }, []);
 
-    try {
-      const result = await create(data, token);
-      console.log("Succes Create Profile :", result.data);
-      return result;
-    } catch (err: any) {
-      const errorMsg = err.message || "Unknown error";
-      setError("Failed create profile: " + errorMsg);
-      throw new Error(errorMsg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const createProfile = useCallback(
+    async (payload: CreateProfileRequest): Promise<ProfileResponse | null> => {
+      try {
+        const result = await profileService.createProfile(payload);
+
+        return result;
+      } catch (err) {
+        if (err instanceof ApiError) {
+          setError(err.message);
+          if (err.errors) {
+            setValidationErrors(err.errors);
+          }
+        } else {
+          setError("An unexpected error occurred");
+        }
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [clearError],
+  );
+
+  const handleImageProfile = useCallback(
+    async (payload: FormData): Promise<ImageProfileResponse | null> => {
+      try {
+        const result = await profileService.handleImageProfile(payload);
+
+        return result;
+      } catch (err) {
+        if (err instanceof ApiError) {
+          setError(err.message);
+          if (err.errors) {
+            setValidationErrors(err.errors);
+          }
+        } else {
+          setError("An unexpected error occurred");
+        }
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [clearError],
+  );
 
   return {
     createProfile,
-    isLoading,
+    handleImageProfile,
+    loading,
     error,
-  };
-};
-
-export const useHandleImageProfile = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const imageProfile = async (
-    data: FormData,
-    token: string,
-  ): Promise<WebResponse<ImageProfileResponse>> => {
-    try {
-      const result = await handleImageProfile(data, token);
-
-      console.log("Succes create image :", result.data);
-      return result;
-    } catch (err: any) {
-      const errorMsg = err.message || "Unknown error";
-      setError("Failed upload profile image: " + errorMsg);
-      throw new Error(errorMsg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  return {
-    imageProfile,
-    isLoading,
-    error,
+    validationErrors,
+    clearError,
   };
 };

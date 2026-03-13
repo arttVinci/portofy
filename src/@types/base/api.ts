@@ -1,13 +1,13 @@
 export interface ApiResponse<T = any> {
   data: T;
-  paging?: PageMetadata;
-  errors?: string;
+  message?: string;
+  Success?: string;
 }
 
 export interface ApiErrorResponse {
   message: string;
   errors?: Record<string, string[]>;
-  statusCode: number;
+  statusCode?: number;
 }
 
 export interface PageMetadata {

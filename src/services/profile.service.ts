@@ -1,53 +1,36 @@
-import type { WebResponse } from "../@types/base/api";
+import type { ApiResponse } from "../@types/base/api";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
 } from "../@types/entities/profile";
+import type { AxiosResponse } from "axios";
+import apiClient from "../api/apiClient";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-export const create = async (
-  data: CreateProfileRequest,
-  token: string,
-): Promise<WebResponse<ProfileResponse>> => {
-  const response = await fetch(`${API_BASE_URL}/profiles`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
+class ProfileService {
+  private readonly BASE_PATH = "/profiles";
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.errors || "Create Profile failed");
+  async createProfile(
+    payload: CreateProfileRequest,
+  ): Promise<ProfileResponse | null> {
+    const response: AxiosResponse<ApiResponse<ProfileResponse>> =
+      await apiClient.post(this.BASE_PATH, payload);
+
+    return response.data.data;
   }
 
-  const responseData = await response.json();
+  async handleImageProfile(payload: FormData): Promise<ImageProfileResponse> {
+    const response: AxiosResponse<ApiResponse<ImageProfileResponse>> =
+      await apiClient.post(this.BASE_PATH, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-  return responseData;
-};
-
-export const handleImageProfile = async (
-  data: FormData,
-  token: string,
-): Promise<WebResponse<ImageProfileResponse>> => {
-  const response = await fetch(`${API_BASE_URL}/profiles/image`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: data,
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || "Failed get url profile");
+    return response.data.data;
   }
+}
 
-  const responseData = await response.json();
-
-  return responseData;
-};
+export default new ProfileService();
