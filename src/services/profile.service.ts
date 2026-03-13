@@ -7,8 +7,6 @@ import type {
 import type { AxiosResponse } from "axios";
 import apiClient from "../api/apiClient";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
-
 class ProfileService {
   private readonly BASE_PATH = "/profiles";
 
@@ -23,7 +21,7 @@ class ProfileService {
 
   async handleImageProfile(payload: FormData): Promise<ImageProfileResponse> {
     const response: AxiosResponse<ApiResponse<ImageProfileResponse>> =
-      await apiClient.post(this.BASE_PATH, payload, {
+      await apiClient.post(`${this.BASE_PATH}/image`, payload, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -21,7 +21,7 @@ import AboutPage from "./pages/public/AboutPage";
 import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ProjectPage from "./pages/public/ProjectPage";
-import Register from "./pages/auth/Register";
+import RegisterPage from "./pages/auth/Register";
 import LoginPage from "./pages/auth/LoginPage";
 
 export default function App() {
@@ -39,7 +39,7 @@ export default function App() {
         <Route path="contact" element={<ContactPage />} />
       </Route>
 
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
 
       {/* <Route path="/:username" element={<PublicLayout />}>
