@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { X, ArrowRight } from "lucide-react";
-import type { TemplateItem } from "../../types/ui.types";
+import type { TemplateItem } from "../../@types/ui.types";
 import MockPreview from "./MockPreview";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];

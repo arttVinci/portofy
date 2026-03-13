@@ -5,18 +5,18 @@ import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import SuccessScreen from "../../components/auth/SuccessScreen";
 import TemplateCard from "../../components/marketing/TemplateCard";
 
-import type { TemplateItem } from "../../types/ui.types";
+import type { TemplateItem } from "../../@types/ui.types";
 
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
 import { useRegisterUser } from "../../hooks/mutations/auth";
-import type { RegisterUserRequest } from "../../types/entities/auth";
+import type { RegisterUserRequest } from "../../@types/entities/auth";
 import {
   useCreateProfile,
   useHandleImageProfile,
 } from "../../hooks/mutations/useProfile";
-import type { CreateProfileRequest } from "../../types/entities/profile";
+import type { CreateProfileRequest } from "../../@types/entities/profile";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -175,6 +175,7 @@ export default function RegisterPage() {
 
   const handleImageProfile = async () => {
     if (!avatarImageFile) {
+      localStorage.removeItem("token");
       goNext();
       return;
     }
@@ -192,6 +193,7 @@ export default function RegisterPage() {
       handleFormChange("profileUrl", response.data.url_profile);
 
       console.log("cobaa", response.data.url_profile);
+
       goNext();
     } catch (err) {
       console.error("Upload error:", err);

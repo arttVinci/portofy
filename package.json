@@ -13,6 +13,7 @@
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@react-three/fiber": "^9.5.0",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.6",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",
     "gsap": "^3.14.2",

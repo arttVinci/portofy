@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import MockPreview from "./MockPreview";
-import type { TemplateItem } from "../../types/ui.types";
+import type { TemplateItem } from "../../@types/ui.types";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 

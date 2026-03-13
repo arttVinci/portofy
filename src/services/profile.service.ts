@@ -1,9 +1,9 @@
-import type { WebResponse } from "../types/base/api";
+import type { WebResponse } from "../@types/base/api";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
-} from "../types/entities/profile";
+} from "../@types/entities/profile";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
