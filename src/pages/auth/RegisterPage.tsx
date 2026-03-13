@@ -6,17 +6,16 @@ import SuccessScreen from "../../components/auth/SuccessScreen";
 import TemplateCard from "../../components/marketing/TemplateCard";
 
 import type { TemplateItem } from "../../@types/ui.types";
-import type { RegisterUserRequest } from "../../@types/entities/auth";
-import type { CreateProfileRequest } from "../../@types/entities/profile";
 
 import { useAuth } from "../../hooks/mutations/useAuth";
 import { useProfile } from "../../hooks/mutations/useProfile";
+import { useToast } from "../../hooks/ui/useToast";
 
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
 import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
-
-const ANIMATION_SMOOTH = [0.22, 1, 0.36, 1] as [number, number, number, number];
+import type { RegisterUserRequest } from "../../@types/entities/auth";
+import type { CreateProfileRequest } from "../../@types/entities/profile";
 
 const STORAGE_KEYS = {
   TOKEN: "authToken",
@@ -24,21 +23,16 @@ const STORAGE_KEYS = {
   REGISTER_DATA: "registerData",
 } as const;
 
-const VALIDATION_RULES = {
-  MIN_USERNAME_LENGTH: 3,
-  MIN_PASSWORD_LENGTH: 8,
-  MIN_FULLNAME_LENGTH: 3,
-  OTP_LENGTH: 6,
-} as const;
+const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-const STEPS = [
+const steps = [
   { num: 1, title: "Buat Akun", desc: "Username, email & password" },
   { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
   { num: 3, title: "Profil Kamu", desc: "Avatar, bio & detail" },
   { num: 4, title: "Pilih Template", desc: "Tampilan awal" },
-] as const;
+];
 
-const TEMPLATES: TemplateItem[] = [
+const templates: TemplateItem[] = [
   {
     id: "1",
     name: "Minimal",
@@ -86,13 +80,11 @@ const TEMPLATES: TemplateItem[] = [
 ];
 
 interface FormData {
-  // Account
   username: string;
   email: string;
   password: string;
   confirmPw: string;
   phone: string;
-  // Profile
   fullName: string;
   profileUrl: string;
   address: string;
@@ -101,12 +93,6 @@ interface FormData {
   theme: string;
   tags: string[];
   userId: string;
-}
-
-interface SavedRegisterData {
-  userId: string;
-  email: string;
-  username: string;
 }
 
 export default function RegisterPage() {
@@ -127,26 +113,33 @@ export default function RegisterPage() {
     clearError: profileClearError,
   } = useProfile();
 
+  const { show, renderToasts } = useToast();
+
   const [token, setToken] = useState<string>("");
-  const [step, setStep] = useState<number>(1);
-  const [dir, setDir] = useState<number>(1);
-  const [showPw, setShowPw] = useState<boolean>(false);
-  const [showCpw, setShowCpw] = useState<boolean>(false);
+
+  const [step, setStep] = useState(1);
+  const [dir, setDir] = useState(1);
+  const [showPw, setShowPw] = useState(false);
+  const [showCpw, setShowCpw] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
-  const [done, setDone] = useState<boolean>(false);
+  const [done, setDone] = useState(false);
   const [cvFile, setCvFile] = useState<File | null>(null);
-  const [otp, setOtp] = useState<string>("");
-  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
+
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
+    // Account
     username: "",
     email: "",
     password: "",
     confirmPw: "",
     phone: "",
+    // Profile
     fullName: "",
     profileUrl: "",
     address: "",
@@ -157,26 +150,11 @@ export default function RegisterPage() {
     userId: "",
   });
 
-  const pwMatch = formData.password === formData.confirmPw;
-  const pwStrong =
-    formData.password.length >= VALIDATION_RULES.MIN_PASSWORD_LENGTH;
-
-  const handleFormChange = useCallback(
-    (key: string, value: string | string[]): void => {
-      setFormData((prev) => ({ ...prev, [key]: value }));
-
-      if (userValidationErrors || profileValidationErrors) {
-        userClearError();
-        profileClearError();
-      }
-    },
-    [
-      userValidationErrors,
-      profileValidationErrors,
-      userClearError,
-      profileClearError,
-    ],
-  );
+  interface SavedRegisterData {
+    userId: string;
+    email: string;
+    username: string;
+  }
 
   const handleCreateUser = useCallback(async (): Promise<void> => {
     try {
@@ -205,14 +183,16 @@ export default function RegisterPage() {
         email: formData.email,
         username: formData.username,
       };
+
+      // Register Data User
       localStorage.setItem(
         STORAGE_KEYS.REGISTER_DATA,
         JSON.stringify(crucialData),
       );
 
+      show("success", "Berhasil", "Kode verifikasi dikirim ke emailmu.");
       setOtpSent(true);
-      setDir(1);
-      setStep((s) => Math.min(s + 1, STEPS.length));
+      goNext();
     } catch (err) {
       console.error("Registration failed:", err);
     }
@@ -220,8 +200,7 @@ export default function RegisterPage() {
 
   const handleUploadImage = useCallback(async (): Promise<void> => {
     if (!avatarImageFile) {
-      setDir(1);
-      setStep((s) => Math.min(s + 1, STEPS.length));
+      goNext();
       return;
     }
 
@@ -231,7 +210,6 @@ export default function RegisterPage() {
       uploadData.append("id_user", formData.userId);
 
       const response = await handleImageProfile(uploadData);
-      console.log("coba", response?.url_profile);
 
       if (response?.url_profile) {
         setFormData((prev) => ({
@@ -240,9 +218,8 @@ export default function RegisterPage() {
         }));
         console.log("Profile image uploaded:", response.url_profile);
       }
-
-      setDir(1);
-      setStep((s) => Math.min(s + 1, STEPS.length));
+      show("success", "Berhasil", "Profil berhasil disimpan.");
+      goNext();
     } catch (err) {
       console.error("Upload error:", err);
     }
@@ -269,180 +246,115 @@ export default function RegisterPage() {
       const response = await createProfile(payload);
 
       console.log("Profile created successfully:", response);
-      //   localStorage.removeItem(STORAGE_KEYS.TOKEN);
       setDone(true);
     } catch (err) {
       console.error("Failed to create profile:", err);
     } finally {
-      //   localStorage.removeItem(STORAGE_KEYS.REGISTER_STEP);
-      //   localStorage.removeItem(STORAGE_KEYS.REGISTER_DATA);
+      localStorage.removeItem(STORAGE_KEYS.REGISTER_STEP);
+      localStorage.removeItem(STORAGE_KEYS.REGISTER_DATA);
     }
   }, [formData, token, createProfile]);
 
-  const canNext = useCallback((): boolean => {
-    switch (step) {
-      case 1:
-        return (
-          formData.username.length >= VALIDATION_RULES.MIN_USERNAME_LENGTH &&
-          !!formData.email &&
-          pwStrong &&
-          pwMatch
-        );
-      //   case 2:
-      //     return otp.length === VALIDATION_RULES.OTP_LENGTH;
-      case 3:
-        return formData.fullName.length > VALIDATION_RULES.MIN_FULLNAME_LENGTH;
-      default:
-        return true;
+  const handleFormChange = useCallback(
+    (key: string, value: string | string[]): void => {
+      setFormData((prev) => ({ ...prev, [key]: value }));
+
+      if (userValidationErrors || profileValidationErrors) {
+        userClearError();
+        profileClearError();
+      }
+    },
+    [
+      userValidationErrors,
+      profileValidationErrors,
+      userClearError,
+      profileClearError,
+    ],
+  );
+
+  const pwMatch = formData.password === formData.confirmPw;
+  const pwStrong = formData.password.length >= 8;
+
+  const canNext = () => {
+    if (step === 1)
+      return (
+        formData.username.length >= 3 && formData.email && pwStrong && pwMatch
+      );
+    // if (step === 2) return otp.length === 6;
+    if (step === 3) return formData.fullName.length > 3;
+    return true;
+  };
+
+  const goNext = () => {
+    if (step === 1 && !otpSent) {
+      setOtpSent(true);
     }
-  }, [step, formData, pwStrong, pwMatch, otp]);
-
-  const goNext = useCallback((): void => {
     setDir(1);
-    setStep((s) => Math.min(s + 1, STEPS.length));
-  }, []);
-
-  const goPrev = useCallback((): void => {
+    setStep((s) => Math.min(s + 1, 5));
+  };
+  const goPrev = () => {
     setDir(-1);
     setStep((s) => Math.max(s - 1, 1));
-  }, []);
+  };
 
-  // ─────────────────────────────────────────────────────────────
-  // Effects
-  // ─────────────────────────────────────────────────────────────
+  const slide = {
+    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 24 : -24 }),
+    center: { opacity: 1, x: 0 },
+    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -24 : 24 }),
+  };
 
-  // Restore session on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem(STORAGE_KEYS.TOKEN);
-    const savedStep = localStorage.getItem(STORAGE_KEYS.REGISTER_STEP);
-    const savedUserData = localStorage.getItem(STORAGE_KEYS.REGISTER_DATA);
+    const savedToken = localStorage.getItem("authToken");
+    const savedStep = localStorage.getItem("registerStep");
+    const savedUserData = localStorage.getItem("registerData");
 
     if (savedToken) {
       setToken(savedToken);
 
       if (savedStep) {
-        const parsedStep = parseInt(savedStep, 10);
-        if (
-          !isNaN(parsedStep) &&
-          parsedStep >= 1 &&
-          parsedStep <= STEPS.length
-        ) {
-          setStep(parsedStep);
-          setDir(1);
-        }
+        setStep(parseInt(savedStep, 10));
+        setDir(1);
       } else {
-        setStep(2); // Default to step 2 if token exists but no step saved
+        setStep(2);
       }
-
       if (savedUserData) {
-        try {
-          const parsedData: SavedRegisterData = JSON.parse(savedUserData);
-          setFormData((prev) => ({
-            ...prev,
-            userId: parsedData.userId,
-            email: parsedData.email,
-            username: parsedData.username,
-          }));
-        } catch (err) {
-          console.error("Failed to parse saved user data:", err);
-          localStorage.removeItem(STORAGE_KEYS.REGISTER_DATA);
-        }
+        const parsedData = JSON.parse(savedUserData);
+        setFormData((prev) => ({
+          ...prev,
+          userId: parsedData.userId,
+          email: parsedData.email,
+          username: parsedData.username,
+        }));
       }
     }
   }, []);
 
   useEffect(() => {
     if (token && step > 1) {
-      localStorage.setItem(STORAGE_KEYS.REGISTER_STEP, step.toString());
+      localStorage.setItem("registerStep", step.toString());
     }
   }, [step, token]);
 
-  const slideVariants = {
-    enter: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? 24 : -24,
-    }),
-    center: {
-      opacity: 1,
-      x: 0,
-    },
-    exit: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? -24 : 24,
-    }),
-  };
-
-  const getStepTitle = () => {
-    const titles = [
-      <>
-        Buat akun <em style={{ color: "rgba(255,255,255,0.35)" }}>portof.</em>
-      </>,
-      <>
-        Verifikasi <em style={{ color: "rgba(255,255,255,0.35)" }}>emailmu.</em>
-      </>,
-      <>
-        Lengkapi <em style={{ color: "rgba(255,255,255,0.35)" }}>profilmu.</em>
-      </>,
-      <>
-        Pilih <em style={{ color: "rgba(255,255,255,0.35)" }}>tampilanmu.</em>
-      </>,
-    ];
-
-    return titles[step - 1] || titles[0];
-  };
-
-  const getStepDescription = (): string => {
-    const descriptions: string[] = [
-      "Daftar dengan email atau langsung pakai akun Google / GitHub.",
-      `Kode 6 digit dikirim ke ${formData.email || "emailmu"}.`,
-      "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri.",
-      "Template bisa diganti kapan saja dari dashboard.",
-    ];
-
-    return descriptions[step - 1] || "";
-  };
-
-  const getActionButtonText = (): string => {
-    if (step === 1) {
-      return isLoadingUser ? "Mendaftar..." : "Kirim Kode";
+  useEffect(() => {
+    if (userError) {
+      show("error", "Error", userError);
+      userClearError();
     }
-    if (step === 3) {
-      return isLoadingProfile ? "Mengunggah..." : "Lanjut";
-    }
-    if (step === 4) {
-      return isLoadingProfile ? "Membangun..." : "Buat Portfolio";
-    }
-    return "Lanjut";
-  };
+  }, [userError]);
 
-  const handleActionButtonClick = (): void => {
-    if (step === 1) {
-      handleCreateUser();
-    } else if (step === 3) {
-      handleUploadImage();
-    } else if (step === 4) {
-      handleCreateProfile();
-    } else {
-      goNext();
+  useEffect(() => {
+    if (profileError) {
+      show("error", "Error", profileError);
+      profileClearError();
     }
-  };
-
-  const isActionButtonDisabled = (): boolean => {
-    if (!canNext()) return true;
-    if (step === 1 && isLoadingUser) return true;
-    if (step === 3 && isLoadingProfile) return true;
-    if (step === 4 && isLoadingProfile) return true;
-    return false;
-  };
-
-  const isLoadingAny = isLoadingUser || isLoadingProfile;
+  }, [profileError]);
 
   return (
     <div
       className="flex min-h-screen"
       style={{ backgroundColor: "#0a0a0f", fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Background Grid */}
+      {/* BG grid */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
         style={{
@@ -451,12 +363,11 @@ export default function RegisterPage() {
         }}
       />
 
-      {/* ── LEFT BRANDING SECTION ── */}
+      {/* ── LEFT BRANDING ── */}
       <div
         className="hidden lg:flex flex-col justify-between w-90 shrink-0 relative overflow-hidden px-10 py-10"
         style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}
       >
-        {/* Gradient Background */}
         <div
           className="pointer-events-none absolute bottom-0 left-0 right-0"
           style={{
@@ -466,7 +377,6 @@ export default function RegisterPage() {
           }}
         />
 
-        {/* Logo */}
         <a href="/" className="relative inline-block">
           <span
             className="text-[17px] font-semibold"
@@ -477,17 +387,15 @@ export default function RegisterPage() {
           </span>
         </a>
 
-        {/* Step Information */}
         <div className="relative">
           <motion.div
             key={step}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: ANIMATION_SMOOTH }}
+            transition={{ duration: 0.45, ease: smooth }}
           >
-            {/* Progress Bars */}
             <div className="flex items-center gap-1.5 mb-5">
-              {STEPS.map((s) => (
+              {steps.map((s) => (
                 <div
                   key={s.num}
                   className="h-0.5 flex-1 rounded-full transition-all duration-500"
@@ -502,16 +410,12 @@ export default function RegisterPage() {
                 />
               ))}
             </div>
-
-            {/* Step Counter */}
             <p
               className="text-[10px] font-semibold tracking-widest uppercase mb-2"
               style={{ color: "rgba(255,255,255,0.2)" }}
             >
-              Langkah {step} dari {STEPS.length}
+              Langkah {step} dari {steps.length}
             </p>
-
-            {/* Step Title */}
             <h2
               className="text-white mb-2"
               style={{
@@ -521,20 +425,56 @@ export default function RegisterPage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              {getStepTitle()}
+              {step === 1 && (
+                <>
+                  Buat akun{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>portof.</em>
+                </>
+              )}
+              {step === 2 && (
+                <>
+                  Verifikasi{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>emailmu.</em>
+                </>
+              )}
+              {step === 3 && (
+                <>
+                  Lengkapi{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>profilmu.</em>
+                </>
+              )}
+              {step === 4 && (
+                <>
+                  Tentukan{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
+                    keahlianmu.
+                  </em>
+                </>
+              )}
+              {step === 5 && (
+                <>
+                  Pilih{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
+                    tampilanmu.
+                  </em>
+                </>
+              )}
             </h2>
-
-            {/* Step Description */}
             <p
               className="text-[13px] leading-relaxed"
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
-              {getStepDescription()}
+              {step === 1 &&
+                "Daftar dengan email atau langsung pakai akun Google / GitHub."}
+              {step === 2 &&
+                `Kode 6 digit dikirim ke ${formData.email || "emailmu"}.`}
+              {step === 3 &&
+                "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri."}
+              {step === 4 && "Template bisa diganti kapan saja dari dashboard."}
             </p>
           </motion.div>
         </div>
 
-        {/* Testimonial */}
         <div className="relative">
           <div
             className="h-px mb-4"
@@ -555,9 +495,8 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* ── RIGHT FORM SECTION ── */}
+      {/* ── RIGHT FORM ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 relative z-10">
-        {/* Mobile Logo */}
         <div className="lg:hidden mb-8">
           <a href="/">
             <span
@@ -570,7 +509,6 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        {/* Main Content Container */}
         <div className="w-full max-w-240">
           <AnimatePresence mode="wait">
             {!done ? (
@@ -579,7 +517,7 @@ export default function RegisterPage() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: 0.3, ease: ANIMATION_SMOOTH }}
+                transition={{ duration: 0.3, ease: smooth }}
               >
                 <div
                   className="rounded-2xl overflow-hidden"
@@ -588,14 +526,13 @@ export default function RegisterPage() {
                     border: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  {/* ── Stepper Header ── */}
+                  {/* Stepper header */}
                   <div
                     className="px-6 pt-5 pb-4"
                     style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    {/* Step Indicators */}
                     <div className="flex items-center mb-3">
-                      {STEPS.map((s, i) => {
+                      {steps.map((s, i) => {
                         const isDone = step > s.num;
                         const isActive = step === s.num;
                         return (
@@ -611,13 +548,7 @@ export default function RegisterPage() {
                                   : isActive
                                     ? "rgba(255,255,255,0.1)"
                                     : "rgba(255,255,255,0.04)",
-                                border: `1.5px solid ${
-                                  isDone
-                                    ? "transparent"
-                                    : isActive
-                                      ? "rgba(255,255,255,0.3)"
-                                      : "rgba(255,255,255,0.08)"
-                                }`,
+                                border: `1.5px solid ${isDone ? "transparent" : isActive ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.08)"}`,
                                 color: isDone
                                   ? "#0a0a0f"
                                   : isActive
@@ -631,7 +562,7 @@ export default function RegisterPage() {
                                 s.num
                               )}
                             </div>
-                            {i < STEPS.length - 1 && (
+                            {i < steps.length - 1 && (
                               <div
                                 className="flex-1 h-px mx-1.5 transition-all duration-500"
                                 style={{
@@ -645,36 +576,34 @@ export default function RegisterPage() {
                         );
                       })}
                     </div>
-
-                    {/* Step Info Text */}
                     <p
                       className="text-[14px] font-semibold"
                       style={{ color: "rgba(255,255,255,0.85)" }}
                     >
-                      {STEPS[step - 1].title}
+                      {steps[step - 1].title}
                     </p>
                     <p
                       className="text-[12px]"
                       style={{ color: "rgba(255,255,255,0.3)" }}
                     >
-                      Langkah {step} dari {STEPS.length} —{" "}
-                      {STEPS[step - 1].desc}
+                      Langkah {step} dari {steps.length} —{" "}
+                      {steps[step - 1].desc}
                     </p>
                   </div>
 
-                  {/* ── Form Content ── */}
+                  {/* Content */}
                   <div className="relative overflow-hidden">
                     <AnimatePresence custom={dir} mode="wait">
                       <motion.div
                         key={step}
                         custom={dir}
-                        variants={slideVariants}
+                        variants={slide}
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        transition={{ duration: 0.22, ease: ANIMATION_SMOOTH }}
+                        transition={{ duration: 0.22, ease: smooth }}
                       >
-                        {/* Step 1: Create Account */}
+                        {/* Step 1 Create Account */}
                         {step === 1 && (
                           <CreateAccountStepper
                             username={formData.username}
@@ -692,7 +621,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 2: OTP Verification */}
+                        {/* Step 2 Otp Code Email*/}
                         {step === 2 && (
                           <OtpCodeStepper
                             email={formData.email}
@@ -701,7 +630,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 3: Create Profile */}
+                        {/* Step 3 Create User Profile and CV Upload */}
                         {step === 3 && (
                           <CreateUserProfile
                             fullName={formData.fullName}
@@ -720,7 +649,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 4: Choose Template */}
+                        {/* Step 4: Pilih Template */}
                         {step === 4 && (
                           <div className="p-6">
                             <p
@@ -731,7 +660,7 @@ export default function RegisterPage() {
                               dashboard.
                             </p>
                             <div className="grid grid-cols-3 gap-3">
-                              {TEMPLATES.map((template, i) => (
+                              {templates.map((template, i) => (
                                 <TemplateCard
                                   key={template.id}
                                   template={template}
@@ -749,16 +678,14 @@ export default function RegisterPage() {
                     </AnimatePresence>
                   </div>
 
-                  {/* ── Footer Navigation ── */}
+                  {/* Footer nav */}
                   <div
                     className="px-6 py-4 flex items-center justify-between"
                     style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    {/* Back Button */}
                     {step > 1 ? (
                       <button
                         onClick={goPrev}
-                        type="button"
                         className="flex items-center gap-1.5 text-[13px] font-medium cursor-pointer transition-colors duration-150"
                         style={{ color: "rgba(255,255,255,0.35)" }}
                         onMouseEnter={(e) =>
@@ -776,35 +703,76 @@ export default function RegisterPage() {
                       <div />
                     )}
 
-                    {/* Action Button */}
-                    <button
-                      onClick={handleActionButtonClick}
-                      disabled={isActionButtonDisabled()}
-                      type="button"
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-                      style={{
-                        backgroundColor: "rgba(255,255,255,0.9)",
-                        color: "#0a0a0f",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActionButtonDisabled()) {
+                    {step < 4 ? (
+                      <button
+                        onClick={
+                          step === 1
+                            ? handleCreateUser
+                            : step === 3
+                              ? handleUploadImage
+                              : goNext
+                        }
+                        disabled={
+                          !canNext() ||
+                          (step === 1 && isLoadingUser) ||
+                          (step === 3 && isLoadingProfile)
+                        }
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        style={{
+                          backgroundColor: "rgba(255,255,255,0.9)",
+                          color: "#0a0a0f",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (canNext())
+                            (
+                              e.currentTarget as HTMLElement
+                            ).style.backgroundColor = "#fff";
+                        }}
+                        onMouseLeave={(e) => {
                           (
                             e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "#fff";
+                          ).style.backgroundColor = "rgba(255,255,255,0.9)";
+                        }}
+                      >
+                        {step === 1 && isLoadingUser
+                          ? "Mendaftar..."
+                          : step === 3 && isLoadingProfile
+                            ? "Mengunggah..."
+                            : step === 1
+                              ? "Kirim Kode"
+                              : "Lanjut"}
+
+                        {!isLoadingUser && !isLoadingProfile && (
+                          <ArrowRight size={14} />
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleCreateProfile}
+                        disabled={isLoadingProfile}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
+                        style={{
+                          backgroundColor: "rgba(255,255,255,0.9)",
+                          color: "#0a0a0f",
+                        }}
+                        onMouseEnter={(e) =>
+                          ((
+                            e.currentTarget as HTMLElement
+                          ).style.backgroundColor = "#fff")
                         }
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor =
-                          "rgba(255,255,255,0.9)";
-                      }}
-                    >
-                      {getActionButtonText()}
-                      {!isLoadingAny && <ArrowRight size={14} />}
-                    </button>
+                        onMouseLeave={(e) =>
+                          ((
+                            e.currentTarget as HTMLElement
+                          ).style.backgroundColor = "rgba(255,255,255,0.9)")
+                        }
+                      >
+                        {isLoadingProfile ? "Membangun..." : "Buat Portfolio"}
+                        {!isLoadingProfile && <ArrowRight size={14} />}
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                {/* Login Link */}
                 <p
                   className="text-center mt-5 text-[13px]"
                   style={{ color: "rgba(255,255,255,0.3)" }}

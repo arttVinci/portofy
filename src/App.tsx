@@ -21,7 +21,7 @@ import AboutPage from "./pages/public/AboutPage";
 import AchievementPage from "./pages/public/AchievementPage";
 import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ProjectPage from "./pages/public/ProjectPage";
-import RegisterPage from "./pages/auth/Register";
+import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
 
 export default function App() {
