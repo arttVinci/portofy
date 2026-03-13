@@ -354,6 +354,7 @@ export default function RegisterPage() {
       className="flex min-h-screen"
       style={{ backgroundColor: "#0a0a0f", fontFamily: "'Inter', sans-serif" }}
     >
+      {renderToasts()}
       {/* BG grid */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
