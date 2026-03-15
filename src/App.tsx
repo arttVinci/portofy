@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 // 1. Layouts
 import HomeLayout from "./layouts/HomeLayout";
 import PublicLayout from "./layouts/PublicLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 // 2. Pages Marketing (Jualan)
 import MarketingHomePage from "./pages/home/HomePage";
@@ -40,7 +41,9 @@ export default function App() {
         <Route path="contact" element={<ContactPage />} />
       </Route>
 
-      <Route path="/coba123" element={<Page />} />
+      <Route path="/admin/:username" element={<DashboardLayout />}>
+        <Route index element={<Page />} />
+      </Route>
 
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
