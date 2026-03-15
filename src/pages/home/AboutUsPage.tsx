@@ -1,6 +1,27 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, MapPin, Star } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Star,
+  Github,
+  Linkedin,
+  Instagram,
+  Mail,
+} from "lucide-react";
+import {
+  SiTypescript,
+  SiGo,
+  SiPhp,
+  SiLaravel,
+  SiReact,
+  SiDocker,
+  SiGithub,
+  SiMysql,
+  SiTailwindcss,
+  SiPostman,
+} from "@icons-pack/react-simple-icons";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -84,6 +105,54 @@ const testimonials = [
     role: "Content Creator · Surabaya",
     text: "Gue udah coba beberapa platform portfolio lain dan ini yang paling enak dipakai. Tidak ada yang ribet, tidak ada yang mubazir.",
     rating: 5,
+  },
+];
+
+// ── Tech Stack ────────────────────────────────────────────────────────────────
+const techStack = [
+  {
+    label: "TypeScript",
+    icon: SiTypescript,
+    color: "#3178C6",
+    category: "Language",
+  },
+  { label: "PHP", icon: SiPhp, color: "#8892BF", category: "Language" },
+  { label: "Go", icon: SiGo, color: "#00ACD7", category: "Language" },
+  { label: "Laravel", icon: SiLaravel, color: "#FF2D20", category: "Backend" },
+  { label: "MySQL", icon: SiMysql, color: "#4479A1", category: "Database" },
+  { label: "React", icon: SiReact, color: "#61DAFB", category: "Frontend" },
+  {
+    label: "Tailwind",
+    icon: SiTailwindcss,
+    color: "#06B6D4",
+    category: "Frontend",
+  },
+  { label: "Docker", icon: SiDocker, color: "#2496ED", category: "DevOps" },
+  { label: "GitHub", icon: SiGithub, color: "#ffffff", category: "Tooling" },
+  { label: "Postman", icon: SiPostman, color: "#FF6C37", category: "Tooling" },
+];
+
+// ── Social Links ──────────────────────────────────────────────────────────────
+const socials = [
+  {
+    label: "LinkedIn",
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/putra-rizky-nugraha",
+  },
+  {
+    label: "GitHub",
+    icon: Github,
+    href: "https://github.com/arttVinci",
+  },
+  {
+    label: "Instagram",
+    icon: Instagram,
+    href: "https://www.instagram.com/artt__r",
+  },
+  {
+    label: "Email",
+    icon: Mail,
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=traarzkyy97@gmail.com",
   },
 ];
 
@@ -198,6 +267,271 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* ── DEVELOPER PROFILE ── */}
+        <section
+          className="py-24 max-w-5xl mx-auto px-6"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+        >
+          <motion.div {...fadeUp(0)} className="flex items-center gap-5 mb-14">
+            <h2
+              style={{
+                fontFamily: "'Instrument Serif', serif",
+                fontSize: "clamp(28px, 3.5vw, 40px)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.025em",
+                color: "rgba(255,255,255,0.85)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Tentang Developer
+            </h2>
+            <div
+              className="flex-1 h-px"
+              style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+            />
+          </motion.div>
+
+          <div className="grid lg:grid-cols-[1fr_1.4fr] gap-10 items-start">
+            {/* Left: Identity card */}
+            <motion.div
+              {...fadeUp(0.08)}
+              className="rounded-2xl p-7 relative overflow-hidden"
+              style={{
+                backgroundColor: "#0e0e14",
+                border: "1px solid rgba(255,255,255,0.07)",
+              }}
+            >
+              <div
+                className="absolute top-0 left-0 right-0 h-px"
+                style={{
+                  background:
+                    "linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent)",
+                }}
+              />
+
+              {/* Avatar */}
+              <div
+                className="flex items-center justify-center rounded-2xl mb-5"
+                style={{
+                  width: 52,
+                  height: 52,
+                  backgroundColor: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.6)",
+                  fontFamily: "'Instrument Serif', serif",
+                  fontSize: 18,
+                  fontWeight: 600,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                PR
+              </div>
+
+              <h3
+                style={{
+                  color: "rgba(255,255,255,0.88)",
+                  fontFamily: "'Instrument Serif', serif",
+                  fontSize: 20,
+                  fontWeight: 600,
+                  letterSpacing: "-0.02em",
+                  marginBottom: 4,
+                }}
+              >
+                Putra Rizky Nugraha
+              </h3>
+              <p
+                className="text-[13px] mb-1"
+                style={{ color: "rgba(255,255,255,0.35)" }}
+              >
+                Fullstack Developer · Software Engineering Student
+              </p>
+              <div
+                className="flex items-center gap-1.5 text-[12px] mb-6"
+                style={{ color: "rgba(255,255,255,0.2)" }}
+              >
+                <MapPin size={10} />
+                Universitas Terbuka · Sistem Informasi
+              </div>
+
+              {/* Social Links */}
+              <div className="flex flex-wrap gap-2">
+                {socials.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        color: "rgba(255,255,255,0.38)",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor =
+                          "rgba(255,255,255,0.08)";
+                        (e.currentTarget as HTMLElement).style.color =
+                          "rgba(255,255,255,0.75)";
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          "rgba(255,255,255,0.14)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor =
+                          "rgba(255,255,255,0.04)";
+                        (e.currentTarget as HTMLElement).style.color =
+                          "rgba(255,255,255,0.38)";
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          "rgba(255,255,255,0.07)";
+                      }}
+                    >
+                      <Icon size={12} />
+                      {s.label}
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* GDG badge */}
+              <div
+                className="mt-5 pt-5 flex items-center gap-2"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+              >
+                <span
+                  className="text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.05)",
+                    color: "rgba(255,255,255,0.3)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                  }}
+                >
+                  GDG Member
+                </span>
+                <span
+                  className="text-[11px]"
+                  style={{ color: "rgba(255,255,255,0.2)" }}
+                >
+                  Google Developers Group
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Right: Bio + Tech Stack */}
+            <div className="flex flex-col gap-5">
+              {/* Bio */}
+              <motion.div
+                {...fadeUp(0.14)}
+                className="rounded-2xl p-6"
+                style={{
+                  backgroundColor: "#0e0e14",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
+                <p
+                  className="text-[11px] font-bold tracking-[0.1em] uppercase mb-3"
+                  style={{ color: "rgba(255,255,255,0.15)" }}
+                >
+                  Tentang
+                </p>
+                <p
+                  className="text-[14px] leading-[1.85]"
+                  style={{ color: "rgba(255,255,255,0.45)" }}
+                >
+                  Seorang mahasiswa Sistem Informasi yang sedang dalam transisi
+                  karir menjadi{" "}
+                  <span style={{ color: "rgba(255,255,255,0.7)" }}>
+                    Software Engineer profesional
+                  </span>
+                  . Passion-nya ada di Web Development — bukan sekadar menulis
+                  syntax, tapi merancang arsitektur software yang robust,
+                  scalable, dan user-centric.
+                </p>
+                <p
+                  className="text-[14px] leading-[1.85] mt-3"
+                  style={{ color: "rgba(255,255,255,0.38)" }}
+                >
+                  Percaya pada prinsip{" "}
+                  <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                    Clean Code
+                  </span>{" "}
+                  — kode bukan hanya perintah untuk mesin, tapi komunikasi antar
+                  engineer. Aktif di komunitas{" "}
+                  <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                    Google Developers Group (GDG)
+                  </span>{" "}
+                  untuk terus belajar, berbagi, dan berkolaborasi.
+                </p>
+              </motion.div>
+
+              {/* Tech Stack */}
+              <motion.div
+                {...fadeUp(0.2)}
+                className="rounded-2xl p-6"
+                style={{
+                  backgroundColor: "#0e0e14",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
+                <p
+                  className="text-[11px] font-bold tracking-[0.1em] uppercase mb-4"
+                  style={{ color: "rgba(255,255,255,0.15)" }}
+                >
+                  Tech Stack
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {techStack.map((tech, i) => {
+                    const Icon = tech.icon;
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.88 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.28,
+                          ease: smooth,
+                          delay: 0.22 + i * 0.04,
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-150 cursor-default"
+                        style={{
+                          backgroundColor: "rgba(255,255,255,0.04)",
+                          border: "1px solid rgba(255,255,255,0.07)",
+                          color: "rgba(255,255,255,0.5)",
+                        }}
+                        onMouseEnter={(e) => {
+                          (
+                            e.currentTarget as HTMLElement
+                          ).style.backgroundColor = "rgba(255,255,255,0.07)";
+                          (e.currentTarget as HTMLElement).style.borderColor =
+                            "rgba(255,255,255,0.13)";
+                          (e.currentTarget as HTMLElement).style.color =
+                            "rgba(255,255,255,0.85)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (
+                            e.currentTarget as HTMLElement
+                          ).style.backgroundColor = "rgba(255,255,255,0.04)";
+                          (e.currentTarget as HTMLElement).style.borderColor =
+                            "rgba(255,255,255,0.07)";
+                          (e.currentTarget as HTMLElement).style.color =
+                            "rgba(255,255,255,0.5)";
+                        }}
+                      >
+                        <Icon
+                          size={13}
+                          style={{ color: tech.color, flexShrink: 0 }}
+                        />
+                        {tech.label}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* ── VALUES ── */}
         <section className="py-24 max-w-5xl mx-auto px-6">
           <motion.div {...fadeUp(0)} className="flex items-center gap-5 mb-14">
@@ -233,7 +567,6 @@ export default function AboutPage() {
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                {/* Ghost number */}
                 <div
                   className="pointer-events-none absolute bottom-0 right-3 leading-none select-none"
                   style={{
@@ -269,7 +602,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── TIMELINE (Vertikal) ── */}
+        {/* ── TIMELINE ── */}
         <section className="py-20 max-w-5xl mx-auto px-6">
           <motion.div {...fadeUp(0)} className="flex items-center gap-5 mb-14">
             <h2
@@ -291,7 +624,6 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid lg:grid-cols-[200px_1fr] gap-12 items-start">
-            {/* Left sticky label */}
             <motion.p
               {...fadeUp(0.1)}
               className="hidden lg:block lg:sticky lg:top-32 text-[13px] leading-relaxed"
@@ -301,9 +633,7 @@ export default function AboutPage() {
               setiap langkah dibangun dengan teliti dan serius.
             </motion.p>
 
-            {/* Vertical timeline */}
             <div className="relative">
-              {/* Continuous vertical line */}
               <div
                 className="absolute left-[5px] top-2 bottom-0 w-px"
                 style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
@@ -345,7 +675,6 @@ export default function AboutPage() {
                   transition={{ duration: 0.5, ease: smooth, delay: i * 0.08 }}
                   className="relative pl-8 pb-8 last:pb-0"
                 >
-                  {/* Dot */}
                   <div
                     className="absolute left-0 top-[7px] z-10"
                     style={{
@@ -355,15 +684,22 @@ export default function AboutPage() {
                       backgroundColor: (item as any).now
                         ? "rgba(255,255,255,0.7)"
                         : "#0a0a0f",
-                      border: `1.5px solid ${(item as any).now ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)"}`,
+                      border: `1.5px solid ${
+                        (item as any).now
+                          ? "rgba(255,255,255,0.7)"
+                          : "rgba(255,255,255,0.2)"
+                      }`,
                     }}
                   />
-
                   <div
                     className="rounded-xl p-5"
                     style={{
                       backgroundColor: "#0e0e14",
-                      border: `1px solid ${(item as any).now ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.05)"}`,
+                      border: `1px solid ${
+                        (item as any).now
+                          ? "rgba(255,255,255,0.12)"
+                          : "rgba(255,255,255,0.05)"
+                      }`,
                     }}
                   >
                     <div className="flex items-center gap-2 mb-2.5">
@@ -438,7 +774,6 @@ export default function AboutPage() {
                 />
               </div>
 
-              {/* Scroll buttons */}
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={scrollLeft}
@@ -489,7 +824,6 @@ export default function AboutPage() {
               </div>
             </motion.div>
 
-            {/* Scrollable row */}
             <motion.div
               {...fadeUp(0.1)}
               ref={scrollRef}
@@ -511,7 +845,6 @@ export default function AboutPage() {
                     border: "1px solid rgba(255,255,255,0.07)",
                   }}
                 >
-                  {/* Stars */}
                   <div>
                     <div className="flex gap-0.5 mb-3">
                       {Array.from({ length: t.rating }).map((_, s) => (
