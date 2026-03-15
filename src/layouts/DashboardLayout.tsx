@@ -16,9 +16,25 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/utils/theme-provider";
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate, Navigate } from "react-router-dom";
 
 export default function DashboardLayout() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+      } catch (err) {
+        navigate("/auth/login", { replace: true });
+      }
+    };
+    checkAuth();
+  }, [navigate]);
   return (
     <ThemeProvider>
       <TooltipProvider>
