@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import type { LoginUserRequest } from "@/@types/entities/auth";
+
+import { useAuth } from "@/hooks/mutations/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -31,10 +35,46 @@ function Lbl({ text }: { text: string }) {
 }
 
 export default function LoginPage() {
+  const { loginUser, loading, error } = useAuth();
+
   const [focused, setFocused] = useState<string | null>(null);
   const [showPw, setShowPw] = useState(false);
-  const [identifier, setIdentifier] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [formData, setFormData] = useState({
+    // Account
+    username: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleFormChange = useCallback(
+    (key: string, value: string | string[]): void => {
+      setFormData((prev) => ({ ...prev, [key]: value }));
+    },
+    [],
+  );
+
+  const handleLogin = useCallback(async (): Promise<void> => {
+    try {
+      const payload: LoginUserRequest = {
+        username: formData.username,
+        password: formData.password,
+      };
+
+      const response = await loginUser(payload);
+
+      if (!response) {
+        console.error("Login failed");
+        return;
+      }
+
+      localStorage.setItem("authToken", response.token);
+      navigate("/app", { replace: true });
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
+  }, [formData, loginUser]);
 
   const GoogleIcon = (
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
@@ -264,12 +304,14 @@ export default function LoginPage() {
                 </p>
 
                 <div>
-                  <Lbl text="Email / Username" />
+                  <Lbl text="Username" />
                   <input
                     type="text"
-                    placeholder="email@kamu.com atau AkuAdmin"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder="Masukan username anda..."
+                    value={formData.username}
+                    onChange={(e) =>
+                      handleFormChange("username", e.target.value)
+                    }
                     onFocus={() => setFocused("id")}
                     onBlur={() => setFocused(null)}
                     style={iStyle(focused === "id")}
@@ -299,8 +341,10 @@ export default function LoginPage() {
                     <input
                       type={showPw ? "text" : "password"}
                       placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={(e) =>
+                        handleFormChange("password", e.target.value)
+                      }
                       onFocus={() => setFocused("pw")}
                       onBlur={() => setFocused(null)}
                       style={{ ...iStyle(focused === "pw"), paddingRight: 40 }}
@@ -318,6 +362,7 @@ export default function LoginPage() {
 
                 <button
                   type="button"
+                  onClick={handleLogin}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                   style={{
                     backgroundColor: "rgba(255,255,255,0.9)",

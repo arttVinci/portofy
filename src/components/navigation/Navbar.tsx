@@ -561,7 +561,7 @@ export default function Navbar() {
 
           {/* ── Masuk ── */}
           <a
-            href="/auth//login"
+            href="/auth/login"
             className="px-3.5 py-1.5 inline-flex items-center text-[14px] font-medium rounded-lg border focus:outline-none transition-all duration-200"
             style={{
               borderColor: isDark ? "rgba(255,255,255,0.15)" : "#d1d5db",

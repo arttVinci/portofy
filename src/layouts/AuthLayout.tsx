@@ -6,6 +6,8 @@ export default function AuthLayout() {
   if (token) {
     return <Navigate to="/app" replace />;
   }
+  console.log("ini token", token);
+
   return (
     <>
       <Outlet />
