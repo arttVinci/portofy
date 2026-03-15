@@ -23,6 +23,7 @@ import DetailProjectPage from "./pages/public/DetailProjectPage";
 import ProjectPage from "./pages/public/ProjectPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
+import Page from "./pages/dashboard/page";
 
 export default function App() {
   return (
@@ -38,6 +39,8 @@ export default function App() {
         <Route path="changelog" element={<ChangelogPage />} />
         <Route path="contact" element={<ContactPage />} />
       </Route>
+
+      <Route path="/coba123" element={<Page />} />
 
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
