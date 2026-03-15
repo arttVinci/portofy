@@ -1,4 +1,4 @@
-import type { TemplateItem } from "../../types/ui.types";
+import type { TemplateItem } from "../../@types/ui.types";
 
 interface MockPreviewProps {
   template: TemplateItem;

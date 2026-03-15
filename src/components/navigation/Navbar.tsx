@@ -561,7 +561,7 @@ export default function Navbar() {
 
           {/* ── Masuk ── */}
           <a
-            href="/login"
+            href="/auth//login"
             className="px-3.5 py-1.5 inline-flex items-center text-[14px] font-medium rounded-lg border focus:outline-none transition-all duration-200"
             style={{
               borderColor: isDark ? "rgba(255,255,255,0.15)" : "#d1d5db",
@@ -582,7 +582,7 @@ export default function Navbar() {
 
           {/* ── Mulai Gratis ── */}
           <a
-            href="/register"
+            href="/auth/register"
             className="ml-1.5 px-3.5 py-1.5 inline-flex items-center text-[14px] font-semibold rounded-lg text-white focus:outline-none transition-all duration-200 hover:-translate-y-px"
             style={{
               background: "linear-gradient(135deg, #6366f1, #7c3aed)",

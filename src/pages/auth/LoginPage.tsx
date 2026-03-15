@@ -113,7 +113,7 @@ export default function LoginPage() {
 
       {/* ── LEFT BRANDING ── */}
       <div
-        className="hidden lg:flex flex-col justify-between w-[360px] shrink-0 relative overflow-hidden px-10 py-10"
+        className="hidden lg:flex flex-col justify-between w-90 shrink-0 relative overflow-hidden px-10 py-10"
         style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}
       >
         {/* Glow */}
@@ -236,7 +236,7 @@ export default function LoginPage() {
               style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
             >
               <p
-                className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-1"
+                className="text-[11px] font-semibold uppercase tracking-widest mb-1"
                 style={{ color: "rgba(255,255,255,0.2)" }}
               >
                 Login

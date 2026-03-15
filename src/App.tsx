@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import HomeLayout from "./layouts/HomeLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
+import AuthLayout from "./layouts/AuthLayout";
 
 // 2. Pages Marketing (Jualan)
 import MarketingHomePage from "./pages/home/HomePage";
@@ -41,12 +42,15 @@ export default function App() {
         <Route path="contact" element={<ContactPage />} />
       </Route>
 
-      <Route path="/admin/:username" element={<DashboardLayout />}>
+      <Route path="/app" element={<DashboardLayout />}>
         <Route index element={<Page />} />
       </Route>
 
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/auth" element={<AuthLayout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        {/* Nanti bisa ditambah /forgot-password di sini */}
+      </Route>
 
       {/* <Route path="/:username" element={<PublicLayout />}>
         <Route index element={<PortfolioHomePage />} />{" "}
