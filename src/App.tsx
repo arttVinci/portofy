@@ -28,7 +28,7 @@ import LoginPage from "./pages/auth/LoginPage";
 
 // Pages Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
-import ProfilePage from "./pages/dashboard/profile/ProfilePage";
+import ProfilePage from "./pages/dashboard/ProfilePage";
 
 export default function App() {
   return (
