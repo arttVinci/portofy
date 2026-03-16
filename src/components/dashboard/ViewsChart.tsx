@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 
-// ── Dummy data ────────────────────────────────────────────────────────────────
 const WEEKLY_DATA = [
   { date: "Sen", views: 42, visitors: 28 },
   { date: "Sel", views: 58, visitors: 35 },
@@ -43,9 +42,6 @@ const MONTHLY_DATA = [
   { date: "Des", views: 880, visitors: 540 },
 ];
 
-// ── Chart config ──────────────────────────────────────────────────────────────
-// views    → biru solid  (blue-500)
-// visitors → biru muda   (blue-300)
 const chartConfig = {
   views: {
     label: "Views",
