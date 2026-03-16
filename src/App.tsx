@@ -28,6 +28,7 @@ import LoginPage from "./pages/auth/LoginPage";
 
 // Pages Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import ProfilePage from "./pages/dashboard/profile/ProfilePage";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
 
       <Route path="/app" element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>

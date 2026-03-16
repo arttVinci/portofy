@@ -57,13 +57,13 @@ function UnreadBadge({ count }: { count: number }) {
 const NAV_ITEMS: NavItem[] = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/app",
     icon: <LayoutDashboardIcon />,
     group: "Overview",
   },
   {
     title: "Analytics",
-    url: "/dashboard/analytics",
+    url: "/app/analytics",
     icon: <BarChart2Icon />,
     group: "Overview",
     badge: <NewBadge />,
@@ -71,56 +71,56 @@ const NAV_ITEMS: NavItem[] = [
 
   {
     title: "Profile",
-    url: "/dashboard/profile",
+    url: "/app/profile",
     icon: <UserIcon />,
     group: "Content",
   },
   {
     title: "Social Media",
-    url: "/dashboard/social",
+    url: "/app/social",
     icon: <LinkIcon />,
     group: "Content",
   },
   {
     title: "Portfolio",
-    url: "/dashboard/portfolio",
+    url: "/app/portfolio",
     icon: <RocketIcon />,
     group: "Content",
     children: [
-      { title: "Projects", url: "/dashboard/projects" },
-      { title: "Achievements", url: "/dashboard/achievements" },
-      { title: "Testimonials", url: "/dashboard/testimonials" },
+      { title: "Projects", url: "/app/projects" },
+      { title: "Achievements", url: "/app/achievements" },
+      { title: "Testimonials", url: "/app/testimonials" },
     ],
   },
   {
     title: "Background",
-    url: "/dashboard/background",
+    url: "/app/background",
     icon: <BriefcaseIcon />,
     group: "Content",
     children: [
-      { title: "Experience", url: "/dashboard/experience" },
-      { title: "Education", url: "/dashboard/education" },
-      { title: "Skills", url: "/dashboard/skills" },
-      { title: "Talks & Speaking", url: "/dashboard/talks" },
+      { title: "Experience", url: "/app/experience" },
+      { title: "Education", url: "/app/education" },
+      { title: "Skills", url: "/app/skills" },
+      { title: "Talks & Speaking", url: "/app/talks" },
     ],
   },
 
   {
     title: "CV Builder",
-    url: "/dashboard/cv-builder",
+    url: "/app/cv-builder",
     icon: <FileTextIcon />,
     group: "Features",
     badge: <ProBadge />,
   },
   {
     title: "Messages",
-    url: "/dashboard/messages",
+    url: "/app/messages",
     icon: <MessageSquareIcon />,
     group: "Features",
   },
   {
     title: "AI Assistant",
-    url: "/dashboard/ai-assistant",
+    url: "/app/ai-assistant",
     icon: <SparklesIcon />,
     group: "Features",
     badge: <NewBadge />,
@@ -128,13 +128,13 @@ const NAV_ITEMS: NavItem[] = [
 
   {
     title: "Appearance",
-    url: "/dashboard/appearance",
+    url: "/app/appearance",
     icon: <PaletteIcon />,
     group: "System",
   },
   {
     title: "Settings",
-    url: "/dashboard/settings",
+    url: "/app/settings",
     icon: <SettingsIcon />,
     group: "System",
   },
