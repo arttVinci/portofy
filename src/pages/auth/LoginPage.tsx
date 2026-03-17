@@ -2,8 +2,9 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import type { LoginUserRequest } from "@/@types/entities/auth";
+import { ApiError } from "@/api/apiError";
 
-import { useAuth } from "@/hooks/mutations/useAuth";
+import { useLogin } from "@/hooks/mutations/auth/useLogin";
 import { useNavigate } from "react-router-dom";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -35,18 +36,24 @@ function Lbl({ text }: { text: string }) {
 }
 
 export default function LoginPage() {
-  const { loginUser, loading, error } = useAuth();
-
   const [focused, setFocused] = useState<string | null>(null);
   const [showPw, setShowPw] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    // Account
     username: "",
     password: "",
   });
 
-  const navigate = useNavigate();
+  const loginMutation = useLogin({
+    onSuccess: (data) => {
+      console.log("Login success:", data);
+      navigate("/dashboard");
+    },
+    onError: (error: ApiError) => {
+      console.error("Login failed:", error.message);
+    },
+  });
 
   const handleFormChange = useCallback(
     (key: string, value: string | string[]): void => {
@@ -55,26 +62,14 @@ export default function LoginPage() {
     [],
   );
 
-  const handleLogin = useCallback(async (): Promise<void> => {
-    try {
-      const payload: LoginUserRequest = {
-        username: formData.username,
-        password: formData.password,
-      };
+  const handleSubmit = useCallback(async (): Promise<void> => {
+    const payload: LoginUserRequest = {
+      username: formData.username,
+      password: formData.password,
+    };
 
-      const response = await loginUser(payload);
-
-      if (!response) {
-        console.error("Login failed");
-        return;
-      }
-
-      localStorage.setItem("authToken", response.token);
-      navigate("/app", { replace: true });
-    } catch (err) {
-      console.error("Login failed:", err);
-    }
-  }, [formData, loginUser]);
+    loginMutation.mutate(payload);
+  }, [formData, loginMutation]);
 
   const GoogleIcon = (
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
@@ -295,7 +290,7 @@ export default function LoginPage() {
               style={{ borderColor: "rgba(255,255,255,0.06)" }}
             >
               {/* Left: email form */}
-              <div className="p-6 space-y-4">
+              <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <p
                   className="text-[11px] font-semibold uppercase tracking-[0.08em]"
                   style={{ color: "rgba(255,255,255,0.25)" }}
@@ -361,8 +356,9 @@ export default function LoginPage() {
                 </div>
 
                 <button
-                  type="button"
-                  onClick={handleLogin}
+                  type="submit"
+                  disabled={loginMutation.isPending}
+                  onClick={handleSubmit}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                   style={{
                     backgroundColor: "rgba(255,255,255,0.9)",
@@ -379,7 +375,7 @@ export default function LoginPage() {
                 >
                   Masuk <ArrowRight size={14} />
                 </button>
-              </div>
+              </form>
 
               {/* Right: SSO */}
               <div className="p-6 flex flex-col justify-center space-y-3">

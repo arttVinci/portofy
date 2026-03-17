@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
+  UpdateProfileRequest,
 } from "../../@types/entities/profile";
 import profileService from "../../services/profile.service";
 import { ApiError } from "../../api/apiError";
@@ -52,6 +54,32 @@ export const useProfile = (): UseProfileReturn => {
       } finally {
         setLoading(false);
       }
+    },
+    [clearError],
+  );
+
+  const updateProfile = useCallback(
+    async (payload: UpdateProfileRequest): Promise<ProfileResponse | null> => {
+      const queryClient = useQueryClient();
+      return useMutation({
+        mutationFn: profileService.updateProfile(payload),
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+
+          console.log("Berhasil update profil!");
+        },
+        onError: (err) => {
+          if (err instanceof ApiError) {
+            setError(err.message);
+            if (err.errors) {
+              setValidationErrors(err.errors);
+            }
+          } else {
+            setError("An unexpected error occurred");
+          }
+          return null;
+        },
+      });
     },
     [clearError],
   );

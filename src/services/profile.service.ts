@@ -3,6 +3,7 @@ import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
+  UpdateProfileRequest,
 } from "../@types/entities/profile";
 import type { AxiosResponse } from "axios";
 import apiClient from "../api/apiClient";
@@ -15,6 +16,15 @@ class ProfileService {
   ): Promise<ProfileResponse | null> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
       await apiClient.post(this.BASE_PATH, payload);
+
+    return response.data.data;
+  }
+
+  async updateProfile(
+    payload: UpdateProfileRequest,
+  ): Promise<ProfileResponse | null> {
+    const response: AxiosResponse<ApiResponse<ProfileResponse>> =
+      await apiClient.put(`${this.BASE_PATH}`, payload);
 
     return response.data.data;
   }
