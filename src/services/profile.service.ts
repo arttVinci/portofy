@@ -11,18 +11,14 @@ import apiClient from "../api/apiClient";
 class ProfileService {
   private readonly BASE_PATH = "/profiles";
 
-  async createProfile(
-    payload: CreateProfileRequest,
-  ): Promise<ProfileResponse | null> {
+  async createProfile(payload: CreateProfileRequest): Promise<ProfileResponse> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
       await apiClient.post(this.BASE_PATH, payload);
 
     return response.data.data;
   }
 
-  async updateProfile(
-    payload: UpdateProfileRequest,
-  ): Promise<ProfileResponse | null> {
+  async updateProfile(payload: UpdateProfileRequest): Promise<ProfileResponse> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
       await apiClient.put(`${this.BASE_PATH}`, payload);
 

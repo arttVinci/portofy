@@ -6,6 +6,7 @@ import { ApiError } from "@/api/apiError";
 
 import { useLogin } from "@/hooks/mutations/auth/useLogin";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/ui/useToast";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -40,6 +41,8 @@ export default function LoginPage() {
   const [showPw, setShowPw] = useState(false);
   const navigate = useNavigate();
 
+  const { toast, renderToasts } = useToast();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -47,30 +50,30 @@ export default function LoginPage() {
 
   const loginMutation = useLogin({
     onSuccess: (data) => {
-      console.log("Login success:", data);
-      navigate("/dashboard");
+      // console.log("Login success:", data);
+      toast("success", "Berhasil", `Selamat datang ${data.user.username}`);
+      navigate("/app");
     },
     onError: (error: ApiError) => {
-      console.error("Login failed:", error.message);
+      // console.error("Login failed:", error.message);
+      toast("error", "Error", error.message);
     },
   });
 
-  const handleFormChange = useCallback(
-    (key: string, value: string | string[]): void => {
-      setFormData((prev) => ({ ...prev, [key]: value }));
-    },
-    [],
-  );
+  const handleFormChange = (key: string, value: string | string[]): void => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
-  const handleSubmit = useCallback(async (): Promise<void> => {
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+
     const payload: LoginUserRequest = {
       username: formData.username,
       password: formData.password,
     };
 
     loginMutation.mutate(payload);
-  }, [formData, loginMutation]);
-
+  };
   const GoogleIcon = (
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
       <path
@@ -145,6 +148,8 @@ export default function LoginPage() {
           backgroundSize: "48px 48px",
         }}
       />
+
+      {renderToasts()}
 
       {/* ── LEFT BRANDING ── */}
       <div
@@ -358,7 +363,6 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loginMutation.isPending}
-                  onClick={handleSubmit}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                   style={{
                     backgroundColor: "rgba(255,255,255,0.9)",

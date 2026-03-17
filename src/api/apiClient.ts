@@ -48,14 +48,15 @@ class ApiClient {
     error: AxiosError<ApiErrorResponse>,
   ): Promise<never> {
     // Handle 401 Unauthorized
-    if (error.response?.status === 401) {
-      localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-      window.location.href = "/auth/login";
-    }
+    // if (error.response?.status === 401) {
+    //   localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+    //   window.location.href = "/auth/login";
+    // }
 
     const message = error.response?.data?.message || "An error occurred";
     const statusCode = error.response?.status || 500;
     const errors = error.response?.data?.errors;
+    console.log(error.response);
 
     throw new ApiError(message, statusCode, errors);
   }

@@ -1,4 +1,3 @@
-// components/auth/Toast.tsx
 import { useState, useEffect } from "react";
 
 type ToastVariant = "error" | "warning" | "success" | "info";
@@ -27,7 +26,6 @@ export default function Toast({
   const [out, setOut] = useState(false);
   const color = colorMap[item.variant];
 
-  // ✅ useEffect bukan useState
   useEffect(() => {
     const t = setTimeout(() => setOut(true), 2500);
     return () => clearTimeout(t);

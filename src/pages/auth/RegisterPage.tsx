@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
+import { ApiError } from "@/api/apiError";
 
 import SuccessScreen from "../../components/auth/SuccessScreen";
 import TemplateCard from "../../components/marketing/TemplateCard";
 
 import type { TemplateItem } from "../../@types/ui.types";
 
-import { useAuth } from "../../hooks/mutations/useAuth";
 import { useProfile } from "../../hooks/mutations/useProfile";
 import { useToast } from "../../hooks/ui/useToast";
 
@@ -16,6 +16,9 @@ import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStep
 import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
 import type { RegisterUserRequest } from "../../@types/entities/auth";
 import type { CreateProfileRequest } from "../../@types/entities/profile";
+import { useRegister } from "@/hooks/mutations/auth/useRegister";
+import { useCreateProfile } from "@/hooks/mutations/profile/useCreateProfile";
+import { useUploadImage } from "@/hooks/mutations/profile/useUploudImage";
 
 const STORAGE_KEYS = {
   TOKEN: "authToken",
@@ -96,24 +99,7 @@ interface FormData {
 }
 
 export default function RegisterPage() {
-  const {
-    createUser,
-    loading: isLoadingUser,
-    error: userError,
-    validationErrors: userValidationErrors,
-    clearError: userClearError,
-  } = useAuth();
-
-  const {
-    createProfile,
-    handleImageProfile,
-    loading: isLoadingProfile,
-    error: profileError,
-    validationErrors: profileValidationErrors,
-    clearError: profileClearError,
-  } = useProfile();
-
-  const { show, renderToasts } = useToast();
+  const { toast, renderToasts } = useToast();
 
   const [token, setToken] = useState<string>("");
 
@@ -150,126 +136,102 @@ export default function RegisterPage() {
     userId: "",
   });
 
-  interface SavedRegisterData {
-    userId: string;
-    email: string;
-    username: string;
-  }
-
-  const handleCreateUser = useCallback(async (): Promise<void> => {
-    try {
-      const payload: RegisterUserRequest = {
-        username: formData.username,
-        password: formData.password,
-        email: formData.email,
-        no_telp: formData.phone,
-      };
-
-      const response = await createUser(payload);
-
-      if (!response) {
-        console.error("Registration failed: No response received");
-        return;
-      }
-
-      // Save token
+  const createUserMutation = useRegister({
+    onSuccess: (response) => {
+      // console.log("Login success:", data);
       setToken(response.token);
-      localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
-
       setFormData((prev) => ({ ...prev, userId: response.user.id }));
 
-      const crucialData: SavedRegisterData = {
-        userId: response.user.id,
-        email: formData.email,
-        username: formData.username,
-      };
-
-      // Register Data User
-      localStorage.setItem(
-        STORAGE_KEYS.REGISTER_DATA,
-        JSON.stringify(crucialData),
-      );
-
-      show("success", "Berhasil", "Kode verifikasi dikirim ke emailmu.");
       setOtpSent(true);
       goNext();
-    } catch (err) {
-      console.error("Registration failed:", err);
-    }
-  }, [formData, createUser]);
+      toast(
+        "success",
+        "Berhasil",
+        `Code verifikasi telah dikirim ke email anda`,
+      );
+    },
+    onError: (error: ApiError) => {
+      // console.error("Login failed:", error.message);
+      toast("error", "Failed", error.message);
+    },
+  });
 
-  const handleUploadImage = useCallback(async (): Promise<void> => {
+  const createProfileMutation = useCreateProfile({
+    onSuccess: (response) => {
+      toast(
+        "success",
+        "Berhasil",
+        `Halo ${response.full_name}, selamat datang!`,
+      );
+    },
+    onError: (error) => {
+      toast("error", "Failed", error.message);
+    },
+  });
+
+  const uploadMutation = useUploadImage({
+    onSuccess: (response) => {
+      setFormData((prev) => ({
+        ...prev,
+        profileUrl: response.url_profile,
+      }));
+
+      toast("success", "Success", "Foto profil berhasil di-update!");
+      goNext();
+    },
+    onError: (error) => {
+      toast("error", "Gagal Upload", error.message);
+    },
+  });
+
+  const handleCreateUser = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    const payload: RegisterUserRequest = {
+      username: formData.username,
+      password: formData.password,
+      email: formData.email,
+      no_telp: formData.phone,
+    };
+
+    createUserMutation.mutate(payload);
+  };
+
+  const handleCreateProfile = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    const payload: CreateProfileRequest = {
+      user_id: formData.userId,
+      full_name: formData.fullName,
+      url_profile: formData.profileUrl,
+      address: formData.address,
+      about: formData.about,
+      bio: formData.bio,
+      theme: formData.theme,
+      tags: formData.tags,
+    };
+
+    createProfileMutation.mutate(payload);
+    setDone(true);
+  };
+
+  const handleUploadImage = () => {
     if (!avatarImageFile) {
       goNext();
       return;
     }
+    const uploadData = new FormData();
+    uploadData.append("image_profile", avatarImageFile);
+    uploadData.append("id_user", formData.userId);
 
-    try {
-      const uploadData = new FormData();
-      uploadData.append("image_profile", avatarImageFile);
-      uploadData.append("id_user", formData.userId);
-
-      const response = await handleImageProfile(uploadData);
-
-      if (response?.url_profile) {
-        setFormData((prev) => ({
-          ...prev,
-          profileUrl: response.url_profile,
-        }));
-        console.log("Profile image uploaded:", response.url_profile);
-      }
-      show("success", "Berhasil", "Profil berhasil disimpan.");
-      goNext();
-    } catch (err) {
-      console.error("Upload error:", err);
-    }
-  }, [avatarImageFile, formData.userId, handleImageProfile]);
-
-  const handleCreateProfile = useCallback(async (): Promise<void> => {
-    try {
-      if (!formData.userId || !token) {
-        console.error("Access denied: User ID or Token is missing.");
-        return;
-      }
-
-      const payload: CreateProfileRequest = {
-        user_id: formData.userId,
-        full_name: formData.fullName,
-        url_profile: formData.profileUrl,
-        address: formData.address,
-        about: formData.about,
-        bio: formData.bio,
-        theme: formData.theme,
-        tags: formData.tags,
-      };
-
-      const response = await createProfile(payload);
-
-      console.log("Profile created successfully:", response);
-      setDone(true);
-    } catch (err) {
-      console.error("Failed to create profile:", err);
-    } finally {
-      localStorage.removeItem(STORAGE_KEYS.REGISTER_STEP);
-      localStorage.removeItem(STORAGE_KEYS.REGISTER_DATA);
-    }
-  }, [formData, token, createProfile]);
+    uploadMutation.mutate(uploadData);
+  };
 
   const handleFormChange = useCallback(
     (key: string, value: string | string[]): void => {
       setFormData((prev) => ({ ...prev, [key]: value }));
-
-      if (userValidationErrors || profileValidationErrors) {
-        userClearError();
-        profileClearError();
-      }
     },
-    [
-      userValidationErrors,
-      profileValidationErrors,
-      userClearError,
-      profileClearError,
-    ],
+    [],
   );
 
   const pwMatch = formData.password === formData.confirmPw;
@@ -334,20 +296,6 @@ export default function RegisterPage() {
       localStorage.setItem("registerStep", step.toString());
     }
   }, [step, token]);
-
-  useEffect(() => {
-    if (userError) {
-      show("error", "Error", userError);
-      userClearError();
-    }
-  }, [userError]);
-
-  useEffect(() => {
-    if (profileError) {
-      show("error", "Error", profileError);
-      profileClearError();
-    }
-  }, [profileError]);
 
   return (
     <div
@@ -715,8 +663,8 @@ export default function RegisterPage() {
                         }
                         disabled={
                           !canNext() ||
-                          (step === 1 && isLoadingUser) ||
-                          (step === 3 && isLoadingProfile)
+                          (step === 1 && createUserMutation.isPending) ||
+                          (step === 3 && createProfileMutation.isPending)
                         }
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                         style={{
@@ -735,22 +683,23 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)";
                         }}
                       >
-                        {step === 1 && isLoadingUser
+                        {step === 1 && createUserMutation.isPending
                           ? "Mendaftar..."
-                          : step === 3 && isLoadingProfile
+                          : step === 3 && createProfileMutation.isPending
                             ? "Mengunggah..."
                             : step === 1
                               ? "Kirim Kode"
                               : "Lanjut"}
 
-                        {!isLoadingUser && !isLoadingProfile && (
-                          <ArrowRight size={14} />
-                        )}
+                        {!createUserMutation.isPending &&
+                          !createProfileMutation.isPending && (
+                            <ArrowRight size={14} />
+                          )}
                       </button>
                     ) : (
                       <button
                         onClick={handleCreateProfile}
-                        disabled={isLoadingProfile}
+                        disabled={createProfileMutation.isPending}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                         style={{
                           backgroundColor: "rgba(255,255,255,0.9)",
@@ -767,8 +716,12 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)")
                         }
                       >
-                        {isLoadingProfile ? "Membangun..." : "Buat Portfolio"}
-                        {!isLoadingProfile && <ArrowRight size={14} />}
+                        {createProfileMutation.isPending
+                          ? "Membangun..."
+                          : "Buat Portfolio"}
+                        {!createProfileMutation.isPending && (
+                          <ArrowRight size={14} />
+                        )}
                       </button>
                     )}
                   </div>

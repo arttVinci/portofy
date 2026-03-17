@@ -6,8 +6,8 @@ export interface ApiResponse<T = any> {
 
 export interface ApiErrorResponse {
   message: string;
-  errors?: Record<string, string[]>;
   statusCode?: number;
+  errors?: Record<string, string[]>;
 }
 
 export interface PageMetadata {

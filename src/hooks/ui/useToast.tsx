@@ -1,6 +1,6 @@
 // hooks/useToast.tsx
 import { useState, useCallback } from "react";
-import Toast from "../../components/auth/Toast";
+import Toast from "../../components/ui/Toast";
 
 type ToastVariant = "error" | "warning" | "success" | "info";
 
@@ -43,7 +43,7 @@ function ToastContainer({
 export function useToast() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  const show = useCallback(
+  const toast = useCallback(
     (variant: ToastVariant, title: string, message: string) => {
       const id = uid++;
       setToasts((prev) => [...prev, { id, variant, title, message }]);
@@ -55,10 +55,9 @@ export function useToast() {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  // ✅ Render function — bukan komponen baru, tapi JSX biasa
   const renderToasts = () => (
     <ToastContainer toasts={toasts} onRemove={remove} />
   );
 
-  return { show, renderToasts };
+  return { toast, renderToasts };
 }
