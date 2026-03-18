@@ -35,6 +35,13 @@ class ProfileService {
 
     return response.data.data;
   }
+
+  async getProfile(): Promise<ProfileResponse> {
+    const response: AxiosResponse<ApiResponse<ProfileResponse>> =
+      await apiClient.get(`${this.BASE_PATH}/_get`);
+
+    return response.data.data;
+  }
 }
 
 export default new ProfileService();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -9,35 +9,22 @@ import { ProfileAvatarTab } from "@/components/dashboard/profile/ProfileAvatarTa
 import { ProfileVisibilityTab } from "@/components/dashboard/profile/ProfileVisibilityTab";
 import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePreviewCard";
 
-import {
-  type ProfileFormValues,
-  type UpdateProfileRequest,
-} from "@/@types/entities/profile";
+import { type UpdateProfileRequest } from "@/@types/entities/profile";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";
-
+import { useUploadImage } from "@/hooks/mutations/profile/useUploadImage";
 import { ApiError } from "@/api/apiError";
-
-// ── Dummy data — ganti dengan data dari API nanti ─────────────────────────────
-const DUMMY_PROFILE: ProfileFormValues = {
-  full_name: "Putra Rizky Nugraha",
-  url_profile: "putra.rizky",
-  address: "Jakarta, Indonesia",
-  about:
-    "Seorang mahasiswa Sistem Informasi yang sedang dalam transisi karir menjadi Software Engineer profesional. Fokus pada Web Development dan Clean Code principles.",
-  bio: "Fullstack Developer · Software Engineering Student",
-  tags: ["golang", "react", "laravel", "typescript", "docker"],
-};
+import { useGetProfile } from "@/hooks/queries/useGetProfile";
 
 export default function ProfilePage() {
-  const [values, setValues] = useState<ProfileFormValues>(DUMMY_PROFILE);
   const [isPublic, setIsPublic] = useState(true);
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+  const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const { toast, renderToasts } = useToast();
+
+  const { data: profile, isLoading, error } = useGetProfile();
 
   const form = useFormData<UpdateProfileRequest>({
     initialValues: {
@@ -52,36 +39,83 @@ export default function ProfilePage() {
     onSubmit: (payload) => updateProfileMutation.mutate(payload),
   });
 
+  //Sync form + visibility setelah api sudah berhasil di panggil
+  useEffect(() => {
+    if (!profile) return;
+    form.setValues({
+      full_name: profile.full_name ?? "",
+      url_profile: profile.url_profile ?? "",
+      address: profile.address ?? "",
+      about: profile.about ?? "",
+      bio: profile.bio ?? "",
+      theme: profile.theme ?? "",
+      tags: profile.tags ?? [],
+    });
+    setIsPublic(true);
+  }, [profile]);
+
+  // ── Mutations ────────────────────────────────────────────────────────────────
   const updateProfileMutation = useUpdateProfile({
     onSuccess: () => {
-      toast("success", "Berhasil", `Profile anda berhasil di Perbarui`);
+      toast("success", "Berhasil", "Profile anda berhasil diperbarui");
+      setIsDirty(false);
     },
     onError: (error: ApiError) => {
-      // console.error("Login failed:", error.message);
       toast("error", "Error", error.message);
     },
   });
-  // ── Handlers ────────────────────────────────────────────────────────────────
-  const handleChange = (field: keyof ProfileFormValues, value: string) => {
-    setValues((prev) => ({ ...prev, [field]: value }));
+
+  const uploadMutation = useUploadImage({
+    onSuccess: (response) => {
+      form.handleChange("url_profile", response.url_profile);
+      setAvatarImageFile(null);
+      setAvatarPreviewUrl(null);
+      toast("success", "Berhasil", "Foto profil berhasil diperbarui!");
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Upload", error.message);
+    },
+  });
+
+  // ── Wrapper handleChange → auto isDirty ─────────────────────────────────────
+  const handleChange = <K extends keyof UpdateProfileRequest>(
+    key: K,
+    value: UpdateProfileRequest[K],
+  ) => {
+    form.handleChange(key, value);
     setIsDirty(true);
   };
 
-  const handleTagsChange = (tags: string[]) => {
-    setValues((prev) => ({ ...prev, tags }));
-    setIsDirty(true);
+  // ── Save: upload avatar dulu (kalau ada), baru update profile ───────────────
+  const handleSave = async () => {
+    try {
+      if (avatarImageFile) {
+        const uploadData = new FormData();
+        uploadData.append("image_profile", avatarImageFile);
+        await uploadMutation.mutateAsync(uploadData);
+      }
+      await updateProfileMutation.mutateAsync(form.values);
+    } catch {
+      // Error sudah di-handle di masing-masing onError
+    }
   };
 
-  const handleAvatarChange = (file: File) => {
-    setAvatarFile(file);
-    setAvatarUrl(URL.createObjectURL(file));
-    setIsDirty(true);
-  };
-
-  const handleAvatarRemove = () => {
-    setAvatarFile(null);
-    setAvatarUrl(undefined);
-    setIsDirty(true);
+  // ── Cancel: reset ke data profile dari server ────────────────────────────────
+  const handleCancel = () => {
+    if (!profile) return;
+    form.setValues({
+      full_name: profile.full_name ?? "",
+      url_profile: profile.url_profile ?? "",
+      address: profile.address ?? "",
+      about: profile.about ?? "",
+      bio: profile.bio ?? "",
+      theme: profile.theme ?? "",
+      tags: profile.tags ?? [],
+    });
+    setAvatarPreviewUrl(null);
+    setAvatarImageFile(null);
+    setIsPublic(true);
+    setIsDirty(false);
   };
 
   const handleTogglePublic = (val: boolean) => {
@@ -89,30 +123,15 @@ export default function ProfilePage() {
     setIsDirty(true);
   };
 
-  const handleCancel = () => {
-    setValues(DUMMY_PROFILE); // reset ke data asli — nanti dari API
-    setIsDirty(false);
-  };
+  const isSaving = updateProfileMutation.isPending || uploadMutation.isPending;
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      // TODO: kirim ke API
-      // const formData = new FormData();
-      // if (avatarFile) formData.append("avatar", avatarFile);
-      // formData.append("data", JSON.stringify({ ...values, is_public: isPublic }));
-      // await updateProfile(formData);
-      await new Promise((r) => setTimeout(r, 800)); // simulasi loading
-      setIsDirty(false);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  if (isLoading || !profile) return <div>Loading...</div>;
+  if (error) return <div>Gagal ambil data: {error.message}</div>;
 
   return (
     <div className="flex flex-col gap-6">
       {renderToasts()}
-      {/* ── Page header ── */}
+
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Profile</h1>
@@ -121,7 +140,6 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        {/* Save / Cancel — always visible */}
         <div className="flex items-center gap-2 shrink-0">
           <Button
             variant="outline"
@@ -134,7 +152,7 @@ export default function ProfilePage() {
           <Button
             size="sm"
             onClick={handleSave}
-            disabled={!isDirty || isSaving}
+            disabled={(!isDirty && !avatarImageFile) || isSaving}
             className="gap-2"
           >
             {isSaving ? (
@@ -149,9 +167,7 @@ export default function ProfilePage() {
 
       <Separator />
 
-      {/* ── Main content: tabs (kiri) + preview (kanan) ── */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
-        {/* Tabs */}
         <Tabs defaultValue="info">
           <TabsList variant="line">
             <TabsTrigger value="info">Info</TabsTrigger>
@@ -161,25 +177,27 @@ export default function ProfilePage() {
 
           <div className="mt-4">
             <TabsContent value="info" className="mt-0">
-              <ProfileInfoTab
-                values={form.values}
-                onChange={form.handleChange}
-                onTagsChange={handleTagsChange}
-              />
+              <ProfileInfoTab values={form.values} onChange={handleChange} />
             </TabsContent>
 
             <TabsContent value="avatar" className="mt-0">
               <ProfileAvatarTab
-                values={values}
-                avatarUrl={avatarUrl}
-                onAvatarChange={handleAvatarChange}
-                onAvatarRemove={handleAvatarRemove}
+                fullName={profile.full_name || "User"}
+                avatarUrl={profile.url_profile}
+                preview={avatarPreviewUrl || ""}
+                setAvatarPreviewUrl={setAvatarPreviewUrl}
+                setAvatarImageFile={(file) => {
+                  setAvatarImageFile(file);
+                  if (file) setIsDirty(true);
+                  {
+                    /* ← isDirty saat pilih foto */
+                  }
+                }}
               />
             </TabsContent>
 
             <TabsContent value="visibility" className="mt-0">
               <ProfileVisibilityTab
-                values={values}
                 isPublic={isPublic}
                 onTogglePublic={handleTogglePublic}
               />
@@ -187,11 +205,10 @@ export default function ProfilePage() {
           </div>
         </Tabs>
 
-        {/* Preview — sticky di desktop */}
         <div className="lg:sticky lg:top-6 lg:self-start">
           <ProfilePreviewCard
-            values={values}
-            avatarUrl={avatarUrl}
+            values={form.values}
+            avatarUrl={avatarPreviewUrl || profile.url_profile}
             isPublic={isPublic}
           />
         </div>

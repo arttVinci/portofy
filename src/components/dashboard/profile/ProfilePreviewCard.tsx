@@ -1,12 +1,12 @@
+import type { ProfileResponse } from "@/@types/entities/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { GlobeIcon, MapPinIcon } from "lucide-react";
-import type { ProfileFormValues } from "@/@types/entities/profile";
 
 interface ProfilePreviewCardProps {
-  values: ProfileFormValues;
+  values: ProfileResponse;
   avatarUrl?: string;
   isPublic: boolean;
 }

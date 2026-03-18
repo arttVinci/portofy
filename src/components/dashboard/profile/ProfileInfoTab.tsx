@@ -19,39 +19,9 @@ const MAX_TAGS = 10;
 interface ProfileInfoTabProps {
   values: UpdateProfileRequest;
   onChange: (field: keyof UpdateProfileRequest, value: string) => void;
-  onTagsChange: (tags: string[]) => void;
 }
 
-export function ProfileInfoTab({
-  values,
-  onChange,
-  onTagsChange,
-}: ProfileInfoTabProps) {
-  const [tagInput, setTagInput] = useState("");
-
-  const addTag = (raw: string) => {
-    const tag = raw.trim().toLowerCase().replace(/\s+/g, "-");
-    if (!tag) return;
-    if (values.tags.includes(tag)) return;
-    if (values.tags.length >= MAX_TAGS) return;
-    onTagsChange([...values.tags, tag]);
-    setTagInput("");
-  };
-
-  const removeTag = (tag: string) => {
-    onTagsChange(values.tags.filter((t) => t !== tag));
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      addTag(tagInput);
-    }
-    if (e.key === "Backspace" && !tagInput && values.tags.length > 0) {
-      removeTag(values.tags[values.tags.length - 1]);
-    }
-  };
-
+export function ProfileInfoTab({ values, onChange }: ProfileInfoTabProps) {
   return (
     <div className="flex flex-col gap-4">
       {/* ── Location & Links ── */}
@@ -160,15 +130,14 @@ export function ProfileInfoTab({
 
       {/* ── Tags ── */}
       <Card>
-        <CardHeader>
+        {/* <CardHeader>
           <CardTitle className="text-sm font-medium">Tags / Keahlian</CardTitle>
           <CardDescription className="text-xs">
             Tambah tag yang merepresentasikan kamu. Maks {MAX_TAGS} tag.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          {/* Tags display */}
-          {values.tags.length > 0 && (
+        <CardContent className="flex flex-col gap-3"> */}
+        {/* {values.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {values.tags.map((tag) => (
                 <Badge
@@ -188,10 +157,10 @@ export function ProfileInfoTab({
                 </Badge>
               ))}
             </div>
-          )}
+          )} */}
 
-          {/* Tag input */}
-          {values.tags.length < MAX_TAGS && (
+        {/* Tag input */}
+        {/* {values.tags.length < MAX_TAGS && (
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
                 <Input
@@ -212,15 +181,15 @@ export function ProfileInfoTab({
                 )}
               </div>
             </div>
-          )}
+          )} */}
 
-          <p className="text-xs text-muted-foreground">
+        {/* <p className="text-xs text-muted-foreground">
             {values.tags.length}/{MAX_TAGS} tag digunakan. Tekan{" "}
             <kbd className="px-1 py-0.5 rounded border text-[10px]">Enter</kbd>{" "}
             atau <kbd className="px-1 py-0.5 rounded border text-[10px]">,</kbd>{" "}
             untuk tambah.
           </p>
-        </CardContent>
+        </CardContent> */}
       </Card>
     </div>
   );

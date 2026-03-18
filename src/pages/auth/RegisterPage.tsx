@@ -8,7 +8,6 @@ import TemplateCard from "../../components/marketing/TemplateCard";
 
 import type { TemplateItem } from "../../@types/ui.types";
 
-import { useProfile } from "../../hooks/mutations/useProfile";
 import { useToast } from "../../hooks/ui/useToast";
 
 import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
@@ -18,13 +17,7 @@ import type { RegisterUserRequest } from "../../@types/entities/auth";
 import type { CreateProfileRequest } from "../../@types/entities/profile";
 import { useRegister } from "@/hooks/mutations/auth/useRegister";
 import { useCreateProfile } from "@/hooks/mutations/profile/useCreateProfile";
-import { useUploadImage } from "@/hooks/mutations/profile/useUploudImage";
-
-const STORAGE_KEYS = {
-  TOKEN: "authToken",
-  REGISTER_STEP: "registerStep",
-  REGISTER_DATA: "registerData",
-} as const;
+import { useUploadImage } from "@/hooks/mutations/profile/useUploadImage";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 

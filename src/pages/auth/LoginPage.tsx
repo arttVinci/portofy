@@ -332,7 +332,7 @@ export default function LoginPage() {
                     <input
                       type={showPw ? "text" : "password"}
                       placeholder="••••••••"
-                      value={form.values.username}
+                      value={form.values.password}
                       onChange={(e) =>
                         form.handleChange("password", e.target.value)
                       }

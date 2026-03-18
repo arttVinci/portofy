@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   Card,
   CardContent,
@@ -9,15 +9,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { UploadIcon, Trash2Icon, UserIcon } from "lucide-react";
-import type { ProfileFormValues } from "@/@types/entities/profile";
+import { UploadIcon } from "lucide-react";
 
 interface ProfileAvatarTabProps {
-  values: ProfileFormValues;
-  /** URL avatar saat ini dari server (beda dari preview lokal) */
+  fullName: string;
   avatarUrl?: string;
-  onAvatarChange: (file: File) => void;
-  onAvatarRemove: () => void;
+  preview: string;
+  setAvatarPreviewUrl: (url: string) => void;
+  setAvatarImageFile: (image: File) => void;
 }
 
 function getInitials(name: string): string {
@@ -31,42 +30,25 @@ function getInitials(name: string): string {
 }
 
 export function ProfileAvatarTab({
-  values,
+  fullName,
   avatarUrl,
-  onAvatarChange,
-  onAvatarRemove,
+  preview,
+  setAvatarPreviewUrl,
+  setAvatarImageFile,
 }: ProfileAvatarTabProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [dragOver, setDragOver] = useState(false);
 
-  const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    onAvatarChange(file);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) handleFile(file);
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setAvatarImageFile(file);
+    setAvatarPreviewUrl(url);
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleFile(file);
-  };
+  const initials = getInitials(fullName);
 
-  const handleRemove = () => {
-    setPreview(null);
-    if (inputRef.current) inputRef.current.value = "";
-    onAvatarRemove();
-  };
-
-  const displayUrl = preview ?? avatarUrl;
-  const initials = getInitials(values.full_name || "U");
+  const displayUrl = preview || avatarUrl;
 
   return (
     <div className="flex flex-col gap-4">
@@ -81,7 +63,7 @@ export function ProfileAvatarTab({
           {/* ── Preview + actions ── */}
           <div className="flex items-center gap-5">
             <Avatar className="size-20 rounded-xl">
-              <AvatarImage src={displayUrl} alt={values.full_name} />
+              <AvatarImage src={displayUrl} alt={fullName} />
               <AvatarFallback className="rounded-xl text-lg">
                 {initials}
               </AvatarFallback>
@@ -96,21 +78,8 @@ export function ProfileAvatarTab({
                 onClick={() => inputRef.current?.click()}
               >
                 <UploadIcon className="size-3.5" />
-                {displayUrl ? "Ganti Foto" : "Upload Foto"}
+                {avatarUrl ? "Ganti Foto" : "Upload Foto"}
               </Button>
-
-              {displayUrl && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="gap-2 w-fit text-destructive hover:text-destructive"
-                  onClick={handleRemove}
-                >
-                  <Trash2Icon className="size-3.5" />
-                  Hapus Foto
-                </Button>
-              )}
 
               <p className="text-xs text-muted-foreground">
                 JPG, PNG, atau WebP. Maks 2MB.
@@ -120,41 +89,13 @@ export function ProfileAvatarTab({
 
           <Separator />
 
-          {/* ── Drag & drop zone ── */}
-          <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragOver(true);
-            }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={handleDrop}
-            onClick={() => inputRef.current?.click()}
-            className={`
-              flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed
-              p-8 cursor-pointer transition-colors text-center
-              ${
-                dragOver
-                  ? "border-primary bg-primary/5"
-                  : "border-border hover:border-muted-foreground/40 hover:bg-muted/30"
-              }
-            `}
-          >
-            <UserIcon className="size-8 text-muted-foreground/40" />
-            <div>
-              <p className="text-sm font-medium">Drag & drop foto di sini</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                atau klik untuk pilih dari perangkat
-              </p>
-            </div>
-          </div>
-
           {/* Hidden file input */}
           <input
             ref={inputRef}
             type="file"
             accept="image/jpeg,image/png,image/webp"
             className="hidden"
-            onChange={handleInputChange}
+            onChange={handleFile}
           />
         </CardContent>
       </Card>
