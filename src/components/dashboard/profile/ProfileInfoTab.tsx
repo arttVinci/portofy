@@ -10,15 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import type { ProfileFormValues } from "@/@types/entities/profile";
+import type { UpdateProfileRequest } from "@/@types/entities/profile";
 
 import { PlusIcon, XIcon } from "lucide-react";
 
 const MAX_TAGS = 10;
 
 interface ProfileInfoTabProps {
-  values: ProfileFormValues;
-  onChange: (field: keyof ProfileFormValues, value: string) => void;
+  values: UpdateProfileRequest;
+  onChange: (field: keyof UpdateProfileRequest, value: string) => void;
   onTagsChange: (tags: string[]) => void;
 }
 

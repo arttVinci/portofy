@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import type { LoginUserRequest } from "@/@types/entities/auth";
@@ -7,6 +7,7 @@ import { ApiError } from "@/api/apiError";
 import { useLogin } from "@/hooks/mutations/auth/useLogin";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/ui/useToast";
+import { useFormData } from "@/hooks/ui/useFormData";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -40,12 +41,16 @@ export default function LoginPage() {
   const [focused, setFocused] = useState<string | null>(null);
   const [showPw, setShowPw] = useState(false);
   const navigate = useNavigate();
-
   const { toast, renderToasts } = useToast();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+  const form = useFormData<LoginUserRequest>({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      loginMutation.mutate(values);
+    },
   });
 
   const loginMutation = useLogin({
@@ -60,20 +65,6 @@ export default function LoginPage() {
     },
   });
 
-  const handleFormChange = (key: string, value: string | string[]): void => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleSubmit = (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    const payload: LoginUserRequest = {
-      username: formData.username,
-      password: formData.password,
-    };
-
-    loginMutation.mutate(payload);
-  };
   const GoogleIcon = (
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
       <path
@@ -295,7 +286,7 @@ export default function LoginPage() {
               style={{ borderColor: "rgba(255,255,255,0.06)" }}
             >
               {/* Left: email form */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form onSubmit={form.handleSubmit} className="p-6 space-y-4">
                 <p
                   className="text-[11px] font-semibold uppercase tracking-[0.08em]"
                   style={{ color: "rgba(255,255,255,0.25)" }}
@@ -308,9 +299,9 @@ export default function LoginPage() {
                   <input
                     type="text"
                     placeholder="Masukan username anda..."
-                    value={formData.username}
+                    value={form.values.username}
                     onChange={(e) =>
-                      handleFormChange("username", e.target.value)
+                      form.handleChange("username", e.target.value)
                     }
                     onFocus={() => setFocused("id")}
                     onBlur={() => setFocused(null)}
@@ -341,9 +332,9 @@ export default function LoginPage() {
                     <input
                       type={showPw ? "text" : "password"}
                       placeholder="••••••••"
-                      value={formData.password}
+                      value={form.values.username}
                       onChange={(e) =>
-                        handleFormChange("password", e.target.value)
+                        form.handleChange("password", e.target.value)
                       }
                       onFocus={() => setFocused("pw")}
                       onBlur={() => setFocused(null)}

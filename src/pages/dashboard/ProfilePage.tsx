@@ -11,8 +11,13 @@ import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePrevie
 
 import {
   type ProfileFormValues,
-  PROFILE_FORM_DEFAULT,
+  type UpdateProfileRequest,
 } from "@/@types/entities/profile";
+import { useFormData } from "@/hooks/ui/useFormData";
+import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
+import { useToast } from "@/hooks/ui/useToast";
+
+import { ApiError } from "@/api/apiError";
 
 // ── Dummy data — ganti dengan data dari API nanti ─────────────────────────────
 const DUMMY_PROFILE: ProfileFormValues = {
@@ -32,7 +37,30 @@ export default function ProfilePage() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const { toast, renderToasts } = useToast();
 
+  const form = useFormData<UpdateProfileRequest>({
+    initialValues: {
+      full_name: "",
+      url_profile: "",
+      address: "",
+      about: "",
+      bio: "",
+      theme: "",
+      tags: [],
+    },
+    onSubmit: (payload) => updateProfileMutation.mutate(payload),
+  });
+
+  const updateProfileMutation = useUpdateProfile({
+    onSuccess: () => {
+      toast("success", "Berhasil", `Profile anda berhasil di Perbarui`);
+    },
+    onError: (error: ApiError) => {
+      // console.error("Login failed:", error.message);
+      toast("error", "Error", error.message);
+    },
+  });
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleChange = (field: keyof ProfileFormValues, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
@@ -83,6 +111,7 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-6">
+      {renderToasts()}
       {/* ── Page header ── */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -133,8 +162,8 @@ export default function ProfilePage() {
           <div className="mt-4">
             <TabsContent value="info" className="mt-0">
               <ProfileInfoTab
-                values={values}
-                onChange={handleChange}
+                values={form.values}
+                onChange={form.handleChange}
                 onTagsChange={handleTagsChange}
               />
             </TabsContent>
