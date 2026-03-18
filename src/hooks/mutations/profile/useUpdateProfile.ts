@@ -15,7 +15,7 @@ export const useUpdateProfile = (options?: UseUpdateProfileOptions) => {
   return useMutation<ProfileResponse, ApiError, UpdateProfileRequest>({
     mutationFn: (payload) => profileService.updateProfile(payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(["user-profile"], data);
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
 
       options?.onSuccess?.(data);
     },

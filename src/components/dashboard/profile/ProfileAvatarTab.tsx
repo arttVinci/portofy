@@ -40,8 +40,10 @@ export function ProfileAvatarTab({
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log("file:", file);
     if (!file) return;
     const url = URL.createObjectURL(file);
+    console.log("preview url:", url);
     setAvatarImageFile(file);
     setAvatarPreviewUrl(url);
   };

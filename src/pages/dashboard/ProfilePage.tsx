@@ -39,7 +39,7 @@ export default function ProfilePage() {
     onSubmit: (payload) => updateProfileMutation.mutate(payload),
   });
 
-  //Sync form + visibility setelah api sudah berhasil di panggil
+  // Sync form + visibility setelah api sudah berhasil di panggil
   useEffect(() => {
     if (!profile) return;
     form.setValues({
@@ -89,12 +89,21 @@ export default function ProfilePage() {
   // ── Save: upload avatar dulu (kalau ada), baru update profile ───────────────
   const handleSave = async () => {
     try {
+      let payload = { ...form.values };
+
       if (avatarImageFile) {
         const uploadData = new FormData();
         uploadData.append("image_profile", avatarImageFile);
         await uploadMutation.mutateAsync(uploadData);
+
+        const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+
+        payload.url_profile = uploadResponse.url_profile;
+
+        console.log("cobaaaaaa", uploadResponse.url_profile);
       }
-      await updateProfileMutation.mutateAsync(form.values);
+      await updateProfileMutation.mutateAsync(payload);
+      console.log(form.values);
     } catch {
       // Error sudah di-handle di masing-masing onError
     }
@@ -112,7 +121,7 @@ export default function ProfilePage() {
       theme: profile.theme ?? "",
       tags: profile.tags ?? [],
     });
-    setAvatarPreviewUrl(null);
+    // setAvatarPreviewUrl(null);
     setAvatarImageFile(null);
     setIsPublic(true);
     setIsDirty(false);
@@ -189,9 +198,6 @@ export default function ProfilePage() {
                 setAvatarImageFile={(file) => {
                   setAvatarImageFile(file);
                   if (file) setIsDirty(true);
-                  {
-                    /* ← isDirty saat pilih foto */
-                  }
                 }}
               />
             </TabsContent>
