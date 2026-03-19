@@ -15,7 +15,7 @@ export function ProjectGallery({ items }: ProjectGalleryProps) {
           className="group relative overflow-hidden rounded-lg border bg-muted aspect-video"
         >
           <img
-            src={item.url}
+            src={item.image}
             alt={item.caption}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

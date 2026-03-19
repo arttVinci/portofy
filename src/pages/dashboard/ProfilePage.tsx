@@ -54,7 +54,6 @@ export default function ProfilePage() {
     setIsPublic(true);
   }, [profile]);
 
-  // ── Mutations ────────────────────────────────────────────────────────────────
   const updateProfileMutation = useUpdateProfile({
     onSuccess: () => {
       toast("success", "Berhasil", "Profile anda berhasil diperbarui");
@@ -77,7 +76,6 @@ export default function ProfilePage() {
     },
   });
 
-  // ── Wrapper handleChange → auto isDirty ─────────────────────────────────────
   const handleChange = <K extends keyof UpdateProfileRequest>(
     key: K,
     value: UpdateProfileRequest[K],
@@ -86,7 +84,6 @@ export default function ProfilePage() {
     setIsDirty(true);
   };
 
-  // ── Save: upload avatar dulu (kalau ada), baru update profile ───────────────
   const handleSave = async () => {
     try {
       let payload = { ...form.values };
@@ -104,12 +101,9 @@ export default function ProfilePage() {
       }
       await updateProfileMutation.mutateAsync(payload);
       console.log(form.values);
-    } catch {
-      // Error sudah di-handle di masing-masing onError
-    }
+    } catch {}
   };
 
-  // ── Cancel: reset ke data profile dari server ────────────────────────────────
   const handleCancel = () => {
     if (!profile) return;
     form.setValues({

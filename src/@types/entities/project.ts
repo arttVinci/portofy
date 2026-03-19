@@ -1,19 +1,3 @@
-export interface ProjectFeature {
-  title: string;
-  items: string[];
-}
-
-export interface TechItem {
-  name: string;
-  icon: string;
-  color: string;
-}
-
-export interface ProjectGallery {
-  url: string;
-  caption: string;
-}
-
 export interface ProjectResponse {
   id: string;
   title: string;
@@ -44,6 +28,22 @@ export interface CreateProjectRequest {
   techStack: TechItem[];
   gallery: ProjectGallery[];
   features: ProjectFeature[];
+}
+
+export interface ProjectFeature {
+  title: string;
+  items: string[];
+}
+
+export interface TechItem {
+  name: string;
+  icon: string;
+  color: string;
+}
+
+export interface ProjectGallery {
+  image: string;
+  caption: string;
 }
 
 export interface UpdateProjectRequest extends CreateProjectRequest {

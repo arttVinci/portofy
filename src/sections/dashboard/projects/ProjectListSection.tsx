@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ProjectCard } from "@/components/dashboard/projects/ProjectCard";
 import type { ProjectResponse } from "@/@types/entities/project";
+import TemplateCard from "@/components/dashboard/projects/TemplateCard";
 
 interface ProjectListSectionProps {
   projects: ProjectResponse[];
@@ -32,70 +33,55 @@ export function ProjectListSection({
   onViewDetail,
 }: ProjectListSectionProps) {
   const [search, setSearch] = useState("");
-  const [filterTag, setFilterTag] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  // All unique tags across projects
-  const allTags = Array.from(new Set(projects.flatMap((p) => p.tags)));
-
-  const filtered = projects.filter((p) => {
-    const matchSearch =
+  const filtered = projects.filter(
+    (p) =>
       !search ||
       p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase());
-    const matchTag = !filterTag || p.tags.includes(filterTag);
-    return matchSearch && matchTag;
-  });
+      p.description.toLowerCase().includes(search.toLowerCase()) ||
+      p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase())),
+  );
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Toolbar */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative flex-1 max-w-sm">
+    <div className="flex flex-col gap-5">
+      {/* ── Toolbar ── */}
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 max-w-xs">
           <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
           <Input
             placeholder="Cari project..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-8 h-8 text-sm"
+            className="pl-8 h-9 text-sm"
           />
         </div>
-        <Button size="sm" onClick={onAdd} className="gap-1.5 shrink-0">
+        <Button
+          size="sm"
+          onClick={onAdd}
+          className="gap-1.5 ml-auto shrink-0 cursor-pointer"
+        >
           <PlusIcon className="size-3.5" />
           Tambah Project
         </Button>
       </div>
 
-      {/* Tag filter */}
-      {allTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          <Badge
-            variant={filterTag === null ? "default" : "outline"}
-            className="cursor-pointer text-xs"
-            onClick={() => setFilterTag(null)}
-          >
-            Semua
-          </Badge>
-          {allTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant={filterTag === tag ? "default" : "outline"}
-              className="cursor-pointer text-xs"
-              onClick={() => setFilterTag(tag === filterTag ? null : tag)}
-            >
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      )}
+      {/* ── Project count ── */}
+      <p className="text-xs text-muted-foreground">
+        {`Total : ${projects.length} project`}
+      </p>
 
-      {/* Grid */}
+      {/* ── Grid ── */}
       {filtered.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project) => (
-            <ProjectCard
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {filtered.map((project, index) => (
+            <TemplateCard
+              i={index}
               key={project.id}
               project={project}
+              hoveredId={hoveredId}
+              setHoveredId={setHoveredId}
               onEdit={onEdit}
               onDelete={(id) => setDeleteId(id)}
               onViewDetail={onViewDetail}
@@ -103,13 +89,11 @@ export function ProjectListSection({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-20 text-center">
           <p className="text-sm font-medium text-muted-foreground">
-            {search || filterTag
-              ? "Tidak ada project yang cocok"
-              : "Belum ada project"}
+            {search ? "Tidak ada project yang cocok" : "Belum ada project"}
           </p>
-          {!search && !filterTag && (
+          {!search && (
             <Button
               size="sm"
               variant="outline"
@@ -123,7 +107,7 @@ export function ProjectListSection({
         </div>
       )}
 
-      {/* Delete confirm dialog */}
+      {/* ── Delete confirm ── */}
       <AlertDialog
         open={!!deleteId}
         onOpenChange={(o) => !o && setDeleteId(null)}

@@ -102,10 +102,10 @@ export default function ProjectPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList>
-          <TabsTrigger value="list">Semua Project</TabsTrigger>
+        <TabsList variant="line">
+          <TabsTrigger value="list">Project</TabsTrigger>
           <TabsTrigger value="form" disabled={activeView.type === "list"}>
-            {activeView.type === "edit" ? "Edit Project" : "Tambah Project"}
+            {activeView.type === "edit" ? "Edit Project" : "Add Project"}
           </TabsTrigger>
           <TabsTrigger value="detail" disabled={activeView.type !== "detail"}>
             Detail

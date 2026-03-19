@@ -119,4 +119,33 @@ export const DUMMY_PROJECTS: ProjectResponse[] = [
     ],
     createdAt: 1680000000,
   },
+  {
+    id: "4",
+    title: "React Component Library",
+    description:
+      "Kumpulan reusable React components dengan Tailwind CSS dan TypeScript. Storybook documentation included.",
+    image:
+      "https://images.unsplash.com/photo-1581276879432-15e50529f34b?w=600&q=80",
+    github_url: "https://github.com/arttVinci/ui-lib",
+    live_url: "https://ui.arttVinci.dev",
+    featured: false,
+    challenges:
+      "Membuat komponen yang accessible, themeable, dan tidak opinionated terhadap design system tertentu.",
+    solution:
+      "Menggunakan CSS variables untuk theming dan Radix UI sebagai accessibility foundation.",
+    tags: ["react", "ui", "components", "typescript"],
+    tech_stack: [
+      { name: "React", icon: "react", color: "#61DAFB" },
+      { name: "TypeScript", icon: "typescript", color: "#3178C6" },
+      { name: "Tailwind", icon: "tailwind", color: "#06B6D4" },
+    ],
+    gallery: [],
+    features: [
+      {
+        title: "Components",
+        items: ["30+ components", "Dark mode support", "Accessible (WCAG 2.1)"],
+      },
+    ],
+    createdAt: 1680000000,
+  },
 ];
