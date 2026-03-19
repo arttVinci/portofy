@@ -29,6 +29,7 @@ import LoginPage from "./pages/auth/LoginPage";
 // Pages Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProfilePage from "./pages/dashboard/ProfilePage";
+import DashboardProjectPage from "./pages/dashboard/ProjectPage";
 
 export default function App() {
   return (
@@ -48,12 +49,12 @@ export default function App() {
       <Route path="/app" element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="projects" element={<DashboardProjectPage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        {/* Nanti bisa ditambah /forgot-password di sini */}
       </Route>
 
       {/* <Route path="/:username" element={<PublicLayout />}>
