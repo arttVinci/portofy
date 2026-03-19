@@ -1,126 +1,155 @@
 import { useState } from "react";
-import type { ProjectResponse } from "@/@types/entities/project";
-import type { ProjectFormData } from "@/components/dashboard/projects/ProjectFormDialog";
-import { DUMMY_PROJECTS } from "@/data/dummyProjects";
-import { generateId } from "@/utils/generateId";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 
-import ProjectHeaderSection from "@/sections/dashboard/projects/ProjectHeaderSection";
-import ProjectListSection from "@/sections/dashboard/projects/ProjectListSection";
-import ProjectFormDialog from "@/components/dashboard/projects/ProjectFormDialog";
-import ProjectDeleteDialog from "@/components/dashboard/projects/ProjectDeleteDialog";
+import { ProjectListSection } from "@/sections/dashboard/projects/ProjectListSection";
+import { ProjectFormSection } from "@/sections/dashboard/projects/ProjectFormSection";
+import { ProjectDetailSection } from "@/sections/dashboard/projects/ProjectDetailSection";
+
+import type {
+  ProjectResponse,
+  ProjectFormValues,
+} from "@/@types/entities/project";
+import { DUMMY_PROJECTS } from "@/@types/projects";
+
+// ── View state ────────────────────────────────────────────────────────────────
+type ActiveView =
+  | { type: "list" }
+  | { type: "add" }
+  | { type: "edit"; project: ProjectResponse }
+  | { type: "detail"; project: ProjectResponse };
 
 export default function ProjectPage() {
-  // ── State ──────────────────────────────────────────────
+  const [projects, setProjects] = useState<ProjectResponse[]>(DUMMY_PROJECTS);
+  const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
+  const [activeTab, setActiveTab] = useState("list");
 
-  const [projects, setProjects] =
-    useState<ProjectResponse[]>(DUMMY_PROJECTS);
-
-  // Dialog states
-  const [formOpen, setFormOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [selectedProject, setSelectedProject] =
-    useState<ProjectResponse | null>(null);
-
-  // ── Handlers ───────────────────────────────────────────
-
-  const handleAddClick = () => {
-    setSelectedProject(null);
-    setFormOpen(true);
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  const goList = () => {
+    setActiveView({ type: "list" });
+    setActiveTab("list");
   };
 
-  const handleEditClick = (project: ProjectResponse) => {
-    setSelectedProject(project);
-    setFormOpen(true);
+  const handleAdd = () => {
+    setActiveView({ type: "add" });
+    setActiveTab("form");
   };
 
-  const handleDeleteClick = (project: ProjectResponse) => {
-    setSelectedProject(project);
-    setDeleteOpen(true);
+  const handleEdit = (project: ProjectResponse) => {
+    setActiveView({ type: "edit", project });
+    setActiveTab("form");
   };
 
-  const handleFormSubmit = (data: ProjectFormData) => {
-    if (selectedProject) {
-      // Edit existing
-      setProjects((prev) =>
-        prev.map((p) =>
-          p.id === selectedProject.id
-            ? {
-                ...p,
-                title: data.title,
-                description: data.description,
-                image: data.image,
-                github_url: data.githubUrl,
-                live_url: data.liveUrl,
-                featured: data.featured,
-                challenges: data.challenges,
-                solution: data.solution,
-                tags: data.tags,
-                tech_stack: data.techStack,
-                features: data.features,
-              }
-            : p
-        )
-      );
-    } else {
-      // Create new
+  const handleViewDetail = (project: ProjectResponse) => {
+    setActiveView({ type: "detail", project });
+    setActiveTab("detail");
+  };
+
+  const handleDelete = (id: string) => {
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const handleSave = (values: ProjectFormValues) => {
+    if (activeView.type === "add") {
       const newProject: ProjectResponse = {
-        id: generateId(),
-        title: data.title,
-        description: data.description,
-        image: data.image,
-        github_url: data.githubUrl,
-        live_url: data.liveUrl,
-        featured: data.featured,
-        challenges: data.challenges,
-        solution: data.solution,
-        tags: data.tags,
-        tech_stack: data.techStack,
-        gallery: [],
-        features: data.features,
+        ...values,
+        id: Date.now().toString(),
+        github_url: values.githubUrl ?? "",
+        live_url: values.liveUrl ?? "",
+        challenges: values.challenges ?? "",
+        solution: values.solution ?? "",
+        tech_stack: values.techStack,
         createdAt: Date.now(),
       };
       setProjects((prev) => [newProject, ...prev]);
+    } else if (activeView.type === "edit") {
+      setProjects((prev) =>
+        prev.map((p) =>
+          p.id === activeView.project.id
+            ? {
+                ...p,
+                ...values,
+                github_url: values.githubUrl ?? "",
+                live_url: values.liveUrl ?? "",
+                challenges: values.challenges ?? "",
+                solution: values.solution ?? "",
+                tech_stack: values.techStack,
+              }
+            : p,
+        ),
+      );
     }
-    setSelectedProject(null);
+    goList();
   };
 
-  const handleDeleteConfirm = () => {
-    if (selectedProject) {
-      setProjects((prev) => prev.filter((p) => p.id !== selectedProject.id));
-      setSelectedProject(null);
-      setDeleteOpen(false);
-    }
+  // ── Tab change guard (prevent navigating to form/detail via tab click) ───
+  const handleTabChange = (val: string) => {
+    if (val === "list") goList();
+    // "form" and "detail" tabs are controlled programmatically only
   };
-
-  // ── Render ─────────────────────────────────────────────
 
   return (
     <div className="flex flex-col gap-6">
-      <ProjectHeaderSection
-        totalProjects={projects.length}
-        onAddProject={handleAddClick}
-      />
+      {/* Page header */}
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Kelola karya dan proyek portofolio kamu
+        </p>
+      </div>
 
-      <ProjectListSection
-        projects={projects}
-        onEdit={handleEditClick}
-        onDelete={handleDeleteClick}
-      />
+      <Separator />
 
-      {/* Dialogs */}
-      <ProjectFormDialog
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        project={selectedProject}
-        onSubmit={handleFormSubmit}
-      />
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
+        <TabsList>
+          <TabsTrigger value="list">Semua Project</TabsTrigger>
+          <TabsTrigger value="form" disabled={activeView.type === "list"}>
+            {activeView.type === "edit" ? "Edit Project" : "Tambah Project"}
+          </TabsTrigger>
+          <TabsTrigger value="detail" disabled={activeView.type !== "detail"}>
+            Detail
+          </TabsTrigger>
+        </TabsList>
 
-      <ProjectDeleteDialog
-        open={deleteOpen}
-        onOpenChange={setDeleteOpen}
-        projectTitle={selectedProject?.title ?? ""}
-        onConfirm={handleDeleteConfirm}
-      />
+        <div className="mt-4">
+          {/* List */}
+          <TabsContent value="list" className="mt-0">
+            <ProjectListSection
+              projects={projects}
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onViewDetail={handleViewDetail}
+            />
+          </TabsContent>
+
+          {/* Add / Edit form */}
+          <TabsContent value="form" className="mt-0">
+            {(activeView.type === "add" || activeView.type === "edit") && (
+              <ProjectFormSection
+                mode={activeView.type}
+                initialData={
+                  activeView.type === "edit" ? activeView.project : undefined
+                }
+                onBack={goList}
+                onSave={handleSave}
+              />
+            )}
+          </TabsContent>
+
+          {/* Detail */}
+          <TabsContent value="detail" className="mt-0">
+            {activeView.type === "detail" && (
+              <ProjectDetailSection
+                project={activeView.project}
+                onBack={goList}
+                onEdit={handleEdit}
+              />
+            )}
+          </TabsContent>
+        </div>
+      </Tabs>
     </div>
   );
 }

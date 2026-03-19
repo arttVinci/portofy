@@ -1,5 +1,3 @@
-// ── Sub-types ──────────────────────────────────────────────
-
 export interface ProjectFeature {
   title: string;
   items: string[];
@@ -16,8 +14,6 @@ export interface ProjectGallery {
   caption: string;
 }
 
-// ── Response ───────────────────────────────────────────────
-
 export interface ProjectResponse {
   id: string;
   title: string;
@@ -28,16 +24,12 @@ export interface ProjectResponse {
   featured: boolean;
   challenges: string;
   solution: string;
-
   tags: string[];
   tech_stack: TechItem[];
   gallery: ProjectGallery[];
   features: ProjectFeature[];
-
   createdAt: number;
 }
-
-// ── Requests ───────────────────────────────────────────────
 
 export interface CreateProjectRequest {
   title: string;
@@ -48,7 +40,6 @@ export interface CreateProjectRequest {
   challenges?: string;
   solution?: string;
   featured: boolean;
-
   tags: string[];
   techStack: TechItem[];
   gallery: ProjectGallery[];
@@ -62,3 +53,21 @@ export interface UpdateProjectRequest extends CreateProjectRequest {
 export interface DeleteProjectRequest {
   id: string;
 }
+
+// ── Form state (dipakai di ProjectFormSection) ────────────────────────────────
+export type ProjectFormValues = Omit<CreateProjectRequest, never>;
+
+export const PROJECT_FORM_DEFAULT: ProjectFormValues = {
+  title: "",
+  description: "",
+  image: "",
+  githubUrl: "",
+  liveUrl: "",
+  challenges: "",
+  solution: "",
+  featured: false,
+  tags: [],
+  techStack: [],
+  gallery: [],
+  features: [],
+};
