@@ -1,12 +1,12 @@
-import type { ApiResponse } from "../@types/base/api";
+import type { ApiResponse } from "../@types/base/api.types";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
   UpdateProfileRequest,
-} from "../@types/entities/profile";
+} from "@/@types";
 import type { AxiosResponse } from "axios";
-import apiClient from "../api/apiClient";
+import apiClient from "@/api/apiClient";
 
 class ProfileService {
   private readonly BASE_PATH = "/profiles";

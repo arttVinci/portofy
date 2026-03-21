@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { ProjectResponse } from "@/@types/entities/project";
+import type { ProjectResponse } from "@/@types/entities/project.types";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {

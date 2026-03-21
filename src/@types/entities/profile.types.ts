@@ -1,7 +1,7 @@
 export interface ProfileResponse {
   id?: string;
   full_name: string;
-  url_profile: string;
+  image_url: string;
   address: string;
   about: string;
   bio: string;
@@ -11,7 +11,7 @@ export interface ProfileResponse {
 export interface CreateProfileRequest {
   user_id: string;
   full_name: string;
-  url_profile: string;
+  image_url: string;
   address: string;
   about: string;
   bio: string;
@@ -21,7 +21,7 @@ export interface CreateProfileRequest {
 
 export interface UpdateProfileRequest {
   full_name: string;
-  url_profile: string;
+  image_url: string;
   address: string;
   about: string;
   bio: string;
@@ -31,9 +31,9 @@ export interface UpdateProfileRequest {
 
 export interface HandleImageProfile {
   user_id: string;
-  image_profile: File;
+  image: string;
 }
 
 export interface ImageProfileResponse {
-  url_profile: string;
+  image_url: string;
 }

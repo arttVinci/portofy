@@ -4,7 +4,7 @@ import { ApiError } from "../../../api/apiError";
 import type {
   UpdateProfileRequest,
   ProfileResponse,
-} from "../../../@types/entities/profile";
+} from "../../../@types/entities/profile.types";
 interface UseUpdateProfileOptions {
   onSuccess?: (data: ProfileResponse) => void;
   onError?: (error: ApiError) => void;

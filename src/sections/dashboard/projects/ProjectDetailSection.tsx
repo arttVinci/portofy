@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProjectTechStack } from "@/components/dashboard/projects/ProjectTechStack";
 import { ProjectGallery } from "@/components/dashboard/projects/ProjectGallery";
 import { ProjectFeatures } from "@/components/dashboard/projects/ProjectFeatures";
-import type { ProjectResponse } from "@/@types/entities/project";
+import type { ProjectResponse } from "@/@types/entities/project.types";
 
 interface ProjectDetailSectionProps {
   project: ProjectResponse;

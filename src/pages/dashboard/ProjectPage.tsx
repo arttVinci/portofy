@@ -9,7 +9,7 @@ import { ProjectDetailSection } from "@/sections/dashboard/projects/ProjectDetai
 import type {
   ProjectResponse,
   ProjectFormValues,
-} from "@/@types/entities/project";
+} from "@/@types/entities/project.types";
 import { DUMMY_PROJECTS } from "@/@types/projects";
 
 // ── View state ────────────────────────────────────────────────────────────────

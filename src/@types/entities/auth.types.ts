@@ -1,4 +1,4 @@
-import type { UserResponse } from "./user";
+import type { UserResponse } from "../index";
 
 export interface LoginUserRequest {
   username: string;

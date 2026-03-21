@@ -9,7 +9,7 @@ import { ProfileAvatarTab } from "@/components/dashboard/profile/ProfileAvatarTa
 import { ProfileVisibilityTab } from "@/components/dashboard/profile/ProfileVisibilityTab";
 import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePreviewCard";
 
-import { type UpdateProfileRequest } from "@/@types/entities/profile";
+import { type UpdateProfileRequest } from "@/@types/entities/profile.types";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";

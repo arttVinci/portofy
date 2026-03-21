@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ProjectCard } from "@/components/dashboard/projects/ProjectCard";
-import type { ProjectResponse } from "@/@types/entities/project";
+import type { ProjectResponse } from "@/@types/entities/project.types";
 import TemplateCard from "@/components/dashboard/projects/TemplateCard";
 
 interface ProjectListSectionProps {

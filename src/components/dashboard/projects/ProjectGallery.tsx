@@ -1,4 +1,4 @@
-import type { ProjectGallery as GalleryItem } from "@/@types/entities/project";
+import type { ProjectGallery as GalleryItem } from "@/@types/entities/project.types";
 
 interface ProjectGalleryProps {
   items: GalleryItem[];

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
-import type { LoginUserRequest } from "@/@types/entities/auth";
+import type { LoginUserRequest } from "@/@types/entities/auth.types";
 import { ApiError } from "@/api/apiError";
 
 import { useLogin } from "@/hooks/mutations/auth/useLogin";

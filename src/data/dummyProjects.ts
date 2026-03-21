@@ -1,4 +1,4 @@
-import type { ProjectResponse } from "@/@types/entities/project";
+import type { ProjectResponse } from "@/@types/entities/project.types";
 
 export const DUMMY_PROJECTS: ProjectResponse[] = [
   {
@@ -36,11 +36,7 @@ export const DUMMY_PROJECTS: ProjectResponse[] = [
       },
       {
         title: "Admin Dashboard",
-        items: [
-          "Inventory management",
-          "Order tracking",
-          "Revenue analytics",
-        ],
+        items: ["Inventory management", "Order tracking", "Revenue analytics"],
       },
     ],
     createdAt: 1710000000000,
@@ -142,7 +138,8 @@ export const DUMMY_PROJECTS: ProjectResponse[] = [
     github_url: "https://github.com/username/weather-app",
     live_url: "",
     featured: false,
-    challenges: "Handling geolocation permissions and diverse weather API data formats.",
+    challenges:
+      "Handling geolocation permissions and diverse weather API data formats.",
     solution:
       "Created a unified data transformer layer and progressive permission requests.",
     tags: ["weather", "api", "mobile-friendly"],

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import type { UpdateProfileRequest } from "@/@types/entities/profile";
+import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
 import { PlusIcon, XIcon } from "lucide-react";
 

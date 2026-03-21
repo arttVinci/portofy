@@ -6,7 +6,7 @@ import { STORAGE_KEYS } from "../../../config/api.config";
 import type {
   RegisterUserRequest,
   LoginUserResponse,
-} from "../../../@types/entities/auth";
+} from "../../../@types/entities/auth.types";
 
 interface UseRegisterOptions {
   onSuccess?: (data: LoginUserResponse) => void;

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   LoginUserRequest,
   LoginUserResponse,
-} from "@/@types/entities/auth";
+} from "@/@types/entities/auth.types";
 import { STORAGE_KEYS } from "@/config/api.config";
 import { ApiError } from "@/api/apiError";
 import authService from "@/services/auth.service";

@@ -1,4 +1,4 @@
-import type { ProfileResponse } from "@/@types/entities/profile";
+import type { ProfileResponse } from "@/@types/entities/profile.types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";

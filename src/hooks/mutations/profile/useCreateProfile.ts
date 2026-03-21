@@ -4,7 +4,7 @@ import { ApiError } from "../../../api/apiError";
 import type {
   CreateProfileRequest,
   ProfileResponse,
-} from "../../../@types/entities/profile";
+} from "../../../@types/entities/profile.types";
 
 interface UseCreateProfileOptions {
   onSuccess?: (data: ProfileResponse) => void;

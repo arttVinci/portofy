@@ -1,5 +1,5 @@
 import { CheckCircle2Icon } from "lucide-react";
-import type { ProjectFeature } from "@/@types/entities/project";
+import type { ProjectFeature } from "@/@types/entities/project.types";
 
 interface ProjectFeaturesProps {
   features: ProjectFeature[];

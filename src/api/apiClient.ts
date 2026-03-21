@@ -3,7 +3,7 @@ import axios, {
   type AxiosError,
   type InternalAxiosRequestConfig,
 } from "axios";
-import type { ApiErrorResponse } from "../@types/base/api";
+import type { ApiErrorResponse } from "../@types/base/api.types";
 import { STORAGE_KEYS } from "../config/api.config";
 import { API_CONFIG } from "../config/api.config";
 import { ApiError } from "./apiError";

@@ -1,4 +1,4 @@
-import type { TechItem } from "@/@types/entities/project";
+import type { TechItem } from "@/@types/entities/project.types";
 
 interface ProjectTechStackProps {
   items: TechItem[];

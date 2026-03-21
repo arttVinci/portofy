@@ -2,15 +2,22 @@ import type {
   LoginUserRequest,
   LoginUserResponse,
   RegisterUserRequest,
-} from "../@types/entities/auth";
+  ApiResponse,
+  UserResponse,
+} from "@/@types";
 import type { AxiosResponse } from "axios";
 
-import apiClient from "../api/apiClient";
-
-import type { ApiResponse } from "../@types/base/api";
+import apiClient from "@/api/apiClient";
 
 class AuthService {
   private readonly BASE_PATH = "/users";
+
+  async currentUser(): Promise<UserResponse> {
+    const response: AxiosResponse<ApiResponse<UserResponse>> =
+      await apiClient.get(`${this.BASE_PATH}/_current`);
+
+    return response.data.data;
+  }
 
   async createUser(payload: RegisterUserRequest): Promise<LoginUserResponse> {
     const response: AxiosResponse<ApiResponse<LoginUserResponse>> =
