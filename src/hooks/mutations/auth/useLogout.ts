@@ -1,8 +1,8 @@
 // hooks/mutations/auth/useLogout.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import authService from "../../../services/auth.service";
-import { ApiError } from "../../../api/apiError";
-import { STORAGE_KEYS } from "../../../config/api.config";
+import authService from "@/services/auth.service";
+import { ApiError } from "@/api/apiError";
+import { STORAGE_KEYS } from "@/config/api.config";
 
 interface UseLogoutOptions {
   onSuccess?: () => void;

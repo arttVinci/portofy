@@ -1,15 +1,16 @@
-import type { ApiResponse } from "../@types/base/api.types";
 import type {
   CreateProfileRequest,
   ImageProfileResponse,
   ProfileResponse,
   UpdateProfileRequest,
+  ApiResponse,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 import apiClient from "@/api/apiClient";
 
 class ProfileService {
   private readonly BASE_PATH = "/profiles";
+  private readonly PUBLIC_PATH = "/public";
 
   async createProfile(payload: CreateProfileRequest): Promise<ProfileResponse> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
@@ -38,7 +39,14 @@ class ProfileService {
 
   async getProfile(): Promise<ProfileResponse> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
-      await apiClient.get(`${this.BASE_PATH}/_get`);
+      await apiClient.get(`${this.BASE_PATH}`);
+
+    return response.data.data;
+  }
+
+  async getPublicProfile(username: string): Promise<ProfileResponse> {
+    const response: AxiosResponse<ApiResponse<ProfileResponse>> =
+      await apiClient.get(`${this.PUBLIC_PATH}/${username}`);
 
     return response.data.data;
   }

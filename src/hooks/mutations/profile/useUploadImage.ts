@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import profileService from "../../../services/profile.service";
-import { ApiError } from "../../../api/apiError";
-import type { ImageProfileResponse } from "../../../@types/entities/profile.types";
+import { profileService } from "@/services";
+import { ApiError } from "@/api/apiError";
+import type { ImageProfileResponse } from "@/@types";
 
 interface UseUploadImageOptions {
   onSuccess?: (data: ImageProfileResponse) => void;

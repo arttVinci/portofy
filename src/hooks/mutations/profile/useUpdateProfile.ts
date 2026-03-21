@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import profileService from "../../../services/profile.service";
-import { ApiError } from "../../../api/apiError";
-import type {
-  UpdateProfileRequest,
-  ProfileResponse,
-} from "../../../@types/entities/profile.types";
+import { profileService } from "@/services";
+import { ApiError } from "@/api/apiError";
+import type { UpdateProfileRequest, ProfileResponse } from "@/@types";
 interface UseUpdateProfileOptions {
   onSuccess?: (data: ProfileResponse) => void;
   onError?: (error: ApiError) => void;

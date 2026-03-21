@@ -1,0 +1,8 @@
+export { default as achievementService } from "./achievement.service";
+export { default as educationService } from "./education.service";
+export { default as experienceService } from "./experience.service";
+export { default as projectService } from "./project.service";
+export { default as skillService } from "./skill.service";
+export { default as socialService } from "./social.service";
+export { default as profileService } from "./profile.service";
+export { default as authService } from "./auth.service";

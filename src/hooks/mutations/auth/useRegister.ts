@@ -1,12 +1,8 @@
-// hooks/mutations/auth/useRegister.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import authService from "../../../services/auth.service";
-import { ApiError } from "../../../api/apiError";
-import { STORAGE_KEYS } from "../../../config/api.config";
-import type {
-  RegisterUserRequest,
-  LoginUserResponse,
-} from "../../../@types/entities/auth.types";
+import { authService } from "@/services";
+import { ApiError } from "@/api/apiError";
+import { STORAGE_KEYS } from "@/config/api.config";
+import type { RegisterUserRequest, LoginUserResponse } from "@/@types";
 
 interface UseRegisterOptions {
   onSuccess?: (data: LoginUserResponse) => void;
