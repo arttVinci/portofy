@@ -1,5 +1,4 @@
 import {
-  GithubIcon,
   ExternalLinkIcon,
   ArrowLeftIcon,
   PencilIcon,
@@ -9,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ProjectTechStack } from "@/components/dashboard/projects/ProjectTechStack";
 import { ProjectGallery } from "@/components/dashboard/projects/ProjectGallery";
 import { ProjectFeatures } from "@/components/dashboard/projects/ProjectFeatures";
 import type { ProjectResponse } from "@/@types/entities/project.types";
@@ -61,10 +59,10 @@ export function ProjectDetailSection({
       </div>
 
       {/* Hero image */}
-      {project.image && (
+      {project.image_url && (
         <div className="overflow-hidden rounded-xl border bg-muted aspect-video max-h-72">
           <img
-            src={project.image}
+            src={project.image_url}
             alt={project.title}
             className="h-full w-full object-cover"
           />
@@ -79,33 +77,17 @@ export function ProjectDetailSection({
         </p>
       </div>
 
-      {/* Tags + links */}
+      {/* Links */}
       <div className="flex flex-wrap items-center gap-2">
-        {project.tags.map((tag) => (
-          <Badge key={tag} variant="secondary" className="text-xs">
-            {tag}
-          </Badge>
-        ))}
         <div className="ml-auto flex items-center gap-2">
-          {project.github_url && (
-            <Button size="sm" variant="outline" asChild className="gap-1.5">
-              <a
-                href={project.github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GithubIcon className="size-3.5" /> GitHub
-              </a>
-            </Button>
-          )}
-          {project.live_url && (
+          {project.link_url && (
             <Button size="sm" asChild className="gap-1.5">
               <a
-                href={project.live_url}
+                href={project.link_url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <ExternalLinkIcon className="size-3.5" /> Live Demo
+                <ExternalLinkIcon className="size-3.5" /> Visit Link
               </a>
             </Button>
           )}
@@ -114,11 +96,17 @@ export function ProjectDetailSection({
 
       <Separator />
 
-      {/* Tech stack */}
-      {project.tech_stack.length > 0 && (
+      {/* Tools */}
+      {project.tools && project.tools.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium">Tech Stack</p>
-          <ProjectTechStack items={project.tech_stack} />
+          <p className="text-sm font-medium">Tools</p>
+          <div className="flex flex-wrap gap-2">
+            {project.tools.map((tool) => (
+              <Badge key={tool} variant="secondary">
+                {tool}
+              </Badge>
+            ))}
+          </div>
         </div>
       )}
 
@@ -158,7 +146,7 @@ export function ProjectDetailSection({
       )}
 
       {/* Features */}
-      {project.features.length > 0 && (
+      {project.features && project.features.length > 0 && (
         <>
           <Separator />
           <div className="flex flex-col gap-3">
@@ -169,7 +157,7 @@ export function ProjectDetailSection({
       )}
 
       {/* Gallery */}
-      {project.gallery.length > 0 && (
+      {project.gallery && project.gallery.length > 0 && (
         <>
           <Separator />
           <div className="flex flex-col gap-3">
