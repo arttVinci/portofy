@@ -15,7 +15,7 @@ import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";
 import { useUploadImage } from "@/hooks/mutations/profile/useUploadImage";
 import { ApiError } from "@/api/apiError";
-import { useGetProfile } from "@/hooks/queries/useGetProfile";
+import { useGetProfile } from "@/hooks/queries";
 
 export default function ProfilePage() {
   const [isPublic, setIsPublic] = useState(true);
@@ -29,7 +29,7 @@ export default function ProfilePage() {
   const form = useFormData<UpdateProfileRequest>({
     initialValues: {
       full_name: "",
-      url_profile: "",
+      image_url: "",
       address: "",
       about: "",
       bio: "",
@@ -44,7 +44,7 @@ export default function ProfilePage() {
     if (!profile) return;
     form.setValues({
       full_name: profile.full_name ?? "",
-      url_profile: profile.url_profile ?? "",
+      image_url: profile.image_url ?? "",
       address: profile.address ?? "",
       about: profile.about ?? "",
       bio: profile.bio ?? "",
@@ -66,7 +66,7 @@ export default function ProfilePage() {
 
   const uploadMutation = useUploadImage({
     onSuccess: (response) => {
-      form.handleChange("url_profile", response.url_profile);
+      form.handleChange("image_url", response.image_url);
       setAvatarImageFile(null);
       setAvatarPreviewUrl(null);
       toast("success", "Berhasil", "Foto profil berhasil diperbarui!");
@@ -95,12 +95,9 @@ export default function ProfilePage() {
 
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
 
-        payload.url_profile = uploadResponse.url_profile;
-
-        console.log("cobaaaaaa", uploadResponse.url_profile);
+        payload.image_url = uploadResponse.image_url;
       }
       await updateProfileMutation.mutateAsync(payload);
-      console.log(form.values);
     } catch {}
   };
 
@@ -108,7 +105,7 @@ export default function ProfilePage() {
     if (!profile) return;
     form.setValues({
       full_name: profile.full_name ?? "",
-      url_profile: profile.url_profile ?? "",
+      image_url: profile.image_url ?? "",
       address: profile.address ?? "",
       about: profile.about ?? "",
       bio: profile.bio ?? "",
@@ -186,7 +183,7 @@ export default function ProfilePage() {
             <TabsContent value="avatar" className="mt-0">
               <ProfileAvatarTab
                 fullName={profile.full_name || "User"}
-                avatarUrl={profile.url_profile}
+                avatarUrl={profile.image_url}
                 preview={avatarPreviewUrl || ""}
                 setAvatarPreviewUrl={setAvatarPreviewUrl}
                 setAvatarImageFile={(file) => {
@@ -208,7 +205,7 @@ export default function ProfilePage() {
         <div className="lg:sticky lg:top-6 lg:self-start">
           <ProfilePreviewCard
             values={form.values}
-            avatarUrl={avatarPreviewUrl || profile.url_profile}
+            avatarUrl={avatarPreviewUrl || profile.image_url}
             isPublic={isPublic}
           />
         </div>

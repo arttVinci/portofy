@@ -12,10 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
-import { PlusIcon, XIcon } from "lucide-react";
-
-const MAX_TAGS = 10;
-
 interface ProfileInfoTabProps {
   values: UpdateProfileRequest;
   onChange: (field: keyof UpdateProfileRequest, value: string) => void;
@@ -42,10 +38,10 @@ export function ProfileInfoTab({ values, onChange }: ProfileInfoTabProps) {
               <Input
                 id="url_profile"
                 placeholder="putra.rizky"
-                value={values.url_profile}
+                value={values.image_url}
                 onChange={(e) =>
                   onChange(
-                    "url_profile",
+                    "image_url",
                     e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, ""),
                   )
                 }

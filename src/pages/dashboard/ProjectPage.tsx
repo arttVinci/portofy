@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
@@ -6,13 +6,21 @@ import { ProjectListSection } from "@/sections/dashboard/projects/ProjectListSec
 import { ProjectFormSection } from "@/sections/dashboard/projects/ProjectFormSection";
 import { ProjectDetailSection } from "@/sections/dashboard/projects/ProjectDetailSection";
 
+import { ApiError } from "@/api/apiError";
+
 import type {
   ProjectResponse,
-  ProjectFormValues,
-} from "@/@types/entities/project.types";
-import { DUMMY_PROJECTS } from "@/@types/projects";
+  UpdateProjectRequest,
+  CreateProjectRequest,
+} from "@/@types";
+import { useAdminProjects } from "@/hooks/queries";
+import { useUpdateProject } from "@/hooks/mutations/project/useUpdateProject";
+import { useCreateProject } from "@/hooks/mutations/project/useCreateProject";
+import { useDeleteProject } from "@/hooks/mutations/project/useDeleteProject";
+import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useFormData } from "@/hooks/ui/useFormData";
+import { useToast } from "@/hooks/ui/useToast";
 
-// ── View state ────────────────────────────────────────────────────────────────
 type ActiveView =
   | { type: "list" }
   | { type: "add" }
@@ -20,12 +28,165 @@ type ActiveView =
   | { type: "detail"; project: ProjectResponse };
 
 export default function ProjectPage() {
-  const [projects, setProjects] = useState<ProjectResponse[]>(DUMMY_PROJECTS);
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
 
+  const [isDirty, setIsDirty] = useState(false);
+  const { toast, renderToasts } = useToast();
+
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
+  const [galleryBlobs, setGalleryBlobs] = useState<string[]>([]);
+
+  const { data: projects, isLoading, error, refetch } = useAdminProjects();
+  const [project, setProject] = useState<ProjectResponse>();
+
+  const form = useFormData<UpdateProjectRequest>({
+    initialValues: {
+      title: "",
+      description: "",
+      image_url: "",
+      link_url: "",
+      challenges: "",
+      solution: "",
+      featured: false,
+      features: [],
+      gallery: [],
+      tools: [],
+    },
+    onSubmit: () => {}, // Handled manually in handleSave
+  });
+
+  useEffect(() => {
+    if (!project) return;
+    form.setValues({
+      title: project.title ?? "",
+      description: project.description ?? "",
+      image_url: project.image_url ?? "",
+      link_url: project.link_url ?? "",
+      challenges: project.challenges ?? "",
+      solution: project.solution ?? "",
+      featured: project.featured ?? false,
+      features: project.features ?? [],
+      gallery: project.gallery ?? [],
+      tools: project.tools ?? [],
+    });
+  }, [project]);
+
+  const updateProjectMutation = useUpdateProject({
+    onSuccess: () => {
+      toast("success", "Berhasil", "Project berhasil diperbarui");
+      setIsDirty(false);
+      refetch();
+      goList();
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Error", error.message);
+    },
+  });
+
+  const createProjectMutation = useCreateProject({
+    onSuccess: () => {
+      toast("success", "Berhasil", "Project berhasil ditambahkan");
+      setIsDirty(false);
+      refetch();
+      goList();
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Error", error.message);
+    },
+  });
+
+  const deleteProjectMutation = useDeleteProject({
+    onSuccess: () => {
+      toast("success", "Berhasil", "Project berhasil dihapus");
+      refetch();
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Error", error.message);
+    },
+  });
+
+  const uploadMutation = useUploadImage({
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Upload Upload", error.message);
+    },
+  });
+
+  const handleSave = async () => {
+    try {
+      let payload = { ...form.values };
+
+      // Upload Thumbnail
+      if (thumbnailFile) {
+        const uploadData = new FormData();
+        uploadData.append("images", thumbnailFile);
+        const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+        payload.image_url = uploadResponse.urls[0];
+      }
+
+      // Upload Gallery Images
+      if (galleryFiles && galleryFiles.length > 0) {
+        const uploadData = new FormData();
+        galleryFiles.forEach((file) => uploadData.append("images", file));
+        const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+
+        let urlIndex = 0;
+        payload.gallery =
+          payload.gallery?.map((item) => {
+            if (item.image_url.startsWith("blob:")) {
+              return { ...item, image_url: uploadResponse.urls[urlIndex++] };
+            }
+            return item;
+          }) ?? [];
+      }
+
+      if (activeView.type === "edit" && project) {
+        await updateProjectMutation.mutateAsync({
+          id: project.id,
+          payload,
+        });
+      } else if (activeView.type === "add") {
+        await createProjectMutation.mutateAsync(
+          payload as CreateProjectRequest,
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const isSaving =
+    updateProjectMutation.isPending ||
+    createProjectMutation.isPending ||
+    deleteProjectMutation.isPending ||
+    uploadMutation.isPending;
+
+  const handleCancel = () => {
+    form.setValues({
+      title: "",
+      description: "",
+      image_url: "",
+      link_url: "",
+      challenges: "",
+      solution: "",
+      featured: false,
+      features: [],
+      gallery: [],
+      tools: [],
+    });
+    setThumbnailFile(null);
+    setGalleryFiles([]);
+    setThumbnailBlob(null);
+    setGalleryBlobs([]);
+    setProject(undefined);
+    setIsDirty(false);
+  };
+
   // ── Handlers ─────────────────────────────────────────────────────────────
   const goList = () => {
+    handleCancel();
     setActiveView({ type: "list" });
     setActiveTab("list");
   };
@@ -37,6 +198,7 @@ export default function ProjectPage() {
 
   const handleEdit = (project: ProjectResponse) => {
     setActiveView({ type: "edit", project });
+    setProject(project); // Set the active project! (Very important for edit)
     setActiveTab("form");
   };
 
@@ -46,46 +208,11 @@ export default function ProjectPage() {
   };
 
   const handleDelete = (id: string) => {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
+    deleteProjectMutation.mutate(id);
   };
 
-  const handleSave = (values: ProjectFormValues) => {
-    if (activeView.type === "add") {
-      const newProject: ProjectResponse = {
-        ...values,
-        id: Date.now().toString(),
-        github_url: values.githubUrl ?? "",
-        live_url: values.liveUrl ?? "",
-        challenges: values.challenges ?? "",
-        solution: values.solution ?? "",
-        tech_stack: values.techStack,
-        createdAt: Date.now(),
-      };
-      setProjects((prev) => [newProject, ...prev]);
-    } else if (activeView.type === "edit") {
-      setProjects((prev) =>
-        prev.map((p) =>
-          p.id === activeView.project.id
-            ? {
-                ...p,
-                ...values,
-                github_url: values.githubUrl ?? "",
-                live_url: values.liveUrl ?? "",
-                challenges: values.challenges ?? "",
-                solution: values.solution ?? "",
-                tech_stack: values.techStack,
-              }
-            : p,
-        ),
-      );
-    }
-    goList();
-  };
-
-  // ── Tab change guard (prevent navigating to form/detail via tab click) ───
   const handleTabChange = (val: string) => {
     if (val === "list") goList();
-    // "form" and "detail" tabs are controlled programmatically only
   };
 
   return (
@@ -116,7 +243,8 @@ export default function ProjectPage() {
           {/* List */}
           <TabsContent value="list" className="mt-0">
             <ProjectListSection
-              projects={projects}
+              projects={projects ?? []}
+              isLoading={isLoading}
               onAdd={handleAdd}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -134,6 +262,17 @@ export default function ProjectPage() {
                 }
                 onBack={goList}
                 onSave={handleSave}
+                values={form.values}
+                onChange={form.handleChange}
+                thumbnailFile={thumbnailFile}
+                setThumbnailFile={setThumbnailFile}
+                thumbnailBlob={thumbnailBlob}
+                setThumbnailBlob={setThumbnailBlob}
+                galleryFiles={galleryFiles}
+                setGalleryFiles={setGalleryFiles}
+                galleryBlobs={galleryBlobs}
+                setGalleryBlobs={setGalleryBlobs}
+                isSaving={isSaving}
               />
             )}
           </TabsContent>

@@ -12,7 +12,7 @@ export interface ProjectResponse {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image_url: string;
   link_url: string;
   featured: boolean;
   challenges: string;
@@ -27,7 +27,7 @@ export interface ProjectResponse {
 export interface CreateProjectRequest {
   title: string;
   description: string;
-  image?: string;
+  image_url?: string;
   link_url?: string;
   featured?: boolean;
   challenges?: string;
@@ -40,7 +40,7 @@ export interface CreateProjectRequest {
 export interface UpdateProjectRequest {
   title?: string;
   description?: string;
-  image?: string;
+  image_url?: string;
   link_url?: string;
   featured?: boolean;
   challenges?: string;

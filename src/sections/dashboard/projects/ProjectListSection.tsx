@@ -2,7 +2,6 @@ import { useState } from "react";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,9 +12,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ProjectCard } from "@/components/dashboard/projects/ProjectCard";
-import type { ProjectResponse } from "@/@types/entities/project.types";
+import type { ProjectResponse } from "@/@types";
 import TemplateCard from "@/components/dashboard/projects/TemplateCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import EmptyState from "@/components/ui/EmptySearch";
 
 interface ProjectListSectionProps {
   projects: ProjectResponse[];
@@ -23,6 +23,7 @@ interface ProjectListSectionProps {
   onEdit: (project: ProjectResponse) => void;
   onDelete: (id: string) => void;
   onViewDetail: (project: ProjectResponse) => void;
+  isLoading?: boolean;
 }
 
 export function ProjectListSection({
@@ -31,6 +32,7 @@ export function ProjectListSection({
   onEdit,
   onDelete,
   onViewDetail,
+  isLoading,
 }: ProjectListSectionProps) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -40,8 +42,7 @@ export function ProjectListSection({
     (p) =>
       !search ||
       p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase()) ||
-      p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase())),
+      p.description.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -73,7 +74,22 @@ export function ProjectListSection({
       </p>
 
       {/* ── Grid ── */}
-      {filtered.length > 0 ? (
+      {isLoading ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+            >
+              <Skeleton className="aspect-video w-full rounded-lg" />
+              <div className="space-y-2 mt-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : filtered.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filtered.map((project, index) => (
             <TemplateCard
@@ -89,22 +105,16 @@ export function ProjectListSection({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-20 text-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            {search ? "Tidak ada project yang cocok" : "Belum ada project"}
-          </p>
-          {!search && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3 gap-1.5"
-              onClick={onAdd}
-            >
-              <PlusIcon className="size-3.5" />
-              Tambah Project Pertama
-            </Button>
-          )}
-        </div>
+        <EmptyState
+          title={search ? "Pencarian tidak ditemukan" : "Belum ada project"}
+          description={
+            search
+              ? `Tidak ada hasil untuk "${search}"`
+              : "Kamu belum menambahkan project sama sekali"
+          }
+          actionText={search ? "Hapus Pencarian" : "Tambah Project Pertama"}
+          onAction={search ? () => setSearch("") : onAdd}
+        />
       )}
 
       {/* ── Delete confirm ── */}

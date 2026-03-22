@@ -51,9 +51,9 @@ export default function TemplateCard({
         {/* Preview */}
         <div className="p-3 pb-0">
           <div className="rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-white/5">
-            {project.image ? (
+            {project.image_url ? (
               <img
-                src={project.image}
+                src={project.image_url}
                 alt={project.title}
                 className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
               />
@@ -74,20 +74,6 @@ export default function TemplateCard({
           <p className="text-[12px] leading-relaxed mb-3 line-clamp-3 text-slate-500 dark:text-white/30">
             {project.description}
           </p>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1 mb-4">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded-full text-[10px] 
-                           bg-slate-100 text-slate-500 border border-slate-200
-                           dark:bg-white/5 dark:text-white/25 dark:border-white/10"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
 
           {/* Actions */}
           <div className="flex gap-2">
