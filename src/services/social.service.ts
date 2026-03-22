@@ -52,6 +52,13 @@ class SocialService {
 
     return response.data.data;
   }
+
+  async getByUsername(username: string, id: string): Promise<SocialResponse> {
+    const response: AxiosResponse<ApiResponse<SocialResponse>> =
+      await apiClient.get(`${this.PUBLIC_PATH}/${username}/socials/${id}`);
+
+    return response.data.data;
+  }
 }
 
 export default new SocialService();

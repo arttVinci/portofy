@@ -52,6 +52,13 @@ class SkillService {
 
     return response.data.data;
   }
+
+  async getByUsername(username: string, id: string): Promise<SkillResponse> {
+    const response: AxiosResponse<ApiResponse<SkillResponse>> =
+      await apiClient.get(`${this.PUBLIC_PATH}/${username}/skills/${id}`);
+
+    return response.data.data;
+  }
 }
 
 export default new SkillService();
