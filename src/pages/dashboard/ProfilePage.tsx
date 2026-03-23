@@ -69,6 +69,7 @@ export default function ProfilePage() {
       form.handleChange("image_url", response.image_url);
       setAvatarImageFile(null);
       setAvatarPreviewUrl(null);
+      console.log("cobaaaa", response.image_url);
       toast("success", "Berhasil", "Foto profil berhasil diperbarui!");
     },
     onError: (error: ApiError) => {
@@ -96,6 +97,7 @@ export default function ProfilePage() {
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
 
         payload.image_url = uploadResponse.image_url;
+        // console.log("cobaaaa", avatarPreviewUrl);
       }
       await updateProfileMutation.mutateAsync(payload);
     } catch {}
@@ -112,7 +114,7 @@ export default function ProfilePage() {
       theme: profile.theme ?? "",
       tags: profile.tags ?? [],
     });
-    // setAvatarPreviewUrl(null);
+    setAvatarPreviewUrl(null);
     setAvatarImageFile(null);
     setIsPublic(true);
     setIsDirty(false);
@@ -204,7 +206,7 @@ export default function ProfilePage() {
 
         <div className="lg:sticky lg:top-6 lg:self-start">
           <ProfilePreviewCard
-            values={form.values}
+            values={form.values ?? ""}
             avatarUrl={avatarPreviewUrl || profile.image_url}
             isPublic={isPublic}
           />
