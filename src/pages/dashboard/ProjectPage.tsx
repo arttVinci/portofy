@@ -55,7 +55,7 @@ export default function ProjectPage() {
       gallery: [],
       tools: [],
     },
-    onSubmit: () => {}, // Handled manually in handleSave
+    onSubmit: () => {},
   });
 
   useEffect(() => {

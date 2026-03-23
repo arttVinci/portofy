@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { PlusIcon, SearchIcon } from "lucide-react";
+import { IconFolderCode } from "@tabler/icons-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,10 +14,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+  EmptyMedia,
+} from "@/components/ui/empty";
+
 import type { ProjectResponse } from "@/@types";
 import TemplateCard from "@/components/dashboard/projects/TemplateCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import EmptyState from "@/components/ui/EmptySearch";
 
 interface ProjectListSectionProps {
   projects: ProjectResponse[];
@@ -105,16 +115,23 @@ export function ProjectListSection({
           ))}
         </div>
       ) : (
-        <EmptyState
-          title={search ? "Pencarian tidak ditemukan" : "Belum ada project"}
-          description={
-            search
-              ? `Tidak ada hasil untuk "${search}"`
-              : "Kamu belum menambahkan project sama sekali"
-          }
-          actionText={search ? "Hapus Pencarian" : "Tambah Project Pertama"}
-          onAction={search ? () => setSearch("") : onAdd}
-        />
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <IconFolderCode />
+            </EmptyMedia>
+            <EmptyTitle>No Projects Yet</EmptyTitle>
+            <EmptyDescription>
+              You haven&apos;t created any projects yet. Get started by creating
+              your first project.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent className="flex-row justify-center gap-2">
+            <Button className="cursor-pointer" onClick={onAdd}>
+              Create Project
+            </Button>
+          </EmptyContent>
+        </Empty>
       )}
 
       {/* ── Delete confirm ── */}
@@ -136,6 +153,7 @@ export function ProjectListSection({
               onClick={() => {
                 if (deleteId) onDelete(deleteId);
                 setDeleteId(null);
+                console.log("coponaaa", deleteId);
               }}
             >
               Hapus
