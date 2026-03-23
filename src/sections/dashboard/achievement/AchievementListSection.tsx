@@ -12,9 +12,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { AchievementCard } from "@/components/dashboard/achievement/AchievementCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { AchievementResponse } from "@/@types";
+import Card from "@/components/dashboard/Card";
 
 interface AchievementListSectionProps {
   achievements: AchievementResponse[];
@@ -51,6 +51,7 @@ export function AchievementListSection({
 }: AchievementListSectionProps) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filtered = achievements.filter(
     (a) =>
@@ -93,20 +94,27 @@ export function AchievementListSection({
 
       {/* Grid */}
       {isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <CardSkeleton key={i} />
           ))}
         </div>
       ) : filtered.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((achievement) => (
-            <AchievementCard
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {filtered.map((achievement, index) => (
+            <Card
+              i={index}
               key={achievement.id}
-              achievement={achievement}
-              onEdit={onEdit}
+              data={achievement}
+              hoveredId={hoveredId}
+              setHoveredId={setHoveredId}
+              onEdit={(data) => {
+                onEdit(data as AchievementResponse);
+              }}
               onDelete={(id) => setDeleteId(id)}
-              onViewDetail={onViewDetail}
+              onViewDetail={(data) => {
+                onViewDetail(data as AchievementResponse);
+              }}
             />
           ))}
         </div>

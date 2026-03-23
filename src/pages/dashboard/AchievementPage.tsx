@@ -7,7 +7,11 @@ import { AchievementFormSection } from "@/sections/dashboard/achievement/Achieve
 import { AchievementDetailSection } from "@/sections/dashboard/achievement/AchievementDetailSection";
 
 import { ApiError } from "@/api/apiError";
-import type { AchievementResponse, UpdateAchievementRequest } from "@/@types";
+import type {
+  AchievementResponse,
+  UpdateAchievementRequest,
+  CreateAchievementRequest,
+} from "@/@types";
 import { useAdminAchievements } from "@/hooks/queries";
 import { useCreateAchievement } from "@/hooks/mutations/achievement/useCreateAchievement";
 import { useUpdateAchievement } from "@/hooks/mutations/achievement/useUpdateAchievement";
@@ -37,11 +41,52 @@ export default function AchievementPage() {
   const { toast, renderToasts } = useToast();
 
   const [achievement, setAchievement] = useState<AchievementResponse>();
+
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
 
-  const { data: achievements, isLoading, refetch } = useAdminAchievements();
+  const { data: achievemen, isLoading, refetch } = useAdminAchievements();
 
+  const dummyAchievements: AchievementResponse[] = [
+    {
+      id: "1",
+      title: "Juara 1 Web Design Competition",
+      image_url: "http://127.0.0.1:3000/public/uploads/dummy-web-design.png",
+      organization: "Universitas Teknologi",
+      issued_date: "2023-08-15",
+      credential_url: "https://example.com/certificates/web-design-1",
+      credential_id: "COMP-2023-001",
+    },
+    {
+      id: "2",
+      title: "AWS Certified Cloud Practitioner",
+      image_url: "http://127.0.0.1:3000/public/uploads/dummy-aws-cert.png",
+      organization: "Amazon Web Services",
+      issued_date: "2024-01-20",
+      credential_url: "https://aws.amazon.com/verification/12345",
+      credential_id: "AWS-CCP-98765",
+    },
+    {
+      id: "3",
+      title: "Belajar Dasar Pemrograman Web",
+      image_url: "http://127.0.0.1:3000/public/uploads/dummy-dicoding.png",
+      organization: "Dicoding Indonesia",
+      issued_date: "2023-11-05",
+      credential_url: "https://dicoding.com/certificates/XYZ123ABC",
+      credential_id: "DCD-WEB-001",
+    },
+    {
+      id: "4",
+      title: "Peserta Hackathon Nasional 2023",
+      image_url: "http://127.0.0.1:3000/public/uploads/dummy-hackathon.png",
+      organization: "Kementerian Kominfo",
+      issued_date: "2023-10-28",
+      credential_url: "http://127.0.0.1:3000/public/uploads/cert-hackathon.pdf",
+      credential_id: "HACK-KOMINFO-23",
+    },
+  ];
+
+  activeView.type === "edit" ? activeView.achievement : undefined;
   const form = useFormData<UpdateAchievementRequest>({
     initialValues: EMPTY_FORM,
     onSubmit: () => {},
@@ -113,7 +158,7 @@ export default function AchievementPage() {
       if (activeView.type === "edit" && achievement) {
         await updateMutation.mutateAsync({ id: achievement.id, payload });
       } else if (activeView.type === "add") {
-        await createMutation.mutateAsync(payload);
+        await createMutation.mutateAsync(payload as CreateAchievementRequest);
       }
     } catch (err) {
       console.error(err);
@@ -190,7 +235,7 @@ export default function AchievementPage() {
           {/* List */}
           <TabsContent value="list" className="mt-0">
             <AchievementListSection
-              achievements={achievements ?? []}
+              achievements={dummyAchievements ?? []}
               isLoading={isLoading}
               onAdd={handleAdd}
               onEdit={handleEdit}

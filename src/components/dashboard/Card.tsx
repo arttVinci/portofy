@@ -1,29 +1,35 @@
 import { motion } from "framer-motion";
-import type { ProjectResponse } from "@/@types/entities/project.types";
 import { Trash2, PencilLine } from "lucide-react";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-interface ProjectCardProps {
-  project: ProjectResponse;
+interface BaseCardData {
+  id: string;
+  title: string;
+  description?: string;
+  image_url?: string;
+}
+
+interface CardProps<T extends BaseCardData> {
+  data: T;
   i: number;
   hoveredId: string | null;
   setHoveredId: (id: string | null) => void;
-  onViewDetail: (project: ProjectResponse) => void;
-  onEdit: (project: ProjectResponse) => void;
+  onViewDetail: (data: T) => void;
+  onEdit: (data: T) => void;
   onDelete: (id: string) => void;
 }
 
-export default function TemplateCard({
-  project,
+export default function Card<T extends BaseCardData>({
+  data,
   i,
   hoveredId,
   setHoveredId,
   onViewDetail,
   onEdit,
   onDelete,
-}: ProjectCardProps) {
-  const isHovered = hoveredId === project.id;
+}: CardProps<T>) {
+  const isHovered = hoveredId === data.id;
 
   return (
     <motion.div
@@ -32,7 +38,7 @@ export default function TemplateCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.4, ease: smooth, delay: i * 0.05 }}
-      onHoverStart={() => setHoveredId(project.id)}
+      onHoverStart={() => setHoveredId(data.id)}
       onHoverEnd={() => setHoveredId(null)}
       className="cursor-pointer"
     >
@@ -49,10 +55,10 @@ export default function TemplateCard({
         {/* Preview */}
         <div className="p-3 pb-0">
           <div className="rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-white/5">
-            {project.image_url ? (
+            {data.image_url ? (
               <img
-                src={project.image_url}
-                alt={project.title}
+                src={data.image_url}
+                alt={data.title}
                 className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
               />
             ) : (
@@ -66,18 +72,18 @@ export default function TemplateCard({
         {/* Info */}
         <div className="p-4">
           <h3 className="text-[14px] font-semibold text-slate-800 dark:text-white/80 mb-1">
-            {project.title}
+            {data.title}
           </h3>
 
           <p className="text-[12px] leading-relaxed mb-3 line-clamp-3 text-slate-500 dark:text-white/30">
-            {project.description}
+            {data.description}
           </p>
 
           {/* Actions */}
           <div className="flex gap-2">
             {/* View Details Button */}
             <button
-              onClick={() => onViewDetail(project)}
+              onClick={() => onViewDetail(data)}
               className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200 cursor-pointer
                          bg-slate-900 text-white hover:bg-black
                          dark:bg-white/90 dark:text-[#0a0a0f] dark:hover:bg-white"
@@ -87,7 +93,7 @@ export default function TemplateCard({
 
             {/* Edit Button */}
             <button
-              onClick={() => onEdit(project)}
+              onClick={() => onEdit(data)}
               className="px-4 py-2 flex items-center gap-2 rounded-xl text-[12px] font-medium cursor-pointer transition-all duration-200
                          bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200
                          dark:bg-white/5 dark:text-white/30 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white/60"
@@ -97,7 +103,7 @@ export default function TemplateCard({
 
             {/* Delete Button */}
             <button
-              onClick={() => onDelete(project.id)}
+              onClick={() => onDelete(data.id)}
               className="px-2 py-2 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-200
                          bg-red-50 text-red-500 border border-red-100 hover:bg-red-100
                          dark:bg-white/5 dark:text-white/30 dark:border-white/10 dark:hover:bg-red-500/10 dark:hover:text-red-400 dark:hover:border-red-500/20"

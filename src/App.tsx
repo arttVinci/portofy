@@ -30,6 +30,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProfilePage from "./pages/dashboard/ProfilePage";
 import DashboardProjectPage from "./pages/dashboard/ProjectPage";
+import DashboardAchievementPage from "./pages/dashboard/AchievementPage";
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
         <Route index element={<DashboardPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="projects" element={<DashboardProjectPage />} />
+        <Route path="achievements" element={<DashboardAchievementPage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>
