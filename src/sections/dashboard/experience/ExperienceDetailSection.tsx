@@ -81,11 +81,6 @@ export function ExperienceDetailSection({
   const duration = formatDuration(durationMonths);
   const isActive = !experience.end_date;
 
-  // Stats: total related experiences at same company
-  const sameCompany = relatedExperiences.filter(
-    (e) => e.company_name === experience.company_name && e.id !== experience.id,
-  );
-
   return (
     <TooltipProvider>
       {/* Outer: full width, 2-col on lg+ */}
