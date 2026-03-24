@@ -13,6 +13,13 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,9 +82,11 @@ export function ExperienceFormSection({
     if (thumbInputRef.current) thumbInputRef.current.value = "";
   };
 
+  const isValid = !!values.position && !!values.company_name;
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* Header */}
+    <div className="flex flex-col gap-5">
+      {/* ── Header ── */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Button
@@ -94,15 +103,16 @@ export function ExperienceFormSection({
             </p>
             <p className="text-xs text-muted-foreground">
               {mode === "add"
-                ? "Isi form untuk menambah experience baru"
-                : `Edit: ${initialData?.position} at ${initialData?.company_name}`}
+                ? "Isi form untuk menambah pengalaman baru"
+                : `Edit: ${initialData?.position} · ${initialData?.company_name}`}
             </p>
           </div>
         </div>
+
         <Button
           size="sm"
           onClick={onSave}
-          disabled={isSaving || !values.position || !values.company_name}
+          disabled={isSaving || !isValid}
           className="gap-2 shrink-0 cursor-pointer"
         >
           {isSaving ? (
@@ -114,33 +124,34 @@ export function ExperienceFormSection({
         </Button>
       </div>
 
-      {/* Form card */}
+      {/* ── Form card ── */}
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">
             Informasi Experience
           </CardTitle>
           <CardDescription className="text-xs">
-            Pengalaman kerja yang ingin ditampilkan di portofolio
+            Pengalaman kerja, magang, atau kontribusi organisasi
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {/* ── Kiri ── */}
-            <div className="flex flex-col gap-4">
-              {/* Image upload */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            {/* ── Kiri: logo + posisi + perusahaan + link ── */}
+            <div className="flex flex-col gap-5">
+              {/* Logo upload */}
               <div className="grid gap-1.5">
                 <Label>Logo Perusahaan</Label>
                 {displayImage ? (
-                  <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+                  <div className="relative size-24 overflow-hidden rounded-xl border bg-muted">
                     <img
                       src={displayImage}
-                      alt="thumbnail"
+                      alt="logo"
                       className="h-full w-full object-cover"
                     />
                     <button
                       onClick={removeThumb}
-                      className="absolute right-1.5 top-1.5 rounded-full bg-black/60 p-1 hover:bg-black/80 transition-colors cursor-pointer"
+                      className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 hover:bg-black/80 transition-colors cursor-pointer"
                     >
                       <XIcon className="size-3 text-white" />
                     </button>
@@ -160,7 +171,7 @@ export function ExperienceFormSection({
                       if (f) handleThumbFile(f);
                     }}
                     className={cn(
-                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed py-8 transition-colors text-center",
+                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed py-6 transition-colors text-center",
                       dragOver
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-muted-foreground/40 hover:bg-muted/30",
@@ -168,14 +179,13 @@ export function ExperienceFormSection({
                   >
                     <ImageIcon className="size-6 text-muted-foreground/40" />
                     <div>
-                      <p className="text-sm font-medium">Upload gambar</p>
+                      <p className="text-xs font-medium">
+                        Upload logo perusahaan
+                      </p>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        atau klik untuk pilih file
+                        JPG, PNG, WebP
                       </p>
                     </div>
-                    <p className="text-xs text-muted-foreground/50">
-                      JPG, PNG, WebP
-                    </p>
                   </div>
                 )}
                 <input
@@ -190,7 +200,7 @@ export function ExperienceFormSection({
                 />
               </div>
 
-              {/* Position */}
+              {/* Posisi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="exp-position">
                   Posisi <span className="text-destructive">*</span>
@@ -203,7 +213,7 @@ export function ExperienceFormSection({
                 />
               </div>
 
-              {/* Company */}
+              {/* Perusahaan */}
               <div className="grid gap-1.5">
                 <Label htmlFor="exp-company">
                   Nama Perusahaan <span className="text-destructive">*</span>
@@ -216,57 +226,62 @@ export function ExperienceFormSection({
                 />
               </div>
 
-              {/* Link URL */}
+              {/* Link */}
               <div className="grid gap-1.5">
                 <Label htmlFor="exp-link">Link Perusahaan</Label>
                 <Input
                   id="exp-link"
-                  placeholder="https://..."
+                  placeholder="https://company.com"
                   value={values.link_url ?? ""}
                   onChange={(e) => onChange("link_url", e.target.value)}
                 />
               </div>
             </div>
 
-            {/* ── Kanan ── */}
-            <div className="flex flex-col gap-4">
-              {/* Employment type */}
-              <div className="grid gap-1.5">
-                <Label htmlFor="exp-employment-type">Tipe Pekerjaan</Label>
-                <select
-                  id="exp-employment-type"
-                  value={values.employment_type ?? ""}
-                  onChange={(e) => onChange("employment_type", e.target.value)}
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                >
-                  <option value="">Pilih tipe pekerjaan</option>
-                  {EMPLOYMENT_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
+            {/* ── Kanan: tipe + lokasi + tanggal + deskripsi ── */}
+            <div className="flex flex-col gap-5">
+              {/* Tipe pekerjaan + tipe lokasi — 1 row */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-1.5">
+                  <Label>Tipe Pekerjaan</Label>
+                  <Select
+                    value={values.employment_type ?? ""}
+                    onValueChange={(v) => onChange("employment_type", v)}
+                  >
+                    <SelectTrigger className="w-full text-sm">
+                      <SelectValue placeholder="Pilih tipe" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {EMPLOYMENT_TYPES.map((t) => (
+                        <SelectItem key={t} value={t}>
+                          {t}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid gap-1.5">
+                  <Label>Tipe Lokasi</Label>
+                  <Select
+                    value={values.location_type ?? ""}
+                    onValueChange={(v) => onChange("location_type", v)}
+                  >
+                    <SelectTrigger className="w-full text-sm">
+                      <SelectValue placeholder="Pilih tipe" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LOCATION_TYPES.map((t) => (
+                        <SelectItem key={t} value={t}>
+                          {t}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
-              {/* Location type */}
-              <div className="grid gap-1.5">
-                <Label htmlFor="exp-location-type">Tipe Lokasi</Label>
-                <select
-                  id="exp-location-type"
-                  value={values.location_type ?? ""}
-                  onChange={(e) => onChange("location_type", e.target.value)}
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                >
-                  <option value="">Pilih tipe lokasi</option>
-                  {LOCATION_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Location */}
+              {/* Lokasi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="exp-location">Lokasi</Label>
                 <Input
@@ -277,43 +292,45 @@ export function ExperienceFormSection({
                 />
               </div>
 
-              {/* Start date */}
+              {/* Tanggal mulai + selesai — 1 row */}
               <div className="grid gap-1.5">
-                <Label htmlFor="exp-start">
-                  Tanggal Mulai <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="exp-start"
-                  type="date"
-                  value={values.start_date ?? ""}
-                  onChange={(e) => onChange("start_date", e.target.value)}
-                />
-              </div>
-
-              {/* End date */}
-              <div className="grid gap-1.5">
-                <Label htmlFor="exp-end">Tanggal Selesai</Label>
-                <Input
-                  id="exp-end"
-                  type="date"
-                  value={values.end_date ?? ""}
-                  onChange={(e) => onChange("end_date", e.target.value)}
-                />
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="exp-start">
+                      Mulai <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="exp-start"
+                      type="date"
+                      value={values.start_date ?? ""}
+                      onChange={(e) => onChange("start_date", e.target.value)}
+                    />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="exp-end">Selesai</Label>
+                    <Input
+                      id="exp-end"
+                      type="date"
+                      value={values.end_date ?? ""}
+                      onChange={(e) => onChange("end_date", e.target.value)}
+                    />
+                  </div>
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  Kosongkan jika masih bekerja di sini
+                  Kosongkan tanggal selesai jika masih aktif
                 </p>
               </div>
 
-              {/* Description */}
+              {/* Deskripsi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="exp-desc">Deskripsi</Label>
                 <Textarea
                   id="exp-desc"
-                  placeholder="Deskripsi singkat tentang pekerjaan kamu..."
+                  placeholder="Deskripsikan tanggung jawab dan pencapaian kamu..."
                   value={values.description ?? ""}
                   onChange={(e) => onChange("description", e.target.value)}
                   className="resize-none"
-                  style={{ minHeight: "96px" }}
+                  style={{ minHeight: "120px" }}
                   maxLength={1000}
                 />
                 <p className="text-xs text-muted-foreground text-right">
