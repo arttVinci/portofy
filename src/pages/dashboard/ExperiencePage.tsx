@@ -39,6 +39,54 @@ const EMPTY_FORM: UpdateExperienceRequest = {
   description: "",
 };
 
+const DUMMY_EXPERIENCES: ExperienceResponse[] = [
+  {
+    id: "dummy-1",
+    position: "Senior Frontend Engineer",
+    company_name: "Gojek",
+    link_url: "https://gojek.com",
+    image_url:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Gojek_logo_%282019%29.svg/1200px-Gojek_logo_%282019%29.svg.png",
+    location: "Jakarta, Indonesia",
+    employment_type: "Full-time",
+    location_type: "Hybrid",
+    start_date: "2022-08-01T00:00:00Z",
+    end_date: "",
+    description:
+      "Memimpin tim frontend yang terdiri dari 5 engineer untuk produk merchant dashboard.\nMeningkatkan performa web sebesar 40%.\nMigrasi arsitektur dari Vue ke React dengan Next.js.",
+  },
+  {
+    id: "dummy-2",
+    position: "Frontend Web Developer",
+    company_name: "Tokopedia",
+    link_url: "https://tokopedia.com",
+    image_url:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_of_Tokopedia.svg/1200px-Logo_of_Tokopedia.svg.png",
+    location: "Jakarta, Indonesia",
+    employment_type: "Full-time",
+    location_type: "On-site",
+    start_date: "2020-09-15T00:00:00Z",
+    end_date: "2022-07-31T00:00:00Z",
+    description:
+      "Mengembangkan fitur di halaman detail produk (PDP) yang digunakan jutaan pengunjung per bulan.\nDianugerahi 'Best Rookie Engineer' pada Q4 2020.",
+  },
+  {
+    id: "dummy-3",
+    position: "Web Developer Intern",
+    company_name: "Traveloka",
+    link_url: "https://traveloka.com",
+    image_url:
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Traveloka_logo_2022.png",
+    location: "Jakarta, Indonesia",
+    employment_type: "Internship",
+    location_type: "Remote",
+    start_date: "2019-06-01T00:00:00Z",
+    end_date: "2019-08-31T00:00:00Z",
+    description:
+      "Membantu pembuatan internal dashboard untuk tim Customer Service menggunakan React.\nMemperbaiki 50+ bug UI layout.",
+  },
+];
+
 export default function ExperiencePage() {
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
@@ -65,8 +113,10 @@ export default function ExperiencePage() {
       link_url: experience.link_url ?? "",
       image_url: experience.image_url ?? "",
       location: experience.location ?? "",
-      employment_type: experience.employment_type as UpdateExperienceRequest["employment_type"],
-      location_type: experience.location_type as UpdateExperienceRequest["location_type"],
+      employment_type:
+        experience.employment_type as UpdateExperienceRequest["employment_type"],
+      location_type:
+        experience.location_type as UpdateExperienceRequest["location_type"],
       start_date: experience.start_date ?? "",
       end_date: experience.end_date ?? "",
       description: experience.description ?? "",
@@ -190,9 +240,7 @@ export default function ExperiencePage() {
         <TabsList variant="line">
           <TabsTrigger value="list">Experience</TabsTrigger>
           <TabsTrigger value="form" disabled={activeView.type === "list"}>
-            {activeView.type === "edit"
-              ? "Edit Experience"
-              : "Add Experience"}
+            {activeView.type === "edit" ? "Edit Experience" : "Add Experience"}
           </TabsTrigger>
           <TabsTrigger value="detail" disabled={activeView.type !== "detail"}>
             Detail
@@ -203,8 +251,16 @@ export default function ExperiencePage() {
           {/* List */}
           <TabsContent value="list" className="mt-0">
             <ExperienceListSection
-              experiences={experiences ?? []}
-              isLoading={isLoading}
+              experiences={
+                ((experiences as unknown as ExperienceResponse[])?.length ??
+                  0) > 0
+                  ? (experiences as unknown as ExperienceResponse[])
+                  : DUMMY_EXPERIENCES
+              }
+              isLoading={
+                isLoading &&
+                !((experiences as unknown as ExperienceResponse[])?.length ?? 0)
+              }
               onAdd={handleAdd}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -218,9 +274,7 @@ export default function ExperiencePage() {
               <ExperienceFormSection
                 mode={activeView.type}
                 initialData={
-                  activeView.type === "edit"
-                    ? activeView.experience
-                    : undefined
+                  activeView.type === "edit" ? activeView.experience : undefined
                 }
                 onBack={goList}
                 onSave={handleSave}
