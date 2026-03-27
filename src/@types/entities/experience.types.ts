@@ -29,7 +29,7 @@ export interface CreateExperienceRequest {
     | "Self-employed";
   location_type?: "Remote" | "On-site" | "Hybrid";
   start_date: string;
-  end_date?: string;
+  end_date?: string | null;
   description?: string;
 }
 

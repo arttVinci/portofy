@@ -5,10 +5,13 @@ import {
   PencilIcon,
   Trash2Icon,
   EyeIcon,
+  MapPinIcon,
+  GraduationCapIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,6 +22,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { EducationResponse } from "@/@types";
 
@@ -39,18 +48,35 @@ function formatDate(iso?: string) {
   });
 }
 
+function getDurationMonths(start?: string, end?: string): number {
+  if (!start) return 0;
+  const startDate = new Date(start);
+  const endDate = end ? new Date(end) : new Date();
+  return (
+    (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+    (endDate.getMonth() - startDate.getMonth())
+  );
+}
+
+function formatDuration(months: number): string {
+  if (months < 1) return "< 1 bln";
+  if (months < 12) return `${months} bln`;
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  if (rem === 0) return `${years} thn`;
+  return `${years} thn ${rem} bln`;
+}
+
 function TimelineSkeleton() {
   return (
-    <div className="relative flex gap-6 pb-10">
+    <div className="relative flex gap-5 pb-10">
       <div className="flex flex-col items-center">
-        <Skeleton className="size-10 rounded-full shrink-0" />
+        <Skeleton className="size-11 rounded-xl shrink-0" />
         <Skeleton className="w-0.5 flex-1 mt-2" />
       </div>
-      <div className="flex-1 pb-2">
-        <Skeleton className="h-4 w-32 mb-2" />
-        <Skeleton className="h-5 w-48 mb-1" />
-        <Skeleton className="h-4 w-36 mb-1" />
+      <div className="flex-1 pb-2 space-y-2">
         <Skeleton className="h-3 w-24" />
+        <Skeleton className="h-[88px] w-full rounded-xl" />
       </div>
     </div>
   );
@@ -77,199 +103,266 @@ export function EducationListSection({
       e.field_of_study.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // Sort by start_date descending (newest first)
   const sorted = [...filtered].sort(
     (a, b) =>
       new Date(b.start_date).getTime() - new Date(a.start_date).getTime(),
   );
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Toolbar */}
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-xs">
-          <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
-          <Input
-            placeholder="Cari education..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-8 h-9 text-sm"
-          />
+    <TooltipProvider>
+      <div className="flex flex-col gap-5">
+        {/* Toolbar */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1 max-w-xs">
+            <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+            <Input
+              placeholder="Cari education..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-8 h-9 text-sm"
+            />
+          </div>
+          <Button
+            size="sm"
+            onClick={onAdd}
+            className="gap-1.5 ml-auto shrink-0 cursor-pointer"
+          >
+            <PlusIcon className="size-3.5" />
+            Tambah Education
+          </Button>
         </div>
-        <Button
-          size="sm"
-          onClick={onAdd}
-          className="gap-1.5 ml-auto shrink-0 cursor-pointer"
-        >
-          <PlusIcon className="size-3.5" />
-          Tambah Education
-        </Button>
-      </div>
 
-      {/* Count */}
-      {!isLoading && (
-        <p className="text-xs text-muted-foreground">
-          {search
-            ? `${filtered.length} dari ${educations.length} education`
-            : `${educations.length} education`}
-        </p>
-      )}
+        {/* Count */}
+        {!isLoading && (
+          <p className="text-xs text-muted-foreground">
+            {search
+              ? `${filtered.length} dari ${educations.length} education`
+              : `${educations.length} education`}
+          </p>
+        )}
 
-      {/* Timeline */}
-      {isLoading ? (
-        <div className="pl-2">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <TimelineSkeleton key={i} />
-          ))}
-        </div>
-      ) : sorted.length > 0 ? (
-        <div className="relative pl-2">
-          {sorted.map((edu, index) => (
-            <motion.div
-              key={edu.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, ease: smooth, delay: index * 0.08 }}
-              className="relative flex gap-5 pb-8 last:pb-0 group"
-            >
-              {/* Timeline line + dot */}
-              <div className="flex flex-col items-center">
-                {/* Dot */}
-                <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-primary/20 bg-background shadow-sm group-hover:border-primary/50 transition-colors">
-                  {edu.image_url ? (
-                    <img
-                      src={edu.image_url}
-                      alt={edu.institution}
-                      className="size-7 rounded-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-base select-none">🎓</span>
-                  )}
-                </div>
-                {/* Connector line */}
-                {index < sorted.length - 1 && (
-                  <div className="w-0.5 flex-1 bg-border mt-1" />
-                )}
-              </div>
+        {/* Timeline */}
+        {isLoading ? (
+          <div className="pl-1">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <TimelineSkeleton key={i} />
+            ))}
+          </div>
+        ) : sorted.length > 0 ? (
+          <div className="relative pl-1">
+            {sorted.map((edu, index) => {
+              const isActive = !edu.end_date;
+              const months = getDurationMonths(edu.start_date, edu.end_date);
+              const duration = formatDuration(months);
 
-              {/* Content */}
-              <div className="flex-1 min-w-0 pb-1">
-                {/* Date badge */}
-                <p className="text-[11px] font-medium text-muted-foreground mb-1.5">
-                  {formatDate(edu.start_date)}
-                  {" — "}
-                  {edu.end_date ? formatDate(edu.end_date) : "Sekarang"}
-                </p>
-
-                {/* Card-like content */}
-                <div className="rounded-xl border bg-card p-4 shadow-sm transition-all group-hover:shadow-md group-hover:border-primary/20">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-semibold text-foreground truncate">
-                        {edu.institution}
-                      </h3>
-                      {(edu.degree || edu.field_of_study) && (
-                        <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                          {edu.degree}
-                          {edu.degree && edu.field_of_study ? " — " : ""}
-                          {edu.field_of_study}
-                        </p>
+              return (
+                <motion.div
+                  key={edu.id}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    ease: smooth,
+                    delay: index * 0.06,
+                  }}
+                  className="relative flex gap-4 pb-8 last:pb-0 group"
+                >
+                  {/* Timeline line + dot */}
+                  <div className="flex flex-col items-center">
+                    <div
+                      className={`relative z-10 flex size-11 shrink-0 items-center justify-center rounded-xl border-2 bg-background shadow-sm transition-all ${
+                        isActive
+                          ? "border-emerald-500/40 group-hover:border-emerald-500/70 group-hover:shadow-emerald-500/10"
+                          : "border-border/60 group-hover:border-primary/40 group-hover:shadow-md"
+                      }`}
+                    >
+                      {edu.image_url ? (
+                        <img
+                          src={edu.image_url}
+                          alt={edu.institution}
+                          className="size-7 rounded-lg object-cover"
+                        />
+                      ) : (
+                        <GraduationCapIcon className="size-4 text-muted-foreground" />
                       )}
-                      {edu.location && (
-                        <p className="text-[11px] text-muted-foreground/70 mt-0.5">
-                          📍 {edu.location}
-                        </p>
-                      )}
-                      {edu.grade && (
-                        <p className="text-[11px] text-muted-foreground/70 mt-0.5">
-                          IPK: {edu.grade}
-                        </p>
+                      {/* Active pulse */}
+                      {isActive && (
+                        <span className="absolute -right-0.5 -top-0.5 flex size-3">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+                          <span className="relative inline-flex size-3 rounded-full bg-emerald-500 border-2 border-background" />
+                        </span>
                       )}
                     </div>
-
-                    {/* Actions */}
-                    <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => onViewDetail(edu)}
-                        className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
-                        title="Lihat detail"
-                      >
-                        <EyeIcon className="size-3.5 text-muted-foreground" />
-                      </button>
-                      <button
-                        onClick={() => onEdit(edu)}
-                        className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
-                        title="Edit"
-                      >
-                        <PencilIcon className="size-3.5 text-muted-foreground" />
-                      </button>
-                      <button
-                        onClick={() => setDeleteId(edu.id)}
-                        className="p-1.5 rounded-lg hover:bg-destructive/10 transition-colors cursor-pointer"
-                        title="Hapus"
-                      >
-                        <Trash2Icon className="size-3.5 text-destructive/70" />
-                      </button>
-                    </div>
+                    {/* Connector line */}
+                    {index < sorted.length - 1 && (
+                      <div className="w-px flex-1 bg-gradient-to-b from-border to-border/30 mt-1.5" />
+                    )}
                   </div>
 
-                  {edu.description && (
-                    <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">
-                      {edu.description}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-20 text-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            {search ? "Tidak ada education yang cocok" : "Belum ada education"}
-          </p>
-          {!search && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3 gap-1.5 cursor-pointer"
-              onClick={onAdd}
-            >
-              <PlusIcon className="size-3.5" />
-              Tambah Education Pertama
-            </Button>
-          )}
-        </div>
-      )}
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 pb-1">
+                    {/* Date badge */}
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        {formatDate(edu.start_date)} —{" "}
+                        {edu.end_date ? formatDate(edu.end_date) : "Sekarang"}
+                      </p>
+                      {months > 0 && (
+                        <span className="text-[10px] text-muted-foreground/60">
+                          · {duration}
+                        </span>
+                      )}
+                    </div>
 
-      {/* Delete confirm */}
-      <AlertDialog
-        open={!!deleteId}
-        onOpenChange={(o) => !o && setDeleteId(null)}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Hapus education ini?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tindakan ini tidak bisa dibatalkan.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="cursor-pointer">
-              Batal
-            </AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
-              onClick={() => {
-                if (deleteId) onDelete(deleteId);
-                setDeleteId(null);
-              }}
-            >
-              Hapus
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+                    {/* Card content */}
+                    <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm transition-all group-hover:shadow-md group-hover:border-primary/20 group-hover:bg-card/80">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="text-sm font-semibold text-foreground truncate leading-snug">
+                            {edu.institution}
+                          </h3>
+                          {(edu.degree || edu.field_of_study) && (
+                            <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                              {edu.degree}
+                              {edu.degree && edu.field_of_study ? " — " : ""}
+                              {edu.field_of_study}
+                            </p>
+                          )}
+
+                          {/* Meta row */}
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+                            {edu.location && (
+                              <span className="flex items-center gap-1 text-[11px] text-muted-foreground/70">
+                                <MapPinIcon className="size-3" />
+                                {edu.location}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Badges */}
+                          <div className="flex flex-wrap gap-1.5 mt-2.5">
+                            {edu.grade && (
+                              <Badge
+                                variant="secondary"
+                                className="text-[10px] px-2 py-0.5 font-medium"
+                              >
+                                IPK: {edu.grade}
+                              </Badge>
+                            )}
+                            {isActive && (
+                              <Badge className="text-[10px] px-2 py-0.5 font-medium bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20">
+                                Aktif
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => onViewDetail(edu)}
+                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+                              >
+                                <EyeIcon className="size-3.5 text-muted-foreground" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top">
+                              <p>Lihat detail</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => onEdit(edu)}
+                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+                              >
+                                <PencilIcon className="size-3.5 text-muted-foreground" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top">
+                              <p>Edit</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => setDeleteId(edu.id)}
+                                className="p-1.5 rounded-lg hover:bg-destructive/10 transition-colors cursor-pointer"
+                              >
+                                <Trash2Icon className="size-3.5 text-destructive/70" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top">
+                              <p>Hapus</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
+
+                      {edu.description && (
+                        <p className="text-xs text-muted-foreground mt-2.5 line-clamp-2 leading-relaxed">
+                          {edu.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
+            <GraduationCapIcon className="size-8 text-muted-foreground/20 mb-3" />
+            <p className="text-sm font-medium text-muted-foreground">
+              {search
+                ? "Tidak ada education yang cocok"
+                : "Belum ada education"}
+            </p>
+            {!search && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-3 gap-1.5 cursor-pointer"
+                onClick={onAdd}
+              >
+                <PlusIcon className="size-3.5" />
+                Tambah Education Pertama
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* Delete confirm */}
+        <AlertDialog
+          open={!!deleteId}
+          onOpenChange={(o) => !o && setDeleteId(null)}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Hapus education ini?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Tindakan ini tidak bisa dibatalkan.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="cursor-pointer">
+                Batal
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
+                onClick={() => {
+                  if (deleteId) onDelete(deleteId);
+                  setDeleteId(null);
+                }}
+              >
+                Hapus
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </TooltipProvider>
   );
 }

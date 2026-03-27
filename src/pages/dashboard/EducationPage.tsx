@@ -96,8 +96,8 @@ export default function EducationPage() {
       grade: education.grade ?? "",
       image_url: education.image_url ?? "",
       location: education.location ?? "",
-      start_date: education.start_date ?? "",
-      end_date: education.end_date ?? "",
+      start_date: education.start_date ? education.start_date.split("T")[0] : "",
+      end_date: education.end_date ? education.end_date.split("T")[0] : "",
       description: education.description ?? "",
     });
   }, [education]);
@@ -143,6 +143,14 @@ export default function EducationPage() {
   const handleSave = async () => {
     try {
       let payload = { ...form.values };
+
+      // Format dates to RFC3339 (backend validation expects valid time string)
+      if (payload.start_date && !payload.start_date.includes("T")) {
+        payload.start_date = `${payload.start_date}T00:00:00Z`;
+      }
+      if (payload.end_date && !payload.end_date.includes("T")) {
+        payload.end_date = `${payload.end_date}T00:00:00Z`;
+      }
 
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {

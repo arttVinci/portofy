@@ -117,8 +117,10 @@ export default function ExperiencePage() {
         experience.employment_type as UpdateExperienceRequest["employment_type"],
       location_type:
         experience.location_type as UpdateExperienceRequest["location_type"],
-      start_date: experience.start_date ?? "",
-      end_date: experience.end_date ?? "",
+      start_date: experience.start_date
+        ? experience.start_date.split("T")[0]
+        : "",
+      end_date: experience.end_date ? experience.end_date.split("T")[0] : "",
       description: experience.description ?? "",
     });
   }, [experience]);
@@ -164,6 +166,16 @@ export default function ExperiencePage() {
   const handleSave = async () => {
     try {
       let payload = { ...form.values };
+
+      // Format dates to RFC3339 (backend validation expects valid time string)
+      if (payload.start_date && !payload.start_date.includes("T")) {
+        payload.start_date = `${payload.start_date}T00:00:00Z`;
+      }
+      if (payload.end_date && !payload.end_date.includes("T")) {
+        payload.end_date = `${payload.end_date}T00:00:00Z`;
+      }
+
+      console.log("cobaaa", form.values);
 
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
