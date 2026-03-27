@@ -91,7 +91,7 @@ export default function ProfilePage() {
 
       if (avatarImageFile) {
         const uploadData = new FormData();
-        uploadData.append("image_profile", avatarImageFile);
+        uploadData.append("images", avatarImageFile);
         await uploadMutation.mutateAsync(uploadData);
 
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);

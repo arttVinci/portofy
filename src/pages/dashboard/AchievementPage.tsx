@@ -99,7 +99,9 @@ export default function AchievementPage() {
       title: achievement.title ?? "",
       image_url: achievement.image_url ?? "",
       organization: achievement.organization ?? "",
-      issued_date: achievement.issued_date ? achievement.issued_date.split("T")[0] : "",
+      issued_date: achievement.issued_date
+        ? achievement.issued_date.split("T")[0]
+        : "",
       credential_url: achievement.credential_url ?? "",
       credential_id: achievement.credential_id ?? "",
     });
@@ -157,7 +159,7 @@ export default function AchievementPage() {
         const fd = new FormData();
         fd.append("images", thumbnailFile);
         const res = await uploadMutation.mutateAsync(fd);
-        payload.image_url = res.urls[0];
+        payload.image_url = res.image_url[0];
       }
 
       if (activeView.type === "edit" && achievement) {

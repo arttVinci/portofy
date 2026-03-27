@@ -171,18 +171,20 @@ export default function ExperiencePage() {
       if (payload.start_date && !payload.start_date.includes("T")) {
         payload.start_date = `${payload.start_date}T00:00:00Z`;
       }
-      if (payload.end_date && !payload.end_date.includes("T")) {
+      if (!payload.end_date) {
+        delete payload.end_date;
+      } else if (!payload.end_date.includes("T")) {
         payload.end_date = `${payload.end_date}T00:00:00Z`;
       }
 
-      console.log("cobaaa", form.values);
+      console.log("cobaaa", payload);
 
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
         const fd = new FormData();
         fd.append("images", thumbnailFile);
         const res = await uploadMutation.mutateAsync(fd);
-        payload.image_url = res.urls[0];
+        payload.image_url = res.image_url[0];
       }
 
       if (activeView.type === "edit" && experience) {

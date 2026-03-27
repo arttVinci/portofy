@@ -96,7 +96,9 @@ export default function EducationPage() {
       grade: education.grade ?? "",
       image_url: education.image_url ?? "",
       location: education.location ?? "",
-      start_date: education.start_date ? education.start_date.split("T")[0] : "",
+      start_date: education.start_date
+        ? education.start_date.split("T")[0]
+        : "",
       end_date: education.end_date ? education.end_date.split("T")[0] : "",
       description: education.description ?? "",
     });
@@ -148,7 +150,9 @@ export default function EducationPage() {
       if (payload.start_date && !payload.start_date.includes("T")) {
         payload.start_date = `${payload.start_date}T00:00:00Z`;
       }
-      if (payload.end_date && !payload.end_date.includes("T")) {
+      if (!payload.end_date) {
+        delete payload.end_date;
+      } else if (!payload.end_date.includes("T")) {
         payload.end_date = `${payload.end_date}T00:00:00Z`;
       }
 
@@ -157,7 +161,7 @@ export default function EducationPage() {
         const fd = new FormData();
         fd.append("images", thumbnailFile);
         const res = await uploadMutation.mutateAsync(fd);
-        payload.image_url = res.urls[0];
+        payload.image_url = res.image_url[0];
       }
 
       if (activeView.type === "edit" && education) {
