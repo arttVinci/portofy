@@ -64,9 +64,11 @@ export function EducationFormSection({
     if (thumbInputRef.current) thumbInputRef.current.value = "";
   };
 
+  const isValid = !!values.institution;
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* Header */}
+    <div className="flex flex-col gap-5">
+      {/* ── Header ── */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Button
@@ -88,10 +90,11 @@ export function EducationFormSection({
             </p>
           </div>
         </div>
+
         <Button
           size="sm"
           onClick={onSave}
-          disabled={isSaving || !values.institution}
+          disabled={isSaving || !isValid}
           className="gap-2 shrink-0 cursor-pointer"
         >
           {isSaving ? (
@@ -103,7 +106,7 @@ export function EducationFormSection({
         </Button>
       </div>
 
-      {/* Form card */}
+      {/* ── Form card ── */}
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">
@@ -113,23 +116,24 @@ export function EducationFormSection({
             Riwayat pendidikan yang ingin ditampilkan di portofolio
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {/* ── Kiri ── */}
-            <div className="flex flex-col gap-4">
-              {/* Image upload */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            {/* ── Kiri: logo + institusi + gelar + bidang studi ── */}
+            <div className="flex flex-col gap-5">
+              {/* Logo upload */}
               <div className="grid gap-1.5">
-                <Label>Logo / Gambar</Label>
+                <Label>Logo Institusi</Label>
                 {displayImage ? (
-                  <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+                  <div className="relative size-24 overflow-hidden rounded-xl border bg-muted">
                     <img
                       src={displayImage}
-                      alt="thumbnail"
+                      alt="logo"
                       className="h-full w-full object-cover"
                     />
                     <button
                       onClick={removeThumb}
-                      className="absolute right-1.5 top-1.5 rounded-full bg-black/60 p-1 hover:bg-black/80 transition-colors cursor-pointer"
+                      className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 hover:bg-black/80 transition-colors cursor-pointer"
                     >
                       <XIcon className="size-3 text-white" />
                     </button>
@@ -149,7 +153,7 @@ export function EducationFormSection({
                       if (f) handleThumbFile(f);
                     }}
                     className={cn(
-                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed py-8 transition-colors text-center",
+                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed py-6 transition-colors text-center",
                       dragOver
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-muted-foreground/40 hover:bg-muted/30",
@@ -157,14 +161,13 @@ export function EducationFormSection({
                   >
                     <ImageIcon className="size-6 text-muted-foreground/40" />
                     <div>
-                      <p className="text-sm font-medium">Upload gambar</p>
+                      <p className="text-xs font-medium">
+                        Upload logo institusi
+                      </p>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        atau klik untuk pilih file
+                        JPG, PNG, WebP
                       </p>
                     </div>
-                    <p className="text-xs text-muted-foreground/50">
-                      JPG, PNG, WebP
-                    </p>
                   </div>
                 )}
                 <input
@@ -179,7 +182,7 @@ export function EducationFormSection({
                 />
               </div>
 
-              {/* Institution */}
+              {/* Institusi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-institution">
                   Institusi <span className="text-destructive">*</span>
@@ -192,7 +195,7 @@ export function EducationFormSection({
                 />
               </div>
 
-              {/* Degree */}
+              {/* Gelar / Jenjang */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-degree">Gelar / Jenjang</Label>
                 <Input
@@ -203,7 +206,7 @@ export function EducationFormSection({
                 />
               </div>
 
-              {/* Field of study */}
+              {/* Bidang Studi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-field">Bidang Studi</Label>
                 <Input
@@ -215,9 +218,9 @@ export function EducationFormSection({
               </div>
             </div>
 
-            {/* ── Kanan ── */}
-            <div className="flex flex-col gap-4">
-              {/* Grade */}
+            {/* ── Kanan: IPK + lokasi + tanggal + deskripsi ── */}
+            <div className="flex flex-col gap-5">
+              {/* IPK / Nilai */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-grade">IPK / Nilai</Label>
                 <Input
@@ -228,7 +231,7 @@ export function EducationFormSection({
                 />
               </div>
 
-              {/* Location */}
+              {/* Lokasi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-location">Lokasi</Label>
                 <Input
@@ -239,34 +242,36 @@ export function EducationFormSection({
                 />
               </div>
 
-              {/* Start date */}
+              {/* Tanggal mulai + selesai — 1 row */}
               <div className="grid gap-1.5">
-                <Label htmlFor="edu-start">
-                  Tanggal Mulai <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="edu-start"
-                  type="date"
-                  value={values.start_date ?? ""}
-                  onChange={(e) => onChange("start_date", e.target.value)}
-                />
-              </div>
-
-              {/* End date */}
-              <div className="grid gap-1.5">
-                <Label htmlFor="edu-end">Tanggal Selesai</Label>
-                <Input
-                  id="edu-end"
-                  type="date"
-                  value={values.end_date ?? ""}
-                  onChange={(e) => onChange("end_date", e.target.value)}
-                />
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="edu-start">
+                      Mulai <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="edu-start"
+                      type="date"
+                      value={values.start_date ?? ""}
+                      onChange={(e) => onChange("start_date", e.target.value)}
+                    />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="edu-end">Selesai</Label>
+                    <Input
+                      id="edu-end"
+                      type="date"
+                      value={values.end_date ?? ""}
+                      onChange={(e) => onChange("end_date", e.target.value)}
+                    />
+                  </div>
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  Kosongkan jika masih berlangsung
+                  Kosongkan tanggal selesai jika masih berlangsung
                 </p>
               </div>
 
-              {/* Description */}
+              {/* Deskripsi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="edu-desc">Deskripsi</Label>
                 <Textarea
@@ -275,7 +280,7 @@ export function EducationFormSection({
                   value={values.description ?? ""}
                   onChange={(e) => onChange("description", e.target.value)}
                   className="resize-none"
-                  style={{ minHeight: "96px" }}
+                  style={{ minHeight: "120px" }}
                   maxLength={1000}
                 />
                 <p className="text-xs text-muted-foreground text-right">

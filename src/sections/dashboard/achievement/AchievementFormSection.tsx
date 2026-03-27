@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { AchievementResponse, UpdateAchievementRequest } from "@/@types";
@@ -41,7 +40,6 @@ export function AchievementFormSection({
   onSave,
   values,
   onChange,
-  thumbnailFile,
   setThumbnailFile,
   thumbnailBlob,
   setThumbnailBlob,
@@ -50,7 +48,6 @@ export function AchievementFormSection({
   const thumbInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  // Display: blob preview saat baru upload, fallback ke URL dari server
   const displayImage = thumbnailBlob ?? values.image_url ?? null;
 
   const handleThumbFile = (file: File) => {
@@ -66,9 +63,11 @@ export function AchievementFormSection({
     if (thumbInputRef.current) thumbInputRef.current.value = "";
   };
 
+  const isValid = !!values.title;
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* Header */}
+    <div className="flex flex-col gap-5">
+      {/* ── Header ── */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Button
@@ -90,10 +89,11 @@ export function AchievementFormSection({
             </p>
           </div>
         </div>
+
         <Button
           size="sm"
           onClick={onSave}
-          disabled={isSaving || !values.title}
+          disabled={isSaving || !isValid}
           className="gap-2 shrink-0 cursor-pointer"
         >
           {isSaving ? (
@@ -105,8 +105,8 @@ export function AchievementFormSection({
         </Button>
       </div>
 
-      {/* Form card — 2 kolom */}
-      <Card>
+      {/* ── Form card ── */}
+      <Card className="border-border/60 shadow-sm">
         <CardHeader>
           <CardTitle className="text-sm font-medium">
             Informasi Achievement
@@ -115,23 +115,24 @@ export function AchievementFormSection({
             Penghargaan, sertifikasi, atau pencapaian yang ingin ditampilkan
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {/* ── Kiri: image + title + organization ── */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               {/* Image upload */}
               <div className="grid gap-1.5">
                 <Label>Badge / Sertifikat</Label>
                 {displayImage ? (
-                  <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+                  <div className="relative size-24 overflow-hidden rounded-xl border border-border/60 bg-muted">
                     <img
                       src={displayImage}
-                      alt="thumbnail"
+                      alt="badge"
                       className="h-full w-full object-cover"
                     />
                     <button
                       onClick={removeThumb}
-                      className="absolute right-1.5 top-1.5 rounded-full bg-black/60 p-1 hover:bg-black/80 transition-colors cursor-pointer"
+                      className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 hover:bg-black/80 transition-colors cursor-pointer"
                     >
                       <XIcon className="size-3 text-white" />
                     </button>
@@ -151,7 +152,7 @@ export function AchievementFormSection({
                       if (f) handleThumbFile(f);
                     }}
                     className={cn(
-                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed py-8 transition-colors text-center",
+                      "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed py-6 transition-colors text-center",
                       dragOver
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-muted-foreground/40 hover:bg-muted/30",
@@ -159,14 +160,13 @@ export function AchievementFormSection({
                   >
                     <ImageIcon className="size-6 text-muted-foreground/40" />
                     <div>
-                      <p className="text-sm font-medium">Upload gambar</p>
+                      <p className="text-xs font-medium">
+                        Upload badge / sertifikat
+                      </p>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        atau klik untuk pilih file
+                        JPG, PNG, WebP
                       </p>
                     </div>
-                    <p className="text-xs text-muted-foreground/50">
-                      JPG, PNG, WebP
-                    </p>
                   </div>
                 )}
                 <input
@@ -181,7 +181,7 @@ export function AchievementFormSection({
                 />
               </div>
 
-              {/* Title */}
+              {/* Judul */}
               <div className="grid gap-1.5">
                 <Label htmlFor="ach-title">
                   Judul / Nama <span className="text-destructive">*</span>
@@ -194,7 +194,7 @@ export function AchievementFormSection({
                 />
               </div>
 
-              {/* Organization */}
+              {/* Organisasi */}
               <div className="grid gap-1.5">
                 <Label htmlFor="ach-org">Organisasi / Penerbit</Label>
                 <Input
@@ -206,9 +206,9 @@ export function AchievementFormSection({
               </div>
             </div>
 
-            {/* ── Kanan: issued_date + credential_id + credential_url ── */}
-            <div className="flex flex-col gap-4">
-              {/* Issued date */}
+            {/* ── Kanan: tanggal + credential ID + credential URL ── */}
+            <div className="flex flex-col gap-5">
+              {/* Tanggal Terbit */}
               <div className="grid gap-1.5">
                 <Label htmlFor="ach-date">Tanggal Terbit</Label>
                 <Input
