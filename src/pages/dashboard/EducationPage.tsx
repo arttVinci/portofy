@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 
 import { EducationListSection } from "@/sections/dashboard/education/EducationListSection";
 import { EducationFormSection } from "@/sections/dashboard/education/EducationFormSection";
-import { EducationDetailSection } from "@/sections/dashboard/education/EducationDetailSection";
 
 import { ApiError } from "@/api/apiError";
 import type {
@@ -23,8 +22,7 @@ import { useToast } from "@/hooks/ui/useToast";
 type ActiveView =
   | { type: "list" }
   | { type: "add" }
-  | { type: "edit"; education: EducationResponse }
-  | { type: "detail"; education: EducationResponse };
+  | { type: "edit"; education: EducationResponse };
 
 const EMPTY_FORM: UpdateEducationRequest = {
   institution: "",
@@ -200,11 +198,6 @@ export default function EducationPage() {
     setActiveTab("form");
   };
 
-  const handleViewDetail = (e: EducationResponse) => {
-    setActiveView({ type: "detail", education: e });
-    setActiveTab("detail");
-  };
-
   const handleDelete = (id: string) => {
     deleteMutation.mutate(id);
   };
@@ -233,9 +226,6 @@ export default function EducationPage() {
           <TabsTrigger value="form" disabled={activeView.type === "list"}>
             {activeView.type === "edit" ? "Edit Education" : "Add Education"}
           </TabsTrigger>
-          <TabsTrigger value="detail" disabled={activeView.type !== "detail"}>
-            Detail
-          </TabsTrigger>
         </TabsList>
 
         <div className="mt-4">
@@ -255,7 +245,6 @@ export default function EducationPage() {
               onAdd={handleAdd}
               onEdit={handleEdit}
               onDelete={handleDelete}
-              onViewDetail={handleViewDetail}
             />
           </TabsContent>
 
