@@ -4,6 +4,7 @@ import {
   SearchIcon,
   PencilIcon,
   Trash2Icon,
+  CalendarIcon,
   EyeIcon,
   MapPinIcon,
   GraduationCapIcon,
@@ -176,15 +177,8 @@ export function EducationListSection({
                           : "border-border/60 group-hover:border-primary/40 group-hover:shadow-md"
                       }`}
                     >
-                      {edu.image_url ? (
-                        <img
-                          src={edu.image_url}
-                          alt={edu.institution}
-                          className="size-7 rounded-lg object-cover"
-                        />
-                      ) : (
-                        <GraduationCapIcon className="size-4 text-muted-foreground" />
-                      )}
+                      <GraduationCapIcon className="size-4 text-muted-foreground" />
+
                       {/* Active pulse */}
                       {isActive && (
                         <span className="absolute -right-0.5 -top-0.5 flex size-3">
@@ -203,69 +197,92 @@ export function EducationListSection({
                   <div className="flex-1 min-w-0 pb-1">
                     {/* Date badge */}
                     <div className="flex items-center gap-2 mb-1.5">
-                      <p className="text-[11px] font-medium text-muted-foreground">
+                      <p className="text-[13px] font-medium text-muted-foreground">
                         {formatDate(edu.start_date)} —{" "}
                         {edu.end_date ? formatDate(edu.end_date) : "Sekarang"}
                       </p>
                       {months > 0 && (
-                        <span className="text-[10px] text-muted-foreground/60">
+                        <span className="text-[12px] text-muted-foreground/90">
                           · {duration}
                         </span>
                       )}
                     </div>
 
                     {/* Card content */}
-                    <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm transition-all group-hover:shadow-md group-hover:border-primary/20 group-hover:bg-card/80">
+                    <div className="rounded-xl max-w-2xl border border-border/60 bg-card p-4 transition-all group-hover:border-border group-hover:bg-muted/30">
                       <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <h3 className="text-sm font-semibold text-foreground truncate leading-snug">
-                            {edu.institution}
-                          </h3>
-                          {(edu.degree || edu.field_of_study) && (
-                            <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                              {edu.degree}
-                              {edu.degree && edu.field_of_study ? " — " : ""}
-                              {edu.field_of_study}
-                            </p>
-                          )}
-
-                          {/* Meta row */}
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
-                            {edu.location && (
-                              <span className="flex items-center gap-1 text-[11px] text-muted-foreground/70">
-                                <MapPinIcon className="size-3" />
-                                {edu.location}
-                              </span>
+                        <div className="flex gap-3 min-w-0 flex-1">
+                          {/* Logo / icon */}
+                          <div className="size-15 shrink-0 rounded-[10px] border bg-muted flex items-center justify-center overflow-hidden">
+                            {edu.image_url ? (
+                              <img
+                                src={edu.image_url}
+                                alt={edu.institution}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <span className="text-lg select-none">🎓</span>
                             )}
                           </div>
 
-                          {/* Badges */}
-                          <div className="flex flex-wrap gap-1.5 mt-2.5">
-                            {edu.grade && (
-                              <Badge
-                                variant="secondary"
-                                className="text-[10px] px-2 py-0.5 font-medium"
-                              >
-                                IPK: {edu.grade}
-                              </Badge>
+                          <div className="min-w-0 flex-1">
+                            {/* Title + badge aktif */}
+                            <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                              <h3 className="text-sm font-medium text-foreground truncate leading-snug">
+                                {edu.institution}
+                              </h3>
+                              {isActive && (
+                                <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 shrink-0">
+                                  Aktif
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Degree */}
+                            {(edu.degree || edu.field_of_study) && (
+                              <p className="text-xs text-muted-foreground mb-2 truncate">
+                                {edu.degree}
+                                {edu.degree && edu.field_of_study ? " — " : ""}
+                                {edu.field_of_study}
+                              </p>
                             )}
-                            {isActive && (
-                              <Badge className="text-[10px] px-2 py-0.5 font-medium bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20">
-                                Aktif
-                              </Badge>
-                            )}
+
+                            {/* Meta row */}
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                              {edu.location && (
+                                <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
+                                  <MapPinIcon className="size-3 shrink-0" />
+                                  {edu.location}
+                                </span>
+                              )}
+                              {(edu.start_date || edu.end_date) && (
+                                <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
+                                  <CalendarIcon className="size-3 shrink-0" />
+                                  {new Date(edu.start_date).getFullYear()}
+                                  {" — "}
+                                  {edu.end_date
+                                    ? new Date(edu.end_date).getFullYear()
+                                    : "Sekarang"}
+                                </span>
+                              )}
+                              {edu.grade && (
+                                <span className="text-xs font-medium text-muted-foreground">
+                                  IPK {edu.grade}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5">
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => onViewDetail(edu)}
-                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer text-muted-foreground"
                               >
-                                <EyeIcon className="size-3.5 text-muted-foreground" />
+                                <EyeIcon className="size-3.5" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="top">
@@ -276,9 +293,9 @@ export function EducationListSection({
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => onEdit(edu)}
-                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer text-muted-foreground"
                               >
-                                <PencilIcon className="size-3.5 text-muted-foreground" />
+                                <PencilIcon className="size-3.5" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="top">
@@ -301,6 +318,7 @@ export function EducationListSection({
                         </div>
                       </div>
 
+                      {/* Description */}
                       {edu.description && (
                         <p className="text-xs text-muted-foreground mt-2.5 line-clamp-2 leading-relaxed">
                           {edu.description}

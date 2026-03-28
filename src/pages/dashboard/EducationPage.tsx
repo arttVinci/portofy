@@ -279,17 +279,6 @@ export default function EducationPage() {
               />
             )}
           </TabsContent>
-
-          {/* Detail */}
-          <TabsContent value="detail" className="mt-0">
-            {activeView.type === "detail" && (
-              <EducationDetailSection
-                education={activeView.education}
-                onBack={goList}
-                onEdit={handleEdit}
-              />
-            )}
-          </TabsContent>
         </div>
       </Tabs>
     </div>
