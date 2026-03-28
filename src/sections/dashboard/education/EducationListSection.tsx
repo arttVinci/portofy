@@ -177,7 +177,9 @@ export function EducationListSection({
                   </div>
 
                   {/* Card content */}
-                  <div className={`rounded-xl max-w-2xl border border-border/60 bg-card p-4 transition-all group-hover:border-border group-hover:bg-muted/30 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}>
+                  <div
+                    className={`rounded-xl max-w-2xl border border-border/60 bg-card p-4 transition-all group-hover:border-border group-hover:bg-muted/30 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}
+                  >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex gap-3 min-w-0 flex-1">
                         {/* Logo / icon */}
@@ -311,19 +313,19 @@ export function EducationListSection({
             }}
             className="relative flex gap-4 pt-2"
           >
-            <div className="flex flex-col items-center">
-              <button
-                onClick={onAdd}
-                className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-border/60 bg-background hover:border-primary/50 hover:shadow-md hover:bg-primary/5 transition-all duration-200 cursor-pointer group"
-              >
-                <PlusIcon className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </button>
-            </div>
             <button
               onClick={onAdd}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer pt-2.5"
+              className="flex items-center gap-0 group cursor-pointer"
             >
-              Tambah Education
+              <div className="size-9 rounded-full border-2 border-dashed border-border bg-background flex items-center justify-center shrink-0 z-10 transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
+                <PlusIcon className="size-3.5 text-muted-foreground transition-all duration-200 group-hover:rotate-90" />
+              </div>
+
+              <div className="w-4 border-t-2 border-dashed border-border shrink-0 -mx-px transition-colors duration-200 group-hover:border-border/80" />
+
+              <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-dashed border-border bg-background text-sm text-muted-foreground transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
+                Add Education
+              </div>
             </button>
           </motion.div>
         </div>
