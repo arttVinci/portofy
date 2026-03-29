@@ -1,7 +1,7 @@
-import type { TemplateItem } from "../../@types/ui.types";
+import type { TemplateResponse } from "../../@types";
 
 interface MockPreviewProps {
-  template: TemplateItem;
+  template: TemplateResponse;
   hovered?: boolean;
 }
 export default function MockPreview({ template, hovered }: MockPreviewProps) {
@@ -54,13 +54,13 @@ export default function MockPreview({ template, hovered }: MockPreviewProps) {
 
         {/* Lines */}
         <div className="space-y-2.5 mb-5">
-          {template.lines.map((line, i) => (
+          {template.tags.map((line, i) => (
             <div
               key={i}
               className="rounded-full"
               style={{
-                width: line.w,
-                height: line.h,
+                width: line,
+                height: line,
                 backgroundColor:
                   i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.1)",
               }}

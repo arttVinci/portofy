@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { AchievementResponse } from "@/@types";
-import Card from "@/components/dashboard/Card";
+import ShowcaseCard from "@/components/dashboard/common/ShowcaseCard";
 
 interface AchievementListSectionProps {
   achievements: AchievementResponse[];
@@ -102,7 +102,7 @@ export function AchievementListSection({
       ) : filtered.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filtered.map((achievement, index) => (
-            <Card
+            <ShowcaseCard
               i={index}
               key={achievement.id}
               data={achievement}

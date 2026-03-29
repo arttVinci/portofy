@@ -1,4 +1,3 @@
-import { useState, type KeyboardEvent } from "react";
 import {
   Card,
   CardContent,
@@ -8,7 +7,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
@@ -122,70 +120,6 @@ export function ProfileInfoTab({ values, onChange }: ProfileInfoTabProps) {
             </p>
           </div>
         </CardContent>
-      </Card>
-
-      {/* ── Tags ── */}
-      <Card>
-        {/* <CardHeader>
-          <CardTitle className="text-sm font-medium">Tags / Keahlian</CardTitle>
-          <CardDescription className="text-xs">
-            Tambah tag yang merepresentasikan kamu. Maks {MAX_TAGS} tag.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3"> */}
-        {/* {values.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {values.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="gap-1 pl-2.5 pr-1.5 py-0.5 text-xs"
-                >
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(tag)}
-                    className="rounded-sm hover:bg-muted-foreground/20 p-0.5 transition-colors"
-                  >
-                    <XIcon className="size-2.5" />
-                    <span className="sr-only">Hapus tag {tag}</span>
-                  </button>
-                </Badge>
-              ))}
-            </div>
-          )} */}
-
-        {/* Tag input */}
-        {/* {values.tags.length < MAX_TAGS && (
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
-                <Input
-                  placeholder="Tambah tag lalu tekan Enter atau koma..."
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="pr-8"
-                />
-                {tagInput && (
-                  <button
-                    type="button"
-                    onClick={() => addTag(tagInput)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <PlusIcon className="size-4" />
-                  </button>
-                )}
-              </div>
-            </div>
-          )} */}
-
-        {/* <p className="text-xs text-muted-foreground">
-            {values.tags.length}/{MAX_TAGS} tag digunakan. Tekan{" "}
-            <kbd className="px-1 py-0.5 rounded border text-[10px]">Enter</kbd>{" "}
-            atau <kbd className="px-1 py-0.5 rounded border text-[10px]">,</kbd>{" "}
-            untuk tambah.
-          </p>
-        </CardContent> */}
       </Card>
     </div>
   );

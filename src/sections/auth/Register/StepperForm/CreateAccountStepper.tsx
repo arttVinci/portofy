@@ -46,7 +46,7 @@ export default function CreateAccountSteppera({
         </p>
 
         <div>
-          <InputLabel text="Username" hint="huruf, angka, _ , -" />
+          <InputLabel text="Username" />
           <div className="relative">
             <span
               className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] pointer-events-none select-none"
@@ -56,7 +56,7 @@ export default function CreateAccountSteppera({
             </span>
             <input
               type="text"
-              placeholder="AkuAdmin"
+              placeholder="Choose a username"
               value={username}
               onChange={(e) =>
                 set("username", e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""))
@@ -84,7 +84,7 @@ export default function CreateAccountSteppera({
           <InputLabel text="Email" />
           <input
             type="email"
-            placeholder="email@kamu.com"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => set("email", e.target.value)}
             onFocus={() => setFocused("email")}
@@ -94,11 +94,11 @@ export default function CreateAccountSteppera({
         </div>
 
         <div>
-          <InputLabel text="Password" hint="min. 6 karakter" />
+          <InputLabel text="Password" hint="min. 8 Characters" />
           <div className="relative">
             <input
               type={showPw ? "text" : "password"}
-              placeholder="••••••••"
+              placeholder="Create a password"
               value={password}
               onChange={(e) => set("password", e.target.value)}
               onFocus={() => setFocused("password")}
@@ -120,11 +120,11 @@ export default function CreateAccountSteppera({
         </div>
 
         <div>
-          <InputLabel text="Konfirmasi Password" />
+          <InputLabel text="Confirm Password" />
           <div className="relative">
             <input
               type={showCpw ? "text" : "password"}
-              placeholder="••••••••"
+              placeholder="Confirm your password"
               value={confirmPw}
               onChange={(e) => set("confirmPw", e.target.value)}
               onFocus={() => setFocused("confirmPw")}

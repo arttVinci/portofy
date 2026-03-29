@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 import MockPreview from "./MockPreview";
-import type { TemplateItem } from "../../@types/ui.types";
+import type { TemplateResponse } from "../../@types";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 interface TemplateCardProps {
-  template: TemplateItem;
+  template: TemplateResponse;
   i: number;
   hoveredId: string | null;
   noPreview?: boolean;
   setHoveredId: (id: string | null) => void;
-  setPreviewTemplate?: (template: TemplateItem | null) => void;
+  setPreviewTemplate?: (template: TemplateResponse | null) => void;
   setForm?: (field: string, value: string | string[]) => void;
 }
 
@@ -72,7 +72,7 @@ export default function TemplateCard({
                 className="text-[14px] font-semibold"
                 style={{ color: "rgba(255,255,255,0.8)" }}
               >
-                {template.name}
+                {template.title}
               </h3>
               {template.badge && (
                 <span
@@ -86,7 +86,7 @@ export default function TemplateCard({
                   {template.badge}
                 </span>
               )}
-              {template.isPro && (
+              {template.is_pro && (
                 <span
                   className="px-2 py-0.5 rounded-full text-[9px] font-bold"
                   style={{
@@ -103,12 +103,12 @@ export default function TemplateCard({
               className="text-[11px]"
               style={{ color: "rgba(255,255,255,0.18)" }}
             >
-              {template.views} views
+              {template.used_count} views
             </span>
           </div>
 
           <p
-            className="text-[12px] leading-relaxed mb-3"
+            className="text-[12px] leading-relaxed mb-3 line-clamp-2"
             style={{ color: "rgba(255,255,255,0.3)" }}
           >
             {template.description}

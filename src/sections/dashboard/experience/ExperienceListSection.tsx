@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   PlusIcon,
-  SearchIcon,
   PencilIcon,
   Trash2Icon,
   EyeIcon,
@@ -10,7 +9,6 @@ import {
   ChevronDownIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -25,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ExperienceResponse } from "@/@types";
+import CreateButtonTimeline from "@/components/dashboard/common/CreateButtonTimeline";
 
 interface ExperienceListSectionProps {
   experiences: ExperienceResponse[];
@@ -87,18 +86,10 @@ export function ExperienceListSection({
   onDelete,
   onViewDetail,
 }: ExperienceListSectionProps) {
-  const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [expandedDesc, setExpandedDesc] = useState<string | null>(null);
 
-  const filtered = experiences.filter(
-    (e) =>
-      !search ||
-      e.position.toLowerCase().includes(search.toLowerCase()) ||
-      e.company_name.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const sorted = [...filtered].sort(
+  const sorted = [...experiences].sort(
     (a, b) =>
       new Date(b.start_date).getTime() - new Date(a.start_date).getTime(),
   );
@@ -108,9 +99,7 @@ export function ExperienceListSection({
       {/* Count */}
       {!isLoading && (
         <p className="text-xs text-muted-foreground">
-          {search
-            ? `${filtered.length} dari ${experiences.length} experience`
-            : `${experiences.length} Experience`}
+          {`${experiences.length} Experience`}
         </p>
       )}
 
@@ -143,7 +132,7 @@ export function ExperienceListSection({
                 {/* Timeline line + dot */}
                 <div className="flex flex-col items-center">
                   <div
-                    className={`relative z-10 flex size-11 shrink-0 items-center justify-center rounded-xl border-2 bg-background shadow-sm transition-all ${
+                    className={`relative z-10 flex size-17 shrink-0 items-center justify-center rounded-xl border-2 bg-background shadow-sm transition-all ${
                       isActive
                         ? "border-emerald-500/40 group-hover:border-emerald-500/70 group-hover:shadow-emerald-500/10"
                         : "border-border/60 group-hover:border-primary/40 group-hover:shadow-md"
@@ -153,7 +142,7 @@ export function ExperienceListSection({
                       <img
                         src={exp.image_url}
                         alt={exp.company_name}
-                        className="size-7 rounded-lg object-cover"
+                        className="size-15 rounded-lg object-cover"
                       />
                     ) : (
                       <BriefcaseIcon className="size-4 text-muted-foreground" />
@@ -298,55 +287,29 @@ export function ExperienceListSection({
               </motion.div>
             );
           })}
-
           {/* Create button as timeline node */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.4,
-              ease: smooth,
-              delay: sorted.length * 0.06,
-            }}
-            className="relative flex gap-4 pt-2"
-          >
-            <div className="flex flex-col items-center">
-              <button
-                onClick={onAdd}
-                className="flex items-center gap-0 group cursor-pointer"
-              >
-                <div className="size-9 rounded-full border-2 border-dashed border-border bg-background flex items-center justify-center shrink-0 z-10 transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
-                  <PlusIcon className="size-3.5 text-muted-foreground transition-all duration-200 group-hover:rotate-90" />
-                </div>
-
-                <div className="w-4 border-t-2 border-dashed border-border shrink-0 -mx-px transition-colors duration-200 group-hover:border-border/80" />
-
-                <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-dashed border-border bg-background text-sm text-muted-foreground transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
-                  Add Experience
-                </div>
-              </button>
-            </div>
-          </motion.div>
+          <CreateButtonTimeline
+            title="Add Experience"
+            sortedLength={sorted.length}
+            onAdd={onAdd}
+            size={16}
+          />
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
           <BriefcaseIcon className="size-8 text-muted-foreground/20 mb-3" />
           <p className="text-sm font-medium text-muted-foreground">
-            {search
-              ? "Tidak ada experience yang cocok"
-              : "Belum ada experience"}
+            Belum ada experience
           </p>
-          {!search && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3 gap-1.5 cursor-pointer"
-              onClick={onAdd}
-            >
-              <PlusIcon className="size-3.5" />
-              Tambah Experience Pertama
-            </Button>
-          )}
+          <Button
+            size="sm"
+            variant="outline"
+            className="mt-3 gap-1.5 cursor-pointer"
+            onClick={onAdd}
+          >
+            <PlusIcon className="size-3.5" />
+            Tambah Experience Pertama
+          </Button>
         </div>
       )}
 

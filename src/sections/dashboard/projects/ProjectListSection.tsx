@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/empty";
 
 import type { ProjectResponse } from "@/@types";
-import TemplateCard from "@/components/dashboard/projects/TemplateCard";
+import ShowcaseCard from "@/components/dashboard/common/ShowcaseCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectListSectionProps {
@@ -102,15 +102,19 @@ export function ProjectListSection({
       ) : filtered.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filtered.map((project, index) => (
-            <TemplateCard
+            <ShowcaseCard
               i={index}
               key={project.id}
-              project={project}
+              data={project}
               hoveredId={hoveredId}
               setHoveredId={setHoveredId}
-              onEdit={onEdit}
+              onEdit={(data) => {
+                onEdit(data as ProjectResponse);
+              }}
               onDelete={(id) => setDeleteId(id)}
-              onViewDetail={onViewDetail}
+              onViewDetail={(data) => {
+                onViewDetail(data as ProjectResponse);
+              }}
             />
           ))}
         </div>

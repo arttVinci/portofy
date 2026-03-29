@@ -51,7 +51,7 @@ export default function TagInput({ tags, setForm }: TagInputProps) {
       <div className="flex gap-2">
         <input
           type="text"
-          placeholder="Tambah tag..."
+          placeholder="Add tag..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => {

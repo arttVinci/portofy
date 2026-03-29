@@ -79,7 +79,7 @@ export default function CvUpload({
               "rgba(255,255,255,0.25)")
           }
         >
-          Ganti file
+          Change file
         </button>
       </motion.div>
     );
@@ -151,7 +151,7 @@ export default function CvUpload({
         className="text-[11px] leading-relaxed mb-3"
         style={{ color: "rgba(255,255,255,0.28)" }}
       >
-        AI otomatis isi form dari CV-mu
+        AI automatically fills in the form from your CV
       </p>
       <div
         className="px-3 py-1.5 rounded-full mb-2"
@@ -164,7 +164,7 @@ export default function CvUpload({
           className="text-[10px] font-medium"
           style={{ color: "rgba(255,255,255,0.25)" }}
         >
-          Klik atau drag ke sini
+          Click or drag here
         </span>
       </div>
       <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.15)" }}>

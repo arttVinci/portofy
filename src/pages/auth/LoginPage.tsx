@@ -122,7 +122,7 @@ export default function LoginPage() {
         (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)";
       }}
     >
-      {icon} Masuk dengan {label}
+      {icon} Login with {label}
     </button>
   );
 
@@ -188,15 +188,15 @@ export default function LoginPage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Selamat datang{" "}
-              <em style={{ color: "rgba(255,255,255,0.35)" }}>kembali.</em>
+              Welcome back{" "}
+              <em style={{ color: "rgba(255,255,255,0.35)" }}>.</em>
             </h2>
             <p
               className="text-[13px] leading-relaxed"
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
-              Portfolio kamu menunggu. Masuk dan lanjutkan dari mana kamu
-              berhenti.
+              Your portfolio is waiting. Log in and continue from where you left
+              off.
             </p>
           </motion.div>
         </div>
@@ -211,8 +211,7 @@ export default function LoginPage() {
             className="text-[13px] leading-relaxed mb-2"
             style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}
           >
-            "Portfolio portof jadi yang pertama dilihat HRD setiap kali gue
-            apply."
+            "My portfolio is the first thing HR looks at every time I apply."
           </p>
           <p
             className="text-[11px]"
@@ -276,7 +275,7 @@ export default function LoginPage() {
                 className="text-[15px] font-semibold"
                 style={{ color: "rgba(255,255,255,0.85)" }}
               >
-                Masuk ke akun kamu
+                Access to your dashboard and manage everything.
               </p>
             </div>
 
@@ -287,18 +286,11 @@ export default function LoginPage() {
             >
               {/* Left: email form */}
               <form onSubmit={form.handleSubmit} className="p-6 space-y-4">
-                <p
-                  className="text-[11px] font-semibold uppercase tracking-[0.08em]"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
-                  Email atau Username
-                </p>
-
                 <div>
                   <Lbl text="Username" />
                   <input
                     type="text"
-                    placeholder="Masukan username anda..."
+                    placeholder="Enter your username"
                     value={form.values.username}
                     onChange={(e) =>
                       form.handleChange("username", e.target.value)
@@ -325,13 +317,13 @@ export default function LoginPage() {
                           "rgba(255,255,255,0.3)")
                       }
                     >
-                      Lupa password?
+                      Forgot password?
                     </a>
                   </div>
                   <div className="relative">
                     <input
                       type={showPw ? "text" : "password"}
-                      placeholder="••••••••"
+                      placeholder="Enter your password"
                       value={form.values.password}
                       onChange={(e) =>
                         form.handleChange("password", e.target.value)
@@ -368,7 +360,7 @@ export default function LoginPage() {
                       "rgba(255,255,255,0.9)")
                   }
                 >
-                  Masuk <ArrowRight size={14} />
+                  Login <ArrowRight size={14} />
                 </button>
               </form>
 
@@ -378,7 +370,7 @@ export default function LoginPage() {
                   className="text-[11px] font-semibold uppercase tracking-[0.08em]"
                   style={{ color: "rgba(255,255,255,0.25)" }}
                 >
-                  Atau masuk dengan
+                  Or login with
                 </p>
 
                 {ssoBtn("Google", GoogleIcon)}
@@ -393,8 +385,8 @@ export default function LoginPage() {
                     className="text-[11px] leading-relaxed"
                     style={{ color: "rgba(255,255,255,0.2)" }}
                   >
-                    SSO akan langsung mengarahkan kamu ke dashboard setelah
-                    login berhasil.
+                    SSO will redirect you to the dashboard after successful
+                    login.
                   </p>
                 </div>
               </div>
@@ -406,9 +398,9 @@ export default function LoginPage() {
             className="text-center mt-5 text-[13px]"
             style={{ color: "rgba(255,255,255,0.3)" }}
           >
-            Belum punya akun?{" "}
+            Don't have an account?{" "}
             <a
-              href="/register"
+              href="/auth/register"
               className="font-semibold transition-colors duration-150"
               style={{ color: "rgba(255,255,255,0.6)" }}
               onMouseEnter={(e) =>
@@ -420,7 +412,7 @@ export default function LoginPage() {
                   "rgba(255,255,255,0.6)")
               }
             >
-              Daftar gratis
+              Register for free
             </a>
           </p>
         </motion.div>

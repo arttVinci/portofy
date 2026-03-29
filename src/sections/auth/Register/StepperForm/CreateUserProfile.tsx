@@ -59,10 +59,10 @@ export default function CreateUserProfile({
             setAvatarImageFile={setAvatarImageFile}
           />
           <div className="flex-1">
-            <InputLabel text="Nama Lengkap" />
+            <InputLabel text="Full Name" />
             <input
               type="text"
-              placeholder="Nama di portfolio"
+              placeholder="Enter your full name"
               value={fullName}
               onChange={(e) => setForm("fullName", e.target.value)}
               onFocus={() => setFocused("fullName")}
@@ -73,10 +73,10 @@ export default function CreateUserProfile({
         </div>
 
         <div>
-          <InputLabel text="Bio Singkat" hint="1 kalimat" />
+          <InputLabel text="Short Bio" />
           <input
             type="text"
-            placeholder="Seorang designer yang suka clean UI"
+            placeholder="Enter your short bio"
             value={bio}
             onChange={(e) => setForm("bio", e.target.value)}
             onFocus={() => setFocused("bio")}
@@ -89,7 +89,7 @@ export default function CreateUserProfile({
           <InputLabel text="About" />
           <textarea
             rows={3}
-            placeholder="Ceritakan lebih detail tentang dirimu..."
+            placeholder="Tell us more about yourself..."
             value={about}
             onChange={(e) => setForm("about", e.target.value)}
             onFocus={() => setFocused("about")}
@@ -104,10 +104,10 @@ export default function CreateUserProfile({
         </div>
 
         <div>
-          <InputLabel text="Alamat / Kota" />
+          <InputLabel text="Address / City" />
           <input
             type="text"
-            placeholder="Jakarta, ID"
+            placeholder="Enter your address"
             value={address}
             onChange={(e) => setForm("address", e.target.value)}
             onFocus={() => setFocused("address")}
@@ -129,7 +129,7 @@ export default function CreateUserProfile({
             className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-3"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
-            Atau upload CV
+            Or upload CV
           </p>
           <div className="flex-1">
             <CvUpload

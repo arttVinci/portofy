@@ -67,7 +67,7 @@ export function ProfilePreviewCard({
           </div>
 
           {/* Meta */}
-          {(values.address || values.url_profile) && (
+          {(values.address || values.image_url) && (
             <>
               <Separator />
               <div className="flex flex-col gap-1.5 text-xs text-muted-foreground">
@@ -77,10 +77,10 @@ export function ProfilePreviewCard({
                     {values.address}
                   </span>
                 )}
-                {values.url_profile && (
+                {values.image_url && (
                   <span className="flex items-center gap-1.5">
                     <GlobeIcon className="size-3 shrink-0" />
-                    portof.id/{values.url_profile}
+                    portof.id/{values.image_url}
                   </span>
                 )}
               </div>

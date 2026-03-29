@@ -3,75 +3,63 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { ApiError } from "@/api/apiError";
 
-import SuccessScreen from "../../components/auth/SuccessScreen";
-import TemplateCard from "../../components/marketing/TemplateCard";
+import SuccessScreen from "@/components/auth/SuccessScreen";
+import TemplateCard from "@/components/marketing/TemplateCard";
 
-import type { TemplateItem } from "../../@types/ui.types";
+import type {
+  TemplateResponse,
+  RegisterUserRequest,
+  CreateProfileRequest,
+} from "@/@types";
 
-import { useToast } from "../../hooks/ui/useToast";
+import { useToast } from "@/hooks/ui/useToast";
 
-import CreateAccountStepper from "../../sections/auth/Register/StepperForm/CreateAccountStepper";
-import OtpCodeStepper from "../../sections/auth/Register/StepperForm/OtpCodeStepper";
-import CreateUserProfile from "../../sections/auth/Register/StepperForm/CreateUserProfile";
-import type { RegisterUserRequest } from "../../@types/entities/auth.types";
-import type { CreateProfileRequest } from "../../@types/entities/profile.types";
+import CreateAccountStepper from "@/sections/auth/Register/StepperForm/CreateAccountStepper";
+import OtpCodeStepper from "@/sections/auth/Register/StepperForm/OtpCodeStepper";
+import CreateUserProfile from "@/sections/auth/Register/StepperForm/CreateUserProfile";
 import { useRegister } from "@/hooks/mutations/auth/useRegister";
 import { useCreateProfile } from "@/hooks/mutations/profile/useCreateProfile";
-import { useUploadImage } from "@/hooks/mutations/profile/useUploadImage";
+import { useUploadImage } from "@/hooks/mutations/useUploadImage";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const steps = [
-  { num: 1, title: "Buat Akun", desc: "Username, email & password" },
-  { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
-  { num: 3, title: "Profil Kamu", desc: "Avatar, bio & detail" },
-  { num: 4, title: "Pilih Template", desc: "Tampilan awal" },
+  { num: 1, title: "Create Account", desc: "Username, email & password" },
+  { num: 2, title: "Email Verification", desc: "Enter OTP code" },
+  { num: 3, title: "Your Profile", desc: "Avatar, bio & detail" },
+  { num: 4, title: "Choose Template", desc: "Initial display" },
 ];
 
-const templates: TemplateItem[] = [
+const templates: TemplateResponse[] = [
   {
     id: "1",
-    name: "Minimal",
+    title: "Minimal",
     category: "Minimal",
     tags: ["Clean", "Developer", "Simple"],
     description: "Bersih dan fokus. Biarkan karya kamu yang bicara.",
     badge: "Paling Populer",
-    views: "8.2k",
-    isPro: false,
-    lines: [
-      { w: "75%", h: 10 },
-      { w: "50%", h: 6 },
-      { w: "60%", h: 6 },
-    ],
+    used_count: "8.2k",
+    is_pro: false,
   },
   {
     id: "2",
-    name: "Editorial",
+    title: "Editorial",
     category: "Creative",
     tags: ["Bold", "Designer", "Typography"],
     description: "Layout magazine dengan tipografi kuat dan berani.",
     badge: "Trending",
-    views: "6.1k",
-    isPro: false,
-    lines: [
-      { w: "90%", h: 14 },
-      { w: "65%", h: 6 },
-      { w: "40%", h: 6 },
-    ],
+    used_count: "6.1k",
+    is_pro: false,
   },
   {
     id: "3",
-    name: "Grid",
+    title: "Grid",
     category: "Creative",
     tags: ["Gallery", "Visual", "Photographer"],
     description: "Berbasis grid untuk menampilkan portofolio visual.",
-    views: "4.5k",
-    isPro: false,
-    lines: [
-      { w: "55%", h: 8 },
-      { w: "70%", h: 6 },
-      { w: "45%", h: 6 },
-    ],
+    badge: "Trending",
+    used_count: "4.5k",
+    is_pro: false,
   },
 ];
 
@@ -82,7 +70,7 @@ interface FormData {
   confirmPw: string;
   phone: string;
   fullName: string;
-  profileUrl: string;
+  image_url: string;
   address: string;
   about: string;
   bio: string;
@@ -120,7 +108,7 @@ export default function RegisterPage() {
     phone: "",
     // Profile
     fullName: "",
-    profileUrl: "",
+    image_url: "",
     address: "",
     about: "",
     bio: "",
@@ -137,11 +125,7 @@ export default function RegisterPage() {
 
       setOtpSent(true);
       goNext();
-      toast(
-        "success",
-        "Berhasil",
-        `Code verifikasi telah dikirim ke email anda`,
-      );
+      toast("success", "Success", `Your account has been created successfully`);
     },
     onError: (error: ApiError) => {
       // console.error("Login failed:", error.message);
@@ -151,11 +135,7 @@ export default function RegisterPage() {
 
   const createProfileMutation = useCreateProfile({
     onSuccess: (response) => {
-      toast(
-        "success",
-        "Berhasil",
-        `Halo ${response.full_name}, selamat datang!`,
-      );
+      toast("success", "Success", `Welcome ${response.full_name},`);
     },
     onError: (error) => {
       toast("error", "Failed", error.message);
@@ -166,15 +146,16 @@ export default function RegisterPage() {
     onSuccess: (response) => {
       setFormData((prev) => ({
         ...prev,
-        profileUrl: response.url_profile,
+        image_url: response.image_url[0],
       }));
 
-      toast("success", "Success", "Foto profil berhasil di-update!");
-      goNext();
+      toast(
+        "success",
+        "Success",
+        "Profile picture has been updated successfully",
+      );
     },
-    onError: (error) => {
-      toast("error", "Gagal Upload", error.message);
-    },
+    onError: (error: ApiError) => toast("error", "Failed", error.message),
   });
 
   const handleCreateUser = (e?: React.FormEvent) => {
@@ -196,7 +177,7 @@ export default function RegisterPage() {
     const payload: CreateProfileRequest = {
       user_id: formData.userId,
       full_name: formData.fullName,
-      url_profile: formData.profileUrl,
+      image_url: formData.image_url,
       address: formData.address,
       about: formData.about,
       bio: formData.bio,
@@ -213,11 +194,10 @@ export default function RegisterPage() {
       goNext();
       return;
     }
-    const uploadData = new FormData();
-    uploadData.append("image_profile", avatarImageFile);
-    uploadData.append("id_user", formData.userId);
+    const formData = new FormData();
+    formData.append("images", avatarImageFile);
 
-    uploadMutation.mutate(uploadData);
+    uploadMutation.mutateAsync(formData);
   };
 
   const handleFormChange = useCallback(
@@ -242,6 +222,11 @@ export default function RegisterPage() {
 
   const goNext = () => {
     if (step === 1 && !otpSent) {
+      toast(
+        "success",
+        "Success",
+        "Code verification has been sent to your email",
+      );
       setOtpSent(true);
     }
     setDir(1);
@@ -325,7 +310,7 @@ export default function RegisterPage() {
             style={{ letterSpacing: "-0.025em" }}
           >
             <span style={{ color: "rgba(255,255,255,0.9)" }}>por</span>
-            <span style={{ color: "rgba(255,255,255,0.32)" }}>tof</span>
+            <span style={{ color: "rgba(255,255,255,0.32)" }}>tofy</span>
           </span>
         </a>
 
@@ -356,7 +341,7 @@ export default function RegisterPage() {
               className="text-[10px] font-semibold tracking-widest uppercase mb-2"
               style={{ color: "rgba(255,255,255,0.2)" }}
             >
-              Langkah {step} dari {steps.length}
+              Step {step} of {steps.length}
             </p>
             <h2
               className="text-white mb-2"
@@ -369,35 +354,31 @@ export default function RegisterPage() {
             >
               {step === 1 && (
                 <>
-                  Buat akun{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>portof.</em>
+                  Create Account{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>portofy.</em>
                 </>
               )}
               {step === 2 && (
                 <>
-                  Verifikasi{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>emailmu.</em>
+                  Verification{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
+                    Your Email.
+                  </em>
                 </>
               )}
               {step === 3 && (
                 <>
-                  Lengkapi{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>profilmu.</em>
+                  Complete{" "}
+                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
+                    Your Profile.
+                  </em>
                 </>
               )}
               {step === 4 && (
                 <>
-                  Tentukan{" "}
+                  Choose{" "}
                   <em style={{ color: "rgba(255,255,255,0.35)" }}>
-                    keahlianmu.
-                  </em>
-                </>
-              )}
-              {step === 5 && (
-                <>
-                  Pilih{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
-                    tampilanmu.
+                    Your Template.
                   </em>
                 </>
               )}
@@ -407,12 +388,13 @@ export default function RegisterPage() {
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
               {step === 1 &&
-                "Daftar dengan email atau langsung pakai akun Google / GitHub."}
+                "Register with email or directly use Google / GitHub account."}
               {step === 2 &&
-                `Kode 6 digit dikirim ke ${formData.email || "emailmu"}.`}
+                `6 digit code sent to ${formData.email || "your email"}.`}
               {step === 3 &&
-                "Upload CV dan biarkan AI mengisi form otomatis — atau isi sendiri."}
-              {step === 4 && "Template bisa diganti kapan saja dari dashboard."}
+                "Upload CV and let AI fill the form automatically — or fill it yourself."}
+              {step === 4 &&
+                "Template can be changed anytime from the dashboard."}
             </p>
           </motion.div>
         </div>
@@ -426,7 +408,7 @@ export default function RegisterPage() {
             className="text-[13px] leading-relaxed mb-2"
             style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}
           >
-            "Setup 10 menit, besoknya langsung ada yang reach out."
+            "Setup 10 minutes, the next day someone will reach out."
           </p>
           <p
             className="text-[11px]"
@@ -446,7 +428,7 @@ export default function RegisterPage() {
               style={{ letterSpacing: "-0.025em" }}
             >
               <span style={{ color: "rgba(255,255,255,0.9)" }}>por</span>
-              <span style={{ color: "rgba(255,255,255,0.32)" }}>tof</span>
+              <span style={{ color: "rgba(255,255,255,0.32)" }}>tofy</span>
             </span>
           </a>
         </div>
@@ -639,7 +621,7 @@ export default function RegisterPage() {
                             "rgba(255,255,255,0.35)")
                         }
                       >
-                        <ArrowLeft size={14} /> Kembali
+                        <ArrowLeft size={14} /> Back
                       </button>
                     ) : (
                       <div />
@@ -648,7 +630,7 @@ export default function RegisterPage() {
                     {step < 4 ? (
                       <button
                         onClick={
-                          step === 1
+                          step === 2
                             ? handleCreateUser
                             : step === 3
                               ? handleUploadImage
@@ -676,13 +658,13 @@ export default function RegisterPage() {
                           ).style.backgroundColor = "rgba(255,255,255,0.9)";
                         }}
                       >
-                        {step === 1 && createUserMutation.isPending
-                          ? "Mendaftar..."
+                        {step === 2 && createUserMutation.isPending
+                          ? "Registering..."
                           : step === 3 && createProfileMutation.isPending
-                            ? "Mengunggah..."
+                            ? "Uploading..."
                             : step === 1
-                              ? "Kirim Kode"
-                              : "Lanjut"}
+                              ? "Send Code"
+                              : "Next"}
 
                         {!createUserMutation.isPending &&
                           !createProfileMutation.isPending && (
@@ -710,8 +692,8 @@ export default function RegisterPage() {
                         }
                       >
                         {createProfileMutation.isPending
-                          ? "Membangun..."
-                          : "Buat Portfolio"}
+                          ? "Building..."
+                          : "Create Portfolio"}
                         {!createProfileMutation.isPending && (
                           <ArrowRight size={14} />
                         )}
@@ -724,9 +706,9 @@ export default function RegisterPage() {
                   className="text-center mt-5 text-[13px]"
                   style={{ color: "rgba(255,255,255,0.3)" }}
                 >
-                  Sudah punya akun?{" "}
+                  Already have an account?{" "}
                   <a
-                    href="/login"
+                    href="/auth/login"
                     className="font-semibold transition-colors duration-150"
                     style={{ color: "rgba(255,255,255,0.6)" }}
                     onMouseEnter={(e) =>
@@ -738,7 +720,7 @@ export default function RegisterPage() {
                         "rgba(255,255,255,0.6)")
                     }
                   >
-                    Masuk
+                    Login
                   </a>
                 </p>
               </motion.div>

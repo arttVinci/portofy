@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   PlusIcon,
-  SearchIcon,
   PencilIcon,
   Trash2Icon,
   CalendarIcon,
@@ -10,7 +9,6 @@ import {
   ChevronDownIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -24,6 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { EducationResponse } from "@/@types";
+import CreateButtonTimeline from "@/components/dashboard/common/CreateButtonTimeline";
 
 interface EducationListSectionProps {
   educations: EducationResponse[];
@@ -84,19 +83,10 @@ export function EducationListSection({
   onEdit,
   onDelete,
 }: EducationListSectionProps) {
-  const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [expandedDesc, setExpandedDesc] = useState<string | null>(null);
 
-  const filtered = educations.filter(
-    (e) =>
-      !search ||
-      e.institution.toLowerCase().includes(search.toLowerCase()) ||
-      e.degree.toLowerCase().includes(search.toLowerCase()) ||
-      e.field_of_study.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const sorted = [...filtered].sort(
+  const sorted = [...educations].sort(
     (a, b) =>
       new Date(b.start_date).getTime() - new Date(a.start_date).getTime(),
   );
@@ -106,9 +96,7 @@ export function EducationListSection({
       {/* Count */}
       {!isLoading && (
         <p className="text-xs text-muted-foreground">
-          {search
-            ? `${filtered.length} dari ${educations.length} education`
-            : `${educations.length} education`}
+          {`${educations.length} education`}
         </p>
       )}
 
@@ -303,49 +291,28 @@ export function EducationListSection({
           })}
 
           {/* Create button as timeline node */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.4,
-              ease: smooth,
-              delay: sorted.length * 0.06,
-            }}
-            className="relative flex gap-4 pt-2"
-          >
-            <button
-              onClick={onAdd}
-              className="flex items-center gap-0 group cursor-pointer"
-            >
-              <div className="size-9 rounded-full border-2 border-dashed border-border bg-background flex items-center justify-center shrink-0 z-10 transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
-                <PlusIcon className="size-3.5 text-muted-foreground transition-all duration-200 group-hover:rotate-90" />
-              </div>
-
-              <div className="w-4 border-t-2 border-dashed border-border shrink-0 -mx-px transition-colors duration-200 group-hover:border-border/80" />
-
-              <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-dashed border-border bg-background text-sm text-muted-foreground transition-all duration-200 group-hover:border-border/80 group-hover:bg-muted/30">
-                Add Education
-              </div>
-            </button>
-          </motion.div>
+          <CreateButtonTimeline
+            title="Add Education"
+            sortedLength={sorted.length}
+            onAdd={onAdd}
+            size={9}
+          />
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
           <GraduationCapIcon className="size-8 text-muted-foreground/20 mb-3" />
           <p className="text-sm font-medium text-muted-foreground">
-            {search ? "Tidak ada education yang cocok" : "Belum ada education"}
+            Belum ada education
           </p>
-          {!search && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3 gap-1.5 cursor-pointer"
-              onClick={onAdd}
-            >
-              <PlusIcon className="size-3.5" />
-              Tambah Education Pertama
-            </Button>
-          )}
+          <Button
+            size="sm"
+            variant="outline"
+            className="mt-3 gap-1.5 cursor-pointer"
+            onClick={onAdd}
+          >
+            <PlusIcon className="size-3.5" />
+            Tambah Education Pertama Anda
+          </Button>
         </div>
       )}
 
