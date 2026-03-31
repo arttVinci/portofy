@@ -4,6 +4,7 @@ import type {
   RegisterUserRequest,
   ApiResponse,
   UserResponse,
+  SendOtpRequest,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 
@@ -25,6 +26,7 @@ class AuthService {
 
     return response.data.data;
   }
+
   async loginUser(payload: LoginUserRequest): Promise<LoginUserResponse> {
     const response: AxiosResponse<ApiResponse<LoginUserResponse>> =
       await apiClient.post(`${this.BASE_PATH}/_login`, payload);
@@ -35,6 +37,15 @@ class AuthService {
   async logoutUser(): Promise<void> {
     const response: AxiosResponse<ApiResponse<void>> = await apiClient.delete(
       this.BASE_PATH,
+    );
+
+    return response.data.data;
+  }
+
+  async sendOtp(payload: SendOtpRequest): Promise<void> {
+    const response: AxiosResponse<ApiResponse<void>> = await apiClient.post(
+      `${this.BASE_PATH}/_otp`,
+      payload,
     );
 
     return response.data.data;

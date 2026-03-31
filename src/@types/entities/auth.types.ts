@@ -15,8 +15,14 @@ export interface RegisterUserRequest {
   username: string;
   email: string;
   no_telp?: string;
+  otp_code: string;
 }
 
 export interface LogoutUserRequest {
   id: string;
+}
+
+export interface SendOtpRequest {
+  username: string;
+  email: string;
 }

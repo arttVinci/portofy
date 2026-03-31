@@ -10,6 +10,7 @@ import type {
   TemplateResponse,
   RegisterUserRequest,
   CreateProfileRequest,
+  SendOtpRequest,
 } from "@/@types";
 
 import { useToast } from "@/hooks/ui/useToast";
@@ -20,6 +21,7 @@ import CreateUserProfile from "@/sections/auth/Register/StepperForm/CreateUserPr
 import { useRegister } from "@/hooks/mutations/auth/useRegister";
 import { useCreateProfile } from "@/hooks/mutations/profile/useCreateProfile";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useSendOtp } from "@/hooks/mutations/auth/useSendOtp";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -92,7 +94,6 @@ export default function RegisterPage() {
   const [done, setDone] = useState(false);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
 
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
@@ -123,7 +124,6 @@ export default function RegisterPage() {
       setToken(response.token);
       setFormData((prev) => ({ ...prev, userId: response.user.id }));
 
-      setOtpSent(true);
       goNext();
       toast("success", "Success", `Your account has been created successfully`);
     },
@@ -158,6 +158,13 @@ export default function RegisterPage() {
     onError: (error: ApiError) => toast("error", "Failed", error.message),
   });
 
+  const sendOtpMutation = useSendOtp({
+    onSuccess: () => {
+      toast("success", "Success", "OTP has been sent to your email");
+    },
+    onError: (error: ApiError) => toast("error", "Failed", error.message),
+  });
+
   const handleCreateUser = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
@@ -166,6 +173,7 @@ export default function RegisterPage() {
       password: formData.password,
       email: formData.email,
       no_telp: formData.phone,
+      otp_code: otp,
     };
 
     createUserMutation.mutate(payload);
@@ -200,6 +208,15 @@ export default function RegisterPage() {
     uploadMutation.mutateAsync(formData);
   };
 
+  const handleSendOtp = () => {
+    const payload: SendOtpRequest = {
+      username: formData.username,
+      email: formData.email,
+    };
+
+    sendOtpMutation.mutate(payload);
+  };
+
   const handleFormChange = useCallback(
     (key: string, value: string | string[]): void => {
       setFormData((prev) => ({ ...prev, [key]: value }));
@@ -221,13 +238,8 @@ export default function RegisterPage() {
   };
 
   const goNext = () => {
-    if (step === 1 && !otpSent) {
-      toast(
-        "success",
-        "Success",
-        "Code verification has been sent to your email",
-      );
-      setOtpSent(true);
+    if (step === 1) {
+      handleSendOtp();
     }
     setDir(1);
     setStep((s) => Math.min(s + 1, 5));
