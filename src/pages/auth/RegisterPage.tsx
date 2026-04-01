@@ -136,6 +136,7 @@ export default function RegisterPage() {
   const createProfileMutation = useCreateProfile({
     onSuccess: (response) => {
       toast("success", "Success", `Welcome ${response.full_name},`);
+      setDone(true);
     },
     onError: (error) => {
       toast("error", "Failed", error.message);
@@ -154,6 +155,7 @@ export default function RegisterPage() {
         "Success",
         "Profile picture has been updated successfully",
       );
+      goNext();
     },
     onError: (error: ApiError) => toast("error", "Failed", error.message),
   });
@@ -194,7 +196,6 @@ export default function RegisterPage() {
     };
 
     createProfileMutation.mutate(payload);
-    setDone(true);
   };
 
   const handleUploadImage = () => {

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ProfileInfoTabProps {
   values: UpdateProfileRequest;
@@ -16,6 +17,11 @@ interface ProfileInfoTabProps {
 }
 
 export function ProfileInfoTab({ values, onChange }: ProfileInfoTabProps) {
+  const queryClient = useQueryClient();
+
+  const userData = queryClient.getQueryData<any>(["currentUser"]);
+  const currentUsername = userData?.username || "username";
+
   return (
     <div className="flex flex-col gap-4">
       {/* ── Location & Links ── */}
@@ -31,25 +37,16 @@ export function ProfileInfoTab({ values, onChange }: ProfileInfoTabProps) {
             <Label htmlFor="url_profile">URL Portofolio Publik</Label>
             <div className="flex items-center rounded-md border bg-muted/40 focus-within:ring-1 focus-within:ring-ring overflow-hidden">
               <span className="px-3 text-sm text-muted-foreground border-r bg-muted select-none h-9 flex items-center">
-                portof.id/
+                portofy.net/
               </span>
               <Input
                 id="url_profile"
                 placeholder="putra.rizky"
-                value={values.image_url}
-                onChange={(e) =>
-                  onChange(
-                    "image_url",
-                    e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, ""),
-                  )
-                }
+                value={currentUsername}
+                disabled
                 className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
               />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Hanya huruf kecil, angka, titik, dan strip. Contoh:{" "}
-              <code className="text-xs bg-muted px-1 rounded">putra.rizky</code>
-            </p>
           </div>
         </CardContent>
       </Card>
