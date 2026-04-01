@@ -5,26 +5,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 // ── Dummy — ganti dengan username dari auth context nanti ─────────────────────
-const PORTFOLIO_URL = "https://portof.id/putra.rizky";
+const PORTFOLIO_URL = "https://portofy.net/";
 
-export function CopyPortfolioLink() {
+export function CopyPortfolioLink({ username }: { username: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(PORTFOLIO_URL);
+    await navigator.clipboard.writeText(PORTFOLIO_URL + username);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <Card>
-      <CardContent className="p-4">
+      <CardContent className="">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium mb-1.5">Link Portofolio Kamu</p>
             <Input
               readOnly
-              value={PORTFOLIO_URL}
+              value={PORTFOLIO_URL + username}
               className="h-8 text-xs bg-muted/40 cursor-default"
               onClick={(e) => (e.target as HTMLInputElement).select()}
             />
