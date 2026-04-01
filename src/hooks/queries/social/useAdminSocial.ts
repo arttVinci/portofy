@@ -11,7 +11,7 @@ interface UseAdminSocialOptions {
 
 export const useAdminSocial = (id: string, options?: UseAdminSocialOptions) => {
   return useQuery<SocialResponse, ApiError>({
-    queryKey: ["admin-social", id],
+    queryKey: ["socials", "admin", id],
     queryFn: () => socialService.getById(id),
     enabled: !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

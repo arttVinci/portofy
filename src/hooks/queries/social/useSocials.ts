@@ -11,7 +11,7 @@ interface UseSocialsOptions {
 
 export const useSocials = (username: string, options?: UseSocialsOptions) => {
   return useQuery<SocialResponse[], ApiError>({
-    queryKey: ["public-socials", username],
+    queryKey: ["socials", "public", username],
     queryFn: () => socialService.getAllByUsername(username),
     enabled: !!username && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

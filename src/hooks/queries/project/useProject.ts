@@ -15,7 +15,7 @@ export const useProject = (
   options?: UseProjectOptions,
 ) => {
   return useQuery<ProjectResponse, ApiError>({
-    queryKey: ["public-project", username, id],
+    queryKey: ["projects", "public", username, id],
     queryFn: () => projectService.getByUsername(username, id),
     enabled: !!username && !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

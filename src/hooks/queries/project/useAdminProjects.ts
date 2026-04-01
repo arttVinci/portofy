@@ -11,7 +11,7 @@ interface UseAdminProjectsOptions {
 
 export const useAdminProjects = (options?: UseAdminProjectsOptions) => {
   return useQuery<ProjectResponse[], ApiError>({
-    queryKey: ["admin-projects"],
+    queryKey: ["projects", "admin"],
     queryFn: () => projectService.getAll(),
     enabled: options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

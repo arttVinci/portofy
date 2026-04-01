@@ -15,7 +15,7 @@ export const useSkill = (
   options?: UseSkillOptions,
 ) => {
   return useQuery<SkillResponse, ApiError>({
-    queryKey: ["public-skill", username, id],
+    queryKey: ["skills", "public", username, id],
     queryFn: () => skillService.getByUsername(username, id),
     enabled: !!username && !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

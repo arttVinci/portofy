@@ -11,7 +11,7 @@ interface UseAdminSkillOptions {
 
 export const useAdminSkill = (id: string, options?: UseAdminSkillOptions) => {
   return useQuery<SkillResponse, ApiError>({
-    queryKey: ["admin-skill", id],
+    queryKey: ["skills", "admin", id],
     queryFn: () => skillService.getById(id),
     enabled: !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

@@ -11,7 +11,7 @@ interface UseAdminEducationsOptions {
 
 export const useAdminEducations = (options?: UseAdminEducationsOptions) => {
   return useQuery<EducationResponse[], ApiError>({
-    queryKey: ["admin-educations"],
+    queryKey: ["educations", "admin"],
     queryFn: () => educationService.getAll(),
     enabled: options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

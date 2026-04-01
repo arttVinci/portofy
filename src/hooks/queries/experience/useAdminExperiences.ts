@@ -11,7 +11,7 @@ interface UseAdminExperiencesOptions {
 
 export const useAdminExperiences = (options?: UseAdminExperiencesOptions) => {
   return useQuery<ExperienceResponse[], ApiError>({
-    queryKey: ["admin-experiences"],
+    queryKey: ["experiences", "admin"],
     queryFn: () => experienceService.getAll(),
     enabled: options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

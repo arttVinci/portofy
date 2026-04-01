@@ -9,12 +9,9 @@ interface UseProjectsOptions {
   onError?: (error: ApiError) => void;
 }
 
-export const useProjects = (
-  username: string,
-  options?: UseProjectsOptions,
-) => {
+export const useProjects = (username: string, options?: UseProjectsOptions) => {
   return useQuery<ProjectResponse[], ApiError>({
-    queryKey: ["public-projects", username],
+    queryKey: ["projects", "public", username],
     queryFn: () => projectService.getAllByUsername(username),
     enabled: !!username && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

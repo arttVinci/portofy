@@ -14,7 +14,7 @@ export const useAdminEducation = (
   options?: UseAdminEducationOptions,
 ) => {
   return useQuery<EducationResponse, ApiError>({
-    queryKey: ["admin-education", id],
+    queryKey: ["educations", "admin", id],
     queryFn: () => educationService.getById(id),
     enabled: !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

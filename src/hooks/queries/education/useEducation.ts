@@ -15,7 +15,7 @@ export const useEducation = (
   options?: UseEducationOptions,
 ) => {
   return useQuery<EducationResponse, ApiError>({
-    queryKey: ["public-education", username, id],
+    queryKey: ["educations", "public", username, id],
     queryFn: () => educationService.getByUsername(username, id),
     enabled: !!username && !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

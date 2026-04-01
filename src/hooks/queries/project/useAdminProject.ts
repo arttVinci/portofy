@@ -14,7 +14,7 @@ export const useAdminProject = (
   options?: UseAdminProjectOptions,
 ) => {
   return useQuery<ProjectResponse, ApiError>({
-    queryKey: ["admin-project", id],
+    queryKey: ["projects", "admin", id],
     queryFn: () => projectService.getById(id),
     enabled: !!id && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

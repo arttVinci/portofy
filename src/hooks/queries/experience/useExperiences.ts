@@ -14,7 +14,7 @@ export const useExperiences = (
   options?: UseExperiencesOptions,
 ) => {
   return useQuery<ExperienceResponse[], ApiError>({
-    queryKey: ["public-experiences", username],
+    queryKey: ["experiences", "public", username],
     queryFn: () => experienceService.getAllByUsername(username),
     enabled: !!username && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,
