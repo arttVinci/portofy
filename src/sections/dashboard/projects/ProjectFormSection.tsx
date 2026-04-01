@@ -93,7 +93,7 @@ export function ProjectFormSection({
     if (!file.type.startsWith("image/")) return;
     setThumbnailFile(file);
     setThumbnailBlob(URL.createObjectURL(file));
-    onChange("image_url", "");
+    onChange("image_url", thumbInputRef.current?.value);
   };
   const removeThumb = () => {
     setThumbnailFile(null);
@@ -316,8 +316,7 @@ export function ProjectFormSection({
                   {/* Judul */}
                   <div className="grid gap-1.5">
                     <Label htmlFor="title">
-                      Judul Project{" "}
-                      <span className="text-destructive">*</span>
+                      Judul Project <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="title"
@@ -541,9 +540,7 @@ export function ProjectFormSection({
                       <ImageIcon className="size-6 text-muted-foreground/40" />
                     </div>
                     <div>
-                      <p className="text-xs font-medium">
-                        Drag & drop di sini
-                      </p>
+                      <p className="text-xs font-medium">Drag & drop di sini</p>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         atau klik untuk pilih file
                       </p>

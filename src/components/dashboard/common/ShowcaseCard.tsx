@@ -75,7 +75,7 @@ export default function ShowcaseCard<T extends BaseCardData>({
             {data.title}
           </h3>
 
-          <p className="text-[12px] leading-relaxed mb-3 line-clamp-3 text-slate-500 dark:text-white/30">
+          <p className="text-[12px] leading-relaxed mb-3 line-clamp-2 text-slate-500 dark:text-white/30">
             {data.description}
           </p>
 

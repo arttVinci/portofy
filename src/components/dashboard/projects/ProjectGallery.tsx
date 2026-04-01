@@ -1,7 +1,7 @@
-import type { ProjectGallery as GalleryItem } from "@/@types/entities/project.types";
+import type { ProjectGallery } from "@/@types/entities/project.types";
 
 interface ProjectGalleryProps {
-  items: GalleryItem[];
+  items: ProjectGallery[];
 }
 
 export function ProjectGallery({ items }: ProjectGalleryProps) {
@@ -15,7 +15,7 @@ export function ProjectGallery({ items }: ProjectGalleryProps) {
           className="group relative overflow-hidden rounded-lg border bg-muted aspect-video"
         >
           <img
-            src={item.image}
+            src={item.image_url}
             alt={item.caption}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

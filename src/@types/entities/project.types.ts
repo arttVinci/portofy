@@ -3,7 +3,7 @@ interface ProjectFeature {
   items: string[];
 }
 
-interface ProjectGallery {
+export interface ProjectGallery {
   image_url: string;
   caption: string;
 }

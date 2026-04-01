@@ -31,7 +31,6 @@ export default function ProjectPage() {
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
 
-  const [isDirty, setIsDirty] = useState(false);
   const { toast, renderToasts } = useToast();
 
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -77,7 +76,6 @@ export default function ProjectPage() {
   const updateProjectMutation = useUpdateProject({
     onSuccess: () => {
       toast("success", "Berhasil", "Project berhasil diperbarui");
-      setIsDirty(false);
       refetch();
       goList();
     },
@@ -89,7 +87,6 @@ export default function ProjectPage() {
   const createProjectMutation = useCreateProject({
     onSuccess: () => {
       toast("success", "Berhasil", "Project berhasil ditambahkan");
-      setIsDirty(false);
       refetch();
       goList();
     },
@@ -123,7 +120,7 @@ export default function ProjectPage() {
         const uploadData = new FormData();
         uploadData.append("images", thumbnailFile);
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
-        payload.image_url = uploadResponse.urls[0];
+        payload.image_url = uploadResponse.image_url[0];
       }
 
       // Upload Gallery Images
@@ -136,7 +133,10 @@ export default function ProjectPage() {
         payload.gallery =
           payload.gallery?.map((item) => {
             if (item.image_url.startsWith("blob:")) {
-              return { ...item, image_url: uploadResponse.urls[urlIndex++] };
+              return {
+                ...item,
+                image_url: uploadResponse.image_url[urlIndex++],
+              };
             }
             return item;
           }) ?? [];
@@ -181,7 +181,6 @@ export default function ProjectPage() {
     setThumbnailBlob(null);
     setGalleryBlobs([]);
     setProject(undefined);
-    setIsDirty(false);
   };
 
   // ── Handlers ─────────────────────────────────────────────────────────────
@@ -218,6 +217,7 @@ export default function ProjectPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Page header */}
+      {renderToasts()}
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
         <p className="text-sm text-muted-foreground mt-1">

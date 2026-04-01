@@ -36,37 +36,6 @@ const EMPTY_FORM: UpdateEducationRequest = {
   description: "",
 };
 
-const DUMMY_EDUCATIONS: EducationResponse[] = [
-  {
-    id: "dummy-1",
-    institution: "Universitas Indonesia",
-    degree: "Sarjana Komputer (S1)",
-    field_of_study: "Sistem Informasi",
-    grade: "3.85",
-    image_url:
-      "https://upload.wikimedia.org/wikipedia/id/thumb/0/0b/Makara_of_Universitas_Indonesia.svg/1200px-Makara_of_Universitas_Indonesia.svg.png",
-    location: "Depok, Indonesia",
-    start_date: "2018-08-01T00:00:00Z",
-    end_date: "2022-07-15T00:00:00Z",
-    description:
-      "Lulus dengan predikat Cum Laude. Aktif di organisasi BEM Fasilkom UI sebagai Kepala Departemen Ristek. Asisten Dosen untuk mata kuliah Pemrograman Web dan Struktur Data.",
-  },
-  {
-    id: "dummy-2",
-    institution: "SMA Negeri 8 Jakarta",
-    degree: "Sekolah Menengah Atas",
-    field_of_study: "Ilmu Pengetahuan Alam (IPA)",
-    grade: "92.5",
-    image_url:
-      "https://sman8jkt.sch.id/wp-content/uploads/2021/08/logo-sman-8-jakarta.png",
-    location: "Jakarta, Indonesia",
-    start_date: "2015-07-15T00:00:00Z",
-    end_date: "2018-05-30T00:00:00Z",
-    description:
-      "Ketua ekstrakurikuler Komputer Klub (Kompak). Memenangkan medali perak di Olimpiade Sains Nasional (OSN) bidang Komputer tingkat provinsi.",
-  },
-];
-
 export default function EducationPage() {
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
@@ -236,7 +205,7 @@ export default function EducationPage() {
                 ((educations as unknown as EducationResponse[])?.length ?? 0) >
                 0
                   ? (educations as unknown as EducationResponse[])
-                  : DUMMY_EDUCATIONS
+                  : []
               }
               isLoading={
                 isLoading &&

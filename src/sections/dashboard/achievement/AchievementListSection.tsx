@@ -2,6 +2,15 @@ import { useState } from "react";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { PiCertificate } from "react-icons/pi";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+  EmptyMedia,
+} from "@/components/ui/empty";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -119,24 +128,23 @@ export function AchievementListSection({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-20 text-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            {search
-              ? "Tidak ada achievement yang cocok"
-              : "Belum ada achievement"}
-          </p>
-          {!search && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3 gap-1.5 cursor-pointer"
-              onClick={onAdd}
-            >
-              <PlusIcon className="size-3.5" />
-              Tambah Achievement Pertama
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <PiCertificate />
+            </EmptyMedia>
+            <EmptyTitle>No Achievements Yet</EmptyTitle>
+            <EmptyDescription>
+              You haven&apos;t created any achievements yet. Get started by
+              creating your first achievement.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent className="flex-row justify-center gap-2">
+            <Button className="cursor-pointer" onClick={onAdd}>
+              Create Project
             </Button>
-          )}
-        </div>
+          </EmptyContent>
+        </Empty>
       )}
 
       {/* Delete confirm */}

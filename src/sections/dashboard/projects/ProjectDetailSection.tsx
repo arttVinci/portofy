@@ -2,17 +2,13 @@ import {
   ExternalLinkIcon,
   ArrowLeftIcon,
   PencilIcon,
-  StarIcon,
   TrendingUpIcon,
   CodeIcon,
-  ImagePlayIcon,
-  SparklesIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
@@ -38,6 +34,7 @@ export function ProjectDetailSection({
   const featureCount = project.features?.length ?? 0;
   const galleryCount = project.gallery?.length ?? 0;
 
+  console.log("cobaaa", project);
   return (
     <TooltipProvider>
       <div className="w-full flex flex-col gap-6">
@@ -56,19 +53,8 @@ export function ProjectDetailSection({
           <div className="flex flex-col gap-6 min-w-0">
             {/* Header Card */}
             <Card className="border-border/60 shadow-sm">
-              <CardContent className="p-5">
+              <CardContent className="">
                 <div className="flex items-start gap-4">
-                  <Avatar className="size-14 rounded-xl border border-border/60 shrink-0">
-                    <AvatarImage
-                      src={project.image_url}
-                      alt={project.title}
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="rounded-xl bg-muted text-lg">
-                      📁
-                    </AvatarFallback>
-                  </Avatar>
-
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
@@ -96,24 +82,6 @@ export function ProjectDetailSection({
                         </TooltipContent>
                       </Tooltip>
                     </div>
-
-                    <div className="flex flex-wrap items-center gap-1.5 mt-3">
-                      {project.featured && (
-                        <Badge className="text-xs font-medium h-5 px-2 bg-amber-500/10 text-amber-600 border-amber-500/20 hover:bg-amber-500/20">
-                          <StarIcon className="size-2.5 mr-1" />
-                          Featured
-                        </Badge>
-                      )}
-                      {project.link_url && (
-                        <Badge
-                          variant="outline"
-                          className="text-xs font-medium h-5 px-2"
-                        >
-                          <ExternalLinkIcon className="size-2.5 mr-1" />
-                          Live
-                        </Badge>
-                      )}
-                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -121,7 +89,7 @@ export function ProjectDetailSection({
 
             {/* Hero image */}
             {project.image_url && (
-              <div className="overflow-hidden rounded-xl border border-border/60 bg-muted aspect-video max-h-72">
+              <div className="overflow-hidden rounded-xl border border-border/60 bg-muted aspect-video">
                 <img
                   src={project.image_url}
                   alt={project.title}
@@ -239,7 +207,7 @@ export function ProjectDetailSection({
                 <Separator />
                 <div className="flex flex-col gap-3">
                   <p className="text-sm font-medium">Gallery</p>
-                  <ProjectGallery items={project.gallery!} />
+                  <ProjectGallery items={project.gallery} />
                 </div>
               </>
             )}
