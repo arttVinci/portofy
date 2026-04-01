@@ -11,7 +11,7 @@ interface UseAdminAchievementsOptions {
 
 export const useAdminAchievements = (options?: UseAdminAchievementsOptions) => {
   return useQuery<AchievementResponse[], ApiError>({
-    queryKey: ["admin-achievements"],
+    queryKey: ["achievements", "admin"],
     queryFn: () => achievementService.getAll(),
     enabled: options?.enabled !== false,
     staleTime: 5 * 60 * 1000,

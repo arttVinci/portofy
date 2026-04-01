@@ -14,7 +14,7 @@ export const useAchievements = (
   options?: UseAchievementsOptions,
 ) => {
   return useQuery<AchievementResponse[], ApiError>({
-    queryKey: ["public-achievements", username],
+    queryKey: ["achievements", "public", username],
     queryFn: () => achievementService.getAllByUsername(username),
     enabled: !!username && options?.enabled !== false,
     staleTime: 5 * 60 * 1000,
