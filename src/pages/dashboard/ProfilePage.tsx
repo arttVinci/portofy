@@ -7,6 +7,7 @@ import { SaveIcon, Loader2Icon } from "lucide-react";
 import { ProfileInfoTab } from "@/components/dashboard/profile/ProfileInfoTab";
 import { ProfileAvatarTab } from "@/components/dashboard/profile/ProfileAvatarTab";
 import { ProfileVisibilityTab } from "@/components/dashboard/profile/ProfileVisibilityTab";
+import { ProfileSocialTab } from "@/components/dashboard/profile/ProfileSocialTab";
 import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePreviewCard";
 
 import { type UpdateProfileRequest } from "@/@types/entities/profile.types";
@@ -175,6 +176,7 @@ export default function ProfilePage() {
             <TabsTrigger value="info">Info</TabsTrigger>
             <TabsTrigger value="avatar">Avatar</TabsTrigger>
             <TabsTrigger value="visibility">Visibility</TabsTrigger>
+            <TabsTrigger value="social">Social Media</TabsTrigger>
           </TabsList>
 
           <div className="mt-4">
@@ -200,6 +202,10 @@ export default function ProfilePage() {
                 isPublic={isPublic}
                 onTogglePublic={handleTogglePublic}
               />
+            </TabsContent>
+
+            <TabsContent value="social" className="mt-0">
+              <ProfileSocialTab />
             </TabsContent>
           </div>
         </Tabs>

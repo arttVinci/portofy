@@ -17,7 +17,6 @@ import {
   LayoutDashboardIcon,
   BarChart2Icon,
   UserIcon,
-  LinkIcon,
   RocketIcon,
   BriefcaseIcon,
   FileTextIcon,
@@ -73,12 +72,6 @@ const NAV_ITEMS: NavItem[] = [
     title: "Profile",
     url: "/app/profile",
     icon: <UserIcon />,
-    group: "Content",
-  },
-  {
-    title: "Social Media",
-    url: "/app/social",
-    icon: <LinkIcon />,
     group: "Content",
   },
   {
