@@ -15,7 +15,7 @@ export default function CtaBannerSection() {
       id="cta-banner"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#0a0a0f",
+        backgroundColor: "#0c1222",
         fontFamily: "'Inter', sans-serif",
       }}
     >
@@ -24,10 +24,10 @@ export default function CtaBannerSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
+            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
+          backgroundSize: "64px 64px",
         }}
       />
 
@@ -40,16 +40,16 @@ export default function CtaBannerSection() {
           transition={{ duration: 0.8, ease: smoothEase }}
           className="relative rounded-3xl overflow-hidden text-center px-8 py-20"
           style={{
-            backgroundColor: "#0e0e14",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "linear-gradient(135deg, #111a2e 0%, #162035 50%, #0e1526 100%)",
+            border: "1px solid rgba(56,189,248,0.15)",
           }}
         >
-          {/* Top line */}
+          {/* Top glow line */}
           <div
             className="absolute top-0 left-0 right-0 h-px"
             style={{
               background:
-                "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)",
+                "linear-gradient(to right, transparent, #38bdf8, transparent)",
             }}
           />
 
@@ -60,7 +60,7 @@ export default function CtaBannerSection() {
               width: 600,
               height: 300,
               background:
-                "radial-gradient(ellipse at center top, rgba(255,255,255,0.04) 0%, transparent 70%)",
+                "radial-gradient(ellipse at center top, rgba(56,189,248,0.08) 0%, transparent 70%)",
             }}
           />
 
@@ -74,25 +74,43 @@ export default function CtaBannerSection() {
             <div
               key={pos}
               className={`absolute ${pos} size-1 rounded-full`}
-              style={{ backgroundColor: "rgba(255,255,255,0.15)" }}
+              style={{ backgroundColor: "rgba(56,189,248,0.3)" }}
             />
           ))}
 
-          <p
-            className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-5"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-          >
-            Mulai Sekarang
-          </p>
+          {/* Section tag */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to right, transparent, #38bdf8)",
+              }}
+            />
+            <p
+              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
+              style={{ color: "#38bdf8" }}
+            >
+              Mulai Sekarang
+            </p>
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to left, transparent, #38bdf8)",
+              }}
+            />
+          </div>
 
           <h2
-            className="text-[48px] font-normal leading-[1.08] tracking-[-0.03em] text-white mb-5 max-w-xl mx-auto"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
+            className="text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] mb-5 max-w-xl mx-auto"
+            style={{ color: "#f1f5f9" }}
           >
             Portfolio kamu sudah{" "}
             <span
-              className="italic"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              style={{
+                background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
               lama tertunda.
             </span>
@@ -100,7 +118,7 @@ export default function CtaBannerSection() {
 
           <p
             className="text-[15px] leading-relaxed max-w-sm mx-auto mb-10"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            style={{ color: "rgba(148,163,184,0.5)" }}
           >
             Ribuan kreator sudah online. Kamu tinggal isi form dan selesai —
             dalam waktu kurang dari 5 menit.
@@ -110,27 +128,27 @@ export default function CtaBannerSection() {
           <div className="flex items-center justify-center gap-3">
             <CtaButton
               title="Buat Portfolio Gratis →"
-              route="/register"
+              route="/auth/register"
               font="font-semibold"
-              backgroundColor="rgba(255,255,255,0.9)"
-              textColor="text-[#0a0a0f]"
+              backgroundColor="linear-gradient(135deg, #3b82f6, #06b6d4)"
+              textColor="text-white"
             />
             <CtaButton
               title="Lihat Template"
               route="/template"
               font="font-medium"
               backgroundColor="transparent"
-              textColor="rgba(255,255,255,0.5)"
-              borderColor="rgba(255,255,255,0.1)"
-              onMouseEnterColor="rgba(255,255,255,0.85)"
-              onMouseEnterBorderColor="rgba(255,255,255,0.2)"
+              textColor="rgba(56,189,248,0.7)"
+              borderColor="rgba(56,189,248,0.2)"
+              onMouseEnterColor="#38bdf8"
+              onMouseEnterBorderColor="rgba(56,189,248,0.4)"
             />
           </div>
 
           {/* Trust note */}
           <p
             className="mt-5 text-[11px]"
-            style={{ color: "rgba(255,255,255,0.2)" }}
+            style={{ color: "rgba(148,163,184,0.3)" }}
           >
             Gratis selamanya · Tanpa kartu kredit · Batalkan kapan saja
           </p>
@@ -144,25 +162,25 @@ export default function CtaBannerSection() {
           transition={{ duration: 0.6, ease: smoothEase, delay: 0.15 }}
           className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl"
           style={{
-            backgroundColor: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.06)",
+            backgroundColor: "rgba(56,189,248,0.08)",
+            border: "1px solid rgba(56,189,248,0.08)",
           }}
         >
           {stats.map((s, i) => (
             <div
               key={i}
               className="flex flex-col items-center justify-center py-6 text-center"
-              style={{ backgroundColor: "#0e0e14" }}
+              style={{ backgroundColor: "#111a2e" }}
             >
               <p
                 className="text-[22px] font-bold tracking-[-0.02em]"
-                style={{ color: "rgba(255,255,255,0.85)" }}
+                style={{ color: "rgba(241,245,249,0.85)" }}
               >
                 {s.value}
               </p>
               <p
                 className="text-[11px] mt-1"
-                style={{ color: "rgba(255,255,255,0.3)" }}
+                style={{ color: "rgba(148,163,184,0.4)" }}
               >
                 {s.label}
               </p>

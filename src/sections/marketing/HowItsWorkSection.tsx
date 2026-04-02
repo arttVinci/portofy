@@ -31,7 +31,7 @@ function MockScreen({ content }: { content: string }) {
       <div className="p-6 h-full flex flex-col">
         <p
           className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-4"
-          style={{ color: "#9ca3af" }}
+          style={{ color: "rgba(56,189,248,0.5)" }}
         >
           Pilih Template
         </p>
@@ -46,19 +46,25 @@ function MockScreen({ content }: { content: string }) {
           ].map((t) => (
             <div
               key={t.name}
-              className="rounded-xl flex flex-col overflow-hidden"
+              className="rounded-xl flex flex-col overflow-hidden transition-all duration-200"
               style={{
-                backgroundColor: t.active ? "#ffffff" : "#f3f4f6",
-                border: t.active ? "1.5px solid #6366f1" : "1px solid #e5e7eb",
+                backgroundColor: t.active
+                  ? "rgba(56,189,248,0.08)"
+                  : "rgba(255,255,255,0.03)",
+                border: t.active
+                  ? "1.5px solid rgba(56,189,248,0.4)"
+                  : "1px solid rgba(255,255,255,0.06)",
                 boxShadow: t.active
-                  ? "0 4px 16px rgba(99,102,241,0.12)"
+                  ? "0 4px 16px rgba(56,189,248,0.1)"
                   : "none",
               }}
             >
               <div
                 className="flex-1 m-2 rounded-lg"
                 style={{
-                  backgroundColor: t.active ? "#f0f4ff" : "#e9eaec",
+                  backgroundColor: t.active
+                    ? "rgba(56,189,248,0.06)"
+                    : "rgba(255,255,255,0.02)",
                   minHeight: 56,
                 }}
               >
@@ -70,8 +76,8 @@ function MockScreen({ content }: { content: string }) {
                       style={{
                         width: `${w}%`,
                         backgroundColor: t.active
-                          ? "rgba(99,102,241,0.35)"
-                          : "rgba(0,0,0,0.1)",
+                          ? "rgba(56,189,248,0.25)"
+                          : "rgba(255,255,255,0.06)",
                       }}
                     />
                   ))}
@@ -79,7 +85,11 @@ function MockScreen({ content }: { content: string }) {
               </div>
               <p
                 className="text-center text-[10px] pb-2 font-medium"
-                style={{ color: t.active ? "#6366f1" : "#9ca3af" }}
+                style={{
+                  color: t.active
+                    ? "rgba(56,189,248,0.9)"
+                    : "rgba(148,163,184,0.4)",
+                }}
               >
                 {t.name}
               </p>
@@ -95,7 +105,7 @@ function MockScreen({ content }: { content: string }) {
       <div className="p-6 h-full flex flex-col gap-3">
         <p
           className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-1"
-          style={{ color: "#9ca3af" }}
+          style={{ color: "rgba(56,189,248,0.5)" }}
         >
           Isi Profil
         </p>
@@ -110,16 +120,16 @@ function MockScreen({ content }: { content: string }) {
           <div key={f.label}>
             <p
               className="text-[10px] mb-1 font-medium"
-              style={{ color: "#6b7280" }}
+              style={{ color: "rgba(148,163,184,0.5)" }}
             >
               {f.label}
             </p>
             <div
               className="w-full px-3 py-2 rounded-lg text-[12px]"
               style={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                color: "#374151",
+                backgroundColor: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(56,189,248,0.1)",
+                color: "rgba(241,245,249,0.7)",
               }}
             >
               {f.value}
@@ -129,7 +139,7 @@ function MockScreen({ content }: { content: string }) {
         <div className="mt-1">
           <p
             className="text-[10px] mb-2 font-medium"
-            style={{ color: "#6b7280" }}
+            style={{ color: "rgba(148,163,184,0.5)" }}
           >
             Skill
           </p>
@@ -139,9 +149,9 @@ function MockScreen({ content }: { content: string }) {
                 key={s}
                 className="px-2.5 py-1 rounded-full text-[10px] font-medium"
                 style={{
-                  backgroundColor: "#eef2ff",
-                  color: "#6366f1",
-                  border: "1px solid #c7d2fe",
+                  backgroundColor: "rgba(56,189,248,0.1)",
+                  color: "rgba(56,189,248,0.8)",
+                  border: "1px solid rgba(56,189,248,0.2)",
                 }}
               >
                 {s}
@@ -159,8 +169,8 @@ function MockScreen({ content }: { content: string }) {
       <div
         className="size-16 rounded-2xl flex items-center justify-center text-2xl"
         style={{
-          backgroundColor: "#eef2ff",
-          border: "1px solid #c7d2fe",
+          backgroundColor: "rgba(56,189,248,0.1)",
+          border: "1px solid rgba(56,189,248,0.2)",
         }}
       >
         🚀
@@ -168,20 +178,23 @@ function MockScreen({ content }: { content: string }) {
       <div>
         <p
           className="text-[16px] font-semibold mb-2"
-          style={{ color: "#1a1a24" }}
+          style={{ color: "rgba(241,245,249,0.9)" }}
         >
           Portfolio kamu live!
         </p>
         <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px]"
           style={{
-            backgroundColor: "#f3f4f6",
-            border: "1px solid #e5e7eb",
+            backgroundColor: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(56,189,248,0.15)",
           }}
         >
-          <span className="size-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
-          <span style={{ color: "#9ca3af" }}>portofolio.id/</span>
-          <span className="font-semibold" style={{ color: "#374151" }}>
+          <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+          <span style={{ color: "rgba(148,163,184,0.5)" }}>portofy.net/</span>
+          <span
+            className="font-semibold"
+            style={{ color: "rgba(241,245,249,0.7)" }}
+          >
             budisantoso
           </span>
         </div>
@@ -196,14 +209,20 @@ function MockScreen({ content }: { content: string }) {
             key={s.label}
             className="rounded-xl py-3 text-center"
             style={{
-              backgroundColor: "#ffffff",
-              border: "1px solid #e5e7eb",
+              backgroundColor: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(56,189,248,0.1)",
             }}
           >
-            <p className="text-[14px] font-bold" style={{ color: "#374151" }}>
+            <p
+              className="text-[14px] font-bold"
+              style={{ color: "rgba(241,245,249,0.8)" }}
+            >
               {s.val}
             </p>
-            <p className="text-[10px] mt-0.5" style={{ color: "#9ca3af" }}>
+            <p
+              className="text-[10px] mt-0.5"
+              style={{ color: "rgba(148,163,184,0.4)" }}
+            >
               {s.label}
             </p>
           </div>
@@ -221,7 +240,7 @@ export default function HowItWorksSection() {
       id="cara-kerja"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#eeeae3",
+        backgroundColor: "#0e1526",
         fontFamily: "'Inter', sans-serif",
       }}
     >
@@ -230,20 +249,20 @@ export default function HowItWorksSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)
+            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
+          backgroundSize: "64px 64px",
         }}
       />
-      {/* Indigo glow */}
+      {/* Blue glow top-right */}
       <div
         className="pointer-events-none absolute top-0 right-0"
         style={{
           width: 560,
           height: 400,
           background:
-            "radial-gradient(ellipse at top right, rgba(99,102,241,0.1) 0%, transparent 65%)",
+            "radial-gradient(ellipse at top right, rgba(59,130,246,0.1) 0%, transparent 65%)",
         }}
       />
       <div
@@ -252,7 +271,7 @@ export default function HowItWorksSection() {
           width: 460,
           height: 360,
           background:
-            "radial-gradient(ellipse at bottom left, rgba(124,58,237,0.07) 0%, transparent 65%)",
+            "radial-gradient(ellipse at bottom left, rgba(6,182,212,0.07) 0%, transparent 65%)",
         }}
       />
 
@@ -265,21 +284,39 @@ export default function HowItWorksSection() {
           transition={{ duration: 0.7, ease: smooth }}
           className="text-center mb-14"
         >
-          <p
-            className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-            style={{ color: "rgba(99,102,241,0.7)" }}
-          >
-            Cara Kerja
-          </p>
+          {/* Section tag with line */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to right, transparent, #38bdf8)",
+              }}
+            />
+            <p
+              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
+              style={{ color: "#38bdf8" }}
+            >
+              Cara Kerja
+            </p>
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to left, transparent, #38bdf8)",
+              }}
+            />
+          </div>
           <h2
-            className="text-[44px] font-normal leading-[1.1] tracking-[-0.03em]"
-            style={{
-              fontFamily: "'Instrument Serif', serif",
-              color: "#1a1a24",
-            }}
+            className="text-[44px] font-extrabold leading-[1.1] tracking-[-0.03em]"
+            style={{ color: "#f1f5f9" }}
           >
             Dari nol ke live,{" "}
-            <span className="italic" style={{ color: "#6366f1" }}>
+            <span
+              style={{
+                background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               dalam 3 langkah.
             </span>
           </h2>
@@ -296,12 +333,14 @@ export default function HowItWorksSection() {
           {/* Base connector line */}
           <div
             className="absolute top-5 left-0 right-0 h-px"
-            style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
+            style={{ backgroundColor: "rgba(56,189,248,0.1)" }}
           />
           {/* Active progress */}
           <motion.div
             className="absolute top-5 left-0 h-px"
-            style={{ backgroundColor: "#6366f1" }}
+            style={{
+              background: "linear-gradient(to right, #3b82f6, #06b6d4)",
+            }}
             animate={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }}
             transition={{ duration: 0.4, ease: smooth }}
           />
@@ -318,12 +357,18 @@ export default function HowItWorksSection() {
                 {/* Circle */}
                 <motion.div
                   animate={{
-                    backgroundColor: isActive
-                      ? "#6366f1"
-                      : isDone
-                        ? "#6366f1"
-                        : "#e5e7eb",
-                    borderColor: isActive || isDone ? "#6366f1" : "#d1d5db",
+                    backgroundColor:
+                      isActive || isDone
+                        ? "#3b82f6"
+                        : "rgba(56,189,248,0.1)",
+                    borderColor:
+                      isActive || isDone
+                        ? "#38bdf8"
+                        : "rgba(56,189,248,0.15)",
+                    boxShadow:
+                      isActive
+                        ? "0 0 20px rgba(56,189,248,0.3)"
+                        : "none",
                   }}
                   transition={{ duration: 0.3 }}
                   className="size-10 rounded-full flex items-center justify-center z-10 border-2"
@@ -343,7 +388,9 @@ export default function HowItWorksSection() {
                   ) : (
                     <span
                       className="text-[11px] font-bold"
-                      style={{ color: isActive ? "#ffffff" : "#9ca3af" }}
+                      style={{
+                        color: isActive ? "#ffffff" : "rgba(148,163,184,0.5)",
+                      }}
                     >
                       {step.num}
                     </span>
@@ -354,7 +401,9 @@ export default function HowItWorksSection() {
                 <div className="text-center">
                   <p
                     className="text-[13px] font-semibold transition-colors duration-200"
-                    style={{ color: isActive ? "#1a1a24" : "#6b7280" }}
+                    style={{
+                      color: isActive ? "#f1f5f9" : "rgba(148,163,184,0.5)",
+                    }}
                   >
                     {step.label}
                   </p>
@@ -365,7 +414,7 @@ export default function HowItWorksSection() {
                     }}
                     transition={{ duration: 0.3 }}
                     className="text-[12px] mt-1 leading-relaxed max-w-[160px] mx-auto overflow-hidden"
-                    style={{ color: "#8888a0" }}
+                    style={{ color: "rgba(148,163,184,0.4)" }}
                   >
                     {step.desc}
                   </motion.p>
@@ -386,35 +435,38 @@ export default function HowItWorksSection() {
           <div
             className="rounded-2xl overflow-hidden"
             style={{
-              backgroundColor: "#f9fafb",
-              border: "1px solid #e5e7eb",
+              backgroundColor: "#111a2e",
+              border: "1px solid rgba(56,189,248,0.12)",
               boxShadow:
-                "0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05)",
+                "0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(56,189,248,0.05)",
             }}
           >
             {/* Browser bar */}
             <div
               className="flex items-center gap-2 px-4 py-3"
               style={{
-                backgroundColor: "#ffffff",
-                borderBottom: "1px solid #f3f4f6",
+                backgroundColor: "#0e1526",
+                borderBottom: "1px solid rgba(56,189,248,0.08)",
               }}
             >
               <div className="flex gap-1.5">
-                {["#ff5f56", "#ffbd2e", "#27c93f"].map((c, i) => (
+                {["rgba(56,189,248,0.3)", "rgba(56,189,248,0.2)", "rgba(56,189,248,0.12)"].map((c, i) => (
                   <div
                     key={i}
                     className="size-2.5 rounded-full"
-                    style={{ backgroundColor: c, opacity: 0.7 }}
+                    style={{ backgroundColor: c }}
                   />
                 ))}
               </div>
               <div
                 className="flex-1 mx-2 h-5 rounded-md flex items-center px-3"
-                style={{ backgroundColor: "#f3f4f6" }}
+                style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
               >
-                <span className="text-[10px]" style={{ color: "#9ca3af" }}>
-                  app.portofolio.id/
+                <span
+                  className="text-[10px]"
+                  style={{ color: "rgba(148,163,184,0.4)" }}
+                >
+                  app.portofy.net/
                   {steps[activeStep].mockContent === "publish"
                     ? "dashboard"
                     : "onboarding"}
@@ -429,12 +481,12 @@ export default function HowItWorksSection() {
                     style={{
                       width: i === activeStep ? 16 : 6,
                       height: 6,
-                      backgroundColor:
+                      background:
                         i === activeStep
-                          ? "#6366f1"
+                          ? "linear-gradient(to right, #3b82f6, #06b6d4)"
                           : i < activeStep
-                            ? "#a5b4fc"
-                            : "#e5e7eb",
+                            ? "rgba(56,189,248,0.4)"
+                            : "rgba(56,189,248,0.1)",
                     }}
                   />
                 ))}
@@ -442,7 +494,7 @@ export default function HowItWorksSection() {
             </div>
 
             {/* Mock content */}
-            <div style={{ minHeight: 360, backgroundColor: "#f9fafb" }}>
+            <div style={{ minHeight: 360, backgroundColor: "#111a2e" }}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeStep}
@@ -463,11 +515,14 @@ export default function HowItWorksSection() {
             <button
               onClick={() => setActiveStep((p) => Math.max(0, p - 1))}
               disabled={activeStep === 0}
-              className="px-4 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
+              className="px-4 py-2 rounded-full text-[12px] font-medium transition-all duration-200"
               style={{
-                backgroundColor: "rgba(0,0,0,0.05)",
-                color: activeStep === 0 ? "rgba(0,0,0,0.2)" : "#6b7280",
-                border: "1px solid rgba(0,0,0,0.08)",
+                backgroundColor: "rgba(56,189,248,0.06)",
+                color:
+                  activeStep === 0
+                    ? "rgba(148,163,184,0.2)"
+                    : "rgba(148,163,184,0.7)",
+                border: "1px solid rgba(56,189,248,0.1)",
                 cursor: activeStep === 0 ? "not-allowed" : "pointer",
               }}
             >
@@ -477,21 +532,21 @@ export default function HowItWorksSection() {
             {activeStep < steps.length - 1 ? (
               <button
                 onClick={() => setActiveStep((p) => p + 1)}
-                className="px-5 py-2 rounded-xl text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+                className="px-5 py-2 rounded-full text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
                 style={{
-                  background: "linear-gradient(135deg, #6366f1, #7c3aed)",
-                  boxShadow: "0 4px 16px rgba(99,102,241,0.25)",
+                  background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                  boxShadow: "0 4px 16px rgba(59,130,246,0.25)",
                 }}
               >
                 Selanjutnya →
               </button>
             ) : (
               <a
-                href="/register"
-                className="px-5 py-2 rounded-xl text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+                href="/auth/register"
+                className="px-5 py-2 rounded-full text-[12px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
                 style={{
-                  background: "linear-gradient(135deg, #6366f1, #7c3aed)",
-                  boxShadow: "0 4px 16px rgba(99,102,241,0.25)",
+                  background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                  boxShadow: "0 4px 16px rgba(59,130,246,0.25)",
                 }}
               >
                 Mulai Gratis →

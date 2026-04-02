@@ -106,12 +106,24 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "#0a0a0f",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        backgroundColor: "#0c1222",
+        borderTop: "1px solid rgba(56,189,248,0.08)",
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
+      {/* Grid bg */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: "64px 64px",
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto px-6 pt-16 pb-10">
         {/* ── Top: brand + links ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -124,13 +136,14 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <a
               href="/"
-              className="text-[18px] font-bold tracking-[-0.02em] text-white"
+              className="text-[18px] font-bold tracking-[-0.02em]"
+              style={{ color: "#f1f5f9" }}
             >
               PortofId
             </a>
             <p
               className="mt-3 text-[13px] leading-relaxed max-w-[200px]"
-              style={{ color: "rgba(255,255,255,0.3)" }}
+              style={{ color: "rgba(148,163,184,0.4)" }}
             >
               Platform portfolio no-code untuk semua kreator Indonesia.
             </p>
@@ -142,23 +155,29 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex items-center justify-center size-8 rounded-lg transition-all duration-200"
+                  className="flex items-center justify-center size-8 rounded-full transition-all duration-200"
                   style={{
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    color: "rgba(255,255,255,0.35)",
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    backgroundColor: "rgba(56,189,248,0.06)",
+                    color: "rgba(148,163,184,0.4)",
+                    border: "1px solid rgba(56,189,248,0.1)",
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.backgroundColor =
-                      "rgba(255,255,255,0.1)";
-                    (e.currentTarget as HTMLElement).style.color =
-                      "rgba(255,255,255,0.8)";
+                      "rgba(56,189,248,0.15)";
+                    (e.currentTarget as HTMLElement).style.color = "#38bdf8";
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      "rgba(56,189,248,0.3)";
+                    (e.currentTarget as HTMLElement).style.boxShadow =
+                      "0 0 15px rgba(56,189,248,0.15)";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLElement).style.backgroundColor =
-                      "rgba(255,255,255,0.05)";
+                      "rgba(56,189,248,0.06)";
                     (e.currentTarget as HTMLElement).style.color =
-                      "rgba(255,255,255,0.35)";
+                      "rgba(148,163,184,0.4)";
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      "rgba(56,189,248,0.1)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "none";
                   }}
                 >
                   {s.icon}
@@ -172,7 +191,7 @@ export default function Footer() {
             <div key={category}>
               <p
                 className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-4"
-                style={{ color: "rgba(255,255,255,0.2)" }}
+                style={{ color: "rgba(56,189,248,0.4)" }}
               >
                 {category}
               </p>
@@ -182,14 +201,14 @@ export default function Footer() {
                     <a
                       href={item.href}
                       className="text-[13px] transition-colors duration-150"
-                      style={{ color: "rgba(255,255,255,0.38)" }}
+                      style={{ color: "rgba(148,163,184,0.45)" }}
                       onMouseEnter={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
-                          "rgba(255,255,255,0.75)")
+                          "#38bdf8")
                       }
                       onMouseLeave={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
-                          "rgba(255,255,255,0.38)")
+                          "rgba(148,163,184,0.45)")
                       }
                     >
                       {item.label}
@@ -204,7 +223,10 @@ export default function Footer() {
         {/* ── Divider ── */}
         <div
           className="h-px mb-6"
-          style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+          style={{
+            background:
+              "linear-gradient(to right, transparent, rgba(56,189,248,0.12), transparent)",
+          }}
         />
 
         {/* ── Bottom bar ── */}
@@ -215,7 +237,10 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex flex-col sm:flex-row items-center justify-between gap-3"
         >
-          <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+          <p
+            className="text-[12px]"
+            style={{ color: "rgba(148,163,184,0.25)" }}
+          >
             © 2025 PortofId. Dibuat dengan ☕ di Indonesia.
           </p>
           <div className="flex items-center gap-4">
@@ -225,14 +250,14 @@ export default function Footer() {
                   key={label}
                   href="#"
                   className="text-[11px] transition-colors duration-150"
-                  style={{ color: "rgba(255,255,255,0.2)" }}
+                  style={{ color: "rgba(148,163,184,0.25)" }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLElement).style.color =
-                      "rgba(255,255,255,0.5)")
+                      "rgba(56,189,248,0.6)")
                   }
                   onMouseLeave={(e) =>
                     ((e.currentTarget as HTMLElement).style.color =
-                      "rgba(255,255,255,0.2)")
+                      "rgba(148,163,184,0.25)")
                   }
                 >
                   {label}

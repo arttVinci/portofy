@@ -4,7 +4,6 @@ import { Check, Minus } from "lucide-react";
 
 const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-// ── Pricing data ─────────────────────────────────────────────────────────────
 const plans = [
   {
     id: "free",
@@ -87,7 +86,7 @@ export default function PricingSection() {
       id="pricing"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#0a0a0f",
+        backgroundColor: "#0e1526",
         fontFamily: "'Inter', sans-serif",
       }}
     >
@@ -96,10 +95,10 @@ export default function PricingSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
+            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
+          backgroundSize: "64px 64px",
         }}
       />
       {/* Glow */}
@@ -109,7 +108,7 @@ export default function PricingSection() {
           width: 700,
           height: 400,
           background:
-            "radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 70%)",
+            "radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -122,36 +121,57 @@ export default function PricingSection() {
           transition={{ duration: 0.7, ease: smoothEase }}
           className="text-center mb-12"
         >
-          <p
-            className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-          >
-            Harga
-          </p>
+          {/* Section tag */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to right, transparent, #38bdf8)",
+              }}
+            />
+            <p
+              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
+              style={{ color: "#38bdf8" }}
+            >
+              Harga
+            </p>
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to left, transparent, #38bdf8)",
+              }}
+            />
+          </div>
           <h2
-            className="text-[44px] font-normal leading-[1.1] tracking-[-0.03em] text-white"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
+            className="text-[44px] font-extrabold leading-[1.1] tracking-[-0.03em]"
+            style={{ color: "#f1f5f9" }}
           >
             Mulai gratis,{" "}
-            <span className="italic" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <span
+              style={{
+                background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               upgrade kalau siap.
             </span>
           </h2>
           <p
             className="mt-4 text-[14px] max-w-sm mx-auto"
-            style={{ color: "rgba(255,255,255,0.3)" }}
+            style={{ color: "rgba(148,163,184,0.5)" }}
           >
             Tidak ada biaya tersembunyi. Batalkan kapan saja.
           </p>
 
-          {/* ── Toggle bulanan / tahunan ── */}
+          {/* Toggle */}
           <div className="mt-8 inline-flex items-center gap-3">
             <span
               className="text-[13px] font-medium"
               style={{
                 color: !yearly
-                  ? "rgba(255,255,255,0.8)"
-                  : "rgba(255,255,255,0.3)",
+                  ? "rgba(241,245,249,0.8)"
+                  : "rgba(148,163,184,0.4)",
               }}
             >
               Bulanan
@@ -161,33 +181,37 @@ export default function PricingSection() {
               className="relative w-10 h-5 rounded-full transition-colors duration-300 cursor-pointer focus:outline-none"
               style={{
                 backgroundColor: yearly
-                  ? "rgba(255,255,255,0.25)"
-                  : "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.15)",
+                  ? "rgba(56,189,248,0.3)"
+                  : "rgba(56,189,248,0.12)",
+                border: "1px solid rgba(56,189,248,0.2)",
               }}
             >
               <motion.span
                 animate={{ x: yearly ? 20 : 2 }}
                 transition={{ type: "spring", stiffness: 500, damping: 35 }}
                 className="absolute top-0.5 size-4 rounded-full block"
-                style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
+                style={{
+                  background: yearly
+                    ? "linear-gradient(135deg, #3b82f6, #06b6d4)"
+                    : "rgba(241,245,249,0.7)",
+                }}
               />
             </button>
             <span
               className="text-[13px] font-medium flex items-center gap-1.5"
               style={{
                 color: yearly
-                  ? "rgba(255,255,255,0.8)"
-                  : "rgba(255,255,255,0.3)",
+                  ? "rgba(241,245,249,0.8)"
+                  : "rgba(148,163,184,0.4)",
               }}
             >
               Tahunan
               <span
                 className="px-1.5 py-0.5 rounded-full text-[10px] font-semibold"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.5)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  backgroundColor: "rgba(52,211,153,0.12)",
+                  color: "rgba(52,211,153,0.8)",
+                  border: "1px solid rgba(52,211,153,0.2)",
                   opacity: yearly ? 1 : 0.5,
                 }}
               >
@@ -212,22 +236,22 @@ export default function PricingSection() {
               }}
               className="relative rounded-2xl overflow-hidden h-full"
               style={{
-                backgroundColor: plan.highlighted ? "#141420" : "#0e0e14",
+                backgroundColor: plan.highlighted ? "#162035" : "#111a2e",
                 border: plan.highlighted
-                  ? "1px solid rgba(255,255,255,0.15)"
-                  : "1px solid rgba(255,255,255,0.06)",
+                  ? "1px solid rgba(56,189,248,0.25)"
+                  : "1px solid rgba(56,189,248,0.08)",
                 boxShadow: plan.highlighted
-                  ? "0 0 0 1px rgba(255,255,255,0.05), 0 32px 64px rgba(0,0,0,0.4)"
+                  ? "0 0 40px rgba(56,189,248,0.08), 0 32px 64px rgba(0,0,0,0.3)"
                   : "none",
               }}
             >
-              {/* Highlighted top line */}
+              {/* Highlighted top glow line */}
               {plan.highlighted && (
                 <div
                   className="absolute top-0 left-0 right-0 h-px"
                   style={{
                     background:
-                      "linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent)",
+                      "linear-gradient(to right, transparent, #38bdf8, transparent)",
                   }}
                 />
               )}
@@ -237,7 +261,7 @@ export default function PricingSection() {
                 <div className="flex items-center gap-2 mb-1">
                   <p
                     className="text-[15px] font-semibold"
-                    style={{ color: "rgba(255,255,255,0.85)" }}
+                    style={{ color: "rgba(241,245,249,0.85)" }}
                   >
                     {plan.name}
                   </p>
@@ -245,9 +269,9 @@ export default function PricingSection() {
                     <span
                       className="px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide"
                       style={{
-                        backgroundColor: "rgba(255,255,255,0.08)",
-                        color: "rgba(255,255,255,0.5)",
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        backgroundColor: "rgba(56,189,248,0.12)",
+                        color: "#38bdf8",
+                        border: "1px solid rgba(56,189,248,0.2)",
                       }}
                     >
                       {plan.badge}
@@ -256,7 +280,7 @@ export default function PricingSection() {
                 </div>
                 <p
                   className="text-[12px] mb-5"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{ color: "rgba(148,163,184,0.5)" }}
                 >
                   {plan.desc}
                 </p>
@@ -276,7 +300,7 @@ export default function PricingSection() {
                           <div className="flex items-end gap-1.5">
                             <p
                               className="text-[36px] font-bold tracking-[-0.03em] leading-none"
-                              style={{ color: "rgba(255,255,255,0.9)" }}
+                              style={{ color: "rgba(241,245,249,0.9)" }}
                             >
                               Gratis
                             </p>
@@ -286,7 +310,7 @@ export default function PricingSection() {
                         <div className="flex items-end gap-1.5">
                           <p
                             className="text-[36px] font-bold tracking-[-0.03em] leading-none"
-                            style={{ color: "rgba(255,255,255,0.9)" }}
+                            style={{ color: "rgba(241,245,249,0.9)" }}
                           >
                             {formatPrice(
                               yearly ? plan.yearlyPrice : plan.monthlyPrice,
@@ -294,7 +318,7 @@ export default function PricingSection() {
                           </p>
                           <p
                             className="text-[12px] mb-1"
-                            style={{ color: "rgba(255,255,255,0.3)" }}
+                            style={{ color: "rgba(148,163,184,0.5)" }}
                           >
                             /bulan
                           </p>
@@ -303,7 +327,7 @@ export default function PricingSection() {
                       {yearly && plan.monthlyPrice > 0 && (
                         <p
                           className="text-[11px] mt-1"
-                          style={{ color: "rgba(255,255,255,0.25)" }}
+                          style={{ color: "rgba(148,163,184,0.35)" }}
                         >
                           Ditagih tahunan ·{" "}
                           <span style={{ textDecoration: "line-through" }}>
@@ -318,42 +342,22 @@ export default function PricingSection() {
 
                 {/* CTA */}
                 <a
-                  href={plan.id === "team" ? "/contact" : "/register"}
-                  className="w-full flex items-center justify-center py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 mb-6 hover:-translate-y-0.5"
+                  href={plan.id === "team" ? "/contact" : "/auth/register"}
+                  className="w-full flex items-center justify-center py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 mb-6 hover:-translate-y-0.5"
                   style={
                     plan.ctaStyle === "solid"
                       ? {
-                          backgroundColor: "rgba(255,255,255,0.9)",
-                          color: "#0a0a0f",
+                          background:
+                            "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                          color: "#ffffff",
+                          boxShadow: "0 4px 16px rgba(59,130,246,0.3)",
                         }
                       : {
-                          backgroundColor: "rgba(255,255,255,0.05)",
-                          color: "rgba(255,255,255,0.6)",
-                          border: "1px solid rgba(255,255,255,0.1)",
+                          backgroundColor: "rgba(56,189,248,0.06)",
+                          color: "rgba(56,189,248,0.8)",
+                          border: "1px solid rgba(56,189,248,0.15)",
                         }
                   }
-                  onMouseEnter={(e) => {
-                    if (plan.ctaStyle === "solid") {
-                      (e.currentTarget as HTMLElement).style.backgroundColor =
-                        "#ffffff";
-                    } else {
-                      (e.currentTarget as HTMLElement).style.backgroundColor =
-                        "rgba(255,255,255,0.09)";
-                      (e.currentTarget as HTMLElement).style.color =
-                        "rgba(255,255,255,0.85)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (plan.ctaStyle === "solid") {
-                      (e.currentTarget as HTMLElement).style.backgroundColor =
-                        "rgba(255,255,255,0.9)";
-                    } else {
-                      (e.currentTarget as HTMLElement).style.backgroundColor =
-                        "rgba(255,255,255,0.05)";
-                      (e.currentTarget as HTMLElement).style.color =
-                        "rgba(255,255,255,0.6)";
-                    }
-                  }}
                 >
                   {plan.cta}
                 </a>
@@ -362,7 +366,7 @@ export default function PricingSection() {
                 <div
                   className="mb-5 h-px"
                   style={{
-                    backgroundColor: "rgba(255,255,255,0.06)",
+                    backgroundColor: "rgba(56,189,248,0.08)",
                   }}
                 />
 
@@ -374,7 +378,7 @@ export default function PricingSection() {
                         className="shrink-0 flex items-center justify-center size-4 rounded-full"
                         style={{
                           backgroundColor: f.included
-                            ? "rgba(255,255,255,0.08)"
+                            ? "rgba(56,189,248,0.12)"
                             : "transparent",
                         }}
                       >
@@ -382,13 +386,13 @@ export default function PricingSection() {
                           <Check
                             size={10}
                             strokeWidth={2.5}
-                            style={{ color: "rgba(255,255,255,0.6)" }}
+                            style={{ color: "#38bdf8" }}
                           />
                         ) : (
                           <Minus
                             size={10}
                             strokeWidth={2}
-                            style={{ color: "rgba(255,255,255,0.15)" }}
+                            style={{ color: "rgba(148,163,184,0.2)" }}
                           />
                         )}
                       </span>
@@ -396,8 +400,8 @@ export default function PricingSection() {
                         className="text-[12px]"
                         style={{
                           color: f.included
-                            ? "rgba(255,255,255,0.55)"
-                            : "rgba(255,255,255,0.2)",
+                            ? "rgba(148,163,184,0.7)"
+                            : "rgba(148,163,184,0.25)",
                         }}
                       >
                         {f.text}
@@ -417,7 +421,7 @@ export default function PricingSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 text-center text-[12px]"
-          style={{ color: "rgba(255,255,255,0.2)" }}
+          style={{ color: "rgba(148,163,184,0.3)" }}
         >
           Semua harga dalam Rupiah · Bisa bayar via transfer bank, QRIS, atau
           kartu kredit

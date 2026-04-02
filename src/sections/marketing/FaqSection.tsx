@@ -47,7 +47,7 @@ export default function FaqSection() {
       id="faq"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#0a0a0f",
+        backgroundColor: "#0c1222",
         fontFamily: "'Inter', sans-serif",
       }}
     >
@@ -56,149 +56,176 @@ export default function FaqSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
+            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
+          backgroundSize: "64px 64px",
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-6">
-        {/* ── Layout: left header + right accordion ── */}
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-start">
-          {/* ── Left: sticky header ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: smoothEase }}
-            className="lg:sticky lg:top-28"
-          >
+      <div className="relative max-w-3xl mx-auto px-6">
+        {/* ── Header (centered, Elysian style) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: smoothEase }}
+          className="text-center mb-14"
+        >
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to right, transparent, #38bdf8)",
+              }}
+            />
             <p
-              className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-4"
-              style={{ color: "rgba(255,255,255,0.25)" }}
+              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
+              style={{ color: "#38bdf8" }}
             >
               FAQ
             </p>
-            <h2
-              className="text-[38px] font-normal leading-[1.1] tracking-[-0.03em] text-white mb-4"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Ada yang{" "}
-              <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                ingin ditanya?
-              </span>
-            </h2>
-            <p
-              className="text-[13px] leading-relaxed mb-8"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              Pertanyaan yang paling sering muncul. Kalau belum terjawab, kami
-              siap membantu.
-            </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 text-[13px] font-medium transition-all duration-200"
-              style={{ color: "rgba(255,255,255,0.4)" }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.8)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  "rgba(255,255,255,0.4)")
-              }
-            >
-              Hubungi kami
-              <svg
-                className="size-3.5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </a>
-          </motion.div>
-
-          {/* ── Right: accordion ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: smoothEase, delay: 0.1 }}
-            className="space-y-0"
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to left, transparent, #38bdf8)",
+              }}
+            />
+          </div>
+          <h2
+            className="text-[40px] font-extrabold leading-[1.1] tracking-[-0.03em]"
+            style={{ color: "#f1f5f9" }}
           >
-            {faqs.map((faq, i) => {
-              const isOpen = openIndex === i;
-              return (
-                <div
-                  key={i}
-                  className="border-b"
-                  style={{ borderColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? null : i)}
-                    className="w-full flex items-center justify-between gap-4 py-5 text-left cursor-pointer focus:outline-none group"
-                  >
-                    <span
-                      className="text-[14px] font-medium leading-snug transition-colors duration-200"
-                      style={{
-                        color: isOpen
-                          ? "rgba(255,255,255,0.9)"
-                          : "rgba(255,255,255,0.55)",
-                      }}
-                    >
-                      {faq.q}
-                    </span>
-                    <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.22, ease: smoothEase }}
-                      className="shrink-0 flex items-center justify-center size-6 rounded-full"
-                      style={{
-                        backgroundColor: isOpen
-                          ? "rgba(255,255,255,0.1)"
-                          : "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: isOpen
-                          ? "rgba(255,255,255,0.8)"
-                          : "rgba(255,255,255,0.3)",
-                      }}
-                    >
-                      <Plus size={12} strokeWidth={2} />
-                    </motion.span>
-                  </button>
+            Pertanyaan Umum
+          </h2>
+          <p
+            className="mt-4 text-[14px]"
+            style={{ color: "rgba(148,163,184,0.5)" }}
+          >
+            Jawaban untuk keraguan Anda
+          </p>
+        </motion.div>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: smoothEase }}
-                        style={{ overflow: "hidden" }}
+        {/* ── FAQ Cards (individual rounded cards like Elysian) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: smoothEase, delay: 0.1 }}
+          className="space-y-3"
+        >
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden transition-all duration-300"
+                style={{
+                  backgroundColor: isOpen ? "#162035" : "#111a2e",
+                  border: isOpen
+                    ? "1px solid rgba(56,189,248,0.2)"
+                    : "1px solid rgba(56,189,248,0.08)",
+                  boxShadow: isOpen
+                    ? "0 0 30px rgba(56,189,248,0.05)"
+                    : "none",
+                }}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer focus:outline-none"
+                >
+                  <span
+                    className="text-[14px] font-semibold leading-snug transition-colors duration-200"
+                    style={{
+                      color: isOpen
+                        ? "rgba(241,245,249,0.9)"
+                        : "rgba(148,163,184,0.7)",
+                    }}
+                  >
+                    {faq.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.22, ease: smoothEase }}
+                    className="shrink-0 flex items-center justify-center size-7 rounded-full"
+                    style={{
+                      backgroundColor: isOpen
+                        ? "rgba(56,189,248,0.15)"
+                        : "rgba(56,189,248,0.06)",
+                      border: "1px solid rgba(56,189,248,0.15)",
+                      color: isOpen
+                        ? "#38bdf8"
+                        : "rgba(148,163,184,0.4)",
+                    }}
+                  >
+                    <Plus size={14} strokeWidth={2} />
+                  </motion.span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: smoothEase }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <p
+                        className="px-6 pb-5 text-[13px] leading-relaxed"
+                        style={{ color: "rgba(148,163,184,0.5)" }}
                       >
-                        <p
-                          className="pb-5 text-[13px] leading-relaxed pr-10"
-                          style={{ color: "rgba(255,255,255,0.4)" }}
-                        >
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </motion.div>
-        </div>
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </motion.div>
+
+        {/* ── Contact link ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-10 text-center"
+        >
+          <p
+            className="text-[13px] mb-2"
+            style={{ color: "rgba(148,163,184,0.4)" }}
+          >
+            Belum terjawab?
+          </p>
+          <a
+            href="/contact"
+            className="inline-flex items-center gap-2 text-[13px] font-medium transition-all duration-200"
+            style={{ color: "rgba(56,189,248,0.6)" }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLElement).style.color = "#38bdf8")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLElement).style.color =
+                "rgba(56,189,248,0.6)")
+            }
+          >
+            Hubungi kami langsung
+            <svg
+              className="size-3.5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

@@ -110,19 +110,29 @@ export default function TemplateShowcaseSection() {
       id="template-showcase"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#0a0a0f",
+        backgroundColor: "#0c1222",
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Subtle grid */}
+      {/* Grid bg */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
+            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
+          backgroundSize: "64px 64px",
+        }}
+      />
+      {/* Center glow */}
+      <div
+        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: 600,
+          height: 400,
+          background:
+            "radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -135,28 +145,40 @@ export default function TemplateShowcaseSection() {
           transition={{ duration: 0.7, ease: smoothEase }}
           className="mb-14"
         >
-          <p
-            className="text-[11px] font-semibold tracking-[0.12em] uppercase mb-5"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-          >
-            Template
-          </p>
+          {/* Section tag */}
+          <div className="flex items-center gap-3 mb-5">
+            <div
+              className="h-px w-8"
+              style={{
+                background: "linear-gradient(to right, transparent, #38bdf8)",
+              }}
+            />
+            <p
+              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
+              style={{ color: "#38bdf8" }}
+            >
+              Template
+            </p>
+          </div>
           <div className="flex items-end justify-between gap-8 flex-wrap">
             <h2
-              className="text-[44px] font-normal leading-[1.1] tracking-[-0.03em] text-white"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
+              className="text-[44px] font-extrabold leading-[1.1] tracking-[-0.03em]"
+              style={{ color: "#f1f5f9" }}
             >
               Pilih template,{" "}
               <span
-                className="italic"
-                style={{ color: "rgba(255,255,255,0.4)" }}
+                style={{
+                  background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
               >
                 langsung jadi.
               </span>
             </h2>
             <p
               className="text-[14px] leading-relaxed max-w-65"
-              style={{ color: "rgba(255,255,255,0.3)" }}
+              style={{ color: "rgba(148,163,184,0.5)" }}
             >
               Dirancang agar rekruter berhenti scroll dan mulai baca profil
               kamu.
@@ -202,20 +224,20 @@ export default function TemplateShowcaseSection() {
             className="h-px w-24"
             style={{
               background:
-                "linear-gradient(to right, transparent, rgba(255,255,255,0.08))",
+                "linear-gradient(to right, transparent, rgba(56,189,248,0.15))",
             }}
           />
           <a
             href="#"
             className="inline-flex items-center gap-2 text-[13px] font-medium transition-all duration-200"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            style={{ color: "rgba(56,189,248,0.5)" }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLElement).style.color =
-                "rgba(255,255,255,0.7)")
+                "rgba(56,189,248,0.9)")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLElement).style.color =
-                "rgba(255,255,255,0.35)")
+                "rgba(56,189,248,0.5)")
             }
           >
             Lihat semua template
@@ -236,7 +258,7 @@ export default function TemplateShowcaseSection() {
             className="h-px w-24"
             style={{
               background:
-                "linear-gradient(to left, transparent, rgba(255,255,255,0.08))",
+                "linear-gradient(to left, transparent, rgba(56,189,248,0.15))",
             }}
           />
         </motion.div>
