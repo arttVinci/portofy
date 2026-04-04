@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "motion/react";
+import { IconPlus, IconArrowRight } from "@tabler/icons-react";
 
-const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const faqs = [
   {
@@ -41,124 +41,119 @@ const faqs = [
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
     <section
+      ref={sectionRef}
       id="faq"
       className="relative py-28 overflow-hidden"
-      style={{
-        backgroundColor: "#0c1222",
-        fontFamily: "'Inter', sans-serif",
-      }}
+      style={{ backgroundColor: "#080d1a", fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Grid bg */}
+      {/* Dot grid */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: "64px 64px",
+          backgroundImage: `radial-gradient(rgba(139,92,246,0.05) 1px, transparent 1px)`,
+          backgroundSize: "32px 32px",
+        }}
+      />
+      {/* Glow */}
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: 600,
+          height: 400,
+          background: "radial-gradient(ellipse, rgba(139,92,246,0.04) 0%, transparent 70%)",
         }}
       />
 
       <div className="relative max-w-3xl mx-auto px-6">
-        {/* ── Header (centered, Elysian style) ── */}
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: smoothEase }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: smooth }}
           className="text-center mb-14"
         >
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div
-              className="h-px w-8"
-              style={{
-                background: "linear-gradient(to right, transparent, #38bdf8)",
-              }}
-            />
-            <p
-              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
-              style={{ color: "#38bdf8" }}
-            >
-              FAQ
-            </p>
-            <div
-              className="h-px w-8"
-              style={{
-                background: "linear-gradient(to left, transparent, #38bdf8)",
-              }}
-            />
-          </div>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wide mb-6"
+            style={{
+              backgroundColor: "rgba(139,92,246,0.1)",
+              border: "1px solid rgba(139,92,246,0.2)",
+              color: "#a78bfa",
+            }}
+          >
+            ❓ FAQ
+          </motion.span>
           <h2
             className="text-[40px] font-extrabold leading-[1.1] tracking-[-0.03em]"
             style={{ color: "#f1f5f9" }}
           >
             Pertanyaan Umum
           </h2>
-          <p
-            className="mt-4 text-[14px]"
-            style={{ color: "rgba(148,163,184,0.5)" }}
-          >
+          <p className="mt-4 text-[14px]" style={{ color: "rgba(148,163,184,0.5)" }}>
             Jawaban untuk keraguan Anda
           </p>
         </motion.div>
 
-        {/* ── FAQ Cards (individual rounded cards like Elysian) ── */}
+        {/* ── FAQ Items ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: smoothEase, delay: 0.1 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: smooth, delay: 0.1 }}
           className="space-y-3"
         >
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
-              <div
+              <motion.div
                 key={i}
+                initial={{ opacity: 0, y: 12 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.15 + i * 0.04 }}
                 className="rounded-2xl overflow-hidden transition-all duration-300"
                 style={{
-                  backgroundColor: isOpen ? "#162035" : "#111a2e",
-                  border: isOpen
-                    ? "1px solid rgba(56,189,248,0.2)"
-                    : "1px solid rgba(56,189,248,0.08)",
-                  boxShadow: isOpen
-                    ? "0 0 30px rgba(56,189,248,0.05)"
-                    : "none",
+                  backgroundColor: isOpen ? "#0e1a30" : "#0a1020",
+                  border: isOpen ? "1px solid rgba(139,92,246,0.2)" : "1px solid rgba(255,255,255,0.04)",
+                  boxShadow: isOpen ? "0 0 32px rgba(139,92,246,0.06)" : "none",
                 }}
               >
+                {/* Top glow for open item */}
+                {isOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="h-px"
+                    style={{ background: "linear-gradient(to right, transparent, #8b5cf6, transparent)" }}
+                  />
+                )}
+
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer focus:outline-none"
                 >
                   <span
                     className="text-[14px] font-semibold leading-snug transition-colors duration-200"
-                    style={{
-                      color: isOpen
-                        ? "rgba(241,245,249,0.9)"
-                        : "rgba(148,163,184,0.7)",
-                    }}
+                    style={{ color: isOpen ? "rgba(241,245,249,0.9)" : "rgba(148,163,184,0.6)" }}
                   >
                     {faq.q}
                   </span>
                   <motion.span
                     animate={{ rotate: isOpen ? 45 : 0 }}
-                    transition={{ duration: 0.22, ease: smoothEase }}
+                    transition={{ duration: 0.25, ease: smooth }}
                     className="shrink-0 flex items-center justify-center size-7 rounded-full"
                     style={{
-                      backgroundColor: isOpen
-                        ? "rgba(56,189,248,0.15)"
-                        : "rgba(56,189,248,0.06)",
-                      border: "1px solid rgba(56,189,248,0.15)",
-                      color: isOpen
-                        ? "#38bdf8"
-                        : "rgba(148,163,184,0.4)",
+                      backgroundColor: isOpen ? "rgba(139,92,246,0.15)" : "rgba(255,255,255,0.04)",
+                      border: isOpen ? "1px solid rgba(139,92,246,0.25)" : "1px solid rgba(255,255,255,0.06)",
+                      color: isOpen ? "#a78bfa" : "rgba(148,163,184,0.3)",
                     }}
                   >
-                    <Plus size={14} strokeWidth={2} />
+                    <IconPlus size={14} strokeWidth={2} />
                   </motion.span>
                 </button>
 
@@ -168,7 +163,7 @@ export default function FaqSection() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: smoothEase }}
+                      transition={{ duration: 0.35, ease: smooth }}
                       style={{ overflow: "hidden" }}
                     >
                       <p
@@ -180,7 +175,7 @@ export default function FaqSection() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </motion.div>
@@ -188,42 +183,19 @@ export default function FaqSection() {
         {/* ── Contact link ── */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 text-center"
         >
-          <p
-            className="text-[13px] mb-2"
-            style={{ color: "rgba(148,163,184,0.4)" }}
-          >
+          <p className="text-[13px] mb-2" style={{ color: "rgba(148,163,184,0.4)" }}>
             Belum terjawab?
           </p>
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 text-[13px] font-medium transition-all duration-200"
-            style={{ color: "rgba(56,189,248,0.6)" }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = "#38bdf8")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color =
-                "rgba(56,189,248,0.6)")
-            }
+            className="inline-flex items-center gap-2 text-[13px] font-medium text-purple-400/70 hover:text-purple-400 transition-colors duration-200"
           >
             Hubungi kami langsung
-            <svg
-              className="size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
+            <IconArrowRight size={14} />
           </a>
         </motion.div>
       </div>

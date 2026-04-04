@@ -42,8 +42,7 @@ function TemplatePreviewCard() {
         backgroundColor: "rgba(17,26,46,0.92)",
         border: "1px solid rgba(56,189,248,0.15)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(56,189,248,0.08)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(56,189,248,0.08)",
       }}
     >
       <div
@@ -116,8 +115,7 @@ function StatsCard() {
         backgroundColor: "rgba(17,26,46,0.92)",
         border: "1px solid rgba(56,189,248,0.15)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(59,130,246,0.08)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(59,130,246,0.08)",
       }}
     >
       <div className="flex items-center justify-between mb-3">
@@ -196,8 +194,7 @@ function DomainCard() {
         backgroundColor: "rgba(17,26,46,0.92)",
         border: "1px solid rgba(56,189,248,0.12)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
       }}
     >
       <div className="flex items-center gap-2 mb-2.5">
@@ -256,8 +253,7 @@ function ThemeCard() {
         backgroundColor: "rgba(17,26,46,0.92)",
         border: "1px solid rgba(56,189,248,0.12)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
       }}
     >
       <div className="flex items-center gap-2 mb-3">
@@ -319,8 +315,7 @@ function PublishCard() {
         backgroundColor: "rgba(17,26,46,0.92)",
         border: "1px solid rgba(56,189,248,0.12)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(56,189,248,0.06)",
       }}
     >
       <div className="flex items-center gap-2 mb-2.5">
@@ -351,7 +346,10 @@ function PublishCard() {
         </span>
         <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
       </div>
-      <p className="text-[8px] mt-1.5" style={{ color: "rgba(148,163,184,0.4)" }}>
+      <p
+        className="text-[8px] mt-1.5"
+        style={{ color: "rgba(148,163,184,0.4)" }}
+      >
         Deploy dalam hitungan detik
       </p>
     </motion.div>
@@ -361,11 +359,11 @@ function PublishCard() {
 // Card positions for layout + connection lines
 // Positions are [left%, top%] of the container
 const CARD_POSITIONS = [
-  { id: 0, left: "2%", top: "5%" },      // TemplatePreview (top-left)
-  { id: 1, left: "52%", top: "0%" },      // Stats (top-right)
-  { id: 2, left: "58%", top: "42%" },     // Theme (mid-right)
-  { id: 3, left: "5%", top: "48%" },      // Domain (mid-left)
-  { id: 4, left: "28%", top: "78%" },     // Publish (bottom-center)
+  { id: 0, left: "2%", top: "5%" }, // TemplatePreview (top-left)
+  { id: 1, left: "52%", top: "0%" }, // Stats (top-right)
+  { id: 2, left: "58%", top: "42%" }, // Theme (mid-right)
+  { id: 3, left: "5%", top: "48%" }, // Domain (mid-left)
+  { id: 4, left: "28%", top: "78%" }, // Publish (bottom-center)
 ];
 
 // Connection lines between cards: [fromIdx, toIdx]
@@ -380,11 +378,11 @@ const CONNECTIONS: [number, number][] = [
 
 // Approximate center points of each card for SVG lines (px values for a ~500x480 container)
 const CARD_CENTERS = [
-  { x: 110, y: 80 },   // 0: TemplatePreview
-  { x: 365, y: 65 },   // 1: Stats
-  { x: 390, y: 280 },  // 2: Theme
-  { x: 120, y: 310 },  // 3: Domain
-  { x: 250, y: 430 },  // 4: Publish
+  { x: 110, y: 80 }, // 0: TemplatePreview
+  { x: 365, y: 65 }, // 1: Stats
+  { x: 390, y: 280 }, // 2: Theme
+  { x: 120, y: 310 }, // 3: Domain
+  { x: 250, y: 430 }, // 4: Publish
 ];
 
 // ── Main Hero Section ─────────────────────────────────────────────────────────
@@ -506,7 +504,10 @@ export default function HeroSection() {
             </motion.p>
 
             {/* CTA buttons */}
-            <motion.div {...fadeUp(0.4)} className="mt-8 flex items-center gap-3">
+            <motion.div
+              {...fadeUp(0.4)}
+              className="mt-8 flex items-center gap-3"
+            >
               <a
                 href="/auth/register"
                 className="px-7 py-3.5 rounded-full text-[15px] font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
@@ -568,7 +569,13 @@ export default function HeroSection() {
               style={{ overflow: "visible" }}
             >
               <defs>
-                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient
+                  id="lineGrad"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
                   <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
                   <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.4" />
                 </linearGradient>
@@ -611,7 +618,10 @@ export default function HeroSection() {
             {/* Card 0: TemplatePreview (top-left) */}
             <div
               className="absolute"
-              style={{ left: CARD_POSITIONS[0].left, top: CARD_POSITIONS[0].top }}
+              style={{
+                left: CARD_POSITIONS[0].left,
+                top: CARD_POSITIONS[0].top,
+              }}
             >
               <TemplatePreviewCard />
             </div>
@@ -619,7 +629,10 @@ export default function HeroSection() {
             {/* Card 1: Stats (top-right) */}
             <div
               className="absolute"
-              style={{ left: CARD_POSITIONS[1].left, top: CARD_POSITIONS[1].top }}
+              style={{
+                left: CARD_POSITIONS[1].left,
+                top: CARD_POSITIONS[1].top,
+              }}
             >
               <StatsCard />
             </div>
@@ -627,7 +640,10 @@ export default function HeroSection() {
             {/* Card 2: Theme (mid-right) */}
             <div
               className="absolute"
-              style={{ left: CARD_POSITIONS[2].left, top: CARD_POSITIONS[2].top }}
+              style={{
+                left: CARD_POSITIONS[2].left,
+                top: CARD_POSITIONS[2].top,
+              }}
             >
               <ThemeCard />
             </div>
@@ -635,7 +651,10 @@ export default function HeroSection() {
             {/* Card 3: Domain (mid-left) */}
             <div
               className="absolute"
-              style={{ left: CARD_POSITIONS[3].left, top: CARD_POSITIONS[3].top }}
+              style={{
+                left: CARD_POSITIONS[3].left,
+                top: CARD_POSITIONS[3].top,
+              }}
             >
               <DomainCard />
             </div>
@@ -643,7 +662,10 @@ export default function HeroSection() {
             {/* Card 4: Publish (bottom-center) */}
             <div
               className="absolute"
-              style={{ left: CARD_POSITIONS[4].left, top: CARD_POSITIONS[4].top }}
+              style={{
+                left: CARD_POSITIONS[4].left,
+                top: CARD_POSITIONS[4].top,
+              }}
             >
               <PublishCard />
             </div>
@@ -660,31 +682,6 @@ export default function HeroSection() {
             />
           </motion.div>
         </div>
-      </div>
-
-      {/* ── BOTTOM TICKER ── */}
-      <div
-        className="relative z-10 overflow-hidden py-4"
-        style={{
-          borderTop: "1px solid rgba(56,189,248,0.08)",
-          borderBottom: "1px solid rgba(56,189,248,0.08)",
-        }}
-      >
-        <motion.div
-          className="flex items-center gap-8 whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        >
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span
-              key={i}
-              className="text-[14px] font-medium tracking-wide"
-              style={{ color: "rgba(148,163,184,0.25)" }}
-            >
-              {item}
-            </span>
-          ))}
-        </motion.div>
       </div>
 
       {/* ── ICON BLOCKS (below hero) ── */}

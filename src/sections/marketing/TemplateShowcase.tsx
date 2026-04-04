@@ -1,13 +1,21 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import type { TemplateItem } from "../../types/ui.types";
-import TemplateCard from "../../components/marketing/TemplateCard";
-import PreviewModalTemplate from "../../components/marketing/PreviewModalTemplate";
-import CategoryFilters from "../../components/marketing/CategoryFilters";
+import { useState, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useInView } from "motion/react";
+import { IconEye, IconArrowRight } from "@tabler/icons-react";
 
-const smoothEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-const templates = [
+interface Template {
+  id: string;
+  name: string;
+  category: string;
+  tags: string[];
+  description: string;
+  badge?: string;
+  views: string;
+  lines: { w: string; h: number }[];
+}
+
+const templates: Template[] = [
   {
     id: "1",
     name: "Minimal",
@@ -93,12 +101,189 @@ const templates = [
 
 const categories = ["Semua", "Minimal", "Creative", "Professional"];
 
+// ── 3D Tilt Card ─────────────────────────────────────────────────────
+function TemplateCard3D({ template, index }: { template: Template; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePos({ x, y });
+  }, []);
+
+  const rotateX = isHovered ? (mousePos.y - 0.5) * -12 : 0;
+  const rotateY = isHovered ? (mousePos.x - 0.5) * 12 : 0;
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
+      transition={{ duration: 0.5, ease: smooth, delay: index * 0.06 }}
+      style={{ perspective: "1000px" }}
+    >
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        animate={{
+          rotateX,
+          rotateY,
+          scale: isHovered ? 1.02 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="relative rounded-2xl overflow-hidden cursor-pointer group"
+        style={{
+          backgroundColor: "#0e1526",
+          border: `1px solid ${isHovered ? "rgba(59,130,246,0.25)" : "rgba(255,255,255,0.05)"}`,
+          boxShadow: isHovered
+            ? "0 24px 48px rgba(0,0,0,0.5), 0 0 48px rgba(59,130,246,0.08)"
+            : "0 4px 16px rgba(0,0,0,0.25)",
+          transformStyle: "preserve-3d",
+          transition: "border-color 0.3s, box-shadow 0.3s",
+        }}
+      >
+        {/* Spotlight effect */}
+        {isHovered && (
+          <div
+            className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(400px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(59,130,246,0.08), transparent 60%)`,
+            }}
+          />
+        )}
+
+        {/* Top glow line */}
+        <motion.div
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          className="absolute top-0 left-0 right-0 h-px z-20"
+          style={{
+            background: "linear-gradient(to right, transparent, #3b82f6, transparent)",
+          }}
+        />
+
+        {/* Preview mock */}
+        <div className="p-4 pb-0">
+          <div
+            className="rounded-xl p-4 relative overflow-hidden"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.04)",
+              minHeight: 100,
+            }}
+          >
+            {/* Mock layout skeleton */}
+            <div className="flex items-center gap-2 mb-3">
+              <div
+                className="size-6 rounded-full"
+                style={{ backgroundColor: isHovered ? "rgba(59,130,246,0.2)" : "rgba(255,255,255,0.06)" }}
+              />
+              <div>
+                <div
+                  className="h-1.5 w-16 rounded-full"
+                  style={{ backgroundColor: isHovered ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.08)" }}
+                />
+                <div
+                  className="h-1 w-10 rounded-full mt-1"
+                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              {template.lines.map((line, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ width: isHovered ? line.w : `calc(${line.w} - 10%)` }}
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                  className="rounded-full"
+                  style={{
+                    height: line.h,
+                    backgroundColor: isHovered ? "rgba(59,130,246,0.15)" : "rgba(255,255,255,0.04)",
+                    transition: "background-color 0.3s",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Info */}
+        <div className="p-4 relative z-10">
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2">
+              <h3 className="text-[14px] font-semibold text-white/80">{template.name}</h3>
+              {template.badge && (
+                <span
+                  className="px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15))",
+                    color: "#818cf8",
+                    border: "1px solid rgba(129,140,248,0.2)",
+                  }}
+                >
+                  {template.badge}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1 text-[11px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+              <IconEye size={12} />
+              {template.views}
+            </div>
+          </div>
+
+          <p className="text-[12px] leading-relaxed mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>
+            {template.description}
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1 mb-4">
+            {template.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 rounded-full text-[10px]"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.03)",
+                  color: "rgba(255,255,255,0.2)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full py-2.5 rounded-xl text-[12px] font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+            style={{
+              backgroundColor: isHovered ? "rgba(59,130,246,0.15)" : "rgba(255,255,255,0.05)",
+              color: isHovered ? "#60a5fa" : "rgba(255,255,255,0.4)",
+              border: `1px solid ${isHovered ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.06)"}`,
+            }}
+          >
+            Pakai Template
+            <motion.span animate={{ x: isHovered ? 3 : 0 }}>
+              <IconArrowRight size={13} />
+            </motion.span>
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function TemplateShowcaseSection() {
   const [activeCategory, setActiveCategory] = useState("Semua");
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [previewTemplate, setPreviewTemplate] = useState<TemplateItem | null>(
-    null,
-  );
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   const filtered =
     activeCategory === "Semua"
@@ -107,32 +292,30 @@ export default function TemplateShowcaseSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="template-showcase"
       className="relative py-28 overflow-hidden"
       style={{
-        backgroundColor: "#0c1222",
+        backgroundColor: "#080d1a",
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Grid bg */}
+      {/* Dot grid background */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: "64px 64px",
+          backgroundImage: `radial-gradient(rgba(59,130,246,0.06) 1px, transparent 1px)`,
+          backgroundSize: "32px 32px",
         }}
       />
+
       {/* Center glow */}
       <div
         className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: 600,
-          height: 400,
-          background:
-            "radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)",
+          width: 700,
+          height: 500,
+          background: "radial-gradient(ellipse, rgba(59,130,246,0.05) 0%, transparent 70%)",
         }}
       />
 
@@ -140,26 +323,25 @@ export default function TemplateShowcaseSection() {
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: smoothEase }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: smooth }}
           className="mb-14"
         >
-          {/* Section tag */}
-          <div className="flex items-center gap-3 mb-5">
-            <div
-              className="h-px w-8"
-              style={{
-                background: "linear-gradient(to right, transparent, #38bdf8)",
-              }}
-            />
-            <p
-              className="text-[11px] font-semibold tracking-[0.15em] uppercase"
-              style={{ color: "#38bdf8" }}
-            >
-              Template
-            </p>
-          </div>
+          {/* Badge */}
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wide mb-6"
+            style={{
+              backgroundColor: "rgba(139,92,246,0.1)",
+              border: "1px solid rgba(139,92,246,0.2)",
+              color: "#a78bfa",
+            }}
+          >
+            🎨 Template
+          </motion.span>
+
           <div className="flex items-end justify-between gap-8 flex-wrap">
             <h2
               className="text-[44px] font-extrabold leading-[1.1] tracking-[-0.03em]"
@@ -168,7 +350,7 @@ export default function TemplateShowcaseSection() {
               Pilih template,{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+                  background: "linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -177,37 +359,56 @@ export default function TemplateShowcaseSection() {
               </span>
             </h2>
             <p
-              className="text-[14px] leading-relaxed max-w-65"
+              className="text-[14px] leading-relaxed max-w-xs"
               style={{ color: "rgba(148,163,184,0.5)" }}
             >
-              Dirancang agar rekruter berhenti scroll dan mulai baca profil
-              kamu.
+              Dirancang agar rekruter berhenti scroll dan mulai baca profil kamu.
             </p>
           </div>
         </motion.div>
 
-        {/* ── Filter ── */}
-        <CategoryFilters
-          categories={categories}
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
+        {/* ── Filter pills ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="flex items-center gap-2 mb-10"
+        >
+          {categories.map((cat) => {
+            const isActive = cat === activeCategory;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className="relative px-4 py-2 text-[12px] font-semibold rounded-full transition-all duration-200 cursor-pointer"
+                style={{
+                  color: isActive ? "#ffffff" : "rgba(148,163,184,0.5)",
+                  backgroundColor: isActive ? "rgba(59,130,246,0.15)" : "transparent",
+                  border: `1px solid ${isActive ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.06)"}`,
+                }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="filter-active"
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.1))",
+                      border: "1px solid rgba(59,130,246,0.25)",
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{cat}</span>
+              </button>
+            );
+          })}
+        </motion.div>
 
         {/* ── Grid ── */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10"
-        >
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
             {filtered.map((template, i) => (
-              <TemplateCard
-                key={template.id}
-                template={template}
-                i={i}
-                hoveredId={hoveredId}
-                setHoveredId={setHoveredId}
-                setPreviewTemplate={setPreviewTemplate}
-              />
+              <TemplateCard3D key={template.id} template={template} index={i} />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -215,62 +416,31 @@ export default function TemplateShowcaseSection() {
         {/* ── Bottom CTA ── */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-12 flex items-center justify-center gap-4"
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-14 flex items-center justify-center gap-4"
         >
           <div
-            className="h-px w-24"
+            className="h-px w-20"
             style={{
-              background:
-                "linear-gradient(to right, transparent, rgba(56,189,248,0.15))",
+              background: "linear-gradient(to right, transparent, rgba(59,130,246,0.2))",
             }}
           />
           <a
-            href="#"
-            className="inline-flex items-center gap-2 text-[13px] font-medium transition-all duration-200"
-            style={{ color: "rgba(56,189,248,0.5)" }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color =
-                "rgba(56,189,248,0.9)")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color =
-                "rgba(56,189,248,0.5)")
-            }
+            href="/template"
+            className="inline-flex items-center gap-2 text-[13px] font-medium text-blue-400/60 hover:text-blue-400 transition-colors duration-200"
           >
             Lihat semua template
-            <svg
-              className="size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
+            <IconArrowRight size={14} />
           </a>
           <div
-            className="h-px w-24"
+            className="h-px w-20"
             style={{
-              background:
-                "linear-gradient(to left, transparent, rgba(56,189,248,0.15))",
+              background: "linear-gradient(to left, transparent, rgba(59,130,246,0.2))",
             }}
           />
         </motion.div>
       </div>
-      <AnimatePresence>
-        {previewTemplate && (
-          <PreviewModalTemplate
-            template={previewTemplate}
-            onClose={() => setPreviewTemplate(null)}
-          />
-        )}
-      </AnimatePresence>
     </section>
   );
 }
