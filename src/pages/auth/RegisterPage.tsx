@@ -4,7 +4,6 @@ import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { ApiError } from "@/api/apiError";
 
 import SuccessScreen from "@/components/auth/SuccessScreen";
-import TemplateCard from "@/components/marketing/TemplateCard";
 
 import type {
   TemplateResponse,
@@ -596,7 +595,7 @@ export default function RegisterPage() {
                               Pilih tampilan awal — bisa diganti kapan saja dari
                               dashboard.
                             </p>
-                            <div className="grid grid-cols-3 gap-3">
+                            {/* <div className="grid grid-cols-3 gap-3">
                               {templates.map((template, i) => (
                                 <TemplateCard
                                   key={template.id}
@@ -608,7 +607,7 @@ export default function RegisterPage() {
                                   setHoveredId={setHoveredId}
                                 />
                               ))}
-                            </div>
+                            </div> */}
                           </div>
                         )}
                       </motion.div>

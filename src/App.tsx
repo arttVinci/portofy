@@ -7,15 +7,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
 // 2. Pages Marketing (Jualan)
-import MarketingHomePage from "./pages/home/HomePage";
-import FeaturedPage from "./pages/home/FeaturedPage";
-import TemplatePage from "./pages/home/TemplatePage";
-import PricingPage from "./pages/home/PricingPage";
-import BlogPage from "./pages/home/BlogPage";
-import AboutUsPage from "./pages/home/AboutUsPage";
-import FaqPage from "./pages/home/FaqPage";
-import ChangelogPage from "./pages/home/ChangelogPage";
-import ContactPage from "./pages/home/ContactPage";
+import HeroSection from "./sections/marketing/HeroSection";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";
@@ -38,15 +30,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomeLayout />}>
-        <Route index element={<MarketingHomePage />} />
-        <Route path="fitur" element={<FeaturedPage />} />
-        <Route path="template" element={<TemplatePage />} />
-        <Route path="pricing" element={<PricingPage />} />
-        <Route path="blog" element={<BlogPage />} />
-        <Route path="about" element={<AboutUsPage />} />
-        <Route path="faq" element={<FaqPage />} />
-        <Route path="changelog" element={<ChangelogPage />} />
-        <Route path="contact" element={<ContactPage />} />
+        <Route index element={<HeroSection />} />
       </Route>
 
       <Route path="/app" element={<DashboardLayout />}>

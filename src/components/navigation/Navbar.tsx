@@ -1,96 +1,123 @@
+"use client";
 import { useState } from "react";
 import {
   Navbar,
   NavBody,
   NavItems,
   MobileNav,
-  MobileNavHeader,
-  MobileNavMenu,
-  MobileNavToggle,
   NavbarButton,
-} from "../ui/resizable-navbar";
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+} from "@/components/ui/resizable-navbar";
+import {
+  IconSearch,
+  IconLanguage,
+  IconMoonFilled,
+  IconArrowRight,
+  IconTerminal2,
+} from "@tabler/icons-react";
 
-const navItems = [
-  { name: "Fitur", link: "/fitur" },
-  { name: "Template", link: "/template" },
-  { name: "Langganan", link: "/pricing" },
-  { name: "Blog", link: "/blog" },
-  { name: "Tentang", link: "/about" },
-];
+export function NavbarDemo() {
+  const navItems = [
+    { name: "Produk", link: "#" },
+    { name: "Solusi", link: "#" },
+    { name: "FAQ", link: "#" },
+  ];
 
-function NavbarLogo() {
-  return (
-    <a href="/" className="flex items-center gap-2.5 flex-none">
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Logo match for Elysian / Portofy
+  const BrandLogo = () => (
+    <a
+      href="/"
+      className="relative z-20 flex items-center gap-2.5 mr-4 px-2 py-1"
+    >
       <img
         src="/images/portofLogo.png"
-        alt="portof logo"
-        className="w-9 h-9"
+        alt="Portofy logo"
+        className="w-[32px] h-[32px] object-contain rounded-full shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+        onError={(e) => {
+          // Fallback if image not found
+          e.currentTarget.style.display = "none";
+          e.currentTarget.nextElementSibling?.classList.remove("hidden");
+        }}
       />
-      <span
-        className="text-[20px] font-semibold"
-        style={{ letterSpacing: "-0.025em" }}
-      >
-        <span className="text-white/90">por</span>
-        <span className="text-white/30">tof</span>
+      <div className="hidden flex items-center justify-center size-8 rounded-full bg-slate-800 border border-slate-700 shadow-inner">
+        <span className="text-[16px]">🦅</span>
+      </div>
+      <span className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
+        Portofy
       </span>
     </a>
   );
-}
-
-export default function NavbarWrapper() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="relative w-full">
-      <Navbar>
-        {/* Desktop Navigation */}
-        <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-2">
-            <NavbarButton variant="secondary" href="/auth/login">
-              Masuk
+    <Navbar>
+      {/* Desktop Navigation */}
+      <NavBody>
+        <BrandLogo />
+
+        <NavItems items={navItems} />
+
+        <div className="flex items-center gap-4">
+          <div className="h-4 w-[1px] bg-slate-600/50 mx-1"></div>
+
+          <NavbarButton
+            variant="secondary"
+            className="px-4 py-1.5 text-[13px] border-none hover:bg-slate-800/50"
+          >
+            Login
+          </NavbarButton>
+          <NavbarButton variant="primary" className="gap-1.5 px-5 py-2">
+            Mulai Gratis
+            <IconArrowRight size={16} stroke={2} />
+          </NavbarButton>
+        </div>
+      </NavBody>
+
+      {/* Mobile Navigation */}
+      <MobileNav>
+        <MobileNavHeader>
+          <BrandLogo />
+          <MobileNavToggle
+            isOpen={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          />
+        </MobileNavHeader>
+
+        <MobileNavMenu
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+        >
+          {navItems.map((item, idx) => (
+            <a
+              key={`mobile-link-${idx}`}
+              href={item.link}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="relative text-slate-300 hover:text-white transition-colors duration-200 text-[15px] font-medium px-2 py-1"
+            >
+              <span className="block">{item.name}</span>
+            </a>
+          ))}
+          <div className="flex w-full flex-col gap-3 mt-4 pt-4 border-t border-slate-800">
+            <NavbarButton
+              onClick={() => setIsMobileMenuOpen(false)}
+              variant="secondary"
+              className="w-full"
+            >
+              Login
             </NavbarButton>
-            <NavbarButton variant="gradient" href="/auth/register">
-              Mulai Gratis →
+            <NavbarButton
+              onClick={() => setIsMobileMenuOpen(false)}
+              variant="primary"
+              className="w-full gap-2 justify-center"
+            >
+              Mulai Gratis <IconArrowRight size={16} stroke={2} />
             </NavbarButton>
           </div>
-        </NavBody>
-
-        {/* Mobile Navigation */}
-        <MobileNav>
-          <MobileNavHeader>
-            <NavbarLogo />
-            <MobileNavToggle
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            />
-          </MobileNavHeader>
-          <MobileNavMenu
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          >
-            {navItems.map((item, idx) => (
-              <a
-                key={idx}
-                href={item.link}
-                className="text-[14px] font-medium text-neutral-400 hover:text-white transition-colors px-2 py-1"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
-            <div className="flex flex-col gap-2 pt-2 border-t border-white/[0.06]">
-              <NavbarButton variant="secondary" href="/auth/login" className="w-full">
-                Masuk
-              </NavbarButton>
-              <NavbarButton variant="gradient" href="/auth/register" className="w-full">
-                Mulai Gratis →
-              </NavbarButton>
-            </div>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
-    </div>
+        </MobileNavMenu>
+      </MobileNav>
+    </Navbar>
   );
 }
