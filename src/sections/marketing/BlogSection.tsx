@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { IconClock, IconUser } from "@tabler/icons-react";
+import { IconClock, IconUser, IconArrowRight } from "@tabler/icons-react";
 
 const BLOG_POSTS = [
   {
@@ -63,6 +63,26 @@ const BLOG_POSTS = [
     borderColor: "border-cyan-500/20",
     tag: "Career",
   },
+  {
+    title: "Minimalisme: Biarkan Karyamu Berbicara",
+    excerpt:
+      "Terlalu banyak hiasan bisa menutupi esensi karya aslimu. Kenapa klien lebih suka desain minimalis?",
+    author: "Rudi Haryanto",
+    readTime: "4 min",
+    gradient: "from-blue-500/20 to-emerald-500/20",
+    borderColor: "border-blue-500/20",
+    tag: "Design",
+  },
+  {
+    title: "Panduan Harga: Negosiasi Freelance Pemula",
+    excerpt:
+      "Jangan ragu pasang tarif wajar. Pelajari cara menyampaikan 'value' sesungguhnya kepada klien pertamamu.",
+    author: "Nina Safitri",
+    readTime: "7 min",
+    gradient: "from-fuchsia-500/20 to-purple-500/20",
+    borderColor: "border-fuchsia-500/20",
+    tag: "Freelance",
+  },
 ];
 
 export default function BlogSection() {
@@ -72,18 +92,19 @@ export default function BlogSection() {
     <section className="relative bg-[#070e1b] py-24 overflow-hidden">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 container mx-auto px-9 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="mb-14 md:mb-20 px-4 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-6"
+            className="flex items-center gap-3 mb-6"
           >
-            <span className="text-violet-300 text-xs font-semibold tracking-widest uppercase">
-              Blog & Community
+            <div className="h-[2px] w-8 bg-violet-500"></div>
+            <span className="text-violet-400 text-xs font-bold tracking-[0.2em] uppercase">
+              Blog & Komunitas
             </span>
           </motion.div>
 
@@ -92,13 +113,14 @@ export default function BlogSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)" }}
+            className="text-3xl md:text-4xl lg:text-[44px] font-bold text-white mb-6 leading-[1.2] tracking-tight"
+            style={{
+              fontFamily:
+                "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
+            }}
           >
-            Belajar dari{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-300">
-              Komunitas
-            </span>
+            Belajar Dari <br className="hidden md:block" />
+            <span className="text-slate-500">Sesama Kreator Indonesia.</span>
           </motion.h2>
 
           <motion.p
@@ -106,14 +128,16 @@ export default function BlogSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 max-w-xl mx-auto"
+            className="text-slate-400 text-sm md:text-base leading-relaxed max-w-lg"
           >
-            Tips, pengalaman, dan langkah terbaik dari sesama kreator Indonesia.
+            Temukan berbagai insight, panduan praktis, dan wawasan karir
+            langsung dari sesama profesional untuk membantu perjalanan digitalmu
+            selanjutnya.
           </motion.p>
         </div>
 
         {/* Cards Grid — Focus Card style */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {BLOG_POSTS.map((post, i) => (
             <motion.article
               key={i}
@@ -161,6 +185,20 @@ export default function BlogSection() {
             </motion.article>
           ))}
         </div>
+
+        {/* View More Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-12 flex justify-center"
+        >
+          <button className="group inline-flex items-center gap-2 px-8 py-3 rounded-full border border-violet-500/30 text-sm font-semibold text-violet-300 hover:text-white hover:border-violet-500/60 bg-violet-500/10 hover:bg-violet-500/20 transition-all">
+            Lihat Lebih Banyak
+            <IconArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

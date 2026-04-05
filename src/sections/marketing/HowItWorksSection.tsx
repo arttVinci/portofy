@@ -171,7 +171,7 @@ export default function HowItWorksSection() {
       id="how-it-works"
       className="relative bg-[#070e1b] py-28 overflow-hidden"
     >
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[700px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-6">
         {/* Header */}
@@ -212,7 +212,8 @@ export default function HowItWorksSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 max-w-xl mx-auto"
           >
-            Hanya butuh beberapa menit dan 4 tahapan simpel untuk menghasilkan dan memplubikasikan profil digital profesional kamu.
+            Hanya butuh beberapa menit dan 4 tahapan simpel untuk menghasilkan
+            dan memplubikasikan profil digital profesional kamu.
           </motion.p>
         </div>
 

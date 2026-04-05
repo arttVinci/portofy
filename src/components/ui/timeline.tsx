@@ -17,7 +17,7 @@ export function Timeline({ data }: { data: TimelineEntry[] }) {
   const heightProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-4xl mx-auto">
+    <div ref={containerRef} className="relative w-full max-w-7xl mx-auto">
       {/* Beam line */}
       <div className="absolute left-4 md:left-8 top-0 bottom-0 w-[2px] bg-white/[0.06]">
         <motion.div
