@@ -1520,13 +1520,16 @@ export default function HeroSection() {
               <span>Mulai Gratis</span>
               <IconArrowRight size={18} stroke={2} />
             </HoverBorderGradient>
-            <a
-              href="#how-it-works"
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold text-sm hover:bg-slate-800/50 transition-all duration-300"
               style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}
             >
               <IconPlayerPlay size={18} stroke={1.5} /> Cara Kerja
-            </a>
+            </button>
           </motion.div>
 
           <motion.p

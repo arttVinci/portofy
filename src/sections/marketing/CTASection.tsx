@@ -16,11 +16,13 @@ export default function CTASection() {
             ease: "easeInOut",
           }}
           className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
-          style={{ fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)" }}
+          style={{
+            fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
+          }}
         >
           Buat Karya Terbaikmu <br /> Sekarang Juga
         </motion.h1>
-        
+
         <motion.p
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -31,25 +33,26 @@ export default function CTASection() {
           }}
           className="mt-4 text-center text-slate-400 max-w-lg mx-auto text-base md:text-lg"
         >
-          Portofolio profesional membedakanmu dengan yang lain. Tingkatkan peluang karirmu dengan Portofy.
+          Portofolio profesional membedakanmu dengan yang lain. Tingkatkan
+          peluang karirmu dengan Portofy.
         </motion.p>
 
         <motion.div
-           initial={{ opacity: 0, y: 50 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           transition={{
-             delay: 0.5,
-             duration: 0.8,
-             ease: "easeInOut",
-           }}
-           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.5,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <HoverBorderGradient
             containerClassName="rounded-full"
             as="button"
-            className="bg-black text-white flex items-center space-x-2 px-8 py-3.5"
+            className="bg-black text-white flex items-center space-x-2"
           >
-            <span className="font-semibold">Mulai Gratis Sekarang</span>
+            <span>Mulai Gratis Sekarang</span>
             <IconArrowRight size={18} stroke={2} />
           </HoverBorderGradient>
         </motion.div>

@@ -113,7 +113,7 @@ export default function BlogSection() {
         </div>
 
         {/* Cards Grid — Focus Card style */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {BLOG_POSTS.map((post, i) => (
             <motion.article
               key={i}
@@ -123,7 +123,7 @@ export default function BlogSection() {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               onMouseEnter={() => setFocusedIdx(i)}
               onMouseLeave={() => setFocusedIdx(null)}
-              className={`group relative rounded-2xl border ${post.borderColor} bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-500 cursor-pointer ${
+              className={`group relative rounded-2xl border ${post.borderColor} bg-white/[0.02] p-4 backdrop-blur-sm transition-all duration-500 cursor-pointer ${
                 focusedIdx !== null && focusedIdx !== i
                   ? "opacity-50 scale-[0.97] blur-[1px]"
                   : "opacity-100 scale-100"
@@ -131,30 +131,30 @@ export default function BlogSection() {
             >
               {/* Gradient banner */}
               <div
-                className={`h-32 rounded-xl bg-gradient-to-br ${post.gradient} mb-5 flex items-center justify-center relative overflow-hidden`}
+                className={`h-24 rounded-xl bg-gradient-to-br ${post.gradient} mb-4 flex items-center justify-center relative overflow-hidden`}
               >
                 <div className="absolute inset-0 bg-[size:24px_24px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)]" />
-                <span className="relative z-10 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm border border-white/10">
+                <span className="relative z-10 rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm border border-white/10">
                   {post.tag}
                 </span>
               </div>
 
               {/* Content */}
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
+              <h3 className="text-sm font-bold text-white mb-2 group-hover:text-blue-300 transition-colors line-clamp-2 min-h-[40px]">
                 {post.title}
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-4">
+              <p className="text-xs text-slate-400 leading-relaxed mb-4 line-clamp-3">
                 {post.excerpt}
               </p>
 
               {/* Meta */}
-              <div className="flex items-center justify-between text-xs text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  <IconUser className="h-3.5 w-3.5" />
-                  <span>{post.author}</span>
+              <div className="flex items-center justify-between text-[10px] text-slate-500">
+                <div className="flex items-center gap-1.5 truncate">
+                  <IconUser className="h-3 w-3 shrink-0" />
+                  <span className="truncate">{post.author}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <IconClock className="h-3.5 w-3.5" />
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <IconClock className="h-3 w-3" />
                   <span>{post.readTime}</span>
                 </div>
               </div>
