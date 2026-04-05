@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -7,218 +5,440 @@ import { IconArrowRight, IconPlayerPlay } from "@tabler/icons-react";
 
 // ─── Mini Visual Components (SVG per card) ────────────────────────────────────
 
-/** Card 1: Dashboard Builder — sidebar + content blocks */
+/** Card 1: Dashboard Builder — styled card with sidebar + content blocks */
 function VisualDashboard({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 160 72" className="w-full" style={{ display: "block" }}>
-      {/* Browser chrome */}
-      <rect
-        x="0"
-        y="0"
-        width="160"
-        height="72"
-        rx="6"
-        fill="rgba(15,23,42,0.6)"
-      />
-      {/* Top bar */}
-      <rect
-        x="0"
-        y="0"
-        width="160"
-        height="12"
-        rx="6"
-        fill="rgba(30,41,59,0.8)"
-      />
-      <rect x="0" y="6" width="160" height="6" fill="rgba(30,41,59,0.8)" />
-      <circle cx="8" cy="6" r="2.2" fill="#f87171" opacity="0.7" />
-      <circle cx="15" cy="6" r="2.2" fill="#fbbf24" opacity="0.7" />
-      <circle cx="22" cy="6" r="2.2" fill="#34d399" opacity="0.7" />
-      {/* Sidebar */}
-      <rect x="0" y="12" width="36" height="60" fill="rgba(30,41,59,0.7)" />
-      {/* Sidebar items */}
-      {[20, 30, 40, 50].map((y, i) => (
-        <g key={i}>
-          <rect
-            x="5"
-            y={y}
-            width="6"
-            height="5"
-            rx="1.5"
-            fill={i === 0 ? color : "rgba(148,163,184,0.25)"}
-          />
-          <rect
-            x="14"
-            y={y + 0.5}
-            width="16"
-            height="3.5"
-            rx="1"
-            fill={i === 0 ? `${color}60` : "rgba(148,163,184,0.15)"}
-          />
-        </g>
-      ))}
-      {/* Main content area */}
-      {/* Stat cards row */}
-      {[40, 72, 104].map((x, i) => (
+    <svg viewBox="0 0 320 190" className="w-full" style={{ display: "block" }}>
+      {/* Header Section: Icon + Title */}
+      <g>
+        {/* Icon Background */}
+        <rect x="20" y="20" width="46" height="46" rx="14" fill={color} />
+        {/* Grid/Dashboard Icon */}
         <rect
-          key={i}
-          x={x}
-          y="16"
-          width="26"
-          height="16"
-          rx="3"
-          fill={i === 1 ? `${color}25` : "rgba(51,65,85,0.6)"}
-          stroke={i === 1 ? `${color}50` : "transparent"}
-          strokeWidth="0.5"
+          x="31"
+          y="31"
+          width="10"
+          height="10"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.9"
         />
-      ))}
-      {/* Content blocks */}
-      <rect
-        x="40"
-        y="37"
-        width="55"
-        height="20"
-        rx="3"
-        fill="rgba(51,65,85,0.5)"
-      />
-      <rect x="40" y="39" width="30" height="2.5" rx="1" fill={`${color}50`} />
-      <rect
-        x="40"
-        y="44"
-        width="50"
-        height="2"
-        rx="1"
-        fill="rgba(148,163,184,0.2)"
-      />
-      <rect
-        x="40"
-        y="48"
-        width="40"
-        height="2"
-        rx="1"
-        fill="rgba(148,163,184,0.15)"
-      />
-      <rect
-        x="40"
-        y="52"
-        width="45"
-        height="2"
-        rx="1"
-        fill="rgba(148,163,184,0.15)"
-      />
-      {/* Right panel */}
-      <rect
-        x="100"
-        y="37"
-        width="56"
-        height="20"
-        rx="3"
-        fill="rgba(51,65,85,0.5)"
-      />
-      <rect x="104" y="41" width="8" height="12" rx="1.5" fill={`${color}60`} />
-      <rect x="115" y="44" width="8" height="9" rx="1.5" fill={`${color}40`} />
-      <rect x="126" y="46" width="8" height="7" rx="1.5" fill={`${color}30`} />
-      <rect x="137" y="43" width="8" height="10" rx="1.5" fill={`${color}50`} />
+        <rect
+          x="44"
+          y="31"
+          width="10"
+          height="10"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.7"
+        />
+        <rect
+          x="31"
+          y="44"
+          width="10"
+          height="10"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.7"
+        />
+        <rect
+          x="44"
+          y="44"
+          width="10"
+          height="10"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.5"
+        />
+
+        {/* Title */}
+        <text
+          x="80"
+          y="38"
+          fontSize="18"
+          fill="#FFFFFF"
+          fontFamily="sans-serif"
+          fontWeight="bold"
+        >
+          Dashboard Builder
+        </text>
+        {/* Subtitle */}
+        <text
+          x="80"
+          y="58"
+          fontSize="12"
+          fill="#94A3B8"
+          fontFamily="sans-serif"
+        >
+          Atur semua konten portofoliomu
+        </text>
+      </g>
+
+      {/* Browser Window Visual */}
+      <g>
+        <rect
+          x="20"
+          y="80"
+          width="280"
+          height="95"
+          rx="8"
+          fill="#0B1628"
+          stroke={`${color}30`}
+          strokeWidth="0.8"
+        />
+        {/* Top bar */}
+        <rect x="20" y="80" width="280" height="18" rx="8" fill="#131F37" />
+        <rect x="20" y="90" width="280" height="8" fill="#131F37" />
+        <circle cx="34" cy="89" r="3" fill="#f87171" opacity="0.7" />
+        <circle cx="44" cy="89" r="3" fill="#fbbf24" opacity="0.7" />
+        <circle cx="54" cy="89" r="3" fill="#34d399" opacity="0.7" />
+        {/* URL Bar */}
+        <rect
+          x="66"
+          y="85"
+          width="120"
+          height="8"
+          rx="4"
+          fill="rgba(30,41,59,0.8)"
+        />
+        <text
+          x="80"
+          y="91.5"
+          fontSize="5"
+          fill="#64748B"
+          fontFamily="sans-serif"
+        >
+          portof.id/dashboard
+        </text>
+
+        {/* Sidebar */}
+        <rect x="20" y="98" width="56" height="77" fill="rgba(19,31,55,0.9)" />
+        {/* Sidebar navigation items */}
+        {[106, 118, 130, 142, 154].map((y, i) => (
+          <g key={i}>
+            <rect
+              x="28"
+              y={y}
+              width="8"
+              height="7"
+              rx="2"
+              fill={i === 0 ? color : "rgba(148,163,184,0.2)"}
+            />
+            <rect
+              x="40"
+              y={y + 1}
+              width="28"
+              height="5"
+              rx="1.5"
+              fill={i === 0 ? `${color}50` : "rgba(148,163,184,0.12)"}
+            />
+          </g>
+        ))}
+
+        {/* Main content — Stat cards */}
+        {[
+          { x: 84, w: 56 },
+          { x: 146, w: 56 },
+          { x: 208, w: 56 },
+        ].map((s, i) => (
+          <g key={i}>
+            <rect
+              x={s.x}
+              y="104"
+              width={s.w}
+              height="28"
+              rx="5"
+              fill={i === 1 ? `${color}15` : "rgba(30,41,59,0.7)"}
+              stroke={i === 1 ? `${color}40` : "rgba(51,65,85,0.4)"}
+              strokeWidth="0.5"
+            />
+            <rect
+              x={s.x + 6}
+              y="110"
+              width="24"
+              height="4"
+              rx="1.5"
+              fill={i === 1 ? `${color}70` : "rgba(148,163,184,0.3)"}
+            />
+            <rect
+              x={s.x + 6}
+              y="118"
+              width="16"
+              height="8"
+              rx="1.5"
+              fill={i === 1 ? `${color}40` : "rgba(148,163,184,0.15)"}
+            />
+          </g>
+        ))}
+
+        {/* Content block */}
+        <rect
+          x="84"
+          y="138"
+          width="90"
+          height="32"
+          rx="5"
+          fill="rgba(30,41,59,0.6)"
+        />
+        <rect
+          x="90"
+          y="144"
+          width="50"
+          height="4"
+          rx="1.5"
+          fill={`${color}50`}
+        />
+        <rect
+          x="90"
+          y="151"
+          width="76"
+          height="3"
+          rx="1"
+          fill="rgba(148,163,184,0.2)"
+        />
+        <rect
+          x="90"
+          y="157"
+          width="60"
+          height="3"
+          rx="1"
+          fill="rgba(148,163,184,0.15)"
+        />
+        <rect
+          x="90"
+          y="163"
+          width="68"
+          height="3"
+          rx="1"
+          fill="rgba(148,163,184,0.12)"
+        />
+
+        {/* Chart block */}
+        <rect
+          x="180"
+          y="138"
+          width="84"
+          height="32"
+          rx="5"
+          fill="rgba(30,41,59,0.6)"
+        />
+        {/* Mini bar chart */}
+        {[190, 202, 214, 226, 238].map((bx, i) => {
+          const h = [16, 12, 22, 10, 18][i];
+          return (
+            <rect
+              key={i}
+              x={bx}
+              y={170 - h}
+              width="8"
+              height={h}
+              rx="2"
+              fill={color}
+              opacity={0.3 + i * 0.12}
+            />
+          );
+        })}
+      </g>
+
+      {/* Animated pulse dot on active sidebar item */}
+      <circle cx="32" cy="109.5" r="1.5" fill={color}>
+        <animate
+          attributeName="opacity"
+          values="1;0.4;1"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </circle>
     </svg>
   );
 }
 
-/** Card 2: Pilih Template — 3 thumbnail cards */
+/** Card 2: Pilih Template — styled card with 3 thumbnail templates */
 function VisualTemplate({ color }: { color: string }) {
   const templates = [
-    { x: 4, selected: false },
-    { x: 56, selected: true },
-    { x: 108, selected: false },
+    { x: 20, selected: false },
+    { x: 118, selected: true },
+    { x: 216, selected: false },
   ];
   return (
-    <svg viewBox="0 0 160 72" className="w-full" style={{ display: "block" }}>
-      {templates.map((t, i) => (
-        <g key={i}>
-          <rect
-            x={t.x}
-            y="4"
-            width="48"
-            height="64"
-            rx="5"
-            fill="rgba(15,23,42,0.7)"
-            stroke={t.selected ? color : "rgba(51,65,85,0.6)"}
-            strokeWidth={t.selected ? "1.2" : "0.5"}
-          />
-          {/* Header bar */}
-          <rect
-            x={t.x}
-            y="4"
-            width="48"
-            height="13"
-            rx="5"
-            fill={t.selected ? `${color}25` : "rgba(30,41,59,0.8)"}
-          />
-          <rect
-            x={t.x}
-            y="11"
-            width="48"
-            height="6"
-            fill={t.selected ? `${color}25` : "rgba(30,41,59,0.8)"}
-          />
-          {/* Avatar circle */}
-          <circle
-            cx={t.x + 24}
-            cy="28"
-            r="8"
-            fill={t.selected ? `${color}30` : "rgba(51,65,85,0.6)"}
-            stroke={t.selected ? `${color}60` : "rgba(71,85,105,0.5)"}
-            strokeWidth="0.8"
-          />
-          {/* Name line */}
-          <rect
-            x={t.x + 10}
-            y="40"
-            width="28"
-            height="3"
-            rx="1.5"
-            fill={t.selected ? `${color}60` : "rgba(100,116,139,0.4)"}
-          />
-          {/* Sub lines */}
-          <rect
-            x={t.x + 14}
-            y="46"
-            width="20"
-            height="2"
-            rx="1"
-            fill="rgba(100,116,139,0.25)"
-          />
-          {/* Tags */}
-          <rect
-            x={t.x + 6}
-            y="52"
-            width="14"
-            height="4"
-            rx="2"
-            fill={t.selected ? `${color}30` : "rgba(51,65,85,0.5)"}
-          />
-          <rect
-            x={t.x + 23}
-            y="52"
-            width="14"
-            height="4"
-            rx="2"
-            fill={t.selected ? `${color}20` : "rgba(51,65,85,0.4)"}
-          />
-          {/* Checkmark for selected */}
-          {t.selected && (
-            <>
-              <circle cx={t.x + 38} cy="13" r="5" fill={color} />
-              <path
-                d={`M${t.x + 35} 13 L${t.x + 37.5} 15.5 L${t.x + 41} 10.5`}
-                stroke="white"
-                strokeWidth="1.2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </>
-          )}
-        </g>
-      ))}
+    <svg viewBox="0 0 320 190" className="w-full" style={{ display: "block" }}>
+      {/* Header Section: Icon + Title */}
+      <g>
+        {/* Icon Background */}
+        <rect x="20" y="20" width="46" height="46" rx="14" fill={color} />
+        {/* Layout/Template Icon */}
+        <rect
+          x="31"
+          y="32"
+          width="24"
+          height="22"
+          rx="3"
+          stroke="#FFFFFF"
+          strokeWidth="2.5"
+          fill="none"
+        />
+        <line
+          x1="31"
+          y1="42"
+          x2="55"
+          y2="42"
+          stroke="#FFFFFF"
+          strokeWidth="2"
+        />
+        <line
+          x1="43"
+          y1="42"
+          x2="43"
+          y2="54"
+          stroke="#FFFFFF"
+          strokeWidth="2"
+        />
+
+        {/* Title */}
+        <text
+          x="80"
+          y="38"
+          fontSize="18"
+          fill="#FFFFFF"
+          fontFamily="sans-serif"
+          fontWeight="bold"
+        >
+          Pilih Template
+        </text>
+        {/* Subtitle */}
+        <text
+          x="80"
+          y="58"
+          fontSize="12"
+          fill="#94A3B8"
+          fontFamily="sans-serif"
+        >
+          10+ template modern & responsif
+        </text>
+      </g>
+
+      {/* Template Cards Row */}
+      <g>
+        {templates.map((t, i) => (
+          <g key={i}>
+            {/* Card container */}
+            <rect
+              x={t.x}
+              y="80"
+              width="82"
+              height="100"
+              rx="8"
+              fill="#0B1628"
+              stroke={t.selected ? color : "rgba(51,65,85,0.5)"}
+              strokeWidth={t.selected ? "1.5" : "0.6"}
+            />
+            {/* Header band */}
+            <rect
+              x={t.x}
+              y="80"
+              width="82"
+              height="20"
+              rx="8"
+              fill={t.selected ? `${color}25` : "#131F37"}
+            />
+            <rect
+              x={t.x}
+              y="92"
+              width="82"
+              height="8"
+              fill={t.selected ? `${color}25` : "#131F37"}
+            />
+            {/* Avatar */}
+            <circle
+              cx={t.x + 41}
+              cy="118"
+              r="12"
+              fill={t.selected ? `${color}25` : "rgba(51,65,85,0.5)"}
+              stroke={t.selected ? `${color}60` : "rgba(71,85,105,0.4)"}
+              strokeWidth="1"
+            />
+            {/* Person icon in avatar */}
+            <circle
+              cx={t.x + 41}
+              cy="115"
+              r="4"
+              fill={t.selected ? `${color}80` : "rgba(148,163,184,0.3)"}
+            />
+            <path
+              d={`M${t.x + 33} 126 Q${t.x + 41} 122 ${t.x + 49} 126`}
+              fill={t.selected ? `${color}50` : "rgba(148,163,184,0.2)"}
+            />
+            {/* Name line */}
+            <rect
+              x={t.x + 16}
+              y="137"
+              width="50"
+              height="4"
+              rx="2"
+              fill={t.selected ? `${color}60` : "rgba(100,116,139,0.3)"}
+            />
+            {/* Sub line */}
+            <rect
+              x={t.x + 22}
+              y="145"
+              width="38"
+              height="3"
+              rx="1.5"
+              fill="rgba(100,116,139,0.2)"
+            />
+            {/* Tags */}
+            <rect
+              x={t.x + 10}
+              y="153"
+              width="26"
+              height="6"
+              rx="3"
+              fill={t.selected ? `${color}25` : "rgba(51,65,85,0.4)"}
+            />
+            <rect
+              x={t.x + 40}
+              y="153"
+              width="26"
+              height="6"
+              rx="3"
+              fill={t.selected ? `${color}18` : "rgba(51,65,85,0.3)"}
+            />
+            {/* Checkmark for selected */}
+            {t.selected && (
+              <>
+                <circle cx={t.x + 66} cy="91" r="8" fill={color} />
+                <path
+                  d={`M${t.x + 62} 91 L${t.x + 65} 94 L${t.x + 70} 88`}
+                  stroke="white"
+                  strokeWidth="1.8"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Glow ring around selected */}
+                <rect
+                  x={t.x - 1}
+                  y="79"
+                  width="84"
+                  height="102"
+                  rx="9"
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="0.5"
+                  opacity="0.4"
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0.4;0.15;0.4"
+                    dur="2.5s"
+                    repeatCount="indefinite"
+                  />
+                </rect>
+              </>
+            )}
+          </g>
+        ))}
+      </g>
     </svg>
   );
 }
@@ -288,16 +508,7 @@ export function VisualAIDesc({ color = "#3B82F6" }: { color?: string }) {
           fill="#E2E8F0"
           fontFamily="sans-serif"
         >
-          "Buatkan surat jalan untuk Toko
-        </text>
-        <text
-          x="35"
-          y="128"
-          fontSize="14"
-          fill="#E2E8F0"
-          fontFamily="sans-serif"
-        >
-          Berkah..."
+          "Rangkum deskripsi ini
         </text>
       </g>
 
@@ -351,285 +562,567 @@ export function VisualAIDesc({ color = "#3B82F6" }: { color?: string }) {
   );
 }
 
-/** Card 4: Portfolio Analyzer — bar chart + score badge */
+/** Card 4: Portfolio Analyzer — styled card with bar chart + score badge */
 function VisualAnalyzer({ color }: { color: string }) {
   const bars = [
-    { h: 28, label: "Desain", pct: 88 },
-    { h: 20, label: "Konten", pct: 65 },
-    { h: 34, label: "Kelengkpn", pct: 92 },
-    { h: 16, label: "SEO", pct: 54 },
-    { h: 24, label: "Skill", pct: 78 },
+    { h: 55, label: "Desain", pct: 88 },
+    { h: 40, label: "Konten", pct: 65 },
+    { h: 62, label: "Lengkap", pct: 92 },
+    { h: 32, label: "SEO", pct: 54 },
+    { h: 48, label: "Skill", pct: 78 },
   ];
-  const baseY = 56;
+  const baseY = 168;
   return (
-    <svg viewBox="0 0 160 72" className="w-full" style={{ display: "block" }}>
-      <rect
-        x="0"
-        y="0"
-        width="160"
-        height="72"
-        rx="6"
-        fill="rgba(15,23,42,0.55)"
-      />
-      {/* Score badge */}
-      <circle
-        cx="134"
-        cy="16"
-        r="13"
-        fill={`${color}20`}
-        stroke={`${color}50`}
-        strokeWidth="1"
-      />
-      <text
-        x="134"
-        y="14"
-        textAnchor="middle"
-        fontSize="8"
-        fontWeight="bold"
-        fill={color}
-        fontFamily="sans-serif"
-      >
-        92
-      </text>
-      <text
-        x="134"
-        y="21"
-        textAnchor="middle"
-        fontSize="4"
-        fill={`${color}90`}
-        fontFamily="sans-serif"
-      >
-        Score
-      </text>
-      {/* Bars */}
-      {bars.map((b, i) => {
-        const x = 8 + i * 23;
-        const opacity = 0.4 + (b.pct / 100) * 0.6;
-        return (
-          <g key={i}>
-            {/* Track */}
-            <rect
-              x={x}
-              y={baseY - 36}
-              width="16"
-              height="36"
-              rx="3"
-              fill="rgba(30,41,59,0.6)"
-            />
-            {/* Fill */}
-            <rect
-              x={x}
-              y={baseY - b.h}
-              width="16"
-              height={b.h}
-              rx="3"
-              fill={color}
-              opacity={opacity}
-            />
-            {/* Pct label */}
-            <text
-              x={x + 8}
-              y={baseY - b.h - 3}
-              textAnchor="middle"
-              fontSize="4"
-              fill={color}
-              opacity="0.85"
-              fontFamily="sans-serif"
-            >
-              {b.pct}
-            </text>
-          </g>
-        );
-      })}
-      {/* Baseline */}
-      <line
-        x1="6"
-        y1={baseY + 1}
-        x2="118"
-        y2={baseY + 1}
-        stroke="rgba(100,116,139,0.3)"
-        strokeWidth="0.5"
-      />
-      {/* Labels */}
-      {bars.map((b, i) => (
+    <svg viewBox="0 0 320 190" className="w-full" style={{ display: "block" }}>
+      {/* Header Section: Icon + Title */}
+      <g>
+        {/* Icon Background */}
+        <rect x="20" y="20" width="46" height="46" rx="14" fill={color} />
+        {/* Chart/Analyzer Icon */}
+        <rect
+          x="31"
+          y="52"
+          width="6"
+          height="12"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.7"
+          transform="rotate(180 34 52)"
+        />
+        <rect
+          x="39"
+          y="52"
+          width="6"
+          height="18"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.85"
+          transform="rotate(180 42 52)"
+        />
+        <rect
+          x="47"
+          y="52"
+          width="6"
+          height="8"
+          rx="2"
+          fill="#FFFFFF"
+          opacity="0.6"
+          transform="rotate(180 50 52)"
+        />
+        {/* Magnifier circle */}
+        <circle
+          cx="50"
+          cy="34"
+          r="5"
+          stroke="#FFFFFF"
+          strokeWidth="1.8"
+          fill="none"
+          opacity="0.7"
+        />
+        <line
+          x1="54"
+          y1="38"
+          x2="57"
+          y2="41"
+          stroke="#FFFFFF"
+          strokeWidth="1.8"
+          opacity="0.7"
+          strokeLinecap="round"
+        />
+
+        {/* Title */}
         <text
-          key={i}
-          x={8 + i * 23 + 8}
-          y={baseY + 6}
-          textAnchor="middle"
-          fontSize="3.5"
-          fill="rgba(148,163,184,0.6)"
+          x="80"
+          y="38"
+          fontSize="18"
+          fill="#FFFFFF"
+          fontFamily="sans-serif"
+          fontWeight="bold"
+        >
+          Portfolio Analyzer
+        </text>
+        {/* Subtitle */}
+        <text
+          x="80"
+          y="58"
+          fontSize="12"
+          fill="#94A3B8"
           fontFamily="sans-serif"
         >
-          {b.label.slice(0, 5)}
+          Skor kelayakan & rekomendasi AI
         </text>
-      ))}
+      </g>
+
+      {/* Score Badge - top right */}
+      <g>
+        <circle
+          cx="270"
+          cy="40"
+          r="24"
+          fill={`${color}15`}
+          stroke={`${color}40`}
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="270"
+          cy="40"
+          r="18"
+          fill={`${color}10`}
+          stroke={`${color}30`}
+          strokeWidth="1"
+        />
+        <text
+          x="270"
+          y="36"
+          textAnchor="middle"
+          fontSize="16"
+          fontWeight="bold"
+          fill={color}
+          fontFamily="sans-serif"
+        >
+          92
+        </text>
+        <text
+          x="270"
+          y="50"
+          textAnchor="middle"
+          fontSize="9"
+          fill={`${color}90`}
+          fontFamily="sans-serif"
+        >
+          Score
+        </text>
+        {/* Animated ring */}
+        <circle
+          cx="270"
+          cy="40"
+          r="24"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          opacity="0.3"
+        >
+          <animate
+            attributeName="r"
+            values="24;28;24"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0.3;0.08;0.3"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+        </circle>
+      </g>
+
+      {/* Chart Area */}
+      <g>
+        <rect
+          x="20"
+          y="80"
+          width="280"
+          height="100"
+          rx="8"
+          fill="#0B1628"
+          stroke={`${color}20`}
+          strokeWidth="0.6"
+        />
+
+        {/* Bars */}
+        {bars.map((b, i) => {
+          const x = 36 + i * 52;
+          const opacity = 0.4 + (b.pct / 100) * 0.6;
+          return (
+            <g key={i}>
+              {/* Track */}
+              <rect
+                x={x}
+                y={baseY - 70}
+                width="28"
+                height="70"
+                rx="5"
+                fill="rgba(30,41,59,0.6)"
+              />
+              {/* Fill */}
+              <rect
+                x={x}
+                y={baseY - b.h}
+                width="28"
+                height={b.h}
+                rx="5"
+                fill={color}
+                opacity={opacity}
+              />
+              {/* Pct label */}
+              <text
+                x={x + 14}
+                y={baseY - b.h - 5}
+                textAnchor="middle"
+                fontSize="9"
+                fill={color}
+                opacity="0.9"
+                fontFamily="sans-serif"
+                fontWeight="500"
+              >
+                {b.pct}%
+              </text>
+              {/* Category label */}
+              <text
+                x={x + 14}
+                y={baseY + 12}
+                textAnchor="middle"
+                fontSize="8"
+                fill="rgba(148,163,184,0.6)"
+                fontFamily="sans-serif"
+              >
+                {b.label}
+              </text>
+            </g>
+          );
+        })}
+        {/* Baseline */}
+        <line
+          x1="28"
+          y1={baseY + 1}
+          x2="292"
+          y2={baseY + 1}
+          stroke="rgba(100,116,139,0.25)"
+          strokeWidth="0.8"
+        />
+      </g>
     </svg>
   );
 }
 
-/** Card 5: CV Parser — document with highlighted extracted fields */
+/** Card 5: CV Parser — styled card with document extraction visual */
 function VisualCVParser({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 160 72" className="w-full" style={{ display: "block" }}>
-      {/* Doc background */}
-      <rect
-        x="6"
-        y="2"
-        width="80"
-        height="68"
-        rx="4"
-        fill="rgba(248,250,252,0.06)"
-        stroke="rgba(100,116,139,0.25)"
-        strokeWidth="0.5"
-      />
-      {/* Doc lines */}
-      <rect
-        x="12"
-        y="10"
-        width="40"
-        height="4"
-        rx="2"
-        fill="rgba(226,232,240,0.5)"
-      />
-      <rect
-        x="12"
-        y="17"
-        width="60"
-        height="2.5"
-        rx="1"
-        fill="rgba(148,163,184,0.25)"
-      />
-      <rect
-        x="12"
-        y="22"
-        width="55"
-        height="2.5"
-        rx="1"
-        fill="rgba(148,163,184,0.2)"
-      />
-      <rect
-        x="12"
-        y="27"
-        width="50"
-        height="2.5"
-        rx="1"
-        fill="rgba(148,163,184,0.2)"
-      />
-      {/* Highlighted rows = extracted data */}
-      <rect
-        x="10"
-        y="34"
-        width="70"
-        height="6"
-        rx="2"
-        fill={`${color}18`}
-        stroke={`${color}40`}
-        strokeWidth="0.5"
-      />
-      <rect x="12" y="36" width="42" height="2" rx="1" fill={`${color}70`} />
-      <rect
-        x="10"
-        y="43"
-        width="70"
-        height="6"
-        rx="2"
-        fill={`${color}12`}
-        stroke={`${color}30`}
-        strokeWidth="0.5"
-      />
-      <rect x="12" y="45" width="35" height="2" rx="1" fill={`${color}55`} />
-      <rect
-        x="10"
-        y="52"
-        width="70"
-        height="6"
-        rx="2"
-        fill={`${color}10`}
-        stroke={`${color}25`}
-        strokeWidth="0.5"
-      />
-      <rect x="12" y="54" width="50" height="2" rx="1" fill={`${color}45`} />
-      {/* Arrow */}
-      <path
-        d="M92 36 L104 36"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeDasharray="2 2"
-        markerEnd="url(#arr)"
-        opacity="0.7"
-      />
-      <path
-        d="M92 46 L104 46"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeDasharray="2 2"
-        markerEnd="url(#arr)"
-        opacity="0.55"
-      />
-      <path
-        d="M92 55 L104 55"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeDasharray="2 2"
-        markerEnd="url(#arr)"
-        opacity="0.4"
-      />
-      <defs>
-        <marker
-          id="arr"
-          viewBox="0 0 6 6"
-          refX="5"
-          refY="3"
-          markerWidth="4"
-          markerHeight="4"
-          orient="auto"
+    <svg viewBox="0 0 320 190" className="w-full" style={{ display: "block" }}>
+      {/* Header Section: Icon + Title */}
+      <g>
+        {/* Icon Background */}
+        <rect x="20" y="20" width="46" height="46" rx="14" fill={color} />
+        {/* Document/Upload Icon */}
+        <rect
+          x="32"
+          y="31"
+          width="18"
+          height="24"
+          rx="3"
+          stroke="#FFFFFF"
+          strokeWidth="2.2"
+          fill="none"
+        />
+        <path
+          d="M37 31 L37 36 L32 36"
+          stroke="#FFFFFF"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+        />
+        {/* Lines inside doc */}
+        <rect
+          x="36"
+          y="39"
+          width="10"
+          height="2"
+          rx="1"
+          fill="#FFFFFF"
+          opacity="0.6"
+        />
+        <rect
+          x="36"
+          y="43"
+          width="8"
+          height="2"
+          rx="1"
+          fill="#FFFFFF"
+          opacity="0.4"
+        />
+        <rect
+          x="36"
+          y="47"
+          width="12"
+          height="2"
+          rx="1"
+          fill="#FFFFFF"
+          opacity="0.3"
+        />
+        {/* Upload arrow */}
+        <path
+          d="M53 50 L53 38 L49 42 M53 38 L57 42"
+          stroke="#FFFFFF"
+          strokeWidth="1.8"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          opacity="0.7"
+        />
+
+        {/* Title */}
+        <text
+          x="80"
+          y="38"
+          fontSize="18"
+          fill="#FFFFFF"
+          fontFamily="sans-serif"
+          fontWeight="bold"
         >
-          <path
-            d="M0 1 L5 3 L0 5"
-            fill="none"
-            stroke={color}
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          CV / Resume Parser
+        </text>
+        {/* Subtitle */}
+        <text
+          x="80"
+          y="58"
+          fontSize="12"
+          fill="#94A3B8"
+          fontFamily="sans-serif"
+        >
+          Upload CV → profil terisi otomatis
+        </text>
+      </g>
+
+      {/* Main Content: Document → Profile */}
+      <g>
+        {/* Document side */}
+        <rect
+          x="20"
+          y="82"
+          width="120"
+          height="98"
+          rx="8"
+          fill="#0B1628"
+          stroke="rgba(100,116,139,0.25)"
+          strokeWidth="0.8"
+        />
+        {/* Doc title */}
+        <rect
+          x="30"
+          y="92"
+          width="64"
+          height="6"
+          rx="3"
+          fill="rgba(226,232,240,0.4)"
+        />
+        {/* Doc body lines */}
+        <rect
+          x="30"
+          y="104"
+          width="100"
+          height="4"
+          rx="1.5"
+          fill="rgba(148,163,184,0.2)"
+        />
+        <rect
+          x="30"
+          y="112"
+          width="90"
+          height="4"
+          rx="1.5"
+          fill="rgba(148,163,184,0.15)"
+        />
+        {/* Highlighted extracted rows */}
+        <rect
+          x="26"
+          y="122"
+          width="108"
+          height="10"
+          rx="4"
+          fill={`${color}12`}
+          stroke={`${color}35`}
+          strokeWidth="0.6"
+        />
+        <rect
+          x="30"
+          y="125"
+          width="70"
+          height="4"
+          rx="1.5"
+          fill={`${color}60`}
+        />
+        <rect
+          x="26"
+          y="136"
+          width="108"
+          height="10"
+          rx="4"
+          fill={`${color}08`}
+          stroke={`${color}25`}
+          strokeWidth="0.6"
+        />
+        <rect
+          x="30"
+          y="139"
+          width="58"
+          height="4"
+          rx="1.5"
+          fill={`${color}45`}
+        />
+        <rect
+          x="26"
+          y="150"
+          width="108"
+          height="10"
+          rx="4"
+          fill={`${color}06`}
+          stroke={`${color}20`}
+          strokeWidth="0.6"
+        />
+        <rect
+          x="30"
+          y="153"
+          width="80"
+          height="4"
+          rx="1.5"
+          fill={`${color}35`}
+        />
+
+        {/* Dashed arrows */}
+        <defs>
+          <marker
+            id="cvArr"
+            viewBox="0 0 8 8"
+            refX="7"
+            refY="4"
+            markerWidth="5"
+            markerHeight="5"
+            orient="auto"
+          >
+            <path
+              d="M0 1.5 L7 4 L0 6.5"
+              fill="none"
+              stroke={color}
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </marker>
+        </defs>
+        <path
+          d="M148 127 L170 127"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeDasharray="4 3"
+          markerEnd="url(#cvArr)"
+          opacity="0.7"
+        />
+        <path
+          d="M148 141 L170 141"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeDasharray="4 3"
+          markerEnd="url(#cvArr)"
+          opacity="0.5"
+        />
+        <path
+          d="M148 155 L170 155"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeDasharray="4 3"
+          markerEnd="url(#cvArr)"
+          opacity="0.35"
+        />
+
+        {/* Output profile card */}
+        <rect
+          x="178"
+          y="82"
+          width="122"
+          height="98"
+          rx="8"
+          fill="#0B1628"
+          stroke={`${color}30`}
+          strokeWidth="0.8"
+        />
+        {/* Avatar */}
+        <circle
+          cx="239"
+          cy="108"
+          r="16"
+          fill={`${color}18`}
+          stroke={`${color}45`}
+          strokeWidth="1"
+        />
+        <circle cx="239" cy="104" r="5.5" fill={color} opacity="0.65" />
+        <path d="M228 118 Q239 112 250 118" fill={color} opacity="0.3" />
+        {/* Name */}
+        <rect
+          x="206"
+          y="130"
+          width="66"
+          height="5"
+          rx="2"
+          fill={`${color}55`}
+        />
+        {/* Role */}
+        <rect
+          x="214"
+          y="140"
+          width="50"
+          height="3.5"
+          rx="1.5"
+          fill="rgba(148,163,184,0.3)"
+        />
+        {/* Skill tags */}
+        <rect
+          x="192"
+          y="150"
+          width="28"
+          height="7"
+          rx="3.5"
+          fill={`${color}22`}
+        />
+        <rect
+          x="224"
+          y="150"
+          width="28"
+          height="7"
+          rx="3.5"
+          fill={`${color}15`}
+        />
+        <rect
+          x="256"
+          y="150"
+          width="22"
+          height="7"
+          rx="3.5"
+          fill={`${color}10`}
+        />
+        {/* Status indicator */}
+        <rect x="192" y="164" width="94" height="8" rx="4" fill="#131F37" />
+        <rect
+          x="192"
+          y="164"
+          width="60"
+          height="8"
+          rx="4"
+          fill={color}
+          opacity="0.6"
+        >
+          <animate
+            attributeName="width"
+            values="20;70;94"
+            dur="3.5s"
+            repeatCount="indefinite"
           />
-        </marker>
-      </defs>
-      {/* Output mini profile card */}
-      <rect
-        x="104"
-        y="26"
-        width="50"
-        height="44"
-        rx="4"
-        fill="rgba(15,23,42,0.8)"
-        stroke={`${color}35`}
-        strokeWidth="0.6"
-      />
-      <circle
-        cx="129"
-        cy="38"
-        r="7"
-        fill={`${color}25`}
-        stroke={`${color}50`}
-        strokeWidth="0.8"
-      />
-      {/* Person silhouette */}
-      <circle cx="129" cy="36" r="2.5" fill={color} opacity="0.7" />
-      <path d="M123 43 Q129 40 135 43" fill={color} opacity="0.4" />
-      <rect x="111" y="48" width="36" height="2" rx="1" fill={`${color}50`} />
-      <rect
-        x="115"
-        y="53"
-        width="28"
-        height="1.5"
-        rx="1"
-        fill="rgba(148,163,184,0.3)"
-      />
-      {/* Tags */}
-      <rect x="109" y="58" width="14" height="4" rx="2" fill={`${color}25`} />
-      <rect x="125" y="58" width="14" height="4" rx="2" fill={`${color}18`} />
-      <rect x="141" y="58" width="10" height="4" rx="2" fill={`${color}12`} />
+        </rect>
+      </g>
+
+      {/* Sparkle near arrow */}
+      <path
+        d="M 162 120 Q 162 125 157 125 Q 162 125 162 130 Q 162 125 167 125 Q 162 125 162 120"
+        fill={color}
+        opacity="0.6"
+      >
+        <animate
+          attributeName="opacity"
+          values="0.6;1;0.6"
+          dur="1.5s"
+          repeatCount="indefinite"
+        />
+      </path>
     </svg>
   );
 }
@@ -644,21 +1137,27 @@ const CARDS = [
     color: "#60a5fa",
     bg: "rgba(59,130,246,0.07)",
     border: "rgba(96,165,250,0.22)",
-    top: "2%",
-    left: "3%",
+    glow: "rgba(96,165,250,0.15)",
+    top: "1%",
+    left: "4%",
     delay: 0.35,
+    floatDuration: 6,
+    floatY: 8,
     Visual: VisualDashboard,
   },
   {
     id: "template",
     label: "Pilih Template",
-    sub: "30+ template modern & responsif",
+    sub: "10+ template modern & responsif",
     color: "#34d399",
     bg: "rgba(52,211,153,0.07)",
     border: "rgba(52,211,153,0.22)",
-    top: "4%",
-    left: "53%",
+    glow: "rgba(52,211,153,0.15)",
+    top: "5%",
+    left: "48%",
     delay: 0.48,
+    floatDuration: 7,
+    floatY: 10,
     Visual: VisualTemplate,
   },
   {
@@ -668,9 +1167,12 @@ const CARDS = [
     color: "#a78bfa",
     bg: "rgba(167,139,250,0.07)",
     border: "rgba(167,139,250,0.22)",
-    top: "42%",
-    left: "0%",
+    glow: "rgba(167,139,250,0.15)",
+    top: "34%",
+    left: "10%",
     delay: 0.61,
+    floatDuration: 8,
+    floatY: 7,
     Visual: VisualAIDesc,
   },
   {
@@ -680,9 +1182,12 @@ const CARDS = [
     color: "#fbbf24",
     bg: "rgba(251,191,36,0.07)",
     border: "rgba(251,191,36,0.22)",
-    top: "43%",
-    left: "53%",
+    glow: "rgba(251,191,36,0.15)",
+    top: "40%",
+    left: "52%",
     delay: 0.74,
+    floatDuration: 6.5,
+    floatY: 9,
     Visual: VisualAnalyzer,
   },
   {
@@ -692,9 +1197,12 @@ const CARDS = [
     color: "#f87171",
     bg: "rgba(248,113,113,0.07)",
     border: "rgba(248,113,113,0.22)",
-    top: "78%",
-    left: "22%",
+    glow: "rgba(248,113,113,0.15)",
+    top: "73%",
+    left: "20%",
     delay: 0.87,
+    floatDuration: 7.5,
+    floatY: 8,
     Visual: VisualCVParser,
   },
 ];
@@ -705,12 +1213,34 @@ const CONNECTIONS: [string, string][] = [
   ["template", "analyzer"],
   ["ai-desc", "cv-parser"],
   ["analyzer", "cv-parser"],
-  ["dashboard", "cv-parser"],
 ];
 
-const CARD_W = 250;
+const CARD_W = 245;
 
 // ─── Connector Lines ──────────────────────────────────────────────────────────
+
+/** Compute closest edge point between two rects */
+function edgePoint(rect: DOMRect, target: DOMRect, offset: DOMRect) {
+  const cx = rect.left + rect.width / 2 - offset.left;
+  const cy = rect.top + rect.height / 2 - offset.top;
+  const tx = target.left + target.width / 2 - offset.left;
+  const ty = target.top + target.height / 2 - offset.top;
+  const hw = rect.width / 2;
+  const hh = rect.height / 2;
+  const dx = tx - cx;
+  const dy = ty - cy;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+  // Scale to hit the edge of the card rectangle
+  if (absDx * hh > absDy * hw && absDx > 0) {
+    const s = hw / absDx;
+    return { x: cx + dx * s, y: cy + dy * s };
+  } else if (absDy > 0) {
+    const s = hh / absDy;
+    return { x: cx + dx * s, y: cy + dy * s };
+  }
+  return { x: cx, y: cy };
+}
 
 function ConnectorLines({
   rects,
@@ -727,13 +1257,23 @@ function ConnectorLines({
     const ra = rects[a];
     const rb = rects[b];
     if (!ra || !rb) return null;
-    const ax = ra.left + ra.width / 2 - containerRect.left;
-    const ay = ra.top + ra.height / 2 - containerRect.top;
-    const bx = rb.left + rb.width / 2 - containerRect.left;
-    const by = rb.top + rb.height / 2 - containerRect.top;
-    const mx = (ax + bx) / 2;
-    const my = (ay + by) / 2 - 24;
-    return { id: `${a}-${b}`, d: `M ${ax} ${ay} Q ${mx} ${my} ${bx} ${by}` };
+    const from = edgePoint(ra, rb, containerRect);
+    const to = edgePoint(rb, ra, containerRect);
+    // Smooth cubic bezier — perpendicular offset for nice curve
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.sqrt(dx * dx + dy * dy);
+    // Perpendicular offset for smooth curve (15% of length)
+    const nx = len > 0 ? (-dy / len) * len * 0.15 : 0;
+    const ny = len > 0 ? (dx / len) * len * 0.15 : 0;
+    const c1x = from.x + dx * 0.3 + nx;
+    const c1y = from.y + dy * 0.3 + ny;
+    const c2x = from.x + dx * 0.7 + nx;
+    const c2y = from.y + dy * 0.7 + ny;
+    return {
+      id: `${a}-${b}`,
+      d: `M ${from.x} ${from.y} C ${c1x} ${c1y} ${c2x} ${c2y} ${to.x} ${to.y}`,
+    };
   }).filter(Boolean) as { id: string; d: string }[];
 
   return (
@@ -809,9 +1349,11 @@ function ConnectorLines({
 function FeatureCard({
   card,
   onRect,
+  index,
 }: {
   card: (typeof CARDS)[0];
   onRect: (id: string, rect: DOMRect) => void;
+  index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { Visual } = card;
@@ -825,22 +1367,45 @@ function FeatureCard({
     return () => window.removeEventListener("resize", update);
   }, [card.id, onRect]);
 
+  // Unique float animation name per card for staggered feel
+  const floatName = `heroFloat${index}`;
+
   return (
-    <motion.div
-      ref={ref}
-      className="absolute"
-      style={{ top: card.top, left: card.left, width: CARD_W }}
-      initial={{ opacity: 0, y: 20, scale: 0.92 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        duration: 0.6,
-        delay: card.delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{ scale: 1.04, y: -3, transition: { duration: 0.18 } }}
-    >
-      <Visual color={card.color} />
-    </motion.div>
+    <>
+      <style>{`
+        @keyframes ${floatName} {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-${card.floatY}px); }
+        }
+      `}</style>
+      <motion.div
+        ref={ref}
+        className="absolute"
+        style={{ top: card.top, left: card.left, width: CARD_W }}
+        initial={{ opacity: 0, y: 24, scale: 0.92 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.6,
+          delay: card.delay,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        whileHover={{ scale: 1.04, transition: { duration: 0.18 } }}
+      >
+        <div
+          className="rounded-2xl overflow-hidden"
+          style={{
+            background: card.bg,
+            border: `1px solid ${card.border}`,
+            boxShadow: `0 4px 24px ${card.glow}, 0 0 0 1px ${card.border}`,
+            backdropFilter: "blur(12px)",
+            animation: `${floatName} ${card.floatDuration}s ease-in-out infinite`,
+            willChange: "transform",
+          }}
+        >
+          <Visual color={card.color} />
+        </div>
+      </motion.div>
+    </>
   );
 }
 
@@ -982,8 +1547,13 @@ export default function HeroSection() {
             containerRect={containerRect}
             visible={linesReady}
           />
-          {CARDS.map((card) => (
-            <FeatureCard key={card.id} card={card} onRect={handleRect} />
+          {CARDS.map((card, i) => (
+            <FeatureCard
+              key={card.id}
+              card={card}
+              onRect={handleRect}
+              index={i}
+            />
           ))}
         </div>
       </div>
