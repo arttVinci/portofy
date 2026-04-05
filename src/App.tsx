@@ -7,7 +7,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
 // 2. Pages Marketing (Jualan)
-import HeroSection from "./sections/marketing/HeroSection";
+import HomePage from "./pages/home/HomePage";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";
@@ -30,7 +30,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomeLayout />}>
-        <Route index element={<HeroSection />} />
+        <Route index element={<HomePage />} />
       </Route>
 
       <Route path="/app" element={<DashboardLayout />}>

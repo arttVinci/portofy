@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { IconArrowRight, IconPlayerPlay } from "@tabler/icons-react";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 
 // ─── Mini Visual Components (SVG per card) ────────────────────────────────────
 
@@ -1453,7 +1455,7 @@ export default function HeroSection() {
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-130 h-130 bg-blue-600/10 blur-[130px] rounded-full pointer-events-none z-0" />
       <div className="absolute top-1/2 right-1/5 -translate-y-1/2 w-90 h-90 bg-violet-600/6 blur-[100px] rounded-full pointer-events-none z-0" />
 
-      <div className="relative z-10 container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 container mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
         {/* LEFT */}
         <div className="flex flex-col items-start justify-center text-left">
           <motion.div
@@ -1484,19 +1486,19 @@ export default function HeroSection() {
                 "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
             }}
           >
-            Buat Portfolio Kamu,
-            <br className="hidden md:block" />
-            Tunjukan{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-300">
-              Karya Terbaikmu
-            </span>
+            <LayoutTextFlip
+              text="Buat Portfolio Kamu, Tunjukan "
+              words={["Pada Mereka", "Karya Terbaikmu", "Potensi Dirimu"]}
+              className="text-white mr-2"
+              wordClassName="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-300"
+            />
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 text-base md:text-[1.05rem] max-w-125 mb-8 leading-[1.75]"
+            className="text-slate-400 text-base md:text-[1.05rem] max-w-200 mb-8 leading-[1.75]"
             style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}
           >
             Portofy membantu mahasiswa, freelancer, dan kreator Indonesia tampil
@@ -1510,16 +1512,14 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <a
-              href="/auth/register"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 transition-all duration-300"
-              style={{
-                fontFamily:
-                  "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-              }}
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
+              className="bg-black text-white flex items-center space-x-2 cursor-pointer"
             >
-              Mulai Gratis <IconArrowRight size={18} stroke={2} />
-            </a>
+              <span>Mulai Gratis</span>
+              <IconArrowRight size={18} stroke={2} />
+            </HoverBorderGradient>
             <a
               href="#how-it-works"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold text-sm hover:bg-slate-800/50 transition-all duration-300"
@@ -1536,7 +1536,7 @@ export default function HeroSection() {
             className="mt-6 text-[12px] text-slate-600 tracking-wide"
             style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}
           >
-            Gratis selamanya · Tidak perlu kartu kredit · Subdomain instan
+            Gratis selamanya · Tidak perlu baris code · Instant publish
           </motion.p>
         </div>
 
