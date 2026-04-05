@@ -8,7 +8,7 @@ import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 // ─── Mini Visual Components (SVG per card) ────────────────────────────────────
 
 /** Card 1: Dashboard Builder — styled card with sidebar + content blocks */
-function VisualDashboard({ color }: { color: string }) {
+export function VisualDashboard({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 320 190" className="w-full" style={{ display: "block" }}>
       {/* Header Section: Icon + Title */}
@@ -256,7 +256,7 @@ function VisualDashboard({ color }: { color: string }) {
 }
 
 /** Card 2: Pilih Template — styled card with 3 thumbnail templates */
-function VisualTemplate({ color }: { color: string }) {
+export function VisualTemplate({ color }: { color: string }) {
   const templates = [
     { x: 20, selected: false },
     { x: 118, selected: true },
@@ -565,7 +565,7 @@ export function VisualAIDesc({ color = "#3B82F6" }: { color?: string }) {
 }
 
 /** Card 4: Portfolio Analyzer — styled card with bar chart + score badge */
-function VisualAnalyzer({ color }: { color: string }) {
+export function VisualAnalyzer({ color }: { color: string }) {
   const bars = [
     { h: 55, label: "Desain", pct: 88 },
     { h: 40, label: "Konten", pct: 65 },
@@ -1523,7 +1523,9 @@ export default function HeroSection() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                document
+                  .getElementById("how-it-works")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold text-sm hover:bg-slate-800/50 transition-all duration-300"
               style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}

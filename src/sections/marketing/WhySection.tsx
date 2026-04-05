@@ -1,122 +1,62 @@
 import { motion } from "motion/react";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 
-// Visual Component Helpers
-const FeatureImage = ({ src, color }: { src: string; color: string }) => (
-  <div className={`h-full w-full bg-gradient-to-br ${color} flex items-center justify-center`}>
-    <div className="absolute inset-0 bg-[size:24px_24px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]" />
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5, type: "spring" }}
-      className="relative z-10 p-8 rounded-2xl bg-[#091122] shadow-2xl border border-white/10"
-    >
-      <div className="text-8xl">{src}</div>
-    </motion.div>
-  </div>
-);
-
-const AnimatedChart = () => (
-  <div className="h-full w-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center p-12">
-    <div className="w-full h-full flex items-end justify-center gap-4 border-b-2 border-l-2 border-white/20 pb-4 pl-4 pt-10">
-      {[40, 70, 45, 90, 60].map((h, i) => (
-        <motion.div
-          key={i}
-          initial={{ height: 0 }}
-          animate={{ height: `${h}%` }}
-          transition={{ duration: 0.8, delay: i * 0.1, type: "spring" }}
-          className="w-12 bg-white/80 rounded-t-lg shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+const content = [
+  {
+    title: "Dashboard Builder",
+    description:
+      "Atur semua konten portofoliomu dari satu tempat yang terpusat. Dengan Dashboard Builder, kamu bisa mengelola proyek, pengalaman, skill, dan informasi pribadimu secara mudah dan efisien. Tidak perlu coding — cukup isi, atur, dan publikasikan.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--blue-400),var(--blue-600))] text-white">
+        Dashboard Builder
+      </div>
+    ),
+  },
+  {
+    title: "Pilih Template",
+    description:
+      "Tampilkan dirimu dengan gaya terbaik menggunakan 10+ template modern dan responsif yang siap pakai. Setiap template dirancang khusus untuk membantu portofoliomu tampil profesional di semua perangkat, dari desktop hingga smartphone.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center text-white">
+        <img
+          src="/linear.webp"
+          width={300}
+          height={300}
+          className="h-full w-full object-cover"
+          alt="linear board demo"
         />
-      ))}
-    </div>
-  </div>
-);
-
-const AnimatedRobot = () => (
-  <div className="h-full w-full bg-gradient-to-br from-blue-500 to-cyan-500 flex flex-col items-center justify-center gap-6">
-    <div className="absolute inset-0 bg-[size:24px_24px] [background-image:radial-gradient(circle,rgba(255,255,255,0.15)_1px,transparent_1px)]" />
-    <motion.div
-      animate={{ y: [-10, 10, -10] }}
-      transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-      className="text-8xl relative z-10"
-    >
-      🤖
-    </motion.div>
-    <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: "80%" }}
-        transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-        className="h-2 bg-white/50 rounded-full"
-    />
-    <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: "60%" }}
-        transition={{ duration: 1.2, delay: 0.2, repeat: Infinity, repeatType: "reverse" }}
-        className="h-2 bg-white/30 rounded-full"
-    />
-  </div>
-);
-
-const WindowMockup = ({ icon, color }: { icon: string; color: string }) => (
-    <div className={`h-full w-full bg-gradient-to-br ${color} p-8 flex items-center justify-center`}>
-        <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full h-full max-h-64 bg-slate-900 rounded-lg shadow-2xl overflow-hidden border border-white/10 flex flex-col"
-        >
-            <div className="bg-slate-800 h-8 flex items-center px-3 gap-2">
-                <div className="w-3 h-3 rounded-full bg-rose-500" />
-                <div className="w-3 h-3 rounded-full bg-amber-500" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500" />
-            </div>
-            <div className="flex-1 flex items-center justify-center relative">
-               <div className="absolute inset-0 bg-slate-900/50 flex flex-col justify-center items-center gap-4">
-                  <span className="text-6xl drop-shadow-lg">{icon}</span>
-                  <div className="w-32 h-2 rounded-full bg-white/10 overflow-hidden">
-                      <motion.div 
-                          className="h-full bg-blue-500"
-                          animate={{ x: ["-100%", "100%"] }}
-                          transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                      />
-                  </div>
-               </div>
-            </div>
-        </motion.div>
-    </div>
-);
-
-
-const CONTENT = [
-  {
-    title: "Template Premium",
-    description: "Pilih dari 10+ template modern yang responsif dan profesional. Tinggal pilih, isi konten, dan portofolio kamu siap go live tanpa perlu repot mengatur layout sendiri.",
-    content: <WindowMockup icon="🎨" color="from-rose-500 to-orange-500" />,
+      </div>
+    ),
   },
   {
-    title: "AI-Powered",
-    description: "Buntu saat menulis bio atau deskripsi project? Biarkan AI Portofy yang bekerja. Generate deskripsi profesional dan ringkasan karir secara otomatis, langsung sesuai dengan bahasamu.",
-    content: <AnimatedRobot />,
+    title: "AI Description",
+    description:
+      "Biarkan AI menuliskan deskripsi profesional untukmu secara otomatis. Cukup masukkan informasi dasar tentang pengalamanmu, dan AI kami akan menghasilkan teks yang menarik, relevan, dan siap digunakan — menghemat waktu dan membuatmu tampil lebih percaya diri.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--violet-400),var(--purple-600))] text-white">
+        AI Description
+      </div>
+    ),
   },
   {
-    title: "Skor & Analisis",
-    description: "Dapatkan feedback instan layaknya HR profesional. AI kami menganalisis kelengkapan portofoliomu dan memberikan rekomendasi perbaikan agar makin standout.",
-    content: <AnimatedChart />,
+    title: "Portfolio Analyzer",
+    description:
+      "Dapatkan skor kelayakan portofoliomu beserta rekomendasi cerdas dari AI. Platform kami menganalisis struktur, konten, dan kelengkapan profilmu, lalu memberikan saran konkret agar portofoliomu semakin menarik di mata recruiter dan klien.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--amber-400),var(--yellow-500))] text-white">
+        Portfolio Analyzer
+      </div>
+    ),
   },
   {
-    title: "CV Parser Otomatis",
-    description: "Mager ngisi form portofolio dari nol? Upload CV-mu dan biarkan sistem memparsing datanya secara otomatis untuk langsung mengisi profilmu.",
-    content: <FeatureImage src="📄" color="from-emerald-500 to-teal-500" />,
-  },
-  {
-    title: "Tanpa Coding",
-    description: "Fokus pada apa yang penting: memamerkan karyamu. Tidak perlu menyentuh satu baris kode pun. Interface visual kami mempermudah semuanya untuk siapapun.",
-    content: <WindowMockup icon="✍️" color="from-fuchsia-500 to-pink-500" />,
-  },
-  {
-    title: "Instant Publish",
-    description: "Selesai edit? Langsung publish ke web dengan subdomain gratis (username.portofy.id). Siap dibagikan ke LinkedIn, client, atau HR dalam satu klik.",
-    content: <FeatureImage src="🚀" color="from-blue-500 to-indigo-500" />,
+    title: "CV / Resume Parser",
+    description:
+      "Upload CV atau resume-mu, dan biarkan sistem kami mengisi profilmu secara otomatis. Tidak perlu mengisi ulang data dari nol — parser AI kami membaca dokumenmu dan langsung memetakan informasi ke portofoliomu dalam hitungan detik.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--red-400),var(--rose-500))] text-white">
+        CV / Resume Parser
+      </div>
+    ),
   },
 ];
 
@@ -168,13 +108,14 @@ export default function WhySection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 max-w-xl mx-auto text-base md:text-lg leading-relaxed"
           >
-            Bukan sekadar website builder biasa. Ini adalah mesin cerdas yang siap membantu karirmu meloncat lebih tinggi.
+            Bukan sekadar website builder biasa. Ini adalah mesin cerdas yang
+            siap membantu karirmu meloncat lebih tinggi.
           </motion.p>
         </div>
 
         {/* Sticky Scroll Component */}
-        <div className="rounded-3xl border border-white/[0.06] bg-white/[0.01] p-4 backdrop-blur-sm -mx-4 md:mx-0">
-          <StickyScroll content={CONTENT} />
+        <div className="w-full py-4">
+          <StickyScroll content={content} />
         </div>
       </div>
     </section>

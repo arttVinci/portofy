@@ -20,9 +20,11 @@ import {
 
 export function NavbarDemo() {
   const navItems = [
-    { name: "Produk", link: "#" },
-    { name: "Solusi", link: "#" },
+    { name: "Langkah Memulai", link: "#" },
+    { name: "Blog", link: "#" },
     { name: "FAQ", link: "#" },
+    { name: "Template", link: "#" },
+    { name: "Tentang Kami", link: "#" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,22 +33,22 @@ export function NavbarDemo() {
   const BrandLogo = () => (
     <a
       href="/"
-      className="relative z-20 flex items-center gap-2.5 mr-4 px-2 py-1"
+      className="relative z-20 flex shrink-0 items-center gap-2.5 mr-4 px-2 py-1"
     >
       <img
         src="/images/portofLogo.png"
         alt="Portofy logo"
-        className="w-[32px] h-[32px] object-contain rounded-full shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+        className="w-[32px] h-[32px] object-contain rounded-full shadow-[0_0_10px_rgba(255,255,255,0.2)] shrink-0"
         onError={(e) => {
           // Fallback if image not found
           e.currentTarget.style.display = "none";
           e.currentTarget.nextElementSibling?.classList.remove("hidden");
         }}
       />
-      <div className="hidden flex items-center justify-center size-8 rounded-full bg-slate-800 border border-slate-700 shadow-inner">
+      <div className="hidden flex items-center justify-center size-8 rounded-full bg-slate-800 border border-slate-700 shadow-inner shrink-0">
         <span className="text-[16px]">🦅</span>
       </div>
-      <span className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
+      <span className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm whitespace-nowrap shrink-0">
         Portofy
       </span>
     </a>
@@ -60,8 +62,8 @@ export function NavbarDemo() {
 
         <NavItems items={navItems} />
 
-        <div className="flex items-center gap-4">
-          <div className="h-4 w-[1px] bg-slate-600/50 mx-1"></div>
+        <div className="flex shrink-0 items-center gap-2 xl:gap-4">
+          <div className="h-4 w-[1px] bg-slate-600/50 mx-1 shrink-0"></div>
 
           <NavbarButton
             variant="secondary"

@@ -90,7 +90,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         boxShadow: visible
           ? "0 10px 40px rgba(0,0,0,0.1), 0 0 60px rgba(59,130,246,0.05), inset 0 1px 0 rgba(255,255,255,0.1)"
           : "none",
-        width: visible ? "40%" : "100%",
+        width: visible ? "fit-content" : "100%",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -99,10 +99,10 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       style={{
-        minWidth: "800px",
+        // Let flex take care of the sizing seamlessly
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full px-5 py-2 lg:flex border border-transparent transition-colors duration-300",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl min-w-max flex-row items-center justify-between self-start rounded-full px-5 py-2 lg:flex border border-transparent transition-colors duration-300",
         visible &&
           "bg-[#0c1a30]/90 border-[#1e3a5f]/70 shadow-[0_8px_32px_rgba(7,14,27,0.5)]",
         className,
@@ -120,7 +120,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-slate-300 transition duration-200 lg:flex lg:space-x-2",
+        "hidden flex-1 flex-row items-center justify-center space-x-0.5 text-sm font-medium text-slate-300 transition duration-200 lg:flex lg:space-x-1 xl:space-x-2 whitespace-nowrap",
         className,
       )}
     >

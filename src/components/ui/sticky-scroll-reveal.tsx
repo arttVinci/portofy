@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef } from "react";
-import { useScroll, motion, useMotionValueEvent } from "motion/react";
+import React, { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export const StickyScroll = ({
@@ -9,7 +10,7 @@ export const StickyScroll = ({
 }: {
   content: {
     title: string;
-    description: string | React.ReactNode;
+    description: string;
     content?: React.ReactNode | any;
   }[];
   contentClassName?: string;
@@ -32,97 +33,62 @@ export const StickyScroll = ({
         }
         return acc;
       },
-      0
+      0,
     );
     setActiveCard(closestBreakpointIndex);
   });
 
-  const backgroundColors = [
-    "var(--slate-900)",
-    "var(--black)",
-    "var(--neutral-900)",
-  ];
   const linearGradients = [
-    "linear-gradient(to bottom right, var(--cyan-500), var(--emerald-500))",
-    "linear-gradient(to bottom right, var(--pink-500), var(--indigo-500))",
-    "linear-gradient(to bottom right, var(--orange-500), var(--yellow-500))",
-    "linear-gradient(to bottom right, var(--blue-500), var(--violet-500))",
+    "linear-gradient(to bottom right, #06b6d4, #10b981)",
+    "linear-gradient(to bottom right, #ec4899, #6366f1)",
+    "linear-gradient(to bottom right, #f97316, #eab308)",
   ];
+
+  const [backgroundGradient, setBackgroundGradient] = useState(
+    linearGradients[0],
+  );
+
+  useEffect(() => {
+    setBackgroundGradient(linearGradients[activeCard % linearGradients.length]);
+  }, [activeCard]);
 
   return (
-    <motion.div
-      className="h-[30rem] overflow-y-auto flex justify-center relative space-x-10 rounded-md p-10 scrollbar-hide"
+    <div
+      className="relative flex h-[30rem] justify-center space-x-10 overflow-y-auto rounded-md p-10 scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
       ref={ref}
-      style={{
-        // We use a subtle transparent background and handle overall section color in the parent
-        backgroundColor: "transparent",
-      }}
     >
-      {/* Scroll indicator instructions (optional) */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-2 text-slate-500 text-xs animate-bounce z-50">
-        <span>Scroll di area ini</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-      </div>
-
-      <div className="div relative flex items-start px-4 mt-8">
+      <div className="div relative flex items-start px-4">
         <div className="max-w-2xl">
           {content.map((item, index) => (
             <div key={item.title + index} className="my-20">
               <motion.h2
                 initial={{ opacity: 0 }}
-                animate={{
-                  opacity: activeCard === index ? 1 : 0.3,
-                  scale: activeCard === index ? 1 : 0.95,
-                  x: activeCard === index ? 0 : -10,
-                }}
-                transition={{ duration: 0.3 }}
+                animate={{ opacity: activeCard === index ? 1 : 0.3 }}
                 className="text-2xl font-bold text-slate-100"
               >
                 {item.title}
               </motion.h2>
-              <motion.div
+              <motion.p
                 initial={{ opacity: 0 }}
-                animate={{
-                  opacity: activeCard === index ? 1 : 0.3,
-                }}
-                transition={{ duration: 0.3 }}
-                className="text-kg text-slate-300 max-w-sm mt-10"
+                animate={{ opacity: activeCard === index ? 1 : 0.3 }}
+                className="text-kg mt-10 max-w-sm text-slate-300"
               >
                 {item.description}
-              </motion.div>
+              </motion.p>
             </div>
           ))}
           <div className="h-40" />
         </div>
       </div>
-      <motion.div
-        animate={{
-          background: linearGradients[activeCard % linearGradients.length],
-        }}
-        transition={{ duration: 0.5 }}
+      <div
+        style={{ background: backgroundGradient }}
         className={cn(
-          "hidden lg:flex h-80 w-96 rounded-2xl bg-white sticky top-16 overflow-hidden flex-col shadow-2xl",
-          contentClassName
+          "sticky top-10 hidden h-60 w-80 overflow-hidden rounded-md bg-white lg:block",
+          contentClassName,
         )}
       >
-        <div className="h-full w-full rotate-3 scale-110 opacity-90 relative">
-             {/* Sub visual pattern */}
-            <div className="absolute inset-0 bg-[size:20px_20px] [background-image:radial-gradient(circle,rgba(255,255,255,0.2)_1px,transparent_1px)]" />
-            <div className="absolute inset-0 flex items-center justify-center text-white/90 text-8xl drop-shadow-lg">
-                {content[activeCard]?.content ?? null}
-            </div>
-        </div>
-      </motion.div>
-
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-      `}</style>
-    </motion.div>
+        {content[activeCard].content ?? null}
+      </div>
+    </div>
   );
 };
