@@ -20,7 +20,7 @@ export default function CTASection() {
             fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
           }}
         >
-          Buat Karya Terbaikmu <br /> Sekarang Juga
+          Siap Dikenal di <br /> Dunia Digital?
         </motion.h1>
 
         <motion.p
@@ -31,10 +31,11 @@ export default function CTASection() {
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="mt-4 text-center text-slate-400 max-w-lg mx-auto text-base md:text-lg"
+          className="mt-4 text-center text-slate-400 max-w-xl mx-auto text-base md:text-lg"
         >
-          Portofolio profesional membedakanmu dengan yang lain. Tingkatkan
-          peluang karirmu dengan Portofy.
+          Bergabunglah dengan mahasiswa, freelancer, dan profesional yang telah
+          melesatkan personal brand mereka. Hak untuk tampil luar biasa, 
+          sekarang sungguh bisa dijangkau.
         </motion.p>
 
         <motion.div

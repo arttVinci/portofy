@@ -5,58 +5,32 @@ import { cn } from "@/lib/utils";
 
 const content = [
   {
-    eyebrow: "MANAGEMENT",
-    title: "Dashboard Builder",
+    eyebrow: "NO-CODE",
+    title: "Template Builder",
     description:
-      "Atur semua konten portofoliomu dari satu tempat yang terpusat. Dengan Dashboard Builder, kamu bisa mengelola proyek, pengalaman, skill, dan informasi pribadimu secara mudah dan efisien. Tidak perlu coding — cukup isi, atur, dan publikasikan.",
+      "Beragam pilihan template modern dan responsif dengan antarmuka editor drag-and-drop yang intuitif. Bebas melakukan kustomisasi terhadap skema warna, font, dan tipe layout tanpa coding.",
     shortDescription:
-      "Kelola proyek, skill, dan pengalamanmu langsung dari satu kendali khusus tanpa perlu coding.",
+      "Pilih dari puluhan template gratis dan edit antarmukanya seketika dengan utilitas drag-and-drop.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--blue-400),var(--blue-600))] text-white text-3xl font-bold">
-        Dashboard Builder
-      </div>
-    ),
-  },
-  {
-    eyebrow: "DESIGN",
-    title: "Pilih Template",
-    description:
-      "Tampilkan dirimu dengan gaya terbaik menggunakan 10+ template modern dan responsif yang siap pakai. Setiap template dirancang khusus untuk membantu portofoliomu tampil profesional di semua perangkat.",
-    shortDescription:
-      "Akses belasan template premium siap pakai yang diracik khusus agar portofoliomu menawan di semua layar.",
-    content: (
-      <div className="flex h-full w-full items-center justify-center text-white bg-slate-900">
+      <div className="flex h-full w-full items-center justify-center bg-slate-900 border border-slate-800">
         <img
           src="/linear.webp"
-          className="h-full w-full object-cover opacity-90"
-          alt="linear board demo"
+          className="h-full w-full object-cover opacity-80"
+          alt="Template Builder UI"
         />
       </div>
     ),
   },
   {
-    eyebrow: "INTELLIGENCE",
-    title: "AI Description",
+    eyebrow: "GENERATOR",
+    title: "AI-Powered Description",
     description:
-      "Biarkan AI menuliskan deskripsi profesional untukmu secara otomatis. Cukup masukkan informasi dasar tentang pengalamanmu, dan AI kami akan menghasilkan teks yang menarik, relevan, dan siap digunakan.",
+      "Pengguna cukup memasukkan informasi dasar tentang proyek atau pengalaman mereka, dan AI akan menghasilkan deskripsi yang profesional, menarik, dan sesuai konteks. Fitur ini membantu pengguna yang kesulitan mengartikulasikan pencapaian mereka dalam kata-kata yang tepat.",
     shortDescription:
-      "Buntu menulis bio? Informasikan dasarnya, dan AI merangkai kata-katanya hingga siap terbit seketika.",
+      "Cukup masukkan informasi dasar, dan AI akan merangkai deskripsi profesional yang menarik dan kaya konteks.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--violet-400),var(--purple-600))] text-white text-3xl font-bold">
-        AI Description
-      </div>
-    ),
-  },
-  {
-    eyebrow: "ANALYTICS",
-    title: "Portfolio Analyzer",
-    description:
-      "Dapatkan skor kelayakan portofoliomu beserta rekomendasi cerdas dari AI. Platform kami menganalisis struktur, konten, dan kelengkapan profilmu, lalu memberikan saran konkret agar portofoliomu semakin menarik.",
-    shortDescription:
-      "Dapatkan feedback instan, nilai kelayakan, dan rekomendasi langsung dari AI agar portofoliomu memikat HR.",
-    content: (
-      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--amber-400),var(--yellow-500))] text-white text-3xl font-bold">
-        Portfolio Analyzer
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--blue-400),var(--blue-600))] text-white text-3xl font-bold p-8 text-center drop-shadow-lg">
+        AI Description Generator
       </div>
     ),
   },
@@ -64,12 +38,25 @@ const content = [
     eyebrow: "AUTOMATION",
     title: "CV / Resume Parser",
     description:
-      "Upload CV atau resume-mu, dan biarkan sistem kami mengisi profilmu secara otomatis. Tidak perlu mengisi ulang data dari nol — parser AI kami membaca dokumenmu dan langsung memetakan informasi.",
+      "Pengguna dapat mengunggah CV atau resume mereka, dan sistem AI akan secara otomatis mengekstrak informasi penting seperti pengalaman, pendidikan, skill, lalu mengisi profil secara otonom.",
     shortDescription:
-      "Upload CV-mu dan biarkan sistem mem-parsing datanya ke dalam portofolio baru kamu dalam hitungan detik.",
+      "Upload dokumen lamamu dan biarkan AI mengekstrak metadatanya sekaligus mendeteksi otomatis gap pada profilmu.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--red-400),var(--rose-500))] text-white text-3xl font-bold">
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--rose-400),var(--red-500))] text-white text-3xl font-bold p-8 text-center drop-shadow-lg">
         CV / Resume Parser
+      </div>
+    ),
+  },
+  {
+    eyebrow: "ANALYTICS",
+    title: "Portfolio Analyzer",
+    description:
+      "Setelah portofolio selesai dibuat, AI akan melakukan analisis mendalam dan memberikan skor kelayakan portofolio (Portfolio Score), analisis kesesuaian industri, serta flag item yang perlu diperbaiki.",
+    shortDescription:
+      "Dapatkan skor kelayakan dan analisis mendalam AI demi memperkuat nilai saing portofoliomu.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--amber-400),var(--orange-500))] text-white text-3xl font-bold p-8 text-center drop-shadow-lg">
+        Portfolio Analyzer
       </div>
     ),
   },
@@ -113,8 +100,8 @@ export default function WhySection() {
                 "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
             }}
           >
-            Kami Bekerja Layaknya <br className="hidden md:block" />
-            <span className="text-slate-500">Personal Asisten Masa Depan.</span>
+            Platform Portofolio <br className="hidden md:block" />
+            <span className="text-slate-500">Cerdas Berbasis AI.</span>
           </motion.h2>
 
           <motion.p
@@ -124,8 +111,7 @@ export default function WhySection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 text-sm md:text-base leading-relaxed max-w-lg"
           >
-            Bukan sekadar website builder biasa. Ini adalah mesin cerdas yang
-            siap membantu karirmu meloncat lebih tinggi secara otomatis.
+            Memungkinkan siapa pun membangun portofolio profesional secara online tanpa perlu keahlian coding sama sekali. Pendekatan intuitif yang dioptimalkan untuk pengguna Indonesia.
           </motion.p>
         </div>
 

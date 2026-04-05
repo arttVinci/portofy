@@ -10,40 +10,40 @@ import {
 
 const STEPS = [
   {
-    title: "1. Daftar Gratis",
+    title: "1. Registrasi & Onboarding",
     icon: <IconUserPlus className="h-6 w-6 text-blue-400" />,
     description:
-      "Buat akun dalam 30 detik. Tanpa kartu kredit, tanpa trial. Langsung akses semua fitur utama.",
+      "Daftar cepat via platform. Opsional: unggah dokumen lamamu untuk memanfaatkan AI CV Parser dan meng-auto-fill profil portofoliomu secara instan.",
     videoSrc: "",
     videoPoster: "",
-    videoLabel: "Demo: Proses Registrasi",
+    videoLabel: "Demo: Registrasi & Auto-fill Profil",
   },
   {
-    title: "2. Pilih Template",
+    title: "2. Pilih Template & Kustomisasi",
     icon: <IconLayout className="h-6 w-6 text-emerald-400" />,
     description:
-      "Pilih dari 10+ template modern yang sudah dioptimasi untuk berbagai bidang — desainer, developer, marketer, dan lainnya.",
+      "Pilah dari galeri template modern. Kustomisasi menyeluruh orientasi layout, paduan warna, hingga tipografi secara presisi—sepenuhnya tanpa coding.",
     videoSrc: "",
     videoPoster: "",
-    videoLabel: "Demo: Memilih Template",
+    videoLabel: "Demo: Kustomisasi Drag & Drop",
   },
   {
-    title: "3. Isi Konten & Biarkan AI Bantu",
+    title: "3. Konten & Eksekusi Kecerdasan Buatan",
     icon: <IconPencilStar className="h-6 w-6 text-violet-400" />,
     description:
-      "Upload project, pengalaman, dan skill-mu. AI akan generate deskripsi profesional dan menganalisis kekuatan portofoliomu.",
+      "Lengkapi riwayat karirmu. Gunakan AI Description Generator untuk menyulap draf sederhana jadi teks profesional, serta berdialoglah dengan AI Consultation untuk saran strategis.",
     videoSrc: "",
     videoPoster: "",
-    videoLabel: "Demo: AI Description",
+    videoLabel: "Demo: AI Generative Tools",
   },
   {
-    title: "4. Publish & Share",
+    title: "4. Analisa & Publikasi Final",
     icon: <IconRocket className="h-6 w-6 text-amber-400" />,
     description:
-      "Portofoliomu langsung live dengan subdomain gratis. Share ke LinkedIn, email ke HR, atau tempel di CV.",
+      "Jalankan instruksi AI Portfolio Analyzer demi meraih Skor Kelayakan. Saat matang, luncurkan portofoliomu ke publik menggunakan subdomain istimewa yang kami sediakan.",
     videoSrc: "",
     videoPoster: "",
-    videoLabel: "Demo: Publish Portfolio",
+    videoLabel: "Demo: Analyzer & Publish Live",
   },
 ];
 
@@ -199,9 +199,9 @@ export default function HowItWorksSection() {
                 "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
             }}
           >
-            Mulai dalam{" "}
+            Alur Mudah{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-              4 Langkah Mudah
+              Membangun Portofolio
             </span>
           </motion.h2>
 
@@ -212,7 +212,7 @@ export default function HowItWorksSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 max-w-xl mx-auto"
           >
-            Dari daftar sampai publish portfolio, cuma butuh beberapa menit.
+            Hanya butuh beberapa menit dan 4 tahapan simpel untuk menghasilkan dan memplubikasikan profil digital profesional kamu.
           </motion.p>
         </div>
 
