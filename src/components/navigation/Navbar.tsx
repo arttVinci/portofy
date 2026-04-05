@@ -20,7 +20,7 @@ import {
 
 export function NavbarDemo() {
   const navItems = [
-    { name: "Langkah Memulai", link: "#" },
+    { name: "Langganan", link: "#" },
     { name: "Blog", link: "#" },
     { name: "FAQ", link: "#" },
     { name: "Template", link: "#" },
