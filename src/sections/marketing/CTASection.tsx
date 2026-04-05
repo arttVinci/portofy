@@ -2,11 +2,13 @@ import { motion } from "motion/react";
 import { LampContainer } from "@/components/ui/lamp";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { IconArrowRight } from "@tabler/icons-react";
+import { Boxes } from "@/components/ui/background-boxes";
 
 export default function CTASection() {
   return (
     <section className="relative bg-[#050a15] overflow-hidden">
       <LampContainer>
+        <Boxes />
         <motion.h1
           initial={{ opacity: 0.5, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +36,7 @@ export default function CTASection() {
           className="mt-4 text-center text-slate-400 max-w-xl mx-auto text-base md:text-lg"
         >
           Bergabunglah dengan mahasiswa, freelancer, dan profesional yang telah
-          melesatkan personal brand mereka. Hak untuk tampil luar biasa, 
+          melesatkan personal brand mereka. Hak untuk tampil luar biasa,
           sekarang sungguh bisa dijangkau.
         </motion.p>
 
