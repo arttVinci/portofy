@@ -119,18 +119,27 @@ function VideoPlayer({
               <motion.div
                 className={`absolute -inset-4 rounded-full ${dotColors[stepIndex]} opacity-20 blur-xl`}
                 animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               />
               <motion.div
                 className={`relative flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-sm cursor-pointer`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <IconPlayerPlay className="h-7 w-7 text-white ml-0.5" fill="currentColor" />
+                <IconPlayerPlay
+                  className="h-7 w-7 text-white ml-0.5"
+                  fill="currentColor"
+                />
               </motion.div>
             </div>
 
-            <span className="text-xs text-slate-600 mt-1">Video segera hadir</span>
+            <span className="text-xs text-slate-600 mt-1">
+              Video segera hadir
+            </span>
           </div>
         )}
       </div>
@@ -144,7 +153,6 @@ export default function HowItWorksSection() {
     content: (
       <div className="grid md:grid-cols-2 gap-6 items-start">
         <div>
-          <div className="flex items-center gap-2 mb-3">{step.icon}</div>
           <p className="text-slate-400 text-sm md:text-base leading-relaxed">
             {step.description}
           </p>
