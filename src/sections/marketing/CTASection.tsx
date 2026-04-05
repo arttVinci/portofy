@@ -1,65 +1,70 @@
 import { motion } from "motion/react";
-import { LampContainer } from "@/components/ui/lamp";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Boxes } from "@/components/ui/background-boxes";
 
 export default function CTASection() {
   return (
-    <section className="relative bg-[#050a15] overflow-hidden">
-      <LampContainer>
-        <Boxes />
-        <motion.h1
-          initial={{ opacity: 0.5, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.3,
-            duration: 0.8,
-            ease: "easeInOut",
-          }}
-          className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
-          style={{
-            fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-          }}
-        >
-          Siap Dikenal di <br /> Dunia Digital?
-        </motion.h1>
+    <section className="min-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center rounded-lg">
+      {/* Radial mask overlay */}
+      <div className="absolute inset-0 w-full h-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
 
-        <motion.p
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.4,
-            duration: 0.8,
-            ease: "easeInOut",
-          }}
-          className="mt-4 text-center text-slate-400 max-w-xl mx-auto text-base md:text-lg"
-        >
-          Bergabunglah dengan mahasiswa, freelancer, dan profesional yang telah
-          melesatkan personal brand mereka. Hak untuk tampil luar biasa,
-          sekarang sungguh bisa dijangkau.
-        </motion.p>
+      {/* Animated boxes background */}
+      <Boxes />
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.5,
-            duration: 0.8,
-            ease: "easeInOut",
-          }}
-          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+      {/* Heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+        }}
+        className="mt-8 bg-gradient-to-br from-white to-slate-400 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl z-30"
+        style={{
+          fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
+        }}
+      >
+        Siap Dikenal di <br />{" "}
+        <span className="text-slate-500">Dunia Digital?</span>
+      </motion.h1>
+
+      {/* Subtitle */}
+      <motion.p
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.4,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="mt-4 text-center text-slate-400 max-w-xl mx-auto text-base md:text-lg z-30 px-4"
+      >
+        Bergabunglah dengan mahasiswa, freelancer, dan profesional yang telah
+        melesatkan personal brand mereka. Hak untuk tampil luar biasa, sekarang
+        sungguh bisa dijangkau.
+      </motion.p>
+
+      {/* CTA Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.5,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="mt-10 mb-10 flex flex-col sm:flex-row items-center gap-4 z-30"
+      >
+        <HoverBorderGradient
+          containerClassName="rounded-full"
+          as="button"
+          className="bg-black text-white flex items-center space-x-2 hover:brightness-110 transition-all cursor-pointer"
         >
-          <HoverBorderGradient
-            containerClassName="rounded-full"
-            as="button"
-            className="bg-black text-white flex items-center space-x-2"
-          >
-            <span>Mulai Gratis Sekarang</span>
-            <IconArrowRight size={18} stroke={2} />
-          </HoverBorderGradient>
-        </motion.div>
-      </LampContainer>
+          <span>Mulai Gratis Sekarang</span>
+          <IconArrowRight size={18} stroke={2} />
+        </HoverBorderGradient>
+      </motion.div>
     </section>
   );
 }
