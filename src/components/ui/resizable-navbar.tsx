@@ -124,23 +124,35 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         className,
       )}
     >
-      {items.map((item, idx) => (
-        <a
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-blue-100 hover:text-white transition-colors duration-200"
-          key={`link-${idx}`}
-          href={item.link}
-        >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-[#2563eb]/40 border border-[#60a5fa]/30"
-            />
-          )}
-          <span className="relative z-20 font-medium">{item.name}</span>
-        </a>
-      ))}
+      {items.map((item, idx) => {
+        const isHash = item.link.startsWith("#");
+        return (
+          <a
+            onMouseEnter={() => setHovered(idx)}
+            onClick={(e) => {
+              if (isHash) {
+                e.preventDefault();
+                const element = document.querySelector(item.link);
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              }
+              if (onItemClick) onItemClick();
+            }}
+            className="relative px-4 py-2 text-blue-100 hover:text-white transition-colors duration-200 cursor-pointer"
+            key={`link-${idx}`}
+            href={item.link}
+          >
+            {hovered === idx && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-[#2563eb]/40 border border-[#60a5fa]/30"
+              />
+            )}
+            <span className="relative z-20 font-medium">{item.name}</span>
+          </a>
+        );
+      })}
     </motion.div>
   );
 };

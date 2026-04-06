@@ -89,7 +89,7 @@ export default function BlogSection() {
   const [focusedIdx, setFocusedIdx] = useState<number | null>(null);
 
   return (
-    <section className="relative bg-[#070e1b] py-24 overflow-hidden">
+    <section id="blog" className="relative bg-[#070e1b] py-24 overflow-hidden">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-9 max-w-7xl">

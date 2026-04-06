@@ -33,7 +33,7 @@ export default function FAQSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="relative bg-[#070e1b] py-24 overflow-hidden">
+    <section id="faq" className="relative bg-[#070e1b] py-24 overflow-hidden">
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[400px] h-[400px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-6 max-w-3xl">

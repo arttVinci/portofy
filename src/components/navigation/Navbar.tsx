@@ -10,21 +10,15 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import {
-  IconSearch,
-  IconLanguage,
-  IconMoonFilled,
-  IconArrowRight,
-  IconTerminal2,
-} from "@tabler/icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 
 export function NavbarDemo() {
   const navItems = [
-    { name: "Langganan", link: "#" },
-    { name: "Blog", link: "#" },
-    { name: "FAQ", link: "#" },
-    { name: "Template", link: "#" },
-    { name: "Tentang Kami", link: "#" },
+    { name: "Langganan", link: "#langganan" },
+    { name: "Blog", link: "#blog" },
+    { name: "FAQ", link: "#faq" },
+    { name: "Template", link: "/templates" },
+    { name: "Tentang Kami", link: "/about" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -68,10 +62,15 @@ export function NavbarDemo() {
           <NavbarButton
             variant="secondary"
             className="px-4 py-1.5 text-[13px] border-none hover:bg-slate-800/50"
+            href="/auth/login"
           >
             Login
           </NavbarButton>
-          <NavbarButton variant="primary" className="gap-1.5 px-5 py-2">
+          <NavbarButton
+            variant="primary"
+            className="gap-1.5 px-5 py-2"
+            href="/auth/register"
+          >
             Mulai Gratis
             <IconArrowRight size={16} stroke={2} />
           </NavbarButton>
@@ -92,21 +91,34 @@ export function NavbarDemo() {
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
         >
-          {navItems.map((item, idx) => (
-            <a
-              key={`mobile-link-${idx}`}
-              href={item.link}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="relative text-slate-300 hover:text-white transition-colors duration-200 text-[15px] font-medium px-2 py-1"
-            >
-              <span className="block">{item.name}</span>
-            </a>
-          ))}
+          {navItems.map((item, idx) => {
+            const isHash = item.link.startsWith("#");
+            return (
+              <a
+                key={`mobile-link-${idx}`}
+                href={item.link}
+                onClick={(e) => {
+                  if (isHash) {
+                    e.preventDefault();
+                    const element = document.querySelector(item.link);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                  setIsMobileMenuOpen(false);
+                }}
+                className="relative text-slate-300 hover:text-white transition-colors duration-200 text-[15px] font-medium px-2 py-1 cursor-pointer"
+              >
+                <span className="block">{item.name}</span>
+              </a>
+            );
+          })}
           <div className="flex w-full flex-col gap-3 mt-4 pt-4 border-t border-slate-800">
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}
               variant="secondary"
               className="w-full"
+              href="/auth/login"
             >
               Login
             </NavbarButton>
@@ -114,6 +126,7 @@ export function NavbarDemo() {
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full gap-2 justify-center"
+              href="/auth/register"
             >
               Mulai Gratis <IconArrowRight size={16} stroke={2} />
             </NavbarButton>

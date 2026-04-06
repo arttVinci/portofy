@@ -13,7 +13,7 @@ const PREMIUM_FEATURES = [
 
 export default function PremiumSection() {
   return (
-    <section className="relative bg-[#050a15] pb-24 pt-10 overflow-hidden">
+    <section id="langganan" className="relative bg-[#050a15] pb-24 pt-10 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
 
