@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const content = [
   {
@@ -74,50 +74,17 @@ export default function WhySection() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl">
-        {/* Header */}
-        <div className="mb-14 md:mb-20 px-4 max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="h-[2px] w-8 bg-blue-600"></div>
-            <span className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">
-              Kenapa Memilih Kami?
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-[44px] font-bold text-white mb-6 leading-[1.2] tracking-tight"
-            style={{
-              fontFamily:
-                "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-            }}
-          >
-            Platform Portofolio <br className="hidden md:block" />
-            <span className="text-slate-500">Cerdas Berbasis AI.</span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 text-sm md:text-base leading-relaxed max-w-lg"
-          >
-            Memungkinkan siapa pun membangun portofolio profesional secara online tanpa perlu keahlian coding sama sekali. Pendekatan intuitif yang dioptimalkan untuk pengguna Indonesia.
-          </motion.p>
-        </div>
+        {/* Section Header */}
+        <SectionHeader
+          title="Kenapa Memilih"
+          titleGradient="PortofId"
+          description="Memungkinkan siapa pun membangun portofolio profesional secara online tanpa perlu keahlian coding sama sekali. Pendekatan intuitif yang dioptimalkan untuk pengguna Indonesia."
+          label="Kenapa Memilih"
+          isCenterHeader={false}
+        />
 
         {/* Custom Tabs Layout */}
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 px-4">
-          
           {/* Left Side: Tab List */}
           <div className="flex flex-col gap-3 w-full lg:w-5/12 shrink-0">
             {content.map((item, index) => {
@@ -131,7 +98,7 @@ export default function WhySection() {
                     "cursor-pointer p-6 rounded-2xl border transition-all duration-300 relative",
                     isActive
                       ? "bg-slate-800/80 border-slate-700 shadow-lg"
-                      : "bg-transparent border-transparent hover:bg-slate-800/40 opacity-70 hover:opacity-100"
+                      : "bg-transparent border-transparent hover:bg-slate-800/40 opacity-70 hover:opacity-100",
                   )}
                 >
                   {/* Left blue active indicator line */}
@@ -139,7 +106,11 @@ export default function WhySection() {
                     <motion.div
                       layoutId="active-tab-indicator"
                       className="absolute left-0 top-6 bottom-6 w-1 bg-blue-500 rounded-r-md"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
                     />
                   )}
                   <h3 className="text-xl font-bold text-white mb-2">
@@ -184,7 +155,6 @@ export default function WhySection() {
               </motion.div>
             </AnimatePresence>
           </div>
-
         </div>
       </div>
     </section>

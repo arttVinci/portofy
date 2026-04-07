@@ -1530,7 +1530,8 @@ export default function HeroSection() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold text-sm hover:bg-slate-800/50 transition-all duration-300"
               style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}
             >
-              <IconPlayerPlay size={18} stroke={1.5} /> Cara Kerja
+              <IconPlayerPlay size={18} stroke={1.5} />
+              Lihat Cara Kerjanya
             </button>
           </motion.div>
 

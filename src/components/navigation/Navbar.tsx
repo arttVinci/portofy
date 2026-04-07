@@ -17,8 +17,8 @@ export function NavbarDemo() {
     { name: "Langganan", link: "#langganan" },
     { name: "Blog", link: "#blog" },
     { name: "FAQ", link: "#faq" },
-    { name: "Template", link: "/templates" },
-    { name: "Tentang Kami", link: "/about" },
+    { name: "Template", link: "#" },
+    { name: "Tentang Kami", link: "#" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

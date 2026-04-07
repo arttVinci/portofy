@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { IconPlus, IconMinus } from "@tabler/icons-react";
+import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const FAQS = [
   {
@@ -37,34 +38,13 @@ export default function FAQSection() {
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[400px] h-[400px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-6 max-w-3xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6"
-          >
-            <span className="text-blue-300 text-xs font-semibold tracking-widest uppercase">
-              FAQ
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)" }}
-          >
-            Pertanyaan{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-              Umum
-            </span>
-          </motion.h2>
-        </div>
+        {/* Section Header */}
+        <SectionHeader
+          title="Pertanyaan"
+          titleGradient="Umum"
+          label="FAQ"
+          isCenterHeader={true}
+        />
 
         {/* Accordion */}
         <div className="space-y-3">

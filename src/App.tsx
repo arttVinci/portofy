@@ -8,7 +8,7 @@ import AuthLayout from "./layouts/AuthLayout";
 
 // 2. Pages Marketing (Jualan)
 import HomePage from "./pages/home/HomePage";
-import TemplatePage from "./pages/public/TemplatePage";
+import TemplatePage from "./pages/home/TemplatePage";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";

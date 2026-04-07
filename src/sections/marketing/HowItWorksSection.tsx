@@ -7,6 +7,7 @@ import {
   IconRocket,
   IconPlayerPlay,
 } from "@tabler/icons-react";
+import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const STEPS = [
   {
@@ -174,48 +175,14 @@ export default function HowItWorksSection() {
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[700px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6"
-          >
-            <span className="text-blue-300 text-xs font-semibold tracking-widest uppercase">
-              Cara Kerja
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-white mb-4"
-            style={{
-              fontFamily:
-                "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-            }}
-          >
-            Alur Mudah{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-              Membangun Portofolio
-            </span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 max-w-xl mx-auto"
-          >
-            Hanya butuh beberapa menit dan 4 tahapan simpel untuk menghasilkan
-            dan memplubikasikan profil digital profesional kamu.
-          </motion.p>
-        </div>
+        {/* Section Header */}
+        <SectionHeader
+          title="Alur Mudah"
+          titleGradient="Membangun Portofolio"
+          description="Hanya butuh beberapa menit dan 4 tahapan simpel untuk menghasilkan dan memplubikasikan profil digital profesional kamu."
+          label="Cara Kerja"
+          isCenterHeader={true}
+        />
 
         {/* Timeline */}
         <Timeline data={timelineData} />
