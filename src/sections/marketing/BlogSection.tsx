@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { IconClock, IconUser, IconArrowRight } from "@tabler/icons-react";
+import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const BLOG_POSTS = [
   {
@@ -93,48 +94,14 @@ export default function BlogSection() {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-9 max-w-7xl">
-        {/* Header */}
-        <div className="mb-14 md:mb-20 px-4 max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="h-[2px] w-8 bg-violet-500"></div>
-            <span className="text-violet-400 text-xs font-bold tracking-[0.2em] uppercase">
-              Blog & Komunitas
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-[44px] font-bold text-white mb-6 leading-[1.2] tracking-tight"
-            style={{
-              fontFamily:
-                "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-            }}
-          >
-            Belajar Dari <br className="hidden md:block" />
-            <span className="text-slate-500">Sesama Kreator Indonesia.</span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 text-sm md:text-base leading-relaxed max-w-lg"
-          >
-            Temukan berbagai insight, panduan praktis, dan wawasan karir
-            langsung dari sesama profesional untuk membantu perjalanan digitalmu
-            selanjutnya.
-          </motion.p>
-        </div>
+        {/* Section Header */}
+        <SectionHeader
+          title="Belajar Dari"
+          titleGradient="Sesama Kreator Indonesia."
+          description="Temukan berbagai insight, panduan praktis, dan wawasan karir langsung dari sesama profesional untuk membantu perjalanan digitalmu selanjutnya."
+          label="Blog & Komunitas"
+          isCenterHeader={false}
+        />
 
         {/* Cards Grid — Focus Card style */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

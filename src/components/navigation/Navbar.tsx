@@ -23,7 +23,6 @@ export function NavbarDemo() {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Logo match for Elysian / Portofy
   const BrandLogo = () => (
     <a
       href="/"
