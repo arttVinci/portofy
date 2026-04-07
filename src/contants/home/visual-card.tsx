@@ -4,6 +4,14 @@ import { VisualAIDesc } from "@/components/marketing/hero/visualCard/VisualAIDes
 import { VisualAnalyzer } from "@/components/marketing/hero/visualCard/VisualAnalyzer";
 import { VisualCVParser } from "@/components/marketing/hero/visualCard/VisualCVParser";
 
+export const CONNECTIONS_CARD: [string, string][] = [
+  ["dashboard", "template"],
+  ["dashboard", "ai-desc"],
+  ["template", "analyzer"],
+  ["ai-desc", "cv-parser"],
+  ["analyzer", "cv-parser"],
+];
+
 export const CARDS = [
   {
     id: "dashboard",

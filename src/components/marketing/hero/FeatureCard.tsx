@@ -1,6 +1,10 @@
 import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
 
+import { CARDS } from "@/contants/home/visual-card";
+
+const CARD_W = 245;
+
 export default function FeatureCard({
   card,
   onRect,
