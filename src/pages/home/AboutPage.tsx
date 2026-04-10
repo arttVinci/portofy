@@ -20,7 +20,25 @@ import {
   IconBrandInstagram,
 } from "@tabler/icons-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { cn } from "@/lib/utils";
 import FooterSection from "@/sections/marketing/FooterSection";
+
+/* ────────────────── Reusable grid background (same as homepage) ──────────────── */
+
+function GridBackground({ className }: { className?: string }) {
+  return (
+    <>
+      <div
+        className={cn(
+          "absolute inset-0 z-0 bg-size-[50px_50px]",
+          "[background-image:linear-gradient(to_right,#1e3a8a_1px,transparent_1px),linear-gradient(to_bottom,#1e3a8a_1px,transparent_1px)]",
+          "opacity-[0.12]",
+          className,
+        )}
+      />
+    </>
+  );
+}
 
 /* ───────────────────────────────── DATA ───────────────────────────────── */
 
@@ -132,20 +150,12 @@ export default function AboutPage() {
     <>
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="relative min-h-[80vh] flex items-center justify-center bg-[#070e1b] overflow-hidden">
-        {/* Dot grid */}
-        <div className="absolute inset-0 bg-[size:32px_32px] [background-image:radial-gradient(circle,rgba(59,130,246,0.06)_1px,transparent_1px)] pointer-events-none" />
+        {/* Grid background — same as homepage hero */}
+        <GridBackground />
 
         {/* Glow orbs */}
-        <motion.div
-          className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-blue-600/8 blur-[180px] rounded-full pointer-events-none"
-          animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] bg-violet-600/8 blur-[160px] rounded-full pointer-events-none"
-          animate={{ x: [0, -25, 0], y: [0, 25, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[520px] h-[520px] bg-blue-600/10 blur-[130px] rounded-full pointer-events-none z-0" />
+        <div className="absolute top-1/2 right-1/5 -translate-y-1/2 w-[360px] h-[360px] bg-violet-600/6 blur-[100px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 text-center max-w-4xl">
           <motion.div
@@ -212,7 +222,7 @@ export default function AboutPage() {
 
       {/* ═══════════════════ LATAR BELAKANG & MASALAH ═══════════════════ */}
       <section className="relative bg-[#050a15] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[300px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[300px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-6xl">
           {/* Latar Belakang */}
@@ -237,8 +247,7 @@ export default function AboutPage() {
                   "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
               }}
             >
-              Kenapa Portofy{" "}
-              <span className="text-slate-500">Harus Ada?</span>
+              Kenapa Portofy <span className="text-slate-500">Harus Ada?</span>
             </h2>
 
             <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-2xl">
@@ -279,7 +288,8 @@ export default function AboutPage() {
 
       {/* ═══════════════════ SOLUSI — VISI & MISI ═══════════════════ */}
       <section className="relative bg-[#070e1b] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
+        <GridBackground />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-6xl">
           {/* Header */}
@@ -389,8 +399,8 @@ export default function AboutPage() {
 
       {/* ═══════════════════ FITUR UNGGULAN ═══════════════════ */}
       <section className="relative bg-[#050a15] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute top-[20%] left-0 w-[500px] h-[400px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[10%] right-0 w-[500px] h-[400px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-[20%] left-0 w-[500px] h-[400px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
+        <div className="absolute bottom-[10%] right-0 w-[500px] h-[400px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-7xl">
           <motion.div
@@ -468,7 +478,8 @@ export default function AboutPage() {
 
       {/* ═══════════════════ TARGET PENGGUNA ═══════════════════ */}
       <section className="relative bg-[#070e1b] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/4 blur-[180px] rounded-full pointer-events-none" />
+        <GridBackground />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/4 blur-[180px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-6xl">
           <motion.div
@@ -530,7 +541,7 @@ export default function AboutPage() {
 
       {/* ═══════════════════ PEMBUAT ═══════════════════ */}
       <section className="relative bg-[#050a15] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-4xl">
           <motion.div
@@ -628,36 +639,13 @@ export default function AboutPage() {
             {/* Bottom accent */}
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 opacity-20" />
           </motion.div>
-
-          {/* Project Meta */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-8 flex flex-wrap justify-center gap-3"
-          >
-            {[
-              "© 2026 Portofy",
-              "Versi 1.0",
-              "April 2026",
-              "Made in Indonesia 🇮🇩",
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="text-xs text-slate-600 bg-white/[0.02] border border-white/[0.06] rounded-full px-4 py-1.5"
-              >
-                {tag}
-              </span>
-            ))}
-          </motion.div>
         </div>
       </section>
 
       {/* ═══════════════════ CTA ═══════════════════ */}
       <section className="relative bg-[#070e1b] py-24 lg:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-[size:40px_40px] [background-image:radial-gradient(circle,rgba(59,130,246,0.04)_1px,transparent_1px)] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/6 blur-[180px] rounded-full pointer-events-none" />
+        <GridBackground />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/6 blur-[180px] rounded-full pointer-events-none z-0" />
 
         <div className="relative z-10 container mx-auto px-6 max-w-4xl text-center">
           <motion.h2
@@ -719,16 +707,6 @@ export default function AboutPage() {
               />
             </a>
           </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="mt-8 text-xs text-slate-600"
-          >
-            Gratis selamanya • Tanpa kartu kredit • Setup dalam 5 menit
-          </motion.p>
         </div>
       </section>
 
