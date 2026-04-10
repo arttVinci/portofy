@@ -30,5 +30,3 @@ export * from "./social/useAdminSocials";
 
 export * from "./profile/useGetProfile";
 export * from "./profile/useGetPublicProfile";
-
-export * from "./usePortfolio";
