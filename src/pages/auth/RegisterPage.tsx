@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowRight, ArrowLeft } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import {
+  IconCheck,
+  IconArrowRight,
+  IconArrowLeft,
+} from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 import { ApiError } from "@/api/apiError";
 
 import SuccessScreen from "@/components/auth/SuccessScreen";
@@ -25,10 +30,10 @@ import { useSendOtp } from "@/hooks/mutations/auth/useSendOtp";
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const steps = [
-  { num: 1, title: "Create Account", desc: "Username, email & password" },
-  { num: 2, title: "Email Verification", desc: "Enter OTP code" },
-  { num: 3, title: "Your Profile", desc: "Avatar, bio & detail" },
-  { num: 4, title: "Choose Template", desc: "Initial display" },
+  { num: 1, title: "Buat Akun", desc: "Username, email & password" },
+  { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
+  { num: 3, title: "Profil Kamu", desc: "Avatar, bio & detail" },
+  { num: 4, title: "Pilih Template", desc: "Tampilan awal" },
 ];
 
 const templates: TemplateResponse[] = [
@@ -100,13 +105,11 @@ export default function RegisterPage() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
-    // Account
     username: "",
     email: "",
     password: "",
     confirmPw: "",
     phone: "",
-    // Profile
     fullName: "",
     image_url: "",
     address: "",
@@ -119,26 +122,23 @@ export default function RegisterPage() {
 
   const createUserMutation = useRegister({
     onSuccess: (response) => {
-      // console.log("Login success:", data);
       setToken(response.token);
       setFormData((prev) => ({ ...prev, userId: response.user.id }));
-
       goNext();
-      toast("success", "Success", `Your account has been created successfully`);
+      toast("success", "Berhasil", `Akun berhasil dibuat`);
     },
     onError: (error: ApiError) => {
-      // console.error("Login failed:", error.message);
-      toast("error", "Failed", error.message);
+      toast("error", "Gagal", error.message);
     },
   });
 
   const createProfileMutation = useCreateProfile({
     onSuccess: (response) => {
-      toast("success", "Success", `Welcome ${response.full_name},`);
+      toast("success", "Berhasil", `Selamat datang ${response.full_name},`);
       setDone(true);
     },
     onError: (error) => {
-      toast("error", "Failed", error.message);
+      toast("error", "Gagal", error.message);
     },
   });
 
@@ -148,27 +148,21 @@ export default function RegisterPage() {
         ...prev,
         image_url: response.image_url[0],
       }));
-
-      toast(
-        "success",
-        "Success",
-        "Profile picture has been updated successfully",
-      );
+      toast("success", "Berhasil", "Foto profil berhasil diupload");
       goNext();
     },
-    onError: (error: ApiError) => toast("error", "Failed", error.message),
+    onError: (error: ApiError) => toast("error", "Gagal", error.message),
   });
 
   const sendOtpMutation = useSendOtp({
     onSuccess: () => {
-      toast("success", "Success", "OTP has been sent to your email");
+      toast("success", "Berhasil", "Kode OTP telah dikirim ke email kamu");
     },
-    onError: (error: ApiError) => toast("error", "Failed", error.message),
+    onError: (error: ApiError) => toast("error", "Gagal", error.message),
   });
 
   const handleCreateUser = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-
     const payload: RegisterUserRequest = {
       username: formData.username,
       password: formData.password,
@@ -176,13 +170,11 @@ export default function RegisterPage() {
       no_telp: formData.phone,
       otp_code: otp,
     };
-
     createUserMutation.mutate(payload);
   };
 
   const handleCreateProfile = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-
     const payload: CreateProfileRequest = {
       user_id: formData.userId,
       full_name: formData.fullName,
@@ -193,7 +185,6 @@ export default function RegisterPage() {
       theme: formData.theme,
       tags: formData.tags,
     };
-
     createProfileMutation.mutate(payload);
   };
 
@@ -204,7 +195,6 @@ export default function RegisterPage() {
     }
     const formData = new FormData();
     formData.append("images", avatarImageFile);
-
     uploadMutation.mutateAsync(formData);
   };
 
@@ -213,7 +203,6 @@ export default function RegisterPage() {
       username: formData.username,
       email: formData.email,
     };
-
     sendOtpMutation.mutate(payload);
   };
 
@@ -232,7 +221,6 @@ export default function RegisterPage() {
       return (
         formData.username.length >= 3 && formData.email && pwStrong && pwMatch
       );
-    // if (step === 2) return otp.length === 6;
     if (step === 3) return formData.fullName.length > 3;
     return true;
   };
@@ -262,7 +250,6 @@ export default function RegisterPage() {
 
     if (savedToken) {
       setToken(savedToken);
-
       if (savedStep) {
         setStep(parseInt(savedStep, 10));
         setDir(1);
@@ -287,145 +274,123 @@ export default function RegisterPage() {
     }
   }, [step, token]);
 
+  /* ════════════════════════════ LEFT PANEL CONTENT ════════════════════════════ */
+
+  const leftPanelTitles: Record<number, { heading: string; sub: string; desc: string }> = {
+    1: {
+      heading: "Buat Akun",
+      sub: "Portofy.",
+      desc: "Daftar dengan email atau langsung gunakan akun Google.",
+    },
+    2: {
+      heading: "Verifikasi",
+      sub: "Email Kamu.",
+      desc: `Kode 6 digit dikirim ke ${formData.email || "email kamu"}.`,
+    },
+    3: {
+      heading: "Lengkapi",
+      sub: "Profilmu.",
+      desc: "Upload CV dan biarkan AI mengisi form — atau isi sendiri.",
+    },
+    4: {
+      heading: "Pilih",
+      sub: "Template.",
+      desc: "Template bisa diganti kapan saja dari dashboard.",
+    },
+  };
+
+  const currentLeft = leftPanelTitles[step] || leftPanelTitles[1];
+
   return (
-    <div
-      className="flex min-h-screen"
-      style={{ backgroundColor: "#0a0a0f", fontFamily: "'Inter', sans-serif" }}
-    >
-      {renderToasts()}
-      {/* BG grid */}
+    <div className="relative flex min-h-screen bg-[#070e1b] font-sans overflow-hidden">
+      {/* ── Background grid ── */}
       <div
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
-          backgroundSize: "48px 48px",
-        }}
+        className={cn(
+          "absolute inset-0 z-0 bg-size-[50px_50px]",
+          "[background-image:linear-gradient(to_right,#1e3a8a_1px,transparent_1px),linear-gradient(to_bottom,#1e3a8a_1px,transparent_1px)]",
+          "opacity-[0.12]",
+        )}
       />
 
-      {/* ── LEFT BRANDING ── */}
-      <div
-        className="hidden lg:flex flex-col justify-between w-90 shrink-0 relative overflow-hidden px-10 py-10"
-        style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 right-0"
-          style={{
-            height: 360,
-            background:
-              "radial-gradient(ellipse at center bottom, rgba(255,255,255,0.04) 0%, transparent 65%)",
-          }}
-        />
+      {/* Glow orbs */}
+      <div className="absolute top-1/2 left-[15%] -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-[30%] right-[10%] w-[400px] h-[400px] bg-violet-600/6 blur-[120px] rounded-full pointer-events-none z-0" />
 
-        <a href="/" className="relative inline-block">
-          <span
-            className="text-[17px] font-semibold"
-            style={{ letterSpacing: "-0.025em" }}
-          >
-            <span style={{ color: "rgba(255,255,255,0.9)" }}>por</span>
-            <span style={{ color: "rgba(255,255,255,0.32)" }}>tofy</span>
+      {renderToasts()}
+
+      {/* ── LEFT BRANDING ── */}
+      <div className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 relative overflow-hidden px-12 py-12 border-r border-white/[0.06]">
+        {/* Gradient accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none" />
+
+        {/* Brand */}
+        <a href="/" className="relative z-10 flex items-center gap-2.5">
+          <img
+            src="/images/portofLogo.png"
+            alt="Portofy logo"
+            className="w-8 h-8 object-contain rounded-full shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+          <span className="text-[18px] font-bold tracking-tight text-white">
+            Portofy
           </span>
         </a>
 
-        <div className="relative">
+        {/* Center content */}
+        <div className="relative z-10">
           <motion.div
             key={step}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: smooth }}
           >
-            <div className="flex items-center gap-1.5 mb-5">
+            {/* Progress bar */}
+            <div className="flex items-center gap-1.5 mb-6">
               {steps.map((s) => (
                 <div
                   key={s.num}
-                  className="h-0.5 flex-1 rounded-full transition-all duration-500"
-                  style={{
-                    backgroundColor:
-                      step > s.num
-                        ? "rgba(255,255,255,0.55)"
-                        : step === s.num
-                          ? "rgba(255,255,255,0.28)"
-                          : "rgba(255,255,255,0.08)",
-                  }}
+                  className={cn(
+                    "h-[3px] flex-1 rounded-full transition-all duration-500",
+                    step > s.num
+                      ? "bg-blue-400/60"
+                      : step === s.num
+                        ? "bg-blue-500/30"
+                        : "bg-white/[0.06]",
+                  )}
                 />
               ))}
             </div>
-            <p
-              className="text-[10px] font-semibold tracking-widest uppercase mb-2"
-              style={{ color: "rgba(255,255,255,0.2)" }}
-            >
-              Step {step} of {steps.length}
-            </p>
+
+            <span className="text-[10px] font-semibold tracking-widest uppercase text-slate-600 block mb-2">
+              Langkah {step} dari {steps.length}
+            </span>
+
             <h2
-              className="text-white mb-2"
+              className="text-[34px] font-bold text-white mb-3 leading-[1.15] tracking-tight"
               style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontSize: 30,
-                lineHeight: 1.15,
-                letterSpacing: "-0.02em",
+                fontFamily:
+                  "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
               }}
             >
-              {step === 1 && (
-                <>
-                  Create Account{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>portofy.</em>
-                </>
-              )}
-              {step === 2 && (
-                <>
-                  Verification{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
-                    Your Email.
-                  </em>
-                </>
-              )}
-              {step === 3 && (
-                <>
-                  Complete{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
-                    Your Profile.
-                  </em>
-                </>
-              )}
-              {step === 4 && (
-                <>
-                  Choose{" "}
-                  <em style={{ color: "rgba(255,255,255,0.35)" }}>
-                    Your Template.
-                  </em>
-                </>
-              )}
+              {currentLeft.heading}{" "}
+              <span className="text-slate-500">{currentLeft.sub}</span>
             </h2>
-            <p
-              className="text-[13px] leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
-              {step === 1 &&
-                "Register with email or directly use Google / GitHub account."}
-              {step === 2 &&
-                `6 digit code sent to ${formData.email || "your email"}.`}
-              {step === 3 &&
-                "Upload CV and let AI fill the form automatically — or fill it yourself."}
-              {step === 4 &&
-                "Template can be changed anytime from the dashboard."}
+
+            <p className="text-sm text-slate-400 leading-relaxed max-w-[280px]">
+              {currentLeft.desc}
             </p>
           </motion.div>
         </div>
 
-        <div className="relative">
-          <div
-            className="h-px mb-4"
-            style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
-          />
-          <p
-            className="text-[13px] leading-relaxed mb-2"
-            style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}
-          >
-            "Setup 10 minutes, the next day someone will reach out."
+        {/* Testimonial */}
+        <div className="relative z-10">
+          <div className="h-px bg-white/[0.06] mb-5" />
+          <p className="text-[13px] text-slate-500 italic leading-relaxed mb-2">
+            "Setup 10 menit, besoknya sudah ada yang menghubungi."
           </p>
-          <p
-            className="text-[11px]"
-            style={{ color: "rgba(255,255,255,0.18)" }}
-          >
+          <p className="text-[11px] text-slate-600">
             — Rizky A., UI/UX Designer
           </p>
         </div>
@@ -433,19 +398,24 @@ export default function RegisterPage() {
 
       {/* ── RIGHT FORM ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 relative z-10">
+        {/* Mobile brand */}
         <div className="lg:hidden mb-8">
-          <a href="/">
-            <span
-              className="text-[17px] font-semibold"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              <span style={{ color: "rgba(255,255,255,0.9)" }}>por</span>
-              <span style={{ color: "rgba(255,255,255,0.32)" }}>tofy</span>
+          <a href="/" className="flex items-center gap-2.5">
+            <img
+              src="/images/portofLogo.png"
+              alt="Portofy logo"
+              className="w-8 h-8 object-contain rounded-full"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+            <span className="text-[18px] font-bold tracking-tight text-white">
+              Portofy
             </span>
           </a>
         </div>
 
-        <div className="w-full max-w-240">
+        <div className="w-full max-w-[600px]">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div
@@ -455,18 +425,13 @@ export default function RegisterPage() {
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.3, ease: smooth }}
               >
-                <div
-                  className="rounded-2xl overflow-hidden"
-                  style={{
-                    backgroundColor: "#0e0e14",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
-                >
+                {/* Card */}
+                <div className="rounded-2xl overflow-hidden bg-white/[0.02] border border-white/[0.08] backdrop-blur-sm">
+                  {/* Top accent */}
+                  <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+
                   {/* Stepper header */}
-                  <div
-                    className="px-6 pt-5 pb-4"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-                  >
+                  <div className="px-6 pt-5 pb-4 border-b border-white/[0.06]">
                     <div className="flex items-center mb-3">
                       {steps.map((s, i) => {
                         const isDone = step > s.num;
@@ -477,51 +442,44 @@ export default function RegisterPage() {
                             className="flex items-center flex-1 last:flex-none"
                           >
                             <div
-                              className="size-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 text-[11px] font-bold"
-                              style={{
-                                backgroundColor: isDone
-                                  ? "rgba(255,255,255,0.9)"
+                              className={cn(
+                                "size-7 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 text-[11px] font-bold",
+                                isDone
+                                  ? "bg-blue-500 text-white border-transparent"
                                   : isActive
-                                    ? "rgba(255,255,255,0.1)"
-                                    : "rgba(255,255,255,0.04)",
-                                border: `1.5px solid ${isDone ? "transparent" : isActive ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.08)"}`,
-                                color: isDone
-                                  ? "#0a0a0f"
-                                  : isActive
-                                    ? "rgba(255,255,255,0.85)"
-                                    : "rgba(255,255,255,0.2)",
-                              }}
+                                    ? "bg-blue-500/10 border-blue-500/30 text-blue-300"
+                                    : "bg-white/[0.03] border-white/[0.08] text-slate-600",
+                                "border",
+                              )}
                             >
                               {isDone ? (
-                                <Check size={12} strokeWidth={2.5} />
+                                <IconCheck size={12} stroke={2.5} />
                               ) : (
                                 s.num
                               )}
                             </div>
                             {i < steps.length - 1 && (
                               <div
-                                className="flex-1 h-px mx-1.5 transition-all duration-500"
-                                style={{
-                                  backgroundColor: isDone
-                                    ? "rgba(255,255,255,0.3)"
-                                    : "rgba(255,255,255,0.07)",
-                                }}
+                                className={cn(
+                                  "flex-1 h-px mx-1.5 transition-all duration-500",
+                                  isDone ? "bg-blue-500/40" : "bg-white/[0.06]",
+                                )}
                               />
                             )}
                           </div>
                         );
                       })}
                     </div>
-                    <p
-                      className="text-[14px] font-semibold"
-                      style={{ color: "rgba(255,255,255,0.85)" }}
+                    <h3
+                      className="text-[15px] font-bold text-white"
+                      style={{
+                        fontFamily:
+                          "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
+                      }}
                     >
                       {steps[step - 1].title}
-                    </p>
-                    <p
-                      className="text-[12px]"
-                      style={{ color: "rgba(255,255,255,0.3)" }}
-                    >
+                    </h3>
+                    <p className="text-[12px] text-slate-500">
                       Langkah {step} dari {steps.length} —{" "}
                       {steps[step - 1].desc}
                     </p>
@@ -557,7 +515,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 2 Otp Code Email*/}
+                        {/* Step 2 OTP */}
                         {step === 2 && (
                           <OtpCodeStepper
                             email={formData.email}
@@ -566,7 +524,7 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 3 Create User Profile and CV Upload */}
+                        {/* Step 3 Profile */}
                         {step === 3 && (
                           <CreateUserProfile
                             fullName={formData.fullName}
@@ -585,29 +543,13 @@ export default function RegisterPage() {
                           />
                         )}
 
-                        {/* Step 4: Pilih Template */}
+                        {/* Step 4 Template */}
                         {step === 4 && (
                           <div className="p-6">
-                            <p
-                              className="text-[12px] mb-4"
-                              style={{ color: "rgba(255,255,255,0.3)" }}
-                            >
+                            <p className="text-xs text-slate-500 mb-4">
                               Pilih tampilan awal — bisa diganti kapan saja dari
                               dashboard.
                             </p>
-                            {/* <div className="grid grid-cols-3 gap-3">
-                              {templates.map((template, i) => (
-                                <TemplateCard
-                                  key={template.id}
-                                  template={template}
-                                  i={i}
-                                  noPreview={true}
-                                  hoveredId={hoveredId}
-                                  setForm={handleFormChange}
-                                  setHoveredId={setHoveredId}
-                                />
-                              ))}
-                            </div> */}
                           </div>
                         )}
                       </motion.div>
@@ -615,25 +557,13 @@ export default function RegisterPage() {
                   </div>
 
                   {/* Footer nav */}
-                  <div
-                    className="px-6 py-4 flex items-center justify-between"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-                  >
+                  <div className="px-6 py-4 flex items-center justify-between border-t border-white/[0.06]">
                     {step > 1 ? (
                       <button
                         onClick={goPrev}
-                        className="flex items-center gap-1.5 text-[13px] font-medium cursor-pointer transition-colors duration-150"
-                        style={{ color: "rgba(255,255,255,0.35)" }}
-                        onMouseEnter={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color =
-                            "rgba(255,255,255,0.7)")
-                        }
-                        onMouseLeave={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color =
-                            "rgba(255,255,255,0.35)")
-                        }
+                        className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-300 cursor-pointer transition-colors"
                       >
-                        <ArrowLeft size={14} /> Back
+                        <IconArrowLeft size={14} /> Kembali
                       </button>
                     ) : (
                       <div />
@@ -653,86 +583,45 @@ export default function RegisterPage() {
                           (step === 1 && createUserMutation.isPending) ||
                           (step === 3 && createProfileMutation.isPending)
                         }
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-                        style={{
-                          backgroundColor: "rgba(255,255,255,0.9)",
-                          color: "#0a0a0f",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (canNext())
-                            (
-                              e.currentTarget as HTMLElement
-                            ).style.backgroundColor = "#fff";
-                        }}
-                        onMouseLeave={(e) => {
-                          (
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "rgba(255,255,255,0.9)";
-                        }}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-[#070e1b] hover:bg-blue-50 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                       >
                         {step === 2 && createUserMutation.isPending
-                          ? "Registering..."
+                          ? "Mendaftar..."
                           : step === 3 && createProfileMutation.isPending
-                            ? "Uploading..."
+                            ? "Mengupload..."
                             : step === 1
-                              ? "Send Code"
-                              : "Next"}
-
+                              ? "Kirim Kode"
+                              : "Lanjut"}
                         {!createUserMutation.isPending &&
                           !createProfileMutation.isPending && (
-                            <ArrowRight size={14} />
+                            <IconArrowRight size={14} />
                           )}
                       </button>
                     ) : (
                       <button
                         onClick={handleCreateProfile}
                         disabled={createProfileMutation.isPending}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
-                        style={{
-                          backgroundColor: "rgba(255,255,255,0.9)",
-                          color: "#0a0a0f",
-                        }}
-                        onMouseEnter={(e) =>
-                          ((
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "#fff")
-                        }
-                        onMouseLeave={(e) =>
-                          ((
-                            e.currentTarget as HTMLElement
-                          ).style.backgroundColor = "rgba(255,255,255,0.9)")
-                        }
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-[#070e1b] hover:bg-blue-50 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         {createProfileMutation.isPending
-                          ? "Building..."
-                          : "Create Portfolio"}
+                          ? "Memproses..."
+                          : "Buat Portfolio"}
                         {!createProfileMutation.isPending && (
-                          <ArrowRight size={14} />
+                          <IconArrowRight size={14} />
                         )}
                       </button>
                     )}
                   </div>
                 </div>
 
-                <p
-                  className="text-center mt-5 text-[13px]"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
-                >
-                  Already have an account?{" "}
+                {/* Login link */}
+                <p className="text-center mt-6 text-sm text-slate-500">
+                  Sudah punya akun?{" "}
                   <a
                     href="/auth/login"
-                    className="font-semibold transition-colors duration-150"
-                    style={{ color: "rgba(255,255,255,0.6)" }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLElement).style.color =
-                        "rgba(255,255,255,0.9)")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLElement).style.color =
-                        "rgba(255,255,255,0.6)")
-                    }
+                    className="font-semibold text-slate-300 hover:text-white transition-colors"
                   >
-                    Login
+                    Masuk
                   </a>
                 </p>
               </motion.div>
