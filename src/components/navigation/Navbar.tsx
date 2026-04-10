@@ -14,11 +14,11 @@ import { IconArrowRight } from "@tabler/icons-react";
 
 export function NavbarDemo() {
   const navItems = [
-    { name: "Langganan", link: "#langganan" },
-    { name: "Blog", link: "#blog" },
-    { name: "FAQ", link: "#faq" },
-    { name: "Template", link: "#" },
-    { name: "Tentang Kami", link: "#" },
+    { name: "Langganan", link: "/#langganan" },
+    { name: "Blog", link: "/#blog" },
+    { name: "FAQ", link: "/#faq" },
+    { name: "Template", link: "/templates" },
+    { name: "Tentang Kami", link: "/about" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

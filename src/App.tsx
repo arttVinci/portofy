@@ -9,6 +9,7 @@ import AuthLayout from "./layouts/AuthLayout";
 // 2. Pages Marketing (Jualan)
 import HomePage from "./pages/home/HomePage";
 import TemplatePage from "./pages/home/TemplatePage";
+import MarketingAboutPage from "./pages/home/AboutPage";
 
 // 3. Pages Portfolio (Public)
 import PortfolioHomePage from "./pages/public/HomePage";
@@ -33,6 +34,8 @@ export default function App() {
       <Route path="/" element={<HomeLayout />}>
         <Route index element={<HomePage />} />
         <Route path="templates" element={<TemplatePage />} />
+        <Route path="about" element={<MarketingAboutPage />} />
+        <Route path="#langganan" element={<HomePage />} />
       </Route>
 
       <Route path="/app" element={<DashboardLayout />}>

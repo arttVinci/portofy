@@ -1,4 +1,3 @@
-"use client";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -7,6 +6,8 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+
+import { HashLink } from "react-router-hash-link";
 
 import React, { useRef, useState } from "react";
 
@@ -127,23 +128,16 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       )}
     >
       {items.map((item, idx) => {
-        const isHash = item.link.startsWith("#");
         return (
-          <a
+          <HashLink
+            smooth
+            to={item.link}
             onMouseEnter={() => setHovered(idx)}
-            onClick={(e) => {
-              if (isHash) {
-                e.preventDefault();
-                const element = document.querySelector(item.link);
-                if (element) {
-                  element.scrollIntoView({ behavior: "smooth" });
-                }
-              }
+            onClick={() => {
               if (onItemClick) onItemClick();
             }}
             className="relative px-4 py-2 text-blue-100 hover:text-white transition-colors duration-200 cursor-pointer"
             key={`link-${idx}`}
-            href={item.link}
           >
             {hovered === idx && (
               <motion.div
@@ -152,7 +146,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
               />
             )}
             <span className="relative z-20 font-medium">{item.name}</span>
-          </a>
+          </HashLink>
         );
       })}
     </motion.div>
