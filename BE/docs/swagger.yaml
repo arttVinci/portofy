@@ -1,0 +1,2141 @@
+basePath: /
+definitions:
+  tratech_my_id_server_internal_model.AchievementResponse:
+    properties:
+      created_at:
+        type: integer
+      credential_id:
+        type: string
+      credential_url:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      issued_date:
+        type: string
+      organization:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.ApiErrorResponse:
+    properties:
+      errors:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.CreateAchievementRequest:
+    properties:
+      credential_id:
+        maxLength: 100
+        type: string
+      credential_url:
+        type: string
+      image_url:
+        type: string
+      issued_date:
+        type: string
+      organization:
+        maxLength: 100
+        type: string
+      title:
+        maxLength: 100
+        minLength: 3
+        type: string
+    required:
+    - organization
+    - title
+    type: object
+  tratech_my_id_server_internal_model.CreateEducationRequest:
+    properties:
+      degree:
+        maxLength: 100
+        type: string
+      description:
+        maxLength: 1000
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        maxLength: 100
+        type: string
+      grade:
+        maxLength: 20
+        type: string
+      image_url:
+        type: string
+      institution:
+        maxLength: 100
+        minLength: 3
+        type: string
+      location:
+        maxLength: 100
+        type: string
+      start_date:
+        type: string
+    required:
+    - institution
+    - start_date
+    type: object
+  tratech_my_id_server_internal_model.CreateExperienceRequest:
+    properties:
+      company_name:
+        maxLength: 100
+        type: string
+      description:
+        maxLength: 2000
+        type: string
+      employment_type:
+        description: 'EmploymentType: Full-time, Part-time, Freelance, Contract, Internship,
+          Self-employed'
+        enum:
+        - Full-time
+        - Part-time
+        - Freelance
+        - Contract
+        - Internship
+        - Self-employed
+        type: string
+      end_date:
+        type: string
+      image_url:
+        type: string
+      link_url:
+        type: string
+      location:
+        maxLength: 100
+        type: string
+      location_type:
+        description: 'LocationType: Remote, On-site, Hybrid'
+        enum:
+        - Remote
+        - On-site
+        - Hybrid
+        type: string
+      position:
+        maxLength: 100
+        minLength: 2
+        type: string
+      start_date:
+        type: string
+    required:
+    - company_name
+    - position
+    - start_date
+    type: object
+  tratech_my_id_server_internal_model.CreateProfileRequest:
+    properties:
+      about:
+        maxLength: 3000
+        type: string
+      address:
+        maxLength: 200
+        type: string
+      bio:
+        maxLength: 200
+        type: string
+      full_name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      image_url:
+        type: string
+      tags:
+        items:
+          type: string
+        maxItems: 10
+        type: array
+      theme:
+        type: string
+    required:
+    - full_name
+    type: object
+  tratech_my_id_server_internal_model.CreateProjectRequest:
+    properties:
+      challenges:
+        maxLength: 3000
+        type: string
+      description:
+        maxLength: 2000
+        type: string
+      featured:
+        type: boolean
+      features:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectFeature'
+        maxItems: 15
+        type: array
+      gallery:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectGallery'
+        maxItems: 10
+        type: array
+      image:
+        type: string
+      link_url:
+        type: string
+      solution:
+        maxLength: 3000
+        type: string
+      title:
+        maxLength: 100
+        minLength: 3
+        type: string
+      tools:
+        items:
+          type: string
+        maxItems: 20
+        type: array
+    required:
+    - description
+    - title
+    type: object
+  tratech_my_id_server_internal_model.CreateSkillRequest:
+    properties:
+      level:
+        description: 'Level: Beginner, Intermediate, Advanced, Expert'
+        enum:
+        - Beginner
+        - Intermediate
+        - Advanced
+        - Expert
+        type: string
+      title:
+        maxLength: 50
+        minLength: 1
+        type: string
+    required:
+    - level
+    - title
+    type: object
+  tratech_my_id_server_internal_model.CreateSocialRequest:
+    properties:
+      link_url:
+        type: string
+      platform:
+        enum:
+        - github
+        - linkedin
+        - instagram
+        - x
+        - twitter
+        - facebook
+        - youtube
+        - discord
+        - website
+        type: string
+    required:
+    - link_url
+    - platform
+    type: object
+  tratech_my_id_server_internal_model.EducationResponse:
+    properties:
+      degree:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        type: string
+      grade:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      institution:
+        type: string
+      location:
+        type: string
+      start_date:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.ExperienceResponse:
+    properties:
+      company_name:
+        type: string
+      created_at:
+        type: integer
+      description:
+        type: string
+      employment_type:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      link_url:
+        type: string
+      location:
+        type: string
+      location_type:
+        type: string
+      position:
+        type: string
+      start_date:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.LoginUserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  tratech_my_id_server_internal_model.ProfileResponse:
+    properties:
+      about:
+        type: string
+      address:
+        type: string
+      bio:
+        type: string
+      created_at:
+        type: integer
+      full_name:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      theme:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.ProjectFeature:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.ProjectGallery:
+    properties:
+      caption:
+        type: string
+      image_url:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.ProjectResponse:
+    properties:
+      challenges:
+        type: string
+      created_at:
+        type: integer
+      description:
+        type: string
+      featured:
+        type: boolean
+      features:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectFeature'
+        type: array
+      gallery:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectGallery'
+        type: array
+      id:
+        type: string
+      image:
+        type: string
+      link_url:
+        type: string
+      solution:
+        type: string
+      title:
+        type: string
+      tools:
+        items:
+          type: string
+        type: array
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.RegisterUserRequest:
+    properties:
+      email:
+        description: Validasi format email wajib
+        type: string
+      password:
+        description: Min 8 karakter
+        maxLength: 100
+        minLength: 8
+        type: string
+      phone:
+        description: Validasi nomor telepon
+        maxLength: 15
+        minLength: 10
+        type: string
+      username:
+        description: Hanya huruf & angka
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  tratech_my_id_server_internal_model.SkillResponse:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      level:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.SocialResponse:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      link_url:
+        type: string
+      platform:
+        description: 'Contoh: "github", "linkedin", "instagram"'
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.UpdateAchievementRequest:
+    properties:
+      credential_id:
+        maxLength: 100
+        type: string
+      credential_url:
+        type: string
+      image_url:
+        type: string
+      issued_date:
+        type: string
+      organization:
+        maxLength: 100
+        type: string
+      title:
+        maxLength: 100
+        minLength: 3
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UpdateEducationRequest:
+    properties:
+      created_at:
+        type: integer
+      degree:
+        maxLength: 100
+        type: string
+      description:
+        maxLength: 1000
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        maxLength: 100
+        type: string
+      grade:
+        maxLength: 20
+        type: string
+      image_url:
+        type: string
+      institution:
+        maxLength: 100
+        minLength: 3
+        type: string
+      location:
+        maxLength: 100
+        type: string
+      start_date:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  tratech_my_id_server_internal_model.UpdateExperienceRequest:
+    properties:
+      company_name:
+        maxLength: 100
+        type: string
+      description:
+        maxLength: 2000
+        type: string
+      employment_type:
+        enum:
+        - Full-time
+        - Part-time
+        - Freelance
+        - Contract
+        - Internship
+        - Self-employed
+        type: string
+      end_date:
+        type: string
+      image_url:
+        type: string
+      link_url:
+        type: string
+      location:
+        maxLength: 100
+        type: string
+      location_type:
+        enum:
+        - Remote
+        - On-site
+        - Hybrid
+        type: string
+      position:
+        maxLength: 100
+        minLength: 2
+        type: string
+      start_date:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UpdateProfileRequest:
+    properties:
+      about:
+        maxLength: 3000
+        type: string
+      address:
+        maxLength: 200
+        type: string
+      bio:
+        maxLength: 200
+        type: string
+      full_name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      image_url:
+        type: string
+      tags:
+        items:
+          type: string
+        maxItems: 10
+        type: array
+      theme:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UpdateProjectRequest:
+    properties:
+      challenges:
+        maxLength: 3000
+        type: string
+      description:
+        maxLength: 2000
+        type: string
+      featured:
+        type: boolean
+      features:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectFeature'
+        maxItems: 15
+        type: array
+      gallery:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectGallery'
+        maxItems: 10
+        type: array
+      image:
+        type: string
+      link_url:
+        type: string
+      solution:
+        maxLength: 3000
+        type: string
+      title:
+        maxLength: 100
+        minLength: 3
+        type: string
+      tools:
+        items:
+          type: string
+        maxItems: 20
+        type: array
+    type: object
+  tratech_my_id_server_internal_model.UpdateSkillRequest:
+    properties:
+      level:
+        enum:
+        - Beginner
+        - Intermediate
+        - Advanced
+        - Expert
+        type: string
+      title:
+        maxLength: 50
+        minLength: 1
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UpdateSocialRequest:
+    properties:
+      link_url:
+        type: string
+      platform:
+        enum:
+        - github
+        - linkedin
+        - instagram
+        - x
+        - twitter
+        - facebook
+        - youtube
+        - discord
+        - website
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 100
+        minLength: 8
+        type: string
+      phone:
+        maxLength: 15
+        minLength: 10
+        type: string
+      username:
+        maxLength: 30
+        minLength: 3
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.UserResponse:
+    properties:
+      created_at:
+        type: integer
+      email:
+        type: string
+      id:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: integer
+      username:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_AchievementResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.AchievementResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_EducationResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.EducationResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ExperienceResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ExperienceResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ProjectResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SkillResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.SkillResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SocialResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.SocialResponse'
+        type: array
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-bool:
+    properties:
+      data:
+        type: boolean
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_AchievementResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.AchievementResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_EducationResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.EducationResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ExperienceResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.ExperienceResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.ProfileResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProjectResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.ProjectResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SkillResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.SkillResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SocialResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.SocialResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+  tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/tratech_my_id_server_internal_model.UserResponse'
+      errors:
+        type: boolean
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: API untuk platform portofolio Tratech
+  title: Tratech API
+  version: "1.0"
+paths:
+  /api/achievements:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_AchievementResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all achievements (user)
+      tags:
+      - Achievement
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateAchievementRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_AchievementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create achievement
+      tags:
+      - Achievement
+  /api/achievements/{achievementId}:
+    delete:
+      parameters:
+      - description: Achievement ID
+        in: path
+        name: achievementId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete achievement
+      tags:
+      - Achievement
+    get:
+      parameters:
+      - description: Achievement ID
+        in: path
+        name: achievementId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_AchievementResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get achievement by ID (user)
+      tags:
+      - Achievement
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Achievement ID
+        in: path
+        name: achievementId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateAchievementRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_AchievementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update achievement
+      tags:
+      - Achievement
+  /api/educations:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_EducationResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all educations (user)
+      tags:
+      - Education
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateEducationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_EducationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create education
+      tags:
+      - Education
+  /api/educations/{educationId}:
+    delete:
+      parameters:
+      - description: Education ID
+        in: path
+        name: educationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete education
+      tags:
+      - Education
+    get:
+      parameters:
+      - description: Education ID
+        in: path
+        name: educationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_EducationResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get education by ID (user)
+      tags:
+      - Education
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Education ID
+        in: path
+        name: educationId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateEducationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_EducationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update education
+      tags:
+      - Education
+  /api/experiences:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ExperienceResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all experiences (user)
+      tags:
+      - Experience
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateExperienceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ExperienceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create experience
+      tags:
+      - Experience
+  /api/experiences/{experienceId}:
+    delete:
+      parameters:
+      - description: Experience ID
+        in: path
+        name: experienceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete experience
+      tags:
+      - Experience
+    get:
+      parameters:
+      - description: Experience ID
+        in: path
+        name: experienceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ExperienceResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get experience by ID (user)
+      tags:
+      - Experience
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Experience ID
+        in: path
+        name: experienceId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateExperienceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ExperienceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update experience
+      tags:
+      - Experience
+  /api/profiles:
+    get:
+      description: Ambil profil milik user yang sedang login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get profile (user)
+      tags:
+      - Profile
+    post:
+      consumes:
+      - application/json
+      description: Buat profil untuk user yang sedang login
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create profile
+      tags:
+      - Profile
+    put:
+      consumes:
+      - application/json
+      description: Update profil milik user yang sedang login
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update profile
+      tags:
+      - Profile
+  /api/profiles/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload foto profil user yang sedang login
+      parameters:
+      - description: File gambar
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Upload profile image
+      tags:
+      - Profile
+  /api/projects:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ProjectResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all projects (user)
+      tags:
+      - Project
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProjectResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create project
+      tags:
+      - Project
+  /api/projects/{projectId}:
+    delete:
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete project
+      tags:
+      - Project
+    get:
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProjectResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get project by ID (user)
+      tags:
+      - Project
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProjectResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update project
+      tags:
+      - Project
+  /api/public/{username}:
+    get:
+      description: Ambil profil publik berdasarkan username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProfileResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get profile by username (public)
+      tags:
+      - Public
+  /api/public/{username}/achievements:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_AchievementResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all achievements (public)
+      tags:
+      - Public
+  /api/public/{username}/achievements/{achievementId}:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Achievement ID
+        in: path
+        name: achievementId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_AchievementResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get achievement by ID (public)
+      tags:
+      - Public
+  /api/public/{username}/educations:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_EducationResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all educations (public)
+      tags:
+      - Public
+  /api/public/{username}/educations/{educationId}:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Education ID
+        in: path
+        name: educationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_EducationResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get education by ID (public)
+      tags:
+      - Public
+  /api/public/{username}/experiences:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ExperienceResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all experiences (public)
+      tags:
+      - Public
+  /api/public/{username}/experiences/{experienceId}:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Experience ID
+        in: path
+        name: experienceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ExperienceResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get experience by ID (public)
+      tags:
+      - Public
+  /api/public/{username}/projects:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_ProjectResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all projects (public)
+      tags:
+      - Public
+  /api/public/{username}/projects/{projectId}:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_ProjectResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get project by ID (public)
+      tags:
+      - Public
+  /api/public/{username}/skills:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SkillResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all skills (public)
+      tags:
+      - Public
+  /api/public/{username}/socials:
+    get:
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SocialResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Get all socials (public)
+      tags:
+      - Public
+  /api/skills:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SkillResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all skills (user)
+      tags:
+      - Skill
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateSkillRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SkillResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create skill
+      tags:
+      - Skill
+  /api/skills/{skillId}:
+    delete:
+      parameters:
+      - description: Skill ID
+        in: path
+        name: skillId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete skill
+      tags:
+      - Skill
+    get:
+      parameters:
+      - description: Skill ID
+        in: path
+        name: skillId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SkillResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get skill by ID (user)
+      tags:
+      - Skill
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Skill ID
+        in: path
+        name: skillId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateSkillRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SkillResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update skill
+      tags:
+      - Skill
+  /api/socials:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-array_tratech_my_id_server_internal_model_SocialResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all socials (user)
+      tags:
+      - Social
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.CreateSocialRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SocialResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create social
+      tags:
+      - Social
+  /api/socials/{socialId}:
+    delete:
+      parameters:
+      - description: Social ID
+        in: path
+        name: socialId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete social
+      tags:
+      - Social
+    get:
+      parameters:
+      - description: Social ID
+        in: path
+        name: socialId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SocialResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get social by ID (user)
+      tags:
+      - Social
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Social ID
+        in: path
+        name: socialId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateSocialRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_SocialResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update social
+      tags:
+      - Social
+  /api/users:
+    delete:
+      description: Hapus sesi / token user yang sedang login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-bool'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Logout user
+      tags:
+      - Auth
+    post:
+      consumes:
+      - application/json
+      description: Daftarkan akun baru
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.RegisterUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Register user
+      tags:
+      - Auth
+  /api/users/_current:
+    get:
+      description: Ambil data user yang sedang login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - Auth
+    patch:
+      consumes:
+      - application/json
+      description: Update data akun user yang sedang login
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update current user
+      tags:
+      - Auth
+  /api/users/_login:
+    post:
+      consumes:
+      - application/json
+      description: Login dan dapatkan token JWT
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/tratech_my_id_server_internal_model.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.WebResponse-tratech_my_id_server_internal_model_UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tratech_my_id_server_internal_model.ApiErrorResponse'
+      summary: Login user
+      tags:
+      - Auth
+securityDefinitions:
+  BearerAuth:
+    description: 'Format: Bearer <token>'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

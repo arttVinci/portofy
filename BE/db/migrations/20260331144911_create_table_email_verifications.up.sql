@@ -1,0 +1,11 @@
+CREATE TABLE email_verifications
+(
+     id VARCHAR(100) PRIMARY KEY,
+     email VARCHAR(255) NOT NULL,
+     otp_code VARCHAR(10) NOT NULL,
+     expired_at DATETIME NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+     INDEX idx_email (email)
+);
