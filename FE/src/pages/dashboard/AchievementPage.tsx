@@ -12,7 +12,7 @@ import type {
   UpdateAchievementRequest,
   CreateAchievementRequest,
 } from "@/@types";
-import { useAdminAchievements } from "@/hooks/queries";
+import { useAdminAchievement, useAdminAchievements } from "@/hooks/queries";
 import { useCreateAchievement } from "@/hooks/mutations/achievement/useCreateAchievement";
 import { useUpdateAchievement } from "@/hooks/mutations/achievement/useUpdateAchievement";
 import { useDeleteAchievement } from "@/hooks/mutations/achievement/useDeleteAchievement";
@@ -23,8 +23,8 @@ import { useToast } from "@/hooks/ui/useToast";
 type ActiveView =
   | { type: "list" }
   | { type: "add" }
-  | { type: "edit"; achievement: AchievementResponse }
-  | { type: "detail"; achievement: AchievementResponse };
+  | { type: "edit"; id: string }
+  | { type: "detail"; id: string };
 
 const EMPTY_FORM: UpdateAchievementRequest = {
   title: "",
@@ -40,14 +40,17 @@ export default function AchievementPage() {
   const [activeTab, setActiveTab] = useState("list");
   const { toast, renderToasts } = useToast();
 
-  const [achievement, setAchievement] = useState<AchievementResponse>();
-
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
 
+  const { data: achievement, isLoading: isLoadingDetail } = useAdminAchievement(
+    activeView.type === "edit" || activeView.type === "detail"
+      ? activeView.id
+      : "",
+  );
+
   const { data: achievements, isLoading, refetch } = useAdminAchievements();
 
-  activeView.type === "edit" ? activeView.achievement : undefined;
   const form = useFormData<UpdateAchievementRequest>({
     initialValues: EMPTY_FORM,
     onSubmit: () => {},
@@ -138,7 +141,6 @@ export default function AchievementPage() {
     form.setValues(EMPTY_FORM);
     setThumbnailFile(null);
     setThumbnailBlob(null);
-    setAchievement(undefined);
   };
 
   // ── Navigation ────────────────────────────────────────────────────────────
@@ -154,13 +156,12 @@ export default function AchievementPage() {
   };
 
   const handleEdit = (a: AchievementResponse) => {
-    setAchievement(a);
-    setActiveView({ type: "edit", achievement: a });
+    setActiveView({ type: "edit", id: a.id });
     setActiveTab("form");
   };
 
   const handleViewDetail = (a: AchievementResponse) => {
-    setActiveView({ type: "detail", achievement: a });
+    setActiveView({ type: "detail", id: a.id });
     setActiveTab("detail");
   };
 
@@ -218,9 +219,7 @@ export default function AchievementPage() {
               <AchievementFormSection
                 mode={activeView.type}
                 initialData={
-                  activeView.type === "edit"
-                    ? activeView.achievement
-                    : undefined
+                  activeView.type === "edit" ? achievement : undefined
                 }
                 onBack={goList}
                 onSave={handleSave}
@@ -237,13 +236,18 @@ export default function AchievementPage() {
 
           {/* Detail */}
           <TabsContent value="detail" className="mt-0">
-            {activeView.type === "detail" && (
-              <AchievementDetailSection
-                achievement={activeView.achievement}
-                onBack={goList}
-                onEdit={handleEdit}
-              />
-            )}
+            {activeView.type === "detail" &&
+              (isLoadingDetail ? (
+                <div className="p-4 text-center">Loading</div>
+              ) : achievement ? (
+                <AchievementDetailSection
+                  achievement={achievement}
+                  onBack={goList}
+                  onEdit={handleEdit}
+                />
+              ) : (
+                <div>Not Found</div>
+              ))}
           </TabsContent>
         </div>
       </Tabs>
