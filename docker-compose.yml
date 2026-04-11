@@ -1,10 +1,31 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  mysql:
+  portofy_be:
+    build:
+      context: ./BE
+      dockerfile: Dockerfile
+    container_name: portofy_be
+    restart: unless-stopped
+    depends_on:
+      - portofy_mysql
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=portofy_mysql
+      - DB_PORT=3306
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_NAME=${MYSQL_DATABASE}
+    networks:
+      - portofy_network
+    volumes:
+      - ./config.json:/app/config.json
+
+  portofy_mysql:
     image: mysql:8.0
-    container_name: tratech_mysql
-    restart: always
+    container_name: portofy_mysql
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -14,7 +35,12 @@ services:
       - "${DB_PORT_EXTERNAL}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./config.json:/app/config.json
+    networks:
+      - portofy_network
+
+networks:
+  portofy_network:
+    driver: bridge
 
 volumes:
   mysql_data:
