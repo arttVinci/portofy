@@ -20,7 +20,7 @@ services:
     networks:
       - portofy_network
     volumes:
-      - ./config.json:/app/config.json
+      - ./BE/config.json:/app/config.json
 
   portofy_mysql:
     image: mysql:8.0

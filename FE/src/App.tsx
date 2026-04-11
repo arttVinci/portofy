@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 
 // 1. Layouts
 import HomeLayout from "./layouts/HomeLayout";
-import PublicLayout from "./layouts/PublicLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
@@ -11,12 +10,7 @@ import HomePage from "./pages/home/HomePage";
 import TemplatePage from "./pages/home/TemplatePage";
 import MarketingAboutPage from "./pages/home/AboutPage";
 
-// 3. Pages Portfolio (Public)
-import PortfolioHomePage from "./pages/public/HomePage";
-import AboutPage from "./pages/public/AboutPage";
-import AchievementPage from "./pages/public/AchievementPage";
-import DetailProjectPage from "./pages/public/DetailProjectPage";
-import ProjectPage from "./pages/public/ProjectPage";
+// 3. Pages Auth
 import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
 
