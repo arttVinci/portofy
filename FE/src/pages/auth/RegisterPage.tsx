@@ -1,17 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  IconCheck,
-  IconArrowRight,
-  IconArrowLeft,
-} from "@tabler/icons-react";
+import { IconCheck, IconArrowRight, IconArrowLeft } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { ApiError } from "@/api/apiError";
 
 import SuccessScreen from "@/components/auth/SuccessScreen";
 
 import type {
-  TemplateResponse,
   RegisterUserRequest,
   CreateProfileRequest,
   SendOtpRequest,
@@ -33,40 +28,6 @@ const steps = [
   { num: 1, title: "Buat Akun", desc: "Username, email & password" },
   { num: 2, title: "Verifikasi Email", desc: "Masukkan kode OTP" },
   { num: 3, title: "Profil Kamu", desc: "Avatar, bio & detail" },
-  { num: 4, title: "Pilih Template", desc: "Tampilan awal" },
-];
-
-const templates: TemplateResponse[] = [
-  {
-    id: "1",
-    title: "Minimal",
-    category: "Minimal",
-    tags: ["Clean", "Developer", "Simple"],
-    description: "Bersih dan fokus. Biarkan karya kamu yang bicara.",
-    badge: "Paling Populer",
-    used_count: "8.2k",
-    is_pro: false,
-  },
-  {
-    id: "2",
-    title: "Editorial",
-    category: "Creative",
-    tags: ["Bold", "Designer", "Typography"],
-    description: "Layout magazine dengan tipografi kuat dan berani.",
-    badge: "Trending",
-    used_count: "6.1k",
-    is_pro: false,
-  },
-  {
-    id: "3",
-    title: "Grid",
-    category: "Creative",
-    tags: ["Gallery", "Visual", "Photographer"],
-    description: "Berbasis grid untuk menampilkan portofolio visual.",
-    badge: "Trending",
-    used_count: "4.5k",
-    is_pro: false,
-  },
 ];
 
 interface FormData {
@@ -101,8 +62,6 @@ export default function RegisterPage() {
 
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
-
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     username: "",
@@ -174,6 +133,8 @@ export default function RegisterPage() {
   };
 
   const handleCreateProfile = (e?: React.FormEvent) => {
+    handleUploadImage();
+
     if (e) e.preventDefault();
     const payload: CreateProfileRequest = {
       user_id: formData.userId,
@@ -230,7 +191,7 @@ export default function RegisterPage() {
       handleSendOtp();
     }
     setDir(1);
-    setStep((s) => Math.min(s + 1, 5));
+    setStep((s) => Math.min(s + 1, 3));
   };
   const goPrev = () => {
     setDir(-1);
@@ -276,7 +237,10 @@ export default function RegisterPage() {
 
   /* ════════════════════════════ LEFT PANEL CONTENT ════════════════════════════ */
 
-  const leftPanelTitles: Record<number, { heading: string; sub: string; desc: string }> = {
+  const leftPanelTitles: Record<
+    number,
+    { heading: string; sub: string; desc: string }
+  > = {
     1: {
       heading: "Buat Akun",
       sub: "Portofy.",
@@ -291,11 +255,6 @@ export default function RegisterPage() {
       heading: "Lengkapi",
       sub: "Profilmu.",
       desc: "Upload CV dan biarkan AI mengisi form — atau isi sendiri.",
-    },
-    4: {
-      heading: "Pilih",
-      sub: "Template.",
-      desc: "Template bisa diganti kapan saja dari dashboard.",
     },
   };
 
@@ -313,15 +272,15 @@ export default function RegisterPage() {
       />
 
       {/* Glow orbs */}
-      <div className="absolute top-1/2 left-[15%] -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none z-0" />
-      <div className="absolute top-[30%] right-[10%] w-[400px] h-[400px] bg-violet-600/6 blur-[120px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-[15%] -translate-y-1/2 w-125 h-125 bg-blue-600/10 blur-[150px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-[30%] right-[10%] w-100 h-100 bg-violet-600/6 blur-[120px] rounded-full pointer-events-none z-0" />
 
       {renderToasts()}
 
       {/* ── LEFT BRANDING ── */}
-      <div className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 relative overflow-hidden px-12 py-12 border-r border-white/[0.06]">
+      <div className="hidden lg:flex flex-col justify-between w-105 shrink-0 relative overflow-hidden px-12 py-12 border-r border-white/6">
         {/* Gradient accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-75 bg-linear-to-t from-blue-600/5 to-transparent pointer-events-none" />
 
         {/* Brand */}
         <a href="/" className="relative z-10 flex items-center gap-2.5">
@@ -352,12 +311,12 @@ export default function RegisterPage() {
                 <div
                   key={s.num}
                   className={cn(
-                    "h-[3px] flex-1 rounded-full transition-all duration-500",
+                    "h-0.75 flex-1 rounded-full transition-all duration-500",
                     step > s.num
                       ? "bg-blue-400/60"
                       : step === s.num
                         ? "bg-blue-500/30"
-                        : "bg-white/[0.06]",
+                        : "bg-white/6",
                   )}
                 />
               ))}
@@ -378,7 +337,7 @@ export default function RegisterPage() {
               <span className="text-slate-500">{currentLeft.sub}</span>
             </h2>
 
-            <p className="text-sm text-slate-400 leading-relaxed max-w-[280px]">
+            <p className="text-sm text-slate-400 leading-relaxed max-w-70">
               {currentLeft.desc}
             </p>
           </motion.div>
@@ -386,7 +345,7 @@ export default function RegisterPage() {
 
         {/* Testimonial */}
         <div className="relative z-10">
-          <div className="h-px bg-white/[0.06] mb-5" />
+          <div className="h-px bg-white/6 mb-5" />
           <p className="text-[13px] text-slate-500 italic leading-relaxed mb-2">
             "Setup 10 menit, besoknya sudah ada yang menghubungi."
           </p>
@@ -415,7 +374,7 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        <div className="w-full max-w-[600px]">
+        <div className="w-full max-w-150">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div
@@ -426,12 +385,12 @@ export default function RegisterPage() {
                 transition={{ duration: 0.3, ease: smooth }}
               >
                 {/* Card */}
-                <div className="rounded-2xl overflow-hidden bg-white/[0.02] border border-white/[0.08] backdrop-blur-sm">
+                <div className="rounded-2xl overflow-hidden bg-white/2 border border-white/2 backdrop-blur-sm">
                   {/* Top accent */}
-                  <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+                  <div className="h-px bg-linear-to-r from-transparent via-blue-500/40 to-transparent" />
 
                   {/* Stepper header */}
-                  <div className="px-6 pt-5 pb-4 border-b border-white/[0.06]">
+                  <div className="px-6 pt-5 pb-4 border-b border-white/6">
                     <div className="flex items-center mb-3">
                       {steps.map((s, i) => {
                         const isDone = step > s.num;
@@ -448,7 +407,7 @@ export default function RegisterPage() {
                                   ? "bg-blue-500 text-white border-transparent"
                                   : isActive
                                     ? "bg-blue-500/10 border-blue-500/30 text-blue-300"
-                                    : "bg-white/[0.03] border-white/[0.08] text-slate-600",
+                                    : "bg-white/3 border-white/8 text-slate-600",
                                 "border",
                               )}
                             >
@@ -462,7 +421,7 @@ export default function RegisterPage() {
                               <div
                                 className={cn(
                                   "flex-1 h-px mx-1.5 transition-all duration-500",
-                                  isDone ? "bg-blue-500/40" : "bg-white/[0.06]",
+                                  isDone ? "bg-blue-500/40" : "bg-white/6",
                                 )}
                               />
                             )}
@@ -542,22 +501,12 @@ export default function RegisterPage() {
                             setCvFile={setCvFile}
                           />
                         )}
-
-                        {/* Step 4 Template */}
-                        {step === 4 && (
-                          <div className="p-6">
-                            <p className="text-xs text-slate-500 mb-4">
-                              Pilih tampilan awal — bisa diganti kapan saja dari
-                              dashboard.
-                            </p>
-                          </div>
-                        )}
                       </motion.div>
                     </AnimatePresence>
                   </div>
 
                   {/* Footer nav */}
-                  <div className="px-6 py-4 flex items-center justify-between border-t border-white/[0.06]">
+                  <div className="px-6 py-4 flex items-center justify-between border-t border-white/6">
                     {step > 1 ? (
                       <button
                         onClick={goPrev}
@@ -569,29 +518,20 @@ export default function RegisterPage() {
                       <div />
                     )}
 
-                    {step < 4 ? (
+                    {step < 3 ? (
                       <button
-                        onClick={
-                          step === 2
-                            ? handleCreateUser
-                            : step === 3
-                              ? handleUploadImage
-                              : goNext
-                        }
+                        onClick={step === 2 ? handleCreateUser : goNext}
                         disabled={
                           !canNext() ||
-                          (step === 1 && createUserMutation.isPending) ||
-                          (step === 3 && createProfileMutation.isPending)
+                          (step === 1 && createUserMutation.isPending)
                         }
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-[#070e1b] hover:bg-blue-50 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                       >
                         {step === 2 && createUserMutation.isPending
                           ? "Mendaftar..."
-                          : step === 3 && createProfileMutation.isPending
-                            ? "Mengupload..."
-                            : step === 1
-                              ? "Kirim Kode"
-                              : "Lanjut"}
+                          : step === 1
+                            ? "Kirim Kode"
+                            : "Lanjut"}
                         {!createUserMutation.isPending &&
                           !createProfileMutation.isPending && (
                             <IconArrowRight size={14} />
