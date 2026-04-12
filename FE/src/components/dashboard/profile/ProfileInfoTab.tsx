@@ -15,28 +15,7 @@ import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
 const MAX_TAGS = 10;
 
-const SUGGESTED_TAGS = [
-  "React",
-  "TypeScript",
-  "Node.js",
-  "Python",
-  "Go",
-  "UI/UX",
-  "Figma",
-  "Docker",
-  "AWS",
-  "Next.js",
-  "Laravel",
-  "Flutter",
-  "Kotlin",
-  "Swift",
-  "Java",
-  "PostgreSQL",
-  "MongoDB",
-  "GraphQL",
-  "REST API",
-  "Machine Learning",
-];
+
 
 interface ProfileInfoTabProps {
   values: UpdateProfileRequest;
@@ -83,10 +62,6 @@ export function ProfileInfoTab({
     }
   };
 
-  // Filter suggested tags that aren't already added
-  const availableSuggestions = SUGGESTED_TAGS.filter(
-    (s) => !tags.some((t) => t.toLowerCase() === s.toLowerCase()),
-  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -195,13 +170,9 @@ export function ProfileInfoTab({
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          {/* Tag input field */}
-          <div className="grid gap-1.5">
-            <Label htmlFor="tag_input">Tambah Tag</Label>
-            <div
-              className="flex flex-wrap items-center gap-1.5 rounded-md border bg-background px-3 py-2 min-h-10 cursor-text focus-within:ring-1 focus-within:ring-ring"
-              onClick={() => tagInputRef.current?.focus()}
-            >
+          {/* Tags display */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
               {tags.map((tag, idx) => (
                 <Badge
                   key={`${tag}-${idx}`}
@@ -211,60 +182,38 @@ export function ProfileInfoTab({
                   {tag}
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeTag(idx);
-                    }}
-                    className="ml-0.5 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors"
+                    onClick={() => removeTag(idx)}
+                    className="ml-0.5 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors cursor-pointer"
                     aria-label={`Hapus tag ${tag}`}
                   >
                     <XIcon className="size-3" />
                   </button>
                 </Badge>
               ))}
-              {tags.length < MAX_TAGS && (
-                <input
-                  ref={tagInputRef}
-                  id="tag_input"
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={handleTagKeyDown}
-                  onBlur={() => {
-                    if (tagInput.trim()) addTag(tagInput);
-                  }}
-                  placeholder={
-                    tags.length === 0
-                      ? "Ketik skill lalu tekan Enter..."
-                      : "Tambah lagi..."
-                  }
-                  className="flex-1 min-w-[120px] bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
-                />
-              )}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Tekan <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">Enter</kbd> atau{" "}
-              <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">,</kbd> untuk menambah tag
-              &nbsp;·&nbsp; {tags.length}/{MAX_TAGS}
-            </p>
-          </div>
+          )}
 
-          {/* Suggested tags */}
-          {availableSuggestions.length > 0 && tags.length < MAX_TAGS && (
+          {/* Tag input field */}
+          {tags.length < MAX_TAGS && (
             <div className="grid gap-1.5">
-              <Label className="text-xs text-muted-foreground">Saran populer</Label>
-              <div className="flex flex-wrap gap-1.5">
-                {availableSuggestions.slice(0, 12).map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() => addTag(suggestion)}
-                    className="inline-flex items-center h-6 px-2.5 rounded-full border border-dashed border-muted-foreground/30 text-xs text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-200 cursor-pointer"
-                  >
-                    + {suggestion}
-                  </button>
-                ))}
-              </div>
+              <Label htmlFor="tag_input">Tambah Tag</Label>
+              <Input
+                ref={tagInputRef}
+                id="tag_input"
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagKeyDown}
+                onBlur={() => {
+                  if (tagInput.trim()) addTag(tagInput);
+                }}
+                placeholder="Ketik skill lalu tekan Enter..."
+              />
+              <p className="text-xs text-muted-foreground">
+                Tekan <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">Enter</kbd> atau{" "}
+                <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">,</kbd> untuk menambah tag
+                &nbsp;·&nbsp; {tags.length}/{MAX_TAGS}
+              </p>
             </div>
           )}
         </CardContent>
