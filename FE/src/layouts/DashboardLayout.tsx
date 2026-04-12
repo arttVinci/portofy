@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/utils/theme-provider";
-import { useEffect } from "react";
-import { Outlet, useNavigate, Navigate, Link } from "react-router-dom";
+import { Outlet, Navigate, Link } from "react-router-dom";
 import { useBreadcrumbs } from "@/hooks/ui/useBreadcrumbs";
 import { LoaderOne } from "@/components/ui/loader";
 
@@ -25,7 +24,6 @@ import { useCurrent } from "@/hooks/queries/user/useCurrent";
 
 export default function DashboardLayout() {
   const breadcrumbs = useBreadcrumbs();
-  const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
   const {
@@ -81,7 +79,9 @@ export default function DashboardLayout() {
                               >
                                 <Link to={crumb.href}>{crumb.label}</Link>
                               </BreadcrumbLink>
-                              <BreadcrumbSeparator className="hidden md:block" />
+                              {!isLast && (
+                                <BreadcrumbSeparator className="hidden md:block" />
+                              )}
                             </>
                           )}
                         </BreadcrumbItem>

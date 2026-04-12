@@ -26,17 +26,6 @@ class ProfileService {
     return response.data.data;
   }
 
-  async handleImageProfile(payload: FormData): Promise<ImageProfileResponse> {
-    const response: AxiosResponse<ApiResponse<ImageProfileResponse>> =
-      await apiClient.post(`${this.BASE_PATH}/image`, payload, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-    return response.data.data;
-  }
-
   async getProfile(): Promise<ProfileResponse> {
     const response: AxiosResponse<ApiResponse<ProfileResponse>> =
       await apiClient.get(`${this.BASE_PATH}`);

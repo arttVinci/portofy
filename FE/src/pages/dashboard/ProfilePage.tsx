@@ -3,7 +3,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SaveIcon, Loader2Icon } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { ProfileInfoTab } from "@/components/dashboard/profile/ProfileInfoTab";
 import { ProfileAvatarTab } from "@/components/dashboard/profile/ProfileAvatarTab";
@@ -15,9 +14,10 @@ import { type UpdateProfileRequest } from "@/@types/entities/profile.types";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";
-import { useUploadImage } from "@/hooks/mutations/profile/useUploadImage";
+import { useUploadImage } from "@/hooks/mutations/useUploadImage";
 import { ApiError } from "@/api/apiError";
 import { useGetProfile } from "@/hooks/queries";
+import { useCurrent } from "@/hooks/queries/user/useCurrent";
 
 export default function ProfilePage() {
   const [isPublic, setIsPublic] = useState(true);
@@ -27,11 +27,7 @@ export default function ProfilePage() {
   const { toast, renderToasts } = useToast();
 
   const { data: profile, isLoading, error } = useGetProfile();
-
-  const queryClient = useQueryClient();
-
-  const userData = queryClient.getQueryData<any>(["auth", "currentUser"]);
-  const currentUsername = userData?.username || "username";
+  const { data: currentUser } = useCurrent({ enabled: true });
 
   const form = useFormData<UpdateProfileRequest>({
     initialValues: {
@@ -76,7 +72,6 @@ export default function ProfilePage() {
       form.handleChange("image_url", response.image_url);
       setAvatarImageFile(null);
       setAvatarPreviewUrl(null);
-      console.log("cobaaaa", response.image_url);
       toast("success", "Berhasil", "Foto profil berhasil diperbarui!");
     },
     onError: (error: ApiError) => {
@@ -103,7 +98,7 @@ export default function ProfilePage() {
 
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
 
-        payload.image_url = uploadResponse.image_url;
+        payload.image_url = uploadResponse.image_url[0];
         // console.log("cobaaaa", avatarPreviewUrl);
       }
       await updateProfileMutation.mutateAsync(payload);
@@ -190,7 +185,7 @@ export default function ProfilePage() {
               <ProfileInfoTab
                 values={form.values}
                 onChange={handleChange}
-                username={currentUsername}
+                username={currentUser?.username ?? "Username"}
               />
             </TabsContent>
 
@@ -225,7 +220,7 @@ export default function ProfilePage() {
             values={form.values ?? ""}
             avatarUrl={avatarPreviewUrl || profile.image_url}
             isPublic={isPublic}
-            username={currentUsername}
+            username={currentUser?.username ?? "Username"}
           />
         </div>
       </div>
