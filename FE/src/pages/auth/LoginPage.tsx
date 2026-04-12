@@ -64,10 +64,7 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none" />
 
         {/* Brand */}
-        <a
-          href="/"
-          className="relative z-10 flex items-center gap-2.5"
-        >
+        <a href="/" className="relative z-10 flex items-center gap-2.5">
           <img
             src="/images/portofLogo.png"
             alt="Portofy logo"
@@ -96,8 +93,7 @@ export default function LoginPage() {
                   "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
               }}
             >
-              Selamat Datang{" "}
-              <span className="text-slate-500">Kembali.</span>
+              Selamat Datang <span className="text-slate-500">Kembali.</span>
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed max-w-[280px]">
               Portofoliomu menunggu. Masuk dan lanjutkan perjalanan personal

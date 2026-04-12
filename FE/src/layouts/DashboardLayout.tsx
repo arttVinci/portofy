@@ -19,12 +19,36 @@ import { ThemeProvider } from "@/components/utils/theme-provider";
 import { useEffect } from "react";
 import { Outlet, useNavigate, Navigate, Link } from "react-router-dom";
 import { useBreadcrumbs } from "@/hooks/ui/useBreadcrumbs";
+import { LoaderOne } from "@/components/ui/loader";
+
+import { useCurrent } from "@/hooks/queries/user/useCurrent";
 
 export default function DashboardLayout() {
   const breadcrumbs = useBreadcrumbs();
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
+
+  const {
+    data: currentUser,
+    isLoading,
+    isError,
+  } = useCurrent({ enabled: !!token });
+  console.log("Current User in DashboardLayout:", currentUser);
+
   if (!token) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <LoaderOne />
+      </div>
+    );
+  }
+
+  if (isError || !currentUser) {
+    localStorage.removeItem("authToken");
     return <Navigate to="/auth/login" replace />;
   }
 

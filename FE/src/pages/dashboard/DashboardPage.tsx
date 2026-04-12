@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { CopyPortfolioLink } from "@/components/dashboard/CopyPortfolioLink";
 import { HeroProfileCard } from "@/components/dashboard/HeroProfileCard";
 import { NotificationCard } from "@/components/dashboard/NotificationCard";
@@ -17,9 +16,9 @@ import {
 } from "@/hooks/queries";
 
 export default function DashboardPage() {
-  const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<any>(["auth", "currentUser"]);
-  const currentUsername = currentUser?.username || "loading...";
+  c;
+
+  console.log("Current User in DashboardPage:", currentUser);
 
   const hour = new Date().getHours();
   const greeting =
@@ -65,7 +64,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Copy Portfolio Link ──────────────────────────────────────────── */}
-      <CopyPortfolioLink username={currentUsername} />
+      <CopyPortfolioLink username={currentUser?.username} />
 
       {/* ── Hero Profile + Notifications ─────────────────────────────────── */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_380px]">

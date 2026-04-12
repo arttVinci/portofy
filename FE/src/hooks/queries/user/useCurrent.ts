@@ -10,7 +10,7 @@ interface UseCurrentUserOptions {
   onError?: (error: ApiError) => void;
 }
 
-export const useCurrentUser = (options: UseCurrentUserOptions) => {
+export const useCurrent = (options: UseCurrentUserOptions) => {
   const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
   return useQuery<UserResponse, ApiError>({
