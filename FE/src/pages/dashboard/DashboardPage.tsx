@@ -5,6 +5,7 @@ import { PortfolioHighlights } from "@/components/dashboard/PortfolioHighlights"
 import { ProfileCompletion } from "@/components/dashboard/ProfileCompletion";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCurrent } from "@/hooks/queries/user/useCurrent";
 
 import {
   useGetProfile,
@@ -16,9 +17,7 @@ import {
 } from "@/hooks/queries";
 
 export default function DashboardPage() {
-  c;
-
-  console.log("Current User in DashboardPage:", currentUser);
+  const { data: currentUser } = useCurrent({ enabled: true });
 
   const hour = new Date().getHours();
   const greeting =
@@ -64,7 +63,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Copy Portfolio Link ──────────────────────────────────────────── */}
-      <CopyPortfolioLink username={currentUser?.username} />
+      <CopyPortfolioLink username={currentUser?.username ?? "Username"} />
 
       {/* ── Hero Profile + Notifications ─────────────────────────────────── */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_380px]">

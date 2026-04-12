@@ -33,7 +33,6 @@ export default function DashboardLayout() {
     isLoading,
     isError,
   } = useCurrent({ enabled: !!token });
-  console.log("Current User in DashboardLayout:", currentUser);
 
   if (!token) {
     return <Navigate to="/auth/login" replace />;
@@ -41,7 +40,7 @@ export default function DashboardLayout() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className="bg-slate-900 flex h-screen w-full items-center justify-center">
         <LoaderOne />
       </div>
     );
@@ -52,15 +51,6 @@ export default function DashboardLayout() {
     return <Navigate to="/auth/login" replace />;
   }
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-      } catch (err) {
-        navigate("/auth/login", { replace: true });
-      }
-    };
-    checkAuth();
-  }, [navigate]);
   return (
     <ThemeProvider>
       <TooltipProvider>

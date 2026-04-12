@@ -56,7 +56,6 @@ class ApiClient {
     const message = error.response?.data?.message || "An error occurred";
     const statusCode = error.response?.status || 500;
     const errors = error.response?.data?.errors;
-    console.log(error.response);
 
     throw new ApiError(message, statusCode, errors);
   }
