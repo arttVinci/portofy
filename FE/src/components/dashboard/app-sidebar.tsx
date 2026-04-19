@@ -149,12 +149,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link to="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">portofy</span>
+              <Link className="flex items-center gap-3" to="/app">
+                {/* <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <img src="/logo.png" alt="logo" />
+                </div> */}
+                <img
+                  src="/images/portofLogo.png"
+                  alt="Portofy logo"
+                  className="flex w-[34px] h-[34px] object-contain rounded-full shadow-[0_0_10px_rgba(255,255,255,0.2)] shrink-0"
+                  onError={(e) => {
+                    // Fallback if image not found
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextElementSibling?.classList.remove(
+                      "hidden",
+                    );
+                  }}
+                />
+                <div className="grid flex-1 text-left text-base leading-tight">
+                  <span className="truncate font-medium">Portofy</span>
                   <span className="truncate text-xs text-muted-foreground">
                     Pro
                   </span>

@@ -19,12 +19,13 @@ import { ThemeProvider } from "@/components/utils/theme-provider";
 import { Outlet, Navigate, Link } from "react-router-dom";
 import { useBreadcrumbs } from "@/hooks/ui/useBreadcrumbs";
 import { LoaderOne } from "@/components/ui/loader";
+import { STORAGE_KEYS } from "@/config/api.config";
 
 import { useCurrent } from "@/hooks/queries/user/useCurrent";
 
 export default function DashboardLayout() {
   const breadcrumbs = useBreadcrumbs();
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
   const {
     data: currentUser,
@@ -45,7 +46,7 @@ export default function DashboardLayout() {
   }
 
   if (isError || !currentUser) {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
     return <Navigate to="/auth/login" replace />;
   }
 

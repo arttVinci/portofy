@@ -48,7 +48,7 @@ func (c *UploadController) UploadImage(ctx *fiber.Ctx) error {
 	// 3. Looping dan proses setiap file
 	for _, file := range files {
 		// Validasi Ukuran (Max 2MB per file)
-		if file.Size > 2*1024*1024 {
+		if file.Size > 5*1024*1024 {
 			c.Log.Warn("Upload failed: file size exceeds 2MB limit")
 			return fiber.NewError(fiber.StatusBadRequest, "Salah satu ukuran file melebihi 2MB")
 		}

@@ -76,6 +76,7 @@ export default function ProfilePage() {
     },
     onError: (error: ApiError) => {
       toast("error", "Gagal Upload", error.message);
+      console.log("error upload", error);
     },
   });
 
