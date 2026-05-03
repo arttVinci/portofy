@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
-	"tratech.my.id/server/internal/delivery/http"
+	"tratech.my.id/server/internal/delivery/http/controller"
 	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/delivery/http/route"
 	"tratech.my.id/server/internal/pkg/mail"
@@ -49,15 +49,15 @@ func Bootstrap(config *BootstrapConfig) {
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 
 	//Setup Controller
-	userController := http.NewUserController(userUseCase, config.Log)
-	profileController := http.NewProfileController(profileUseCase, config.Log)
-	achievementController := http.NewAchievementController(achievementUseCase, config.Log)
-	projectController := http.NewProjectController(projectUseCase, config.Log)
-	experienceController := http.NewExperienceController(experienceUseCase, config.Log)
-	educationController := http.NewEducationController(educationUseCase, config.Log)
-	skillController := http.NewSkillController(skillUseCase, config.Log)
-	socialController := http.NewSocialController(socialUseCase, config.Log)
-	uploadController := http.NewUploadController(localStorage, config.Log)
+	userController := controller.NewUserController(userUseCase, config.Log)
+	profileController := controller.NewProfileController(profileUseCase, config.Log)
+	achievementController := controller.NewAchievementController(achievementUseCase, config.Log)
+	projectController := controller.NewProjectController(projectUseCase, config.Log)
+	experienceController := controller.NewExperienceController(experienceUseCase, config.Log)
+	educationController := controller.NewEducationController(educationUseCase, config.Log)
+	skillController := controller.NewSkillController(skillUseCase, config.Log)
+	socialController := controller.NewSocialController(socialUseCase, config.Log)
+	uploadController := controller.NewUploadController(localStorage, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)

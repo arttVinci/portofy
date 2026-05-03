@@ -5,7 +5,7 @@ import HomeLayout from "./layouts/HomeLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
-// 2. Pages Marketing (Jualan)
+// 2. Pages Marketing
 import HomePage from "./pages/home/HomePage";
 import TemplatePage from "./pages/home/TemplatePage";
 import MarketingAboutPage from "./pages/home/AboutPage";

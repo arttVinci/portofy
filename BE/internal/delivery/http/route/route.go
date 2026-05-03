@@ -3,21 +3,21 @@ package route
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"tratech.my.id/server/internal/delivery/http"
+	"tratech.my.id/server/internal/delivery/http/controller"
 )
 
 type RouteConfig struct {
 	App                   *fiber.App
 	AuthMiddleware        fiber.Handler
-	UserController        *http.UserController
-	ProfileController     *http.ProfileController
-	AchievementController *http.AchievementController
-	ProjectController     *http.ProjectController
-	ExperienceController  *http.ExperienceController
-	EducationController   *http.EducationController
-	SkillController       *http.SkillController
-	SocialController      *http.SocialController
-	UploadController      *http.UploadController
+	UserController        *controller.UserController
+	ProfileController     *controller.ProfileController
+	AchievementController *controller.AchievementController
+	ProjectController     *controller.ProjectController
+	ExperienceController  *controller.ExperienceController
+	EducationController   *controller.EducationController
+	SkillController       *controller.SkillController
+	SocialController      *controller.SocialController
+	UploadController      *controller.UploadController
 }
 
 func (c *RouteConfig) Setup() {
