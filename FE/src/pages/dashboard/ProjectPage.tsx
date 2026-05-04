@@ -73,9 +73,9 @@ export default function ProjectPage() {
     });
   }, [project]);
 
-  const updateProjectMutation = useUpdateProject({
+  const createProjectMutation = useCreateProject({
     onSuccess: () => {
-      toast("success", "Berhasil", "Project berhasil diperbarui");
+      toast("success", "Berhasil", "Project berhasil ditambahkan");
       refetch();
       goList();
     },
@@ -84,9 +84,9 @@ export default function ProjectPage() {
     },
   });
 
-  const createProjectMutation = useCreateProject({
+  const updateProjectMutation = useUpdateProject({
     onSuccess: () => {
-      toast("success", "Berhasil", "Project berhasil ditambahkan");
+      toast("success", "Berhasil", "Project berhasil diperbarui");
       refetch();
       goList();
     },
@@ -197,7 +197,7 @@ export default function ProjectPage() {
 
   const handleEdit = (project: ProjectResponse) => {
     setActiveView({ type: "edit", project });
-    setProject(project); // Set the active project! (Very important for edit)
+    setProject(project);
     setActiveTab("form");
   };
 
