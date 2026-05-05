@@ -154,11 +154,6 @@ func (c *SkillController) GetAllByUsername(ctx *fiber.Ctx) error {
 		Username: username,
 	}
 
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-	}
-
 	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
 	if err != nil {
 		c.Log.WithError(err).Error("Failed GetAll By Username")
@@ -185,11 +180,6 @@ func (c *SkillController) Get(ctx *fiber.Ctx) error {
 	request := &model.GetByIdSkillRequest{
 		ID:     skillId,
 		UserId: auth.ID,
-	}
-
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.Get(ctx.UserContext(), request)

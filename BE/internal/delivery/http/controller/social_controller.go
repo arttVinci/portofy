@@ -130,10 +130,7 @@ func (c *SocialController) GetAll(ctx *fiber.Ctx) error {
 		UserId: auth.ID,
 	}
 
-	//if err := ctx.BodyParser(request); err != nil {
-	//	c.Log.WithError(err).Error("error parsing request body")
-	//	return err
-	//}
+
 
 	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
 	if err != nil {
@@ -157,11 +154,6 @@ func (c *SocialController) GetAllByUsername(ctx *fiber.Ctx) error {
 
 	request := &model.GetPublicSocialRequest{
 		Username: username,
-	}
-
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
@@ -190,11 +182,6 @@ func (c *SocialController) Get(ctx *fiber.Ctx) error {
 	request := &model.GetByIdSocialRequest{
 		ID:     skillId,
 		UserId: auth.ID,
-	}
-
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.Get(ctx.UserContext(), request)
