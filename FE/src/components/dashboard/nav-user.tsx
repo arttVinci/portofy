@@ -16,36 +16,24 @@ import {
 } from "@/components/ui/sidebar";
 import {
   ChevronsUpDownIcon,
-  SparklesIcon,
   BadgeCheckIcon,
   CreditCardIcon,
   BellIcon,
   LogOutIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import type { ProfileResponse, UserResponse } from "@/@types";
+import { Skeleton } from "../ui/skeleton";
 
-const STATIC_USER = {
-  username: "putra.rizky",
-  email: "traarzkyy97@gmail.com",
-  avatarUrl: "",
-  plan: "free" as "free" | "pro",
-};
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+interface NavUserProps {
+  user: UserResponse | null;
+  profile: ProfileResponse | null;
+  isLoading: boolean;
 }
 
-export function NavUser() {
+export function NavUser({ user, profile, isLoading }: NavUserProps) {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
-
-  const user = STATIC_USER;
-  const initials = getInitials(user.username);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -61,18 +49,37 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatarUrl} alt={user.username} />
-                <AvatarFallback className="rounded-lg">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.username}</span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {user.email}
-                </span>
-              </div>
+              {isLoading ? (
+                <Skeleton className="h-8 w-8 rounded-lg" />
+              ) : (
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage
+                    src={profile?.image_url ?? ""}
+                    alt={user?.username ?? "User"}
+                  />
+
+                  <AvatarFallback className="rounded-lg">
+                    {user?.username
+                      ? user.username.charAt(0).toUpperCase()
+                      : "U"}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+
+              {isLoading ? (
+                <div className="grid flex-1 text-left text-sm leading-tight gap-1">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-4 w-39" />
+                </div>
+              ) : (
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{user?.username}</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {user?.email}
+                  </span>
+                </div>
+              )}
+
               <ChevronsUpDownIcon className="ml-auto size-4 shrink-0" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -86,15 +93,15 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatarUrl} alt={user.username} />
+                  <AvatarImage src={profile?.image_url} alt={user?.username!} />
                   <AvatarFallback className="rounded-lg">
-                    {initials}
+                    {user?.username?.split(" ")[0][0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.username}</span>
+                  <span className="truncate font-medium">{user?.username}</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    {user.email}
+                    {user?.email}
                   </span>
                 </div>
               </div>
@@ -102,7 +109,7 @@ export function NavUser() {
 
             <DropdownMenuSeparator />
 
-            {user.plan === "free" && (
+            {/* {user.role === "free" && (
               <>
                 <DropdownMenuGroup>
                   <DropdownMenuItem
@@ -114,7 +121,7 @@ export function NavUser() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
               </>
-            )}
+            )} */}
 
             {/* Account actions */}
             <DropdownMenuGroup>

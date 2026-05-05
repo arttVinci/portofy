@@ -21,7 +21,7 @@ export function CopyPortfolioLink({ username }: { username: string }) {
       <CardContent className="">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium mb-1.5">Link Portofolio Kamu</p>
+            <p className="text-sm font-medium mb-1.5">Link Portofolio</p>
             <Input
               readOnly
               value={PORTFOLIO_URL + username}
@@ -35,7 +35,7 @@ export function CopyPortfolioLink({ username }: { username: string }) {
               size="sm"
               variant="outline"
               onClick={handleCopy}
-              className="gap-1.5"
+              className="gap-1.5 cursor-pointer"
             >
               {copied ? (
                 <>
@@ -57,7 +57,7 @@ export function CopyPortfolioLink({ username }: { username: string }) {
                 href={PORTFOLIO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="gap-1.5"
+                className="gap-1.5 cursor-pointer"
               >
                 <ExternalLinkIcon className="size-3.5" />
                 Buka

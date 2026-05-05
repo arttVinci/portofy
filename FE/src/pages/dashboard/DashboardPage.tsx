@@ -17,7 +17,9 @@ import {
 } from "@/hooks/queries";
 
 export default function DashboardPage() {
-  const { data: currentUser } = useCurrent({ enabled: true });
+  const { data: currentUser, isLoading: currentUserLoading } = useCurrent({
+    enabled: true,
+  });
 
   const hour = new Date().getHours();
   const greeting =
@@ -32,23 +34,22 @@ export default function DashboardPage() {
   const { data: experiences } = useAdminExperiences();
 
   // ── Profile completion calculation ──────────────────────────────────────────
-  const completionChecks = [
-    { label: "Lengkapi profil", done: !!profile?.full_name && !!profile?.bio },
-    { label: "Upload foto avatar", done: !!profile?.image_url },
-    { label: "Tambah social media", done: (socials?.length ?? 0) > 0 },
-    { label: "Tambah minimal 1 project", done: (projects?.length ?? 0) > 0 },
-    { label: "Tambah experience", done: (experiences?.length ?? 0) > 0 },
-    { label: "Tambah skill", done: (skills?.length ?? 0) > 0 },
+  const completionProfileChecks = [
+    { label: "Tambahkan Foto Profile", done: !!profile?.image_url },
+    { label: "Tambahkan Alamat", done: !!profile?.address },
+    { label: "Tambahkan Bio Kamu", done: !!profile?.bio },
+    { label: "Tambahkan About", done: !!profile?.about },
+    { label: "Tambahkan Tags", done: !!profile?.tags },
   ];
-  const doneCount = completionChecks.filter((c) => c.done).length;
+  const doneCount = completionProfileChecks.filter((c) => c.done).length;
   const completionPercent = Math.round(
-    (doneCount / completionChecks.length) * 100,
+    (doneCount / completionProfileChecks.length) * 100,
   );
-  const remaining = completionChecks.length - doneCount;
+  const remaining = completionProfileChecks.length - doneCount;
   const completionLabel =
     remaining > 0
       ? `${remaining} langkah lagi untuk profil 100%`
-      : "Profil kamu sudah lengkap! 🎉";
+      : "Profil kamu sudah lengkap!";
 
   return (
     <div className="flex flex-col gap-6">
@@ -58,7 +59,7 @@ export default function DashboardPage() {
           {greeting}, {profile?.full_name} 👋
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Berikut ringkasan aktivitas portofolio kamu.
+          Berikut ringkasan Portofolio anda.
         </p>
       </div>
 

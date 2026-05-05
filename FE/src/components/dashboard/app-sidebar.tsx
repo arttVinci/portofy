@@ -28,6 +28,9 @@ import {
   Command,
 } from "lucide-react";
 
+import { useCurrent } from "@/hooks/queries";
+import { useGetProfile } from "@/hooks/queries";
+
 function NewBadge() {
   return (
     <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
@@ -140,6 +143,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       : item,
   );
 
+  const { data: profile, isLoading: profileLoading } = useGetProfile();
+  const { data: currentUser, isLoading: currentUserLoading } = useCurrent({
+    enabled: true,
+  });
+
+  const isLoading = profileLoading || currentUserLoading;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       {/* ── Header ─────────────────────────────── */}
@@ -148,9 +158,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link className="flex items-center gap-3" to="/app">
-                {/* <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <img src="/logo.png" alt="logo" />
-                </div> */}
                 <img
                   src="/images/portofLogo.png"
                   alt="Portofy logo"
@@ -174,11 +181,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
       <SidebarContent>
         <NavMain items={items} />
       </SidebarContent>
-
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -191,9 +196,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarSeparator />
-        <NavUser />
+        <NavUser
+          user={currentUser ?? null}
+          profile={profile ?? null}
+          isLoading={isLoading}
+        />
       </SidebarFooter>
-
       <SidebarRail />
     </Sidebar>
   );

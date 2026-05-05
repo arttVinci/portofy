@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  MapPinIcon,
-  PencilIcon,
-  SparklesIcon,
-} from "lucide-react";
+import { MapPinIcon, PencilIcon, SparklesIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -37,14 +33,11 @@ function getInitials(name: string): string {
 }
 
 const LEVEL_COLORS: Record<string, string> = {
-  Beginner:
-    "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
-  Intermediate:
-    "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
+  Beginner: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+  Intermediate: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
   Advanced:
     "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300",
-  Expert:
-    "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300",
+  Expert: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300",
 };
 
 export function HeroProfileCard({
@@ -133,14 +126,13 @@ export function HeroProfileCard({
         <div className="rounded-lg border bg-muted/30 p-3">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-muted-foreground">
-              Kelengkapan Profil
+              Kelengkapan Profile
             </span>
             <Badge
               variant={isComplete ? "default" : "secondary"}
               className={cn(
                 "text-[11px]",
-                isComplete &&
-                  "bg-emerald-500 hover:bg-emerald-500 text-white",
+                isComplete && "bg-emerald-500 hover:bg-emerald-500 text-white",
               )}
             >
               {completionPercent}%
@@ -148,10 +140,7 @@ export function HeroProfileCard({
           </div>
           <Progress
             value={completionPercent}
-            className={cn(
-              "h-1.5",
-              isComplete && "[&>div]:bg-emerald-500",
-            )}
+            className={cn("h-1.5", isComplete && "[&>div]:bg-emerald-500")}
           />
           <p className="text-[11px] text-muted-foreground mt-1.5">
             {completionLabel}

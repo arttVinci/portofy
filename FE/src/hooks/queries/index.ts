@@ -1,3 +1,5 @@
+export * from "./user/useCurrent";
+
 export * from "./achievement/useAchievement";
 export * from "./achievement/useAchievements";
 export * from "./achievement/useAdminAchievement";
