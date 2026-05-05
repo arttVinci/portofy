@@ -25,7 +25,6 @@ import {
   PaletteIcon,
   SettingsIcon,
   ExternalLinkIcon,
-  Command,
 } from "lucide-react";
 
 import { useCurrent } from "@/hooks/queries";

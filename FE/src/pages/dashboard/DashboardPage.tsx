@@ -14,6 +14,7 @@ import {
   useAdminSkills,
   useAdminSocials,
   useAdminExperiences,
+  useAdminEducations,
 } from "@/hooks/queries";
 
 export default function DashboardPage() {
@@ -32,6 +33,7 @@ export default function DashboardPage() {
   const { data: skills } = useAdminSkills();
   const { data: socials } = useAdminSocials();
   const { data: experiences } = useAdminExperiences();
+  const { data: educations } = useAdminEducations();
 
   // ── Profile completion calculation ──────────────────────────────────────────
   const completionProfileChecks = [
@@ -41,15 +43,61 @@ export default function DashboardPage() {
     { label: "Tambahkan About", done: !!profile?.about },
     { label: "Tambahkan Tags", done: !!profile?.tags },
   ];
-  const doneCount = completionProfileChecks.filter((c) => c.done).length;
-  const completionPercent = Math.round(
-    (doneCount / completionProfileChecks.length) * 100,
+
+  const completionPortfolioChecks = [
+    { label: "Lengkapi Profile", done: !!profile, url: "/app/profile" },
+    {
+      label: "Perlihatkan minimal 1 Project Kamu",
+      done: (projects?.length ?? 0) > 0,
+      url: "/app/projects",
+    },
+    {
+      label: "Tunjukan minimal 1 Pencapaian Kamu",
+      done: (achievements?.length ?? 0) > 0,
+      url: "/app/achievements",
+    },
+    {
+      label: "Tampilkan latar belakang Pendidikan Kamu",
+      done: (educations?.length ?? 0) > 0,
+      url: "/app/education",
+    },
+    {
+      label: "Tampilkan Riwayat Pekerjaan Kamu",
+      done: (experiences?.length ?? 0) > 0,
+      url: "/app/experience",
+    },
+    {
+      label: "Tampilkan keahlian Kamu",
+      done: (skills?.length ?? 0) > 0,
+      url: "/app/skills",
+    },
+    {
+      label: "Tambahkan social media",
+      done: (socials?.length ?? 0) > 0,
+    },
+  ];
+
+  function caclLabel(items: any[], options: string) {
+    const done = items.filter((c) => c.done).length;
+    const remaining = items.length - done;
+    return remaining > 0
+      ? `${remaining} langkah lagi untuk ${items.length}%`
+      : `${options} kamu sudah Siap!`;
+  }
+
+  function calcPercent(items: any[]) {
+    const done = items.filter((c) => c.done).length;
+    return Math.round((done / items.length) * 100);
+  }
+
+  const completionProfilePercent = calcPercent(completionProfileChecks);
+  const completionPortfolioPercent = calcPercent(completionPortfolioChecks);
+
+  const completionProfileLabel = caclLabel(completionProfileChecks, "Profile");
+  const completionPortfolioLabel = caclLabel(
+    completionPortfolioChecks,
+    "Portfolio",
   );
-  const remaining = completionProfileChecks.length - doneCount;
-  const completionLabel =
-    remaining > 0
-      ? `${remaining} langkah lagi untuk profil 100%`
-      : "Profil kamu sudah lengkap!";
 
   return (
     <div className="flex flex-col gap-6">
@@ -76,8 +124,8 @@ export default function DashboardPage() {
           <HeroProfileCard
             profile={profile}
             skills={skills ?? []}
-            completionPercent={completionPercent}
-            completionLabel={completionLabel}
+            completionPercent={completionProfilePercent}
+            completionLabel={completionProfileLabel}
           />
         ) : null}
 
@@ -92,7 +140,11 @@ export default function DashboardPage() {
 
       {/* ── Checklist + Quick Actions ────────────────────────────────────── */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <ProfileCompletion />
+        <ProfileCompletion
+          completionItems={completionPortfolioChecks}
+          completionLabel={completionPortfolioLabel}
+          completionPercent={completionPortfolioPercent}
+        />
         <QuickActions />
       </div>
     </div>

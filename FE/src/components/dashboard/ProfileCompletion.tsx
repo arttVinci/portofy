@@ -17,29 +17,21 @@ interface CompletionItem {
   url: string;
 }
 
-// ── Dummy data — ganti dengan cek data asli dari API nanti ────────────────────
-const COMPLETION_ITEMS: CompletionItem[] = [
-  { label: "Lengkapi profile", done: true, url: "/dashboard/profile" },
-  { label: "Tambah social media", done: true, url: "/dashboard/social" },
-  { label: "Upload foto avatar", done: false, url: "/dashboard/profile" },
-  {
-    label: "Tambah minimal 1 project",
-    done: false,
-    url: "/dashboard/projects",
-  },
-  { label: "Tambah experience", done: false, url: "/dashboard/experience" },
-  { label: "Pilih tema tampilan", done: false, url: "/dashboard/appearance" },
-];
-
 function calcPercent(items: CompletionItem[]) {
   const done = items.filter((i) => i.done).length;
   return Math.round((done / items.length) * 100);
 }
 
-export function ProfileCompletion() {
-  const percent = calcPercent(COMPLETION_ITEMS);
-  const remaining = COMPLETION_ITEMS.filter((i) => !i.done).length;
-  const isComplete = percent === 100;
+export function ProfileCompletion({
+  completionItems,
+  completionLabel,
+  completionPercent,
+}: {
+  completionItems: any[];
+  completionLabel: string;
+  completionPercent: number;
+}) {
+  const isComplete = completionPercent === 100;
 
   return (
     <Card>
@@ -47,10 +39,10 @@ export function ProfileCompletion() {
         <div className="flex items-start justify-between gap-2">
           <div>
             <CardTitle className="text-sm font-medium">
-              Kelengkapan Profil
+              Kelengkapan Portofolio
             </CardTitle>
             <CardDescription className="text-xs mt-0.5">
-              Profil lengkap tampil lebih baik di pencarian
+              Portofolio lengkap tampil lebih baik di pencarian
             </CardDescription>
           </div>
           <Badge
@@ -60,19 +52,19 @@ export function ProfileCompletion() {
               isComplete && "bg-emerald-500 hover:bg-emerald-500 text-white",
             )}
           >
-            {percent}%
+            {completionPercent}%
           </Badge>
         </div>
 
         <Progress
-          value={percent}
+          value={completionPercent}
           className={cn("h-1.5 mt-2", isComplete && "[&>div]:bg-emerald-500")}
         />
       </CardHeader>
 
       <CardContent className="pt-0">
         <ul className="flex flex-col gap-0.5">
-          {COMPLETION_ITEMS.map((item) => (
+          {completionItems.map((item) => (
             <li key={item.label}>
               <Link
                 to={item.done ? "#" : item.url}
@@ -99,11 +91,9 @@ export function ProfileCompletion() {
           ))}
         </ul>
 
-        {remaining > 0 && (
-          <p className="mt-3 text-xs text-muted-foreground px-2">
-            {remaining} langkah lagi untuk profil 100%
-          </p>
-        )}
+        <p className="mt-3 text-xs text-muted-foreground px-2">
+          {completionLabel}
+        </p>
       </CardContent>
     </Card>
   );
