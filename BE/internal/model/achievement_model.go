@@ -18,10 +18,10 @@ type AchievementResponse struct {
 type CreateAchievementRequest struct {
 	UserId        string     `json:"-" validate:"required"`
 	Title         string     `json:"title" validate:"required,min=3,max=100"`
-	ImageUrl      string     `json:"image_url" validate:"omitempty,url"`
+	ImageUrl      string     `json:"image_url" validate:"omitempty"`
 	Organization  string     `json:"organization" validate:"required,max=100"`
-	IssuedDate    *time.Time `json:"issued_date" validate:"omitempty,lte"`
-	CredentialUrl *string    `json:"credential_url" validate:"omitempty,url"`
+	IssuedDate    *time.Time `json:"issued_date" validate:"omitempty"`
+	CredentialUrl *string    `json:"credential_url" validate:"omitempty"`
 	CredentialId  *string    `json:"credential_id" validate:"omitempty,max=100"`
 }
 
@@ -29,10 +29,10 @@ type UpdateAchievementRequest struct {
 	ID            string     `json:"-" validate:"required,uuid"`
 	UserId        string     `json:"-" validate:"required"`
 	Title         string     `json:"title" validate:"omitempty,min=3,max=100"`
-	ImageUrl      string     `json:"image_url" validate:"omitempty,url"`
+	ImageUrl      string     `json:"image_url" validate:"omitempty"`
 	Organization  string     `json:"organization" validate:"omitempty,max=100"`
-	IssuedDate    *time.Time `json:"issued_date" validate:"omitempty,lte"`
-	CredentialUrl string     `json:"credential_url" validate:"omitempty,url"`
+	IssuedDate    *time.Time `json:"issued_date" validate:"omitempty"`
+	CredentialUrl string     `json:"credential_url" validate:"omitempty"`
 	CredentialId  string     `json:"credential_id" validate:"omitempty,max=100"`
 }
 

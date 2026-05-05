@@ -236,7 +236,7 @@ export function AchievementFormSection({
                 <Input
                   id="ach-cred-url"
                   placeholder="https://www.credly.com/badges/..."
-                  value={values.credential_url ?? ""}
+                  value={values.credential_url ?? "https://"}
                   onChange={(e) => onChange("credential_url", e.target.value)}
                 />
                 <p className="text-xs text-muted-foreground">
