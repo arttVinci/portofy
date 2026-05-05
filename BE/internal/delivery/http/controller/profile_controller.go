@@ -38,7 +38,7 @@ func (c *ProfileController) Create(ctx *fiber.Ctx) error {
 	request := new(model.CreateProfileRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing body request")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.UserId = auth.ID
@@ -70,7 +70,7 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	request := new(model.UpdateProfileRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.UserId = auth.ID

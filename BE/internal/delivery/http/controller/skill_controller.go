@@ -37,7 +37,7 @@ func (c *SkillController) Create(ctx *fiber.Ctx) error {
 	request := new(model.CreateSkillRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.UserId = auth.ID
@@ -68,7 +68,7 @@ func (c *SkillController) Update(ctx *fiber.Ctx) error {
 	request := new(model.UpdateSkillRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return err
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.UserId = auth.ID
@@ -104,7 +104,7 @@ func (c *SkillController) Delete(ctx *fiber.Ctx) error {
 
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return err
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	if err := c.UseCase.Delete(ctx.UserContext(), request); err != nil {
@@ -128,11 +128,6 @@ func (c *SkillController) GetAll(ctx *fiber.Ctx) error {
 
 	request := &model.GetSkillRequest{
 		UserId: auth.ID,
-	}
-
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return err
 	}
 
 	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
@@ -161,7 +156,7 @@ func (c *SkillController) GetAllByUsername(ctx *fiber.Ctx) error {
 
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return err
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
@@ -194,7 +189,7 @@ func (c *SkillController) Get(ctx *fiber.Ctx) error {
 
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return err
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.Get(ctx.UserContext(), request)

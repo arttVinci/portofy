@@ -61,7 +61,7 @@ func (c *UserController) Register(ctx *fiber.Ctx) error {
 	err := ctx.BodyParser(request)
 	if err != nil {
 		c.Log.Warnf("Failed to parse request body : %+v", err)
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.Create(ctx.UserContext(), request)
@@ -89,7 +89,7 @@ func (c *UserController) Login(ctx *fiber.Ctx) error {
 	err := ctx.BodyParser(request)
 	if err != nil {
 		c.Log.Warnf("Failed to parse request body : %+v", err)
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.Login(ctx.UserContext(), request)
@@ -120,7 +120,7 @@ func (c *UserController) Update(ctx *fiber.Ctx) error {
 	err := ctx.BodyParser(request)
 	if err != nil {
 		c.Log.Warnf("Failed to parse request body : %+v", err)
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.ID = auth.ID
@@ -163,7 +163,7 @@ func (c *UserController) RequestOTP(ctx *fiber.Ctx) error {
 	err := ctx.BodyParser(request)
 	if err != nil {
 		c.Log.Warnf("Failed to parse request body : %+v", err)
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	response, err := c.UseCase.CreateVerificationCode(ctx.UserContext(), request)

@@ -37,7 +37,7 @@ func (c *AchievementController) Create(ctx *fiber.Ctx) error {
 	request := new(model.CreateAchievementRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 	request.UserId = auth.ID
 
@@ -68,7 +68,7 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	request := new(model.UpdateAchievementRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
 	request.UserId = auth.ID

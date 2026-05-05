@@ -64,7 +64,7 @@ func (c *UploadController) UploadImage(ctx *fiber.Ctx) error {
 		url, err := c.Storage.SaveLocalImage(file)
 		if err != nil {
 			c.Log.WithError(err).Error("Failed save image to server")
-			return err
+			return fiber.NewError(fiber.StatusInternalServerError, "Gagal menyimpan gambar ke server")
 		}
 
 		// Masukkan URL yang berhasil ke dalam array
