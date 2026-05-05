@@ -82,7 +82,6 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { title: "Projects", url: "/app/projects" },
       { title: "Achievements", url: "/app/achievements" },
-      { title: "Testimonials", url: "/app/testimonials" },
     ],
   },
   {
@@ -94,7 +93,6 @@ const NAV_ITEMS: NavItem[] = [
       { title: "Experience", url: "/app/experience" },
       { title: "Education", url: "/app/education" },
       { title: "Skills", url: "/app/skills" },
-      { title: "Talks & Speaking", url: "/app/talks" },
     ],
   },
 

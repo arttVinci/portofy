@@ -7,7 +7,7 @@ type Profile struct {
 	ImageUrl string `gorm:"column:image_url;type:varchar(255)"`
 	Address  string `gorm:"column:address;type:varchar(200)"`
 	About    string `gorm:"column:about;type:text"`
-	Bio      string `gorm:"column:bio;type:varchar(200)"`
+	Bio      string `gorm:"column:bio;type:text"`
 	Theme    string `gorm:"column:theme;type:varchar(20);default:'system'"`
 
 	Tags []string `gorm:"column:tags;type:json;serializer:json"`

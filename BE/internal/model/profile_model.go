@@ -19,8 +19,8 @@ type CreateProfileRequest struct {
 	FullName string   `json:"full_name" validate:"required,min=3,max=100"`
 	ImageUrl string   `json:"image_url" validate:"omitempty,url"`
 	Address  string   `json:"address" validate:"omitempty,max=200"`
-	About    string   `json:"about" validate:"omitempty,max=10000"`
-	Bio      string   `json:"bio" validate:"omitempty,max=2000"`
+	About    string   `json:"about" validate:"omitempty"`
+	Bio      string   `json:"bio" validate:"omitempty"`
 	Theme    string   `json:"theme"`
 	Tags     []string `json:"tags" validate:"omitempty,max=10,dive,max=30"`
 }
@@ -30,8 +30,8 @@ type UpdateProfileRequest struct {
 	FullName string   `json:"full_name" validate:"omitempty,min=3,max=100"`
 	ImageUrl string   `json:"image_url" validate:"omitempty,url"`
 	Address  string   `json:"address" validate:"omitempty,max=200"`
-	About    string   `json:"about" validate:"omitempty,max=10000"`
-	Bio      string   `json:"bio" validate:"omitempty,max=2000"`
+	About    string   `json:"about" validate:"omitempty"`
+	Bio      string   `json:"bio" validate:"omitempty"`
 	Theme    string   `json:"theme"`
 	Tags     []string `json:"tags" validate:"omitempty,max=10,dive,max=30"`
 }

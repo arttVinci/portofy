@@ -6,7 +6,7 @@ CREATE TABLE profiles
     image_url         VARCHAR(255) NOT NULL,
     address           VARCHAR(200) NOT NULL,
     about             TEXT         NULL,
-    bio               VARCHAR(255) NULL,
+    bio               TEXT         NULL,
     theme             VARCHAR(50)  DEFAULT 'default',
 
     tags              JSON,
