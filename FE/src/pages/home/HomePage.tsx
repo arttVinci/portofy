@@ -1,3 +1,4 @@
+import HeroSection from "@/sections/marketing/HeroSection";
 import WhySection from "@/sections/marketing/WhySection";
 import HowItWorksSection from "@/sections/marketing/HowItWorksSection";
 // import CTASection from "@/sections/marketing/CTASection";
@@ -9,7 +10,7 @@ import FooterSection from "@/sections/marketing/FooterSection";
 export default function HomePage() {
   return (
     <>
-      {/* <HeroSection /> */}
+      <HeroSection />
       <WhySection />
       <HowItWorksSection />
       {/* <CTASection /> */}
