@@ -1,12 +1,10 @@
 import {
-  GithubIcon,
   ExternalLinkIcon,
   StarIcon,
   PencilIcon,
   Trash2Icon,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -42,9 +40,9 @@ export function ProjectCard({
         className="relative aspect-video cursor-pointer overflow-hidden bg-muted"
         onClick={() => onViewDetail(project)}
       >
-        {project.image ? (
+        {project.image_url ? (
           <img
-            src={project.image}
+            src={project.image_url}
             alt={project.title}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
@@ -77,32 +75,12 @@ export function ProjectCard({
           </p>
         </div>
 
-        {/* Tags */}
-        {project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {project.tags.slice(0, 4).map((tag) => (
-              <Badge
-                key={tag}
-                variant="secondary"
-                className="text-[10px] px-1.5 py-0"
-              >
-                {tag}
-              </Badge>
-            ))}
-            {project.tags.length > 4 && (
-              <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                +{project.tags.length - 4}
-              </Badge>
-            )}
-          </div>
-        )}
-
         <Separator />
 
         {/* Actions */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            {project.github_url && (
+            {project.link_url && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -112,28 +90,7 @@ export function ProjectCard({
                     asChild
                   >
                     <a
-                      href={project.github_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <GithubIcon className="size-3.5" />
-                    </a>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">GitHub</TooltipContent>
-              </Tooltip>
-            )}
-            {project.live_url && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="size-7"
-                    asChild
-                  >
-                    <a
-                      href={project.live_url}
+                      href={project.link_url}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

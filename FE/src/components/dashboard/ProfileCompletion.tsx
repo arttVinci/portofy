@@ -11,26 +11,17 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-interface CompletionItem {
-  label: string;
-  done: boolean;
-  url: string;
-}
-
-function calcPercent(items: CompletionItem[]) {
-  const done = items.filter((i) => i.done).length;
-  return Math.round((done / items.length) * 100);
+interface ProfileCompletionProps {
+  completionItems: any[];
+  completionLabel: string;
+  completionPercent: number;
 }
 
 export function ProfileCompletion({
   completionItems,
   completionLabel,
   completionPercent,
-}: {
-  completionItems: any[];
-  completionLabel: string;
-  completionPercent: number;
-}) {
+}: ProfileCompletionProps) {
   const isComplete = completionPercent === 100;
 
   return (

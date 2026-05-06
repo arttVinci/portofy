@@ -38,7 +38,7 @@ export default function ProjectPage() {
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
   const [galleryBlobs, setGalleryBlobs] = useState<string[]>([]);
 
-  const { data: projects, isLoading, error, refetch } = useAdminProjects();
+  const { data: projects, isLoading, refetch } = useAdminProjects();
   const [project, setProject] = useState<ProjectResponse>();
 
   const form = useFormData<UpdateProjectRequest>({

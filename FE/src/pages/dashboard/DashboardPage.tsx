@@ -18,7 +18,7 @@ import {
 } from "@/hooks/queries";
 
 export default function DashboardPage() {
-  const { data: currentUser, isLoading: currentUserLoading } = useCurrent({
+  const { data: currentUser } = useCurrent({
     enabled: true,
   });
 

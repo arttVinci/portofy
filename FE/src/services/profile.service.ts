@@ -1,6 +1,5 @@
 import type {
   CreateProfileRequest,
-  ImageProfileResponse,
   ProfileResponse,
   UpdateProfileRequest,
   ApiResponse,

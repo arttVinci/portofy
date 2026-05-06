@@ -1,4 +1,3 @@
-import type { ProfileResponse } from "@/@types/entities/profile.types";
 import {
   Card,
   CardContent,

@@ -1,29 +1,22 @@
-import type { TechItem } from "@/@types/entities/project.types";
+import type { ProjectResponse } from "@/@types";
 
 interface ProjectTechStackProps {
-  items: TechItem[];
+  items: ProjectResponse[];
   size?: "sm" | "md";
 }
 
-export function ProjectTechStack({
-  items,
-  size = "md",
-}: ProjectTechStackProps) {
+export function ProjectTechStack({ items }: ProjectTechStackProps) {
   if (!items.length) return null;
 
   return (
     <div className="flex flex-wrap gap-2">
-      {items.map((tech) => (
+      {items.map((tool: any) => (
         <span
-          key={tech.name}
+          key={tool.name}
           className="flex items-center gap-1.5 rounded-full border bg-muted/40 px-2.5 py-1 text-xs font-medium"
-          style={{ borderColor: tech.color + "40" }}
+          style={{ borderColor: tool.color + "40" }}
         >
-          <span
-            className="size-1.5 rounded-full shrink-0"
-            style={{ background: tech.color }}
-          />
-          {tech.name}
+          {tool.name}
         </span>
       ))}
     </div>
