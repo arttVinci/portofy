@@ -131,10 +131,6 @@ func (r *AIDescRepository) GenerateExperienceDesc(ctx context.Context, request m
 }
 
 func (r *AIDescRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (*model.GenerateEducationDescResponse, error) {
-	gpaStr := request.GPA
-	if gpaStr == "" {
-		gpaStr = "Not specified"
-	}
 
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter writing an education section for a developer's portfolio website.
@@ -144,8 +140,6 @@ func (r *AIDescRepository) GenerateEducationDesc(ctx context.Context, request mo
 		- Degree: %s
 		- Period: %s – %s
 		- GPA: %s
-		- Thesis/Final Project: %s
-		- Activities / Organizations: %s
 		- Tone: %s
 
 		%s
@@ -172,7 +166,7 @@ func (r *AIDescRepository) GenerateEducationDesc(ctx context.Context, request mo
 		}
 		`,
 		request.Institution, request.Degree,
-		request.StartYear, request.EndYear,
+		request.StartYear, request.EndYear, request.GPA,
 		request.Tone,
 		utils.BuildUserNotesBlock(request.UserNotes),
 	)
