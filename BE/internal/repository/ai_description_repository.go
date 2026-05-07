@@ -4,46 +4,73 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
+	"github.com/sirupsen/logrus"
+	model "tratech.my.id/server/internal/model/agent"
 	"tratech.my.id/server/internal/pkg/agent"
+	"tratech.my.id/server/internal/pkg/utils"
 )
 
 type AIDescRepository struct {
 	aiAgent agent.AIAgent
+	Log *logrus.Logger
 }
 
 // Constructor nerima agent buatan lu
-func NewAIDescRepository(aiAgent agent.AIAgent) *AIDescRepository {
+func NewAIDescRepository(aiAgent agent.AIAgent, log *logrus.Logger) *AIDescRepository {
 	return &AIDescRepository{
 		aiAgent: aiAgent,
+		Log: log,
 	}
 }
 
 
-func (r *aiDescRepository) GenerateDescription(ctx context.Context, request domain.GenerateDescRequest) (*domain.GenerateDescResponse, error) {
-	// 1. Rakit Prompt Maut
+func (r *AIDescRepository) GenerateAboutDescription(ctx context.Context, request model.GenerateAboutDescRequest) (*model.GenerateAboutDescResponse, error) {
 	prompt := fmt.Sprintf(`
-	Kamu adalah AI Copywriter profesional. Buatkan deskripsi profil singkat (maksimal 3 paragraf) untuk ditaruh di website portofolio pribadi.
-	Informasi User:
-	- Role/Pekerjaan: %s
-	- Keahlian Utama: %v
-	- Gaya Bahasa: %s
+		You are a professional copywriter specializing in personal branding for portfolios.
 
-	ATURAN MUTLAK: 
-	Kembalikan HANYA dalam format JSON dengan struktur: {"generated_description": "hasil teks kamu di sini"}
-	`, req.Role, req.Skills, req.Tone)
+		User Information:
+		- Full Name: %s
+		- Current Role: %s
+		- Years of Experience: %d years
+		- Core Skills: %s
+		- Location: %s
+		- Tone: %s
 
-	// 2. Lempar ke Agent "Buta Huruf" lu
+		%s
+
+		Generate:
+		1. "paragraphs": An array of 3-4 paragraph strings.
+		- paragraphs[0]: Who they are — role, background, identity
+		- paragraphs[1]: What they do — skills, approach, how they work
+		- paragraphs[2] (optional): What drives them — passion, goals, values
+
+		Tone guide:
+		- professional: formal, authoritative, achievement-focused
+		- casual: friendly, approachable, first-person conversational
+		- creative: expressive, metaphor-driven, memorable
+
+		STRICT RULE: Return ONLY valid JSON. No markdown, no explanation outside JSON.
+		{"paragraphs":["paragraph 1...","paragraph 2...","paragraph 3..."]}
+		`,
+    request.Name, request.Role, request.YearsExp,
+    strings.Join(request.Skills, ", "),
+    request.Location, request.Tone,
+    utils.UserContextPromptDesc(request.UserContext),
+)
+
 	jsonString, err := r.aiAgent.GenerateJSON(ctx, prompt)
 	if err != nil {
+		r.Log.WithError(err).Error("error generating content from gemini")
 		return nil, err
 	}
 
-	// 3. Unmarshal string JSON dari AI ke struct Go
-	var result domain.GenerateDescResponse
+	var result model.GenerateAboutDescResponse
 	err = json.Unmarshal([]byte(jsonString), &result)
 	if err != nil {
-		return nil, fmt.Errorf("gagal parse balasan AI: %v", err)
+		r.Log.WithError(err).Error("error unmarshalling json from gemini")
+		return nil, err
 	}
 
 	return &result, nil

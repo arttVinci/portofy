@@ -1,4 +1,4 @@
-package agent
+package model
 
 // Request About
 type GenerateAboutDescRequest struct {
