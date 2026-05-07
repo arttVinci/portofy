@@ -10,7 +10,7 @@ type GenerateAboutDescRequest struct {
 	Location string   `json:"location"`  // "Jakarta, Indonesia"
 	Language string   `json:"language"`  // "id" | "en"
 
-	UserContext string `json:"user_context"`
+	UserNotes string `json:"user_notes"`
 }
 
 // Response About
@@ -20,14 +20,14 @@ type GenerateAboutDescResponse struct {
 
 // Request Experience
 type GenerateExperienceDescRequest struct {
-	Company   string `json:"company"`
-	Role      string `json:"role"`
-	StartDate string `json:"start_date"` // "Jan 2022"
-	EndDate   string `json:"end_date"`   // "Present" | "Dec 2023"
-	Tone      string `json:"tone"`
-	Language  string `json:"language"`
+	Company   string   `json:"company"`
+	Role      string   `json:"role"`
+	StartDate string   `json:"start_date"` // "Jan 2022"
+	EndDate   string   `json:"end_date"`   // "Present" | "Dec 2023"
+	Tone      string   `json:"tone"`
+	Language  string   `json:"language"`
 
-	UserContext string `json:"user_context"`
+	UserNotes string `json:"user_notes"`
 }
 
 type DescBullet struct {
@@ -51,7 +51,7 @@ type GenerateEducationDescRequest struct {
     Tone         string   `json:"tone"`
     Language     string   `json:"language"`
 
-	UserContext string `json:"user_context"`
+	UserNotes string `json:"user_notes"`
 }
 
 // Response Education
