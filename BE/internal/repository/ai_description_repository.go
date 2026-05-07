@@ -19,6 +19,7 @@ func NewAIDescRepository(aiAgent agent.AIAgent) *AIDescRepository {
 	}
 }
 
+
 func (r *aiDescRepository) GenerateDescription(ctx context.Context, request domain.GenerateDescRequest) (*domain.GenerateDescResponse, error) {
 	// 1. Rakit Prompt Maut
 	prompt := fmt.Sprintf(`
