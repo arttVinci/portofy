@@ -12,14 +12,14 @@ import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
 /* ─── AI Analyzer criteria ─────────────────────────────── */
 const ANALYZER_CRITERIA = [
-  { label: "Kelengkapan Profil", pct: 90, color: "#60a5fa" },
-  { label: "Kualitas Deskripsi", pct: 85, color: "#a78bfa" },
-  { label: "Relevansi Skill", pct: 78, color: "#34d399" },
+  { label: "Kelengkapan Profil", pct: 95, color: "#60a5fa" },
+  { label: "Kualitas Deskripsi", pct: 91, color: "#60a5fa" },
+  { label: "Relevansi Skill", pct: 92, color: "#60a5fa" },
 ];
 
 /* ─── CV Parser auto-fill rows ─────────────────────────── */
 const CV_FIELDS = [
-  { field: "Nama", val: "Ahmad Naufal" },
+  { field: "Nama", val: "Your name" },
   { field: "Role", val: "Full-stack Dev" },
   { field: "Skills", val: "React, Node, Figma" },
 ];
@@ -219,19 +219,18 @@ export default function HeroSection() {
                 {/* ── AI Analyzer — criteria bars ────────────── */}
                 <div className="px-5 pt-4 pb-4 flex-1 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5 mb-3">
-                    <IconChartBar size={11} className="text-amber-400" />
+                    <IconChartBar size={11} className="text-violet-400" />
                     <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                       AI Analyzer
                     </span>
                     <span
-                      className="ml-auto text-[9px] font-bold rounded-full px-2 py-0.5"
+                      className="ml-auto text-emerald-300  text-[9px] font-bold rounded-full px-2 py-0.5"
                       style={{
-                        color: "#fbbf24",
-                        background: "rgba(251,191,36,0.07)",
-                        border: "1px solid rgba(251,191,36,0.12)",
+                        background: "rgba(52,211,153,0.08)",
+                        border: "1px solid rgba(52,211,153,0.15)",
                       }}
                     >
-                      Skor 87
+                      Skor 94
                     </span>
                   </div>
                   <div className="space-y-2.5">
@@ -298,11 +297,11 @@ export default function HeroSection() {
                   <div
                     className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center"
                     style={{
-                      background: "rgba(248,113,113,0.09)",
-                      border: "1px solid rgba(248,113,113,0.13)",
+                      background: "rgba(139,92,246,0.09)",
+                      border: "1px solid rgba(139,92,246,0.13)",
                     }}
                   >
-                    <IconFileText size={13} className="text-red-400" />
+                    <IconFileText size={13} className="text-violet-400" />
                   </div>
                   <div>
                     <p className="text-white text-[10px] font-bold leading-none">
@@ -324,10 +323,10 @@ export default function HeroSection() {
                 >
                   <IconFileText
                     size={11}
-                    className="text-red-300/50 flex-shrink-0"
+                    className="text-violet-400 flex-shrink-0"
                   />
                   <span className="text-slate-400 text-[10px] flex-1 truncate">
-                    Ahmad_CV.pdf
+                    Your_CV.pdf
                   </span>
                   <span
                     className="text-[9px] text-emerald-400 font-bold rounded-full px-1.5 py-0.5 flex-shrink-0"

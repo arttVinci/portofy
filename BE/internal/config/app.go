@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/generative-ai-go/genai"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -21,6 +22,7 @@ type BootstrapConfig struct {
 	Config   *viper.Viper
 	Log      *logrus.Logger
 	Validate *validator.Validate
+	GoogleAiStudio *genai.Client
 }
 
 func Bootstrap(config *BootstrapConfig) {

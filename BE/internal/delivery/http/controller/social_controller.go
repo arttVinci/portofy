@@ -102,11 +102,6 @@ func (c *SocialController) Delete(ctx *fiber.Ctx) error {
 		UserId: auth.ID,
 	}
 
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-	}
-
 	if err := c.UseCase.Delete(ctx.UserContext(), request); err != nil {
 		c.Log.WithError(err).Error("error deleting social")
 		return err

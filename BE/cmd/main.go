@@ -12,8 +12,7 @@ package main
 
 import (
 	"fmt"
-	
-	_ "tratech.my.id/server/docs"
+
 	"tratech.my.id/server/internal/config"
 )
 
@@ -23,13 +22,15 @@ func main() {
 	db := config.NewDatabase(viperConfig, log)
 	validate := config.NewValidator(viperConfig)
 	app := config.NewFiber(viperConfig)
+	googleAiStudio := config.NewGoogleAiStudio(viperConfig)
 
 	config.Bootstrap(&config.BootstrapConfig{
-		DB:       db,
-		App:      app,
-		Log:      log,
-		Validate: validate,
-		Config:   viperConfig,
+		DB:               db,
+		App:              app,
+		Log:              log,
+		Validate:         validate,
+		Config:           viperConfig,
+		GoogleAiStudio:   googleAiStudio,
 	})
 
 	webPort := viperConfig.GetInt("web.port")
