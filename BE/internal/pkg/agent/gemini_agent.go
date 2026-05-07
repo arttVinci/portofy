@@ -2,6 +2,8 @@ package agent
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/google/generative-ai-go/genai"
@@ -29,21 +31,40 @@ func NewGeminiAgent(client *genai.Client, log *logrus.Logger) AIAgent {
 
 
 func (g *geminiAgent) GenerateJSON(ctx context.Context, prompt string) (string, error) {
+    model := g.Client.GenerativeModel("gemini-1.5-flash")
+    model.ResponseMIMEType = "application/json"
+
+    response, err := model.GenerateContent(ctx, genai.Text(prompt))
+    if err != nil {
+        g.Log.WithError(err).Error("error generating content from gemini")
+        return "", err
+    }
+
+    if len(response.Candidates) == 0 {
+        return "", errors.New("gemini returned no candidates")
+    }
+
+    candidate := response.Candidates[0]
+
+    if candidate.FinishReason != genai.FinishReasonStop {
+        return "", fmt.Errorf("gemini stopped early, reason: %v", candidate.FinishReason)
+    }
 	
-	model := g.Client.GenerativeModel("gemini-1.5-flash")
-	
-	model.ResponseMIMEType = "application/json"
+    if candidate.Content == nil || len(candidate.Content.Parts) == 0 {
+        return "", errors.New("gemini returned empty content")
+    }
 
-	response, err := model.GenerateContent(ctx, genai.Text(prompt))
-	if err != nil {
-		g.Log.WithError(err).Error("error generating content from gemini")
-		return "", err
-	}
+    part, ok := candidate.Content.Parts[0].(genai.Text)
+    if !ok {
+        return "", errors.New("gemini response part is not text")
+    }
 
-	if len(response.Candidates) > 0 && len(response.Candidates[0].Content.Parts) > 0 {
-		jsonString := fmt.Sprintf("%v", response.Candidates[0].Content.Parts[0])
-		return jsonString, nil
-	}
+    jsonStr := string(part)
 
-	return "", nil
+    if !json.Valid([]byte(jsonStr)) {
+        g.Log.WithField("raw", jsonStr).Warn("gemini returned invalid JSON")
+        return "", errors.New("gemini returned invalid JSON structure")
+    }
+
+    return jsonStr, nil
 }
