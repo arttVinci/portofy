@@ -11,7 +11,7 @@ import (
 )
 
 
-type AIAgent interface {
+type GeminiAgent interface {
 	GenerateJSON(ctx context.Context, prompt string) (string, error)
 }
 
@@ -22,7 +22,7 @@ type geminiAgent struct {
 }
 
 
-func NewGeminiAgent(client *genai.Client, log *logrus.Logger) AIAgent {
+func NewGeminiAgent(client *genai.Client, log *logrus.Logger) *geminiAgent {
 	return &geminiAgent{
 		Client: client,
 		Log:    log,

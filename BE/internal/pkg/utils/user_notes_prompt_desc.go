@@ -18,3 +18,12 @@ Extract and incorporate all key points from these notes into the generated conte
 Preserve the user's intent — do not ignore or summarize away specific details they mentioned.
 `, notes)
 }
+
+func BuildUserNotesLanguage(lang string) string {
+	if strings.TrimSpace(lang) == "" {
+		return ""
+	}
+	return fmt.Sprintf(`
+3. Language preference: %s. Use it as the main language of the generated content.
+`, lang)
+}

@@ -12,21 +12,20 @@ import (
 	"tratech.my.id/server/internal/pkg/utils"
 )
 
-type AIDescRepository struct {
-	aiAgent agent.AIAgent
+type AIDescriptionRepository struct {
+	aiAgent agent.GeminiAgent
 	Log *logrus.Logger
 }
 
-// Constructor nerima agent buatan lu
-func NewAIDescRepository(aiAgent agent.AIAgent, log *logrus.Logger) *AIDescRepository {
-	return &AIDescRepository{
+func NewAIDescriptionRepository(aiAgent agent.GeminiAgent, log *logrus.Logger) *AIDescriptionRepository {
+	return &AIDescriptionRepository{
 		aiAgent: aiAgent,
 		Log: log,
 	}
 }
 
 
-func (r *AIDescRepository) GenerateAboutDescription(ctx context.Context, request model.GenerateAboutDescRequest) (*model.GenerateAboutDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateAboutDescription(ctx context.Context, request *model.GenerateAboutDescRequest) (string, error) {
 	prompt := fmt.Sprintf(`
 		You are a professional copywriter specializing in personal branding for portfolios.
 
@@ -41,10 +40,14 @@ func (r *AIDescRepository) GenerateAboutDescription(ctx context.Context, request
 		%s
 
 		Generate:
-		1. "paragraphs": An array of 3-4 paragraph strings.
+		1. "paragraphs": An array of 5-6 paragraph strings.
 		- paragraphs[0]: Who they are — role, background, identity
 		- paragraphs[1]: What they do — skills, approach, how they work
 		- paragraphs[2] (optional): What drives them — passion, goals, values
+
+		2. 1 paragraph must 300 - 500 characters
+
+		%s
 
 		Tone guide:
 		- professional: formal, authoritative, achievement-focused
@@ -58,25 +61,19 @@ func (r *AIDescRepository) GenerateAboutDescription(ctx context.Context, request
     strings.Join(request.Skills, ", "),
     request.Location, request.Tone,
     utils.BuildUserNotesBlock(request.UserNotes),
+	utils.BuildUserNotesLanguage(request.Language),
 )
 
 	jsonString, err := r.aiAgent.GenerateJSON(ctx, prompt)
 	if err != nil {
 		r.Log.WithError(err).Error("error generating content from gemini")
-		return nil, err
+		return "", err
 	}
 
-	var result model.GenerateAboutDescResponse
-	err = json.Unmarshal([]byte(jsonString), &result)
-	if err != nil {
-		r.Log.WithError(err).Error("error unmarshalling json from gemini")
-		return nil, err
-	}
-
-	return &result, nil
+	return jsonString, nil
 }
 
-func (r *AIDescRepository) GenerateExperienceDesc(ctx context.Context, request model.GenerateExperienceDescRequest) (*model.GenerateExperienceDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, request model.GenerateExperienceDescRequest) (*model.GenerateExperienceDescResponse, error) {
 	prompt := fmt.Sprintf(`
 		You are a professional resume and portfolio copywriter.
 
@@ -130,7 +127,7 @@ func (r *AIDescRepository) GenerateExperienceDesc(ctx context.Context, request m
 	return &result, nil
 }
 
-func (r *AIDescRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (*model.GenerateEducationDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (*model.GenerateEducationDescResponse, error) {
 
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter writing an education section for a developer's portfolio website.
@@ -187,7 +184,7 @@ func (r *AIDescRepository) GenerateEducationDesc(ctx context.Context, request mo
 	return &result, nil
 }
 
-func (r *AIDescRepository) GenerateProjectDesc(ctx context.Context, request model.GenerateProjectDescRequest) (*model.GenerateProjectDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, request model.GenerateProjectDescRequest) (*model.GenerateProjectDescResponse, error) {
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter specializing in developer project showcases.
 
