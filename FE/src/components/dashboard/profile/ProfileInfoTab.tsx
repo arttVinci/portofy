@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { XIcon, SparklesIcon } from "lucide-react";
 import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
 const MAX_TAGS = 10;
@@ -24,12 +25,17 @@ interface ProfileInfoTabProps {
     value: UpdateProfileRequest[K],
   ) => void;
   username: string;
+  /* Dipanggil saat user klik tombol AI Generate */
+  onGenerateAbout?: () => void;
+  isGeneratingAbout?: boolean;
 }
 
 export function ProfileInfoTab({
   values,
   onChange,
   username,
+  onGenerateAbout,
+  isGeneratingAbout,
 }: ProfileInfoTabProps) {
   const [tagInput, setTagInput] = useState("");
   const tagInputRef = useRef<HTMLInputElement>(null);
@@ -139,12 +145,27 @@ export function ProfileInfoTab({
           </div>
 
           <div className="grid gap-1.5">
-            <Label htmlFor="about">
-              About
-              <span className="ml-1.5 text-xs text-muted-foreground font-normal">
-                (deskripsi panjang, tampil di section About)
-              </span>
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="about">
+                About
+                <span className="ml-1.5 text-xs text-muted-foreground font-normal">
+                  (deskripsi panjang, tampil di section About)
+                </span>
+              </Label>
+              {onGenerateAbout && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5 h-7 text-xs"
+                  onClick={onGenerateAbout}
+                  disabled={isGeneratingAbout}
+                >
+                  <SparklesIcon className="size-3" />
+                  Generate AI
+                </Button>
+              )}
+            </div>
             <Textarea
               id="about"
               placeholder="Ceritakan tentang dirimu, perjalanan karir, dan apa yang sedang kamu kerjakan..."

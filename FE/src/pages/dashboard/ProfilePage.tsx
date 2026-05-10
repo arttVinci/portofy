@@ -9,6 +9,7 @@ import { ProfileAvatarTab } from "@/components/dashboard/profile/ProfileAvatarTa
 import { ProfileVisibilityTab } from "@/components/dashboard/profile/ProfileVisibilityTab";
 import { ProfileSocialTab } from "@/components/dashboard/profile/ProfileSocialTab";
 import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePreviewCard";
+import { AIGenerateAboutModal } from "@/components/dashboard/profile/AIGenerateAboutModal";
 
 import { type UpdateProfileRequest } from "@/@types/entities/profile.types";
 import { type GenerateAboutDescriptionRequest } from "@/@types/entities/ai_description.types";
@@ -26,6 +27,7 @@ export default function ProfilePage() {
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
   const [isDirty, setIsDirty] = useState(false);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const { toast, renderToasts } = useToast();
 
   const { data: profile, isLoading, error } = useGetProfile();
@@ -84,8 +86,12 @@ export default function ProfilePage() {
 
   const generateAboutDescriptionMutation = useGenerateAboutDescription({
     onSuccess: (response) => {
-      form.handleChange("about", response.paragraphs);
-      toast("success", "Berhasil", "About berhasil dibuat");
+      /* Gabungkan paragraf menjadi satu string, pisahkan dengan newline */
+      const combinedText = response.paragraphs.join("\n\n");
+      form.handleChange("about", combinedText);
+      setIsDirty(true);
+      setIsAIModalOpen(false);
+      toast("success", "Berhasil", "Deskripsi About berhasil digenerate oleh AI!");
     },
     onError: (error: ApiError) => {
       toast("error", "Gagal Generate About", error.message);
@@ -101,21 +107,8 @@ export default function ProfilePage() {
     setIsDirty(true);
   };
 
-  const handleGenerateDescAbout = async () => {
-    const payload: GenerateAboutDescriptionRequest = {
-      name: profile?.full_name ?? "",
-      role: profile?.tags[0] ?? "",
-      years_exp: 3,
-      skill: "Golang, React, Typescript, PostgreSQL",
-      tone: "Profesional",
-      location: profile?.address ?? "",
-      language: "Indonesia",
-      user_notes: "",
-    };
-
-    const response =
-      await generateAboutDescriptionMutation.mutateAsync(payload);
-
+  const handleGenerateDescAbout = async (payload: GenerateAboutDescriptionRequest) => {
+    const response = await generateAboutDescriptionMutation.mutateAsync(payload);
     console.log("response ai desc", response);
   };
 
@@ -130,10 +123,7 @@ export default function ProfilePage() {
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
 
         payload.image_url = uploadResponse.image_url[0];
-        // console.log("cobaaaa", avatarPreviewUrl);
       }
-
-      handleGenerateDescAbout();
 
       await updateProfileMutation.mutateAsync(payload);
     } catch {}
@@ -169,6 +159,20 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col gap-6">
       {renderToasts()}
+
+      {/* AI Generate About Modal */}
+      <AIGenerateAboutModal
+        open={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        onGenerate={handleGenerateDescAbout}
+        isGenerating={generateAboutDescriptionMutation.isPending}
+        prefill={{
+          name: profile?.full_name,
+          role: profile?.tags?.[0],
+          location: profile?.address,
+          skills: profile?.tags,
+        }}
+      />
 
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -220,6 +224,8 @@ export default function ProfilePage() {
                 values={form.values}
                 onChange={handleChange}
                 username={currentUser?.username ?? "Username"}
+                onGenerateAbout={() => setIsAIModalOpen(true)}
+                isGeneratingAbout={generateAboutDescriptionMutation.isPending}
               />
             </TabsContent>
 
