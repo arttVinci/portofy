@@ -12,6 +12,7 @@ import {
   LayoutGridIcon,
   InfoIcon,
   SparklesIcon,
+  Undo2Icon,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -28,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { type ProjectResponse, type UpdateProjectRequest } from "@/@types";
 
@@ -47,6 +49,10 @@ interface ProjectFormSectionProps {
   galleryBlobs: string[];
   setGalleryBlobs: React.Dispatch<React.SetStateAction<string[]>>;
   isSaving?: boolean;
+  onGenerateDesc?: () => void;
+  isGeneratingDesc?: boolean;
+  onUndoDesc?: () => void;
+  canUndoDesc?: boolean;
 }
 
 export function ProjectFormSection({
@@ -62,6 +68,10 @@ export function ProjectFormSection({
   setGalleryFiles,
   setGalleryBlobs,
   isSaving = false,
+  onGenerateDesc,
+  isGeneratingDesc,
+  onUndoDesc,
+  canUndoDesc,
 }: ProjectFormSectionProps) {
   // ── Tools / Tech Stack ──────────────────────────────────────────────────
   const [toolInput, setToolInput] = useState("");
@@ -342,19 +352,72 @@ export function ProjectFormSection({
                 <div className="flex flex-col gap-5">
                   {/* Deskripsi */}
                   <div className="grid gap-1.5">
-                    <Label htmlFor="desc">Deskripsi</Label>
-                    <Textarea
-                      id="desc"
-                      placeholder="Deskripsikan project kamu..."
-                      value={values.description ?? ""}
-                      onChange={(e) => onChange("description", e.target.value)}
-                      className="resize-none"
-                      style={{ minHeight: "120px" }}
-                      maxLength={500}
-                    />
-                    <p className="text-xs text-muted-foreground text-right">
-                      {(values.description ?? "").length}/500
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="desc">Deskripsi</Label>
+                      {onGenerateDesc && (
+                        <div className="flex items-center gap-1.5">
+                          {canUndoDesc && onUndoDesc && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="gap-1.5 h-7 text-xs cursor-pointer"
+                              onClick={onUndoDesc}
+                            >
+                              <Undo2Icon className="size-3" />
+                              Undo
+                            </Button>
+                          )}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="gap-1.5 h-7 text-xs cursor-pointer"
+                            onClick={onGenerateDesc}
+                            disabled={isGeneratingDesc}
+                          >
+                            <SparklesIcon className="size-3" />
+                            Generate Description with AI
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    {isGeneratingDesc ? (
+                      <div className="relative rounded-md border overflow-hidden" style={{ minHeight: "120px" }}>
+                        <Skeleton className="absolute inset-0 rounded-md" />
+                        <Skeleton
+                          className="absolute inset-0 rounded-md opacity-60"
+                          style={{ animationDelay: "0.15s" }}
+                        />
+                        <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-6" style={{ minHeight: "120px" }}>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Loader2Icon className="size-4 animate-spin text-primary" />
+                            <span className="text-sm font-medium text-primary">
+                              Sedang digenerate oleh AI...
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Mohon tunggu, AI sedang menyusun deskripsi untukmu
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <Textarea
+                          id="desc"
+                          placeholder="Deskripsikan project kamu..."
+                          value={values.description ?? ""}
+                          onChange={(e) => onChange("description", e.target.value)}
+                          className="resize-none"
+                          style={{ minHeight: "120px" }}
+                          maxLength={5000}
+                        />
+                        <p className="text-xs text-muted-foreground text-right">
+                          {(values.description ?? "").length}/5000
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   {/* Featured toggle */}

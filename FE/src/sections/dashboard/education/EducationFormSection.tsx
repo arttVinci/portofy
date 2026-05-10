@@ -5,6 +5,8 @@ import {
   Loader2Icon,
   ImageIcon,
   XIcon,
+  SparklesIcon,
+  Undo2Icon,
 } from "lucide-react";
 import {
   Card,
@@ -17,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { EducationResponse, UpdateEducationRequest } from "@/@types";
 
@@ -32,6 +35,10 @@ interface EducationFormSectionProps {
   thumbnailBlob: string | null;
   setThumbnailBlob: (blob: string | null) => void;
   isSaving: boolean;
+  onGenerateDesc?: () => void;
+  isGeneratingDesc?: boolean;
+  onUndoDesc?: () => void;
+  canUndoDesc?: boolean;
 }
 
 export function EducationFormSection({
@@ -45,6 +52,10 @@ export function EducationFormSection({
   thumbnailBlob,
   setThumbnailBlob,
   isSaving,
+  onGenerateDesc,
+  isGeneratingDesc,
+  onUndoDesc,
+  canUndoDesc,
 }: EducationFormSectionProps) {
   const thumbInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -273,19 +284,72 @@ export function EducationFormSection({
 
               {/* Deskripsi */}
               <div className="grid gap-1.5">
-                <Label htmlFor="edu-desc">Deskripsi</Label>
-                <Textarea
-                  id="edu-desc"
-                  placeholder="Deskripsi singkat tentang pendidikan kamu..."
-                  value={values.description ?? ""}
-                  onChange={(e) => onChange("description", e.target.value)}
-                  className="resize-none"
-                  style={{ minHeight: "120px" }}
-                  maxLength={1000}
-                />
-                <p className="text-xs text-muted-foreground text-right">
-                  {(values.description ?? "").length}/1000
-                </p>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="edu-desc">Deskripsi</Label>
+                  {onGenerateDesc && (
+                    <div className="flex items-center gap-1.5">
+                      {canUndoDesc && onUndoDesc && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="gap-1.5 h-7 text-xs cursor-pointer"
+                          onClick={onUndoDesc}
+                        >
+                          <Undo2Icon className="size-3" />
+                          Undo
+                        </Button>
+                      )}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="gap-1.5 h-7 text-xs cursor-pointer"
+                        onClick={onGenerateDesc}
+                        disabled={isGeneratingDesc}
+                      >
+                        <SparklesIcon className="size-3" />
+                        Generate Description with AI
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {isGeneratingDesc ? (
+                  <div className="relative rounded-md border overflow-hidden" style={{ minHeight: "120px" }}>
+                    <Skeleton className="absolute inset-0 rounded-md" />
+                    <Skeleton
+                      className="absolute inset-0 rounded-md opacity-60"
+                      style={{ animationDelay: "0.15s" }}
+                    />
+                    <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-6" style={{ minHeight: "120px" }}>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Loader2Icon className="size-4 animate-spin text-primary" />
+                        <span className="text-sm font-medium text-primary">
+                          Sedang digenerate oleh AI...
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Mohon tunggu, AI sedang menyusun deskripsi untukmu
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <Textarea
+                      id="edu-desc"
+                      placeholder="Deskripsi singkat tentang pendidikan kamu..."
+                      value={values.description ?? ""}
+                      onChange={(e) => onChange("description", e.target.value)}
+                      className="resize-none"
+                      style={{ minHeight: "120px" }}
+                      maxLength={5000}
+                    />
+                    <p className="text-xs text-muted-foreground text-right">
+                      {(values.description ?? "").length}/5000
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>

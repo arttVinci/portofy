@@ -5,18 +5,21 @@ import { Separator } from "@/components/ui/separator";
 import { ExperienceListSection } from "@/sections/dashboard/experience/ExperienceListSection";
 import { ExperienceFormSection } from "@/sections/dashboard/experience/ExperienceFormSection";
 import { ExperienceDetailSection } from "@/sections/dashboard/experience/ExperienceDetailSection";
+import { AIGenerateDescModal } from "@/components/dashboard/common/AIGenerateDescModal";
 
 import { ApiError } from "@/api/apiError";
 import type {
   ExperienceResponse,
   UpdateExperienceRequest,
   CreateExperienceRequest,
+  GenerateExperienceDescRequest,
 } from "@/@types";
 import { useAdminExperiences } from "@/hooks/queries";
 import { useCreateExperience } from "@/hooks/mutations/experience/useCreateExperience";
 import { useUpdateExperience } from "@/hooks/mutations/experience/useUpdateExperience";
 import { useDeleteExperience } from "@/hooks/mutations/experience/useDeleteExperience";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useGenerateExperienceDescription } from "@/hooks/mutations/agent/generate_description/useGenerateExperienceDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
 
@@ -48,6 +51,8 @@ export default function ExperiencePage() {
 
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [previousDesc, setPreviousDesc] = useState<string | null>(null);
 
   const { data: experiences, isLoading, refetch } = useAdminExperiences();
 
@@ -108,6 +113,22 @@ export default function ExperiencePage() {
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
+  const generateDescMutation = useGenerateExperienceDescription({
+    onSuccess: (response) => {
+      const combined = `${response.summary}\n\n${response.bullets.map((b) => `• ${b.title}: ${b.description}`).join("\n")}`;
+      setPreviousDesc(form.values.description ?? "");
+      form.handleChange("description", combined);
+      toast(
+        "success",
+        "Berhasil",
+        "Deskripsi Experience berhasil digenerate oleh AI!",
+      );
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Generate", error.message);
+    },
+  });
+
   const isSaving =
     createMutation.isPending ||
     updateMutation.isPending ||
@@ -145,6 +166,31 @@ export default function ExperiencePage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleGenerateDesc = (opts: {
+    tone: string;
+    language: string;
+    userNotes: string;
+  }) => {
+    setIsAIModalOpen(false);
+    const payload: GenerateExperienceDescRequest = {
+      company: form.values.company_name ?? "",
+      role: form.values.position ?? "",
+      start_date: form.values.start_date ?? "",
+      end_date: form.values.end_date ?? "Present",
+      tone: opts.tone,
+      language: opts.language,
+      user_notes: opts.userNotes,
+    };
+    generateDescMutation.mutate(payload);
+  };
+
+  const handleUndoDesc = () => {
+    if (previousDesc === null) return;
+    form.handleChange("description", previousDesc);
+    setPreviousDesc(null);
+    toast("success", "Berhasil", "Deskripsi berhasil di-undo.");
   };
 
   // ── Reset form ────────────────────────────────────────────────────────────
@@ -189,6 +235,15 @@ export default function ExperiencePage() {
   return (
     <div className="flex flex-col gap-6">
       {renderToasts()}
+
+      <AIGenerateDescModal
+        open={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        onGenerate={handleGenerateDesc}
+        isGenerating={generateDescMutation.isPending}
+        title="Generate Experience Description"
+        description="Biarkan AI menyusun deskripsi pengalaman kerja kamu berdasarkan data yang sudah diisi."
+      />
 
       {/* Page header */}
       <div>
@@ -249,6 +304,10 @@ export default function ExperiencePage() {
                 thumbnailBlob={thumbnailBlob}
                 setThumbnailBlob={setThumbnailBlob}
                 isSaving={isSaving}
+                onGenerateDesc={() => setIsAIModalOpen(true)}
+                isGeneratingDesc={generateDescMutation.isPending}
+                onUndoDesc={handleUndoDesc}
+                canUndoDesc={previousDesc !== null}
               />
             )}
           </TabsContent>

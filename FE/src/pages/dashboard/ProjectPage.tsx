@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { ProjectListSection } from "@/sections/dashboard/projects/ProjectListSection";
 import { ProjectFormSection } from "@/sections/dashboard/projects/ProjectFormSection";
 import { ProjectDetailSection } from "@/sections/dashboard/projects/ProjectDetailSection";
+import { AIGenerateDescModal } from "@/components/dashboard/common/AIGenerateDescModal";
 
 import { ApiError } from "@/api/apiError";
 
@@ -12,12 +13,14 @@ import type {
   ProjectResponse,
   UpdateProjectRequest,
   CreateProjectRequest,
+  GenerateProjectDescRequest,
 } from "@/@types";
 import { useAdminProjects } from "@/hooks/queries";
 import { useUpdateProject } from "@/hooks/mutations/project/useUpdateProject";
 import { useCreateProject } from "@/hooks/mutations/project/useCreateProject";
 import { useDeleteProject } from "@/hooks/mutations/project/useDeleteProject";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useGenerateProjectDescription } from "@/hooks/mutations/agent/generate_description/useGenerateProjectDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
 
@@ -37,6 +40,8 @@ export default function ProjectPage() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
   const [galleryBlobs, setGalleryBlobs] = useState<string[]>([]);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [previousDesc, setPreviousDesc] = useState<string | null>(null);
 
   const { data: projects, isLoading, refetch } = useAdminProjects();
   const [project, setProject] = useState<ProjectResponse>();
@@ -111,6 +116,30 @@ export default function ProjectPage() {
     },
   });
 
+  const generateDescMutation = useGenerateProjectDescription({
+    onSuccess: (response) => {
+      const formattedArray = response.key_features.map((feature) => ({
+        title: feature.group_title,
+        items: feature.items,
+      }));
+
+      setPreviousDesc(form.values.description ?? "");
+      form.handleChange("description", response.summary);
+      form.handleChange("challenges", response.challenge);
+      form.handleChange("solution", response.solution);
+      form.handleChange("features", formattedArray);
+
+      toast(
+        "success",
+        "Berhasil",
+        "Deskripsi Project berhasil digenerate oleh AI!",
+      );
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Generate", error.message);
+    },
+  });
+
   const handleSave = async () => {
     try {
       let payload = { ...form.values };
@@ -155,6 +184,31 @@ export default function ProjectPage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleGenerateDesc = (opts: {
+    tone: string;
+    language: string;
+    userNotes: string;
+  }) => {
+    setIsAIModalOpen(false);
+    const payload: GenerateProjectDescRequest = {
+      title: form.values.title ?? "",
+      role: "",
+      stack: form.values.tools ?? [],
+      duration: "",
+      tone: opts.tone,
+      language: opts.language,
+      user_notes: opts.userNotes,
+    };
+    generateDescMutation.mutate(payload);
+  };
+
+  const handleUndoDesc = () => {
+    if (previousDesc === null) return;
+    form.handleChange("description", previousDesc);
+    setPreviousDesc(null);
+    toast("success", "Berhasil", "Deskripsi berhasil di-undo.");
   };
 
   const isSaving =
@@ -218,6 +272,15 @@ export default function ProjectPage() {
     <div className="flex flex-col gap-6">
       {/* Page header */}
       {renderToasts()}
+
+      <AIGenerateDescModal
+        open={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        onGenerate={handleGenerateDesc}
+        isGenerating={generateDescMutation.isPending}
+        title="Generate Project Description"
+        description="Biarkan AI menyusun deskripsi project kamu berdasarkan data yang sudah diisi."
+      />
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -273,6 +336,10 @@ export default function ProjectPage() {
                 galleryBlobs={galleryBlobs}
                 setGalleryBlobs={setGalleryBlobs}
                 isSaving={isSaving}
+                onGenerateDesc={() => setIsAIModalOpen(true)}
+                isGeneratingDesc={generateDescMutation.isPending}
+                onUndoDesc={handleUndoDesc}
+                canUndoDesc={previousDesc !== null}
               />
             )}
           </TabsContent>

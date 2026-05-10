@@ -4,18 +4,21 @@ import { Separator } from "@/components/ui/separator";
 
 import { EducationListSection } from "@/sections/dashboard/education/EducationListSection";
 import { EducationFormSection } from "@/sections/dashboard/education/EducationFormSection";
+import { AIGenerateDescModal } from "@/components/dashboard/common/AIGenerateDescModal";
 
 import { ApiError } from "@/api/apiError";
 import type {
   EducationResponse,
   UpdateEducationRequest,
   CreateEducationRequest,
+  GenerateEducationDescRequest,
 } from "@/@types";
 import { useAdminEducations } from "@/hooks/queries";
 import { useCreateEducation } from "@/hooks/mutations/education/useCreateEducation";
 import { useUpdateEducation } from "@/hooks/mutations/education/useUpdateEducation";
 import { useDeleteEducation } from "@/hooks/mutations/education/useDeleteEducation";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useGenerateEducationDescription } from "@/hooks/mutations/agent/generate_description/useGenerateEducationDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
 
@@ -45,6 +48,8 @@ export default function EducationPage() {
 
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailBlob, setThumbnailBlob] = useState<string | null>(null);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [previousDesc, setPreviousDesc] = useState<string | null>(null);
 
   const { data: educations, isLoading, refetch } = useAdminEducations();
 
@@ -102,6 +107,22 @@ export default function EducationPage() {
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
+  const generateDescMutation = useGenerateEducationDescription({
+    onSuccess: (response) => {
+      const combined = `${response.summary}\n\n${response.bullets.map((b) => `• ${b.title}: ${b.description}`).join("\n")}`;
+      setPreviousDesc(form.values.description ?? "");
+      form.handleChange("description", combined);
+      toast(
+        "success",
+        "Berhasil",
+        "Deskripsi Education berhasil digenerate oleh AI!",
+      );
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Generate", error.message);
+    },
+  });
+
   const isSaving =
     createMutation.isPending ||
     updateMutation.isPending ||
@@ -141,6 +162,32 @@ export default function EducationPage() {
     }
   };
 
+  const handleGenerateDesc = (opts: {
+    tone: string;
+    language: string;
+    userNotes: string;
+  }) => {
+    setIsAIModalOpen(false);
+    const payload: GenerateEducationDescRequest = {
+      institution: form.values.institution ?? "",
+      degree: form.values.degree ?? "",
+      start_year: form.values.start_date?.split("-")?.[0] ?? "",
+      end_year: form.values.end_date?.split("-")?.[0] ?? "Present",
+      gpa: form.values.grade ?? "",
+      tone: opts.tone,
+      language: opts.language,
+      user_notes: opts.userNotes,
+    };
+    generateDescMutation.mutate(payload);
+  };
+
+  const handleUndoDesc = () => {
+    if (previousDesc === null) return;
+    form.handleChange("description", previousDesc);
+    setPreviousDesc(null);
+    toast("success", "Berhasil", "Deskripsi berhasil di-undo.");
+  };
+
   // ── Reset form ────────────────────────────────────────────────────────────
   const handleCancel = () => {
     form.setValues(EMPTY_FORM);
@@ -178,6 +225,15 @@ export default function EducationPage() {
   return (
     <div className="flex flex-col gap-6">
       {renderToasts()}
+
+      <AIGenerateDescModal
+        open={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        onGenerate={handleGenerateDesc}
+        isGenerating={generateDescMutation.isPending}
+        title="Generate Education Description"
+        description="Biarkan AI menyusun deskripsi pendidikan kamu berdasarkan data yang sudah diisi."
+      />
 
       {/* Page header */}
       <div>
@@ -234,6 +290,10 @@ export default function EducationPage() {
                 thumbnailBlob={thumbnailBlob}
                 setThumbnailBlob={setThumbnailBlob}
                 isSaving={isSaving}
+                onGenerateDesc={() => setIsAIModalOpen(true)}
+                isGeneratingDesc={generateDescMutation.isPending}
+                onUndoDesc={handleUndoDesc}
+                canUndoDesc={previousDesc !== null}
               />
             )}
           </TabsContent>
