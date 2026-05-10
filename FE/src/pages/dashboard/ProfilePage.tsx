@@ -11,6 +11,7 @@ import { ProfileSocialTab } from "@/components/dashboard/profile/ProfileSocialTa
 import { ProfilePreviewCard } from "@/components/dashboard/profile/ProfilePreviewCard";
 
 import { type UpdateProfileRequest } from "@/@types/entities/profile.types";
+import { type GenerateAboutDescriptionRequest } from "@/@types/entities/ai_description.types";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";
@@ -18,6 +19,7 @@ import { useUploadImage } from "@/hooks/mutations/useUploadImage";
 import { ApiError } from "@/api/apiError";
 import { useGetProfile } from "@/hooks/queries";
 import { useCurrent } from "@/hooks/queries/user/useCurrent";
+import { useGenerateAboutDescription } from "@/hooks/mutations/agent/generate_description/useGenerateAboutDescription";
 
 export default function ProfilePage() {
   const [isPublic, setIsPublic] = useState(true);
@@ -80,12 +82,41 @@ export default function ProfilePage() {
     },
   });
 
+  const generateAboutDescriptionMutation = useGenerateAboutDescription({
+    onSuccess: (response) => {
+      form.handleChange("about", response.paragraphs);
+      toast("success", "Berhasil", "About berhasil dibuat");
+    },
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Generate About", error.message);
+      console.log("error generate about", error);
+    },
+  });
+
   const handleChange = <K extends keyof UpdateProfileRequest>(
     key: K,
     value: UpdateProfileRequest[K],
   ) => {
     form.handleChange(key, value);
     setIsDirty(true);
+  };
+
+  const handleGenerateDescAbout = async () => {
+    const payload: GenerateAboutDescriptionRequest = {
+      name: profile?.full_name ?? "",
+      role: profile?.tags[0] ?? "",
+      years_exp: 3,
+      skill: "Golang, React, Typescript, PostgreSQL",
+      tone: "Profesional",
+      location: profile?.address ?? "",
+      language: "Indonesia",
+      user_notes: "",
+    };
+
+    const response =
+      await generateAboutDescriptionMutation.mutateAsync(payload);
+
+    console.log("response ai desc", response);
   };
 
   const handleSave = async () => {
@@ -101,6 +132,9 @@ export default function ProfilePage() {
         payload.image_url = uploadResponse.image_url[0];
         // console.log("cobaaaa", avatarPreviewUrl);
       }
+
+      handleGenerateDescAbout();
+
       await updateProfileMutation.mutateAsync(payload);
     } catch {}
   };
