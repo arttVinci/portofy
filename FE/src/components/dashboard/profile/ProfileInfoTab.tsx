@@ -16,8 +16,6 @@ import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
 const MAX_TAGS = 10;
 
-
-
 interface ProfileInfoTabProps {
   values: UpdateProfileRequest;
   onChange: <K extends keyof UpdateProfileRequest>(
@@ -25,7 +23,6 @@ interface ProfileInfoTabProps {
     value: UpdateProfileRequest[K],
   ) => void;
   username: string;
-  /* Dipanggil saat user klik tombol AI Generate */
   onGenerateAbout?: () => void;
   isGeneratingAbout?: boolean;
 }
@@ -67,7 +64,6 @@ export function ProfileInfoTab({
       removeTag(tags.length - 1);
     }
   };
-
 
   return (
     <div className="flex flex-col gap-4">
@@ -231,9 +227,15 @@ export function ProfileInfoTab({
                 placeholder="Ketik skill lalu tekan Enter..."
               />
               <p className="text-xs text-muted-foreground">
-                Tekan <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">Enter</kbd> atau{" "}
-                <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">,</kbd> untuk menambah tag
-                &nbsp;·&nbsp; {tags.length}/{MAX_TAGS}
+                Tekan{" "}
+                <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">
+                  Enter
+                </kbd>{" "}
+                atau{" "}
+                <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">
+                  ,
+                </kbd>{" "}
+                untuk menambah tag &nbsp;·&nbsp; {tags.length}/{MAX_TAGS}
               </p>
             </div>
           )}

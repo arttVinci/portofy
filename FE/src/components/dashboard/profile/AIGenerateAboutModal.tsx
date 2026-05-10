@@ -28,12 +28,9 @@ interface AIGenerateAboutModalProps {
   onClose: () => void;
   onGenerate: (payload: GenerateAboutDescriptionRequest) => Promise<void>;
   isGenerating: boolean;
-  /* Pre-fill data dari profile */
   prefill?: {
     name?: string;
     role?: string;
-    location?: string;
-    skills?: string[];
   };
 }
 
@@ -57,19 +54,15 @@ export function AIGenerateAboutModal({
 }: AIGenerateAboutModalProps) {
   const [tone, setTone] = useState("professional");
   const [language, setLanguage] = useState("Indonesia");
-  const [yearsExp, setYearsExp] = useState("2");
   const [userNotesInput, setUserNotesInput] = useState("");
 
   const handleGenerate = async () => {
     const payload: GenerateAboutDescriptionRequest = {
       name: prefill?.name ?? "",
       role: prefill?.role ?? "",
-      years_exp: parseInt(yearsExp) || 0,
-      skill: prefill?.skills?.join(", ") ?? "",
-      tone,
-      location: prefill?.location ?? "",
-      language: language,
-      user_notes: userNotesInput,
+      tone: tone ?? "Professional",
+      language: language ?? "Indonesia",
+      user_notes: userNotesInput ?? "",
     };
 
     await onGenerate(payload);
@@ -78,6 +71,8 @@ export function AIGenerateAboutModal({
   const handleClose = () => {
     if (!isGenerating) {
       setUserNotesInput("");
+      setTone("professional");
+      setLanguage("Indonesia");
       onClose();
     }
   };
@@ -111,9 +106,11 @@ export function AIGenerateAboutModal({
                 </SelectTrigger>
                 <SelectContent position="popper">
                   <SelectGroup>
-                    <SelectItem value="professional">Professional</SelectItem>
-                    <SelectItem value="casual">Casual</SelectItem>
-                    <SelectItem value="creative">Creative</SelectItem>
+                    {TONE_OPTIONS.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -125,10 +122,10 @@ export function AIGenerateAboutModal({
                 <SelectTrigger id="ai-language" className="w-full">
                   <SelectValue placeholder="Pilih bahasa" />
                 </SelectTrigger>
-                <SelectContent>
-                  {LANGUAGE_OPTIONS.map((l) => (
-                    <SelectItem key={l.value} value={l.value}>
-                      {l.label}
+                <SelectContent position="popper">
+                  {LANGUAGE_OPTIONS.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -157,7 +154,8 @@ export function AIGenerateAboutModal({
               <Textarea
                 value={userNotesInput}
                 onChange={(e) => setUserNotesInput(e.target.value)}
-                className="flex-1"
+                className="overflow-y-auto"
+                placeholder='Contoh: "Pernah memimpin tim 5 orang di startup fintech..."'
               />
             </div>
           </div>

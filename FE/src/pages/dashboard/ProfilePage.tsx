@@ -91,7 +91,11 @@ export default function ProfilePage() {
       form.handleChange("about", combinedText);
       setIsDirty(true);
       setIsAIModalOpen(false);
-      toast("success", "Berhasil", "Deskripsi About berhasil digenerate oleh AI!");
+      toast(
+        "success",
+        "Berhasil",
+        "Deskripsi About berhasil digenerate oleh AI!",
+      );
     },
     onError: (error: ApiError) => {
       toast("error", "Gagal Generate About", error.message);
@@ -107,8 +111,11 @@ export default function ProfilePage() {
     setIsDirty(true);
   };
 
-  const handleGenerateDescAbout = async (payload: GenerateAboutDescriptionRequest) => {
-    const response = await generateAboutDescriptionMutation.mutateAsync(payload);
+  const handleGenerateDescAbout = async (
+    payload: GenerateAboutDescriptionRequest,
+  ) => {
+    const response =
+      await generateAboutDescriptionMutation.mutateAsync(payload);
     console.log("response ai desc", response);
   };
 
@@ -169,8 +176,6 @@ export default function ProfilePage() {
         prefill={{
           name: profile?.full_name,
           role: profile?.tags?.[0],
-          location: profile?.address,
-          skills: profile?.tags,
         }}
       />
 
