@@ -10,6 +10,7 @@ import (
 	"tratech.my.id/server/internal/delivery/http/controller"
 	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/delivery/http/route"
+	"tratech.my.id/server/internal/pkg/agent"
 	"tratech.my.id/server/internal/pkg/mail"
 	"tratech.my.id/server/internal/pkg/storage"
 	"tratech.my.id/server/internal/repository"
@@ -28,6 +29,7 @@ type BootstrapConfig struct {
 func Bootstrap(config *BootstrapConfig) {
 	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
 	resend := mail.NewResend(config.Log, config.Config)
+	gemini := agent.NewGeminiAgent(config.GoogleAiStudio, config.Log)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
@@ -39,6 +41,7 @@ func Bootstrap(config *BootstrapConfig) {
 	skillRepository := repository.NewSkillRepository()
 	socialRepository := repository.NewSocialRepository()
 	emailVerificationRepository := repository.NewEmailVerificationRepository()
+	aiDescriptionRepository := repository.NewAIDescriptionRepository(gemini, config.Log)
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
@@ -49,6 +52,7 @@ func Bootstrap(config *BootstrapConfig) {
 	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository)
 	skillUseCase := usecase.NewSkillUsecase(config.DB, config.Log, config.Validate, skillRepository)
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
+	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
 
 	//Setup Controller
 	userController := controller.NewUserController(userUseCase, config.Log)
@@ -60,6 +64,7 @@ func Bootstrap(config *BootstrapConfig) {
 	skillController := controller.NewSkillController(skillUseCase, config.Log)
 	socialController := controller.NewSocialController(socialUseCase, config.Log)
 	uploadController := controller.NewUploadController(localStorage, config.Log)
+	aiDescriptionController := controller.NewAIDescriptionController(aiDescriptionUseCase, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -76,6 +81,7 @@ func Bootstrap(config *BootstrapConfig) {
 		SkillController:       skillController,
 		SocialController:      socialController,
 		UploadController:      uploadController,
+		AIDescriptionController: aiDescriptionController,
 	}
 	routeConfig.Setup()
 }

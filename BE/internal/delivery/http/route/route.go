@@ -7,17 +7,18 @@ import (
 )
 
 type RouteConfig struct {
-	App                   *fiber.App
-	AuthMiddleware        fiber.Handler
-	UserController        *controller.UserController
-	ProfileController     *controller.ProfileController
-	AchievementController *controller.AchievementController
-	ProjectController     *controller.ProjectController
-	ExperienceController  *controller.ExperienceController
-	EducationController   *controller.EducationController
-	SkillController       *controller.SkillController
-	SocialController      *controller.SocialController
-	UploadController      *controller.UploadController
+	App                     *fiber.App
+	AuthMiddleware          fiber.Handler
+	UserController          *controller.UserController
+	ProfileController       *controller.ProfileController
+	AchievementController   *controller.AchievementController
+	ProjectController       *controller.ProjectController
+	ExperienceController    *controller.ExperienceController
+	EducationController     *controller.EducationController
+	SkillController         *controller.SkillController
+	SocialController        *controller.SocialController
+	UploadController        *controller.UploadController
+	AIDescriptionController *controller.AIDescriptionController
 }
 
 func (c *RouteConfig) Setup() {
@@ -105,4 +106,9 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/socials", c.SocialController.Create)
 	c.App.Put("/api/socials/:socialId", c.SocialController.Update)
 	c.App.Delete("/api/socials/:socialId", c.SocialController.Delete)
+
+	c.App.Post("/api/agent/description/about", c.AIDescriptionController.GenerateAboutDescription)
+	c.App.Post("/api/agent/description/experience", c.AIDescriptionController.GenerateExperienceDesc)
+	c.App.Post("/api/agent/description/education", c.AIDescriptionController.GenerateEducationDesc)
+	c.App.Post("/api/agent/description/project", c.AIDescriptionController.GenerateProjectDesc)
 }
