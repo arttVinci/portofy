@@ -6,3 +6,4 @@ export { default as skillService } from "./skill.service";
 export { default as socialService } from "./social.service";
 export { default as profileService } from "./profile.service";
 export { default as authService } from "./auth.service";
+export { default as aiDescriptionService } from "./ai_description.service";

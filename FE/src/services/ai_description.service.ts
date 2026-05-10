@@ -6,7 +6,7 @@ import type {
 import type { AxiosResponse } from "axios";
 import apiClient from "@/api/apiClient";
 
-class AIDescriptionService {
+class AIGenerateDescriptionService {
   private readonly BASE_PATH = "/agent/description";
 
   async generateAboutDescription(
@@ -20,4 +20,4 @@ class AIDescriptionService {
   }
 }
 
-export default new AIDescriptionService();
+export default new AIGenerateDescriptionService();
