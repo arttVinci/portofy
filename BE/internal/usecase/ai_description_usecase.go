@@ -56,7 +56,7 @@ func (u *AIDescriptionUseCase) GenerateExperienceDesc(ctx context.Context, reque
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	response, err := u.AIDescRepo.GenerateExperienceDesc(ctx, *request)
+	response, err := u.AIDescRepo.GenerateExperienceDesc(ctx, request)
 	if err != nil {
 		u.Log.Warnf("Failed generate experience description to database : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate experience description")
@@ -80,7 +80,7 @@ func (u *AIDescriptionUseCase) GenerateEducationDesc(ctx context.Context, reques
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	response, err := u.AIDescRepo.GenerateEducationDesc(ctx, *request)
+	response, err := u.AIDescRepo.GenerateEducationDesc(ctx, request)
 	if err != nil {
 		u.Log.Warnf("Failed generate education description to database : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate education description")
@@ -104,7 +104,7 @@ func (u *AIDescriptionUseCase) GenerateProjectDesc(ctx context.Context, request 
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	response, err := u.AIDescRepo.GenerateProjectDesc(ctx, *request)
+	response, err := u.AIDescRepo.GenerateProjectDesc(ctx, request)
 	if err != nil {
 		u.Log.Warnf("Failed generate project description to database : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate project description")

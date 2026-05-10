@@ -72,7 +72,7 @@ func (r *AIDescriptionRepository) GenerateAboutDescription(ctx context.Context, 
 	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, request model.GenerateExperienceDescRequest) (string, error) {
+func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, request *model.GenerateExperienceDescRequest) (string, error) {
 	prompt := fmt.Sprintf(`
 		You are a professional resume and portfolio copywriter.
 
@@ -122,7 +122,7 @@ func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, re
 	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (string, error) {
+func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, request *model.GenerateEducationDescRequest) (string, error) {
 
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter writing an education section for a developer's portfolio website.
@@ -175,7 +175,7 @@ func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, req
 	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, request model.GenerateProjectDescRequest) (string, error) {
+func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, request *model.GenerateProjectDescRequest) (string, error) {
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter specializing in developer project showcases.
 
