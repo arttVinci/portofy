@@ -24,6 +24,6 @@ func BuildUserNotesLanguage(lang string) string {
 		return ""
 	}
 	return fmt.Sprintf(`
-3. Language preference: %s. Use it as the main language of the generated content.
+Language preference: %s. Use it as the main language of the generated content.
 `, lang)
 }

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -73,7 +72,7 @@ func (r *AIDescriptionRepository) GenerateAboutDescription(ctx context.Context, 
 	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, request model.GenerateExperienceDescRequest) (*model.GenerateExperienceDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, request model.GenerateExperienceDescRequest) (string, error) {
 	prompt := fmt.Sprintf(`
 		You are a professional resume and portfolio copywriter.
 
@@ -96,6 +95,8 @@ func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, re
 			Include measurable impact or technical specifics when available from context.
 			Max 35 words per description.
 
+		%s
+
 		STRICT RULE: Return ONLY valid JSON. No markdown, no explanation.
 		{
 		"summary": "...",
@@ -109,25 +110,19 @@ func (r *AIDescriptionRepository) GenerateExperienceDesc(ctx context.Context, re
 		request.StartDate, request.EndDate,
 		request.Tone,
 		utils.BuildUserNotesBlock(request.UserNotes),
+		utils.BuildUserNotesLanguage(request.Language),
 	)
 
 	jsonString, err := r.aiAgent.GenerateJSON(ctx, prompt)
 	if err != nil {
 		r.Log.WithError(err).Error("error generating experience description from gemini")
-		return nil, err
+		return "", err
 	}
 
-	var result model.GenerateExperienceDescResponse
-	err = json.Unmarshal([]byte(jsonString), &result)
-	if err != nil {
-		r.Log.WithError(err).Error("error unmarshalling experience json from gemini")
-		return nil, err
-	}
-
-	return &result, nil
+	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (*model.GenerateEducationDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, request model.GenerateEducationDescRequest) (string, error) {
 
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter writing an education section for a developer's portfolio website.
@@ -153,6 +148,8 @@ func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, req
 		- Skip fields that are empty or "none"
 		- Focus on what's most impressive and relevant
 
+		%s
+
 		STRICT RULE: Return ONLY valid JSON. No markdown, no explanation.
 		{
 		"summary": "...",
@@ -166,25 +163,19 @@ func (r *AIDescriptionRepository) GenerateEducationDesc(ctx context.Context, req
 		request.StartYear, request.EndYear, request.GPA,
 		request.Tone,
 		utils.BuildUserNotesBlock(request.UserNotes),
+		utils.BuildUserNotesLanguage(request.Language),
 	)
 
 	jsonString, err := r.aiAgent.GenerateJSON(ctx, prompt)
 	if err != nil {
 		r.Log.WithError(err).Error("error generating education description from gemini")
-		return nil, err
+		return "", err
 	}
 
-	var result model.GenerateEducationDescResponse
-	err = json.Unmarshal([]byte(jsonString), &result)
-	if err != nil {
-		r.Log.WithError(err).Error("error unmarshalling education json from gemini")
-		return nil, err
-	}
-
-	return &result, nil
+	return jsonString, nil
 }
 
-func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, request model.GenerateProjectDescRequest) (*model.GenerateProjectDescResponse, error) {
+func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, request model.GenerateProjectDescRequest) (string, error) {
 	prompt := fmt.Sprintf(`
 		You are a portfolio copywriter specializing in developer project showcases.
 
@@ -213,6 +204,8 @@ func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, reque
 
 		6. "tags": An array of 5-10 keyword tags relevant to the project (e.g. "Go", "REST API", "CI/CD").
 
+		%s
+
 		STRICT RULE: Return ONLY valid JSON. No markdown, no explanation.
 		{
 		"tagline": "...",
@@ -231,20 +224,14 @@ func (r *AIDescriptionRepository) GenerateProjectDesc(ctx context.Context, reque
 		request.Duration,
 		request.Tone,
 		utils.BuildUserNotesBlock(request.UserNotes),
+		utils.BuildUserNotesLanguage(request.Language),
 	)
 
 	jsonString, err := r.aiAgent.GenerateJSON(ctx, prompt)
 	if err != nil {
 		r.Log.WithError(err).Error("error generating project description from gemini")
-		return nil, err
+		return "", err
 	}
 
-	var result model.GenerateProjectDescResponse
-	err = json.Unmarshal([]byte(jsonString), &result)
-	if err != nil {
-		r.Log.WithError(err).Error("error unmarshalling project json from gemini")
-		return nil, err
-	}
-
-	return &result, nil
+	return jsonString, nil
 }
