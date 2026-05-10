@@ -4,10 +4,7 @@ package model
 type GenerateAboutDescRequest struct {
 	Name     string   `json:"name"`
 	Role     string   `json:"role"`      // "Full Stack Developer"
-	YearsExp int      `json:"years_exp"` // 5
-	Skills   []string `json:"skills"`    // ["Go", "React", "PostgreSQL"]
 	Tone     string   `json:"tone"`      // "professional" | "casual" | "creative"
-	Location string   `json:"location"`  // "Jakarta, Indonesia"
 	Language string   `json:"language"`  // "id" | "en"
 
 	UserNotes string `json:"user_notes"`

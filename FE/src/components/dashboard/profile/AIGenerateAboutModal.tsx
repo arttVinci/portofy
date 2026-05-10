@@ -8,20 +8,20 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectGroup,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { SparklesIcon, PlusIcon, XIcon, Loader2Icon } from "lucide-react";
+import { SparklesIcon, Loader2Icon } from "lucide-react";
 import type { GenerateAboutDescriptionRequest } from "@/@types/entities/ai_description.types";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AIGenerateAboutModalProps {
   open: boolean;
@@ -38,13 +38,9 @@ interface AIGenerateAboutModalProps {
 }
 
 const TONE_OPTIONS = [
-  {
-    value: "professional",
-    label: "Professional",
-    desc: "Formal, authoritative",
-  },
-  { value: "casual", label: "Casual", desc: "Friendly, conversational" },
-  { value: "creative", label: "Creative", desc: "Expressive, memorable" },
+  { value: "professional", label: "Professional" },
+  { value: "casual", label: "Casual" },
+  { value: "creative", label: "Creative" },
 ];
 
 const LANGUAGE_OPTIONS = [
@@ -62,33 +58,9 @@ export function AIGenerateAboutModal({
   const [tone, setTone] = useState("professional");
   const [language, setLanguage] = useState("Indonesia");
   const [yearsExp, setYearsExp] = useState("2");
-  const [pointInput, setPointInput] = useState("");
-  const [points, setPoints] = useState<string[]>([]);
-
-  const addPoint = () => {
-    const trimmed = pointInput.trim();
-    if (!trimmed || points.length >= 10) return;
-    setPoints((prev) => [...prev, trimmed]);
-    setPointInput("");
-  };
-
-  const removePoint = (idx: number) => {
-    setPoints((prev) => prev.filter((_, i) => i !== idx));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addPoint();
-    }
-  };
+  const [userNotesInput, setUserNotesInput] = useState("");
 
   const handleGenerate = async () => {
-    const userNotesFormatted =
-      points.length > 0
-        ? `Poin penting yang harus dimasukkan:\n${points.map((p, i) => `${i + 1}. ${p}`).join("\n")}`
-        : "";
-
     const payload: GenerateAboutDescriptionRequest = {
       name: prefill?.name ?? "",
       role: prefill?.role ?? "",
@@ -96,8 +68,8 @@ export function AIGenerateAboutModal({
       skill: prefill?.skills?.join(", ") ?? "",
       tone,
       location: prefill?.location ?? "",
-      language,
-      user_notes: userNotesFormatted,
+      language: language,
+      user_notes: userNotesInput,
     };
 
     await onGenerate(payload);
@@ -105,8 +77,7 @@ export function AIGenerateAboutModal({
 
   const handleClose = () => {
     if (!isGenerating) {
-      setPoints([]);
-      setPointInput("");
+      setUserNotesInput("");
       onClose();
     }
   };
@@ -114,7 +85,7 @@ export function AIGenerateAboutModal({
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="pt-1.5">
           <DialogTitle className="flex items-center gap-2">
             <SparklesIcon className="size-4 text-primary" />
             Generate About dengan AI
@@ -127,22 +98,23 @@ export function AIGenerateAboutModal({
 
         <div className="flex flex-col gap-5 py-2">
           {/* ── Row: Tone & Language ── */}
-          <div className="grid grid-cols-2 gap-20">
+          <div className="grid grid-cols-2 gap-4 w-full">
             <div className="grid gap-1.5">
               <Label htmlFor="ai-tone">Gaya Penulisan</Label>
-              <Select value={tone} onValueChange={setTone}>
-                <SelectTrigger id="ai-tone">
+              <Select
+                defaultValue="professional"
+                value={tone}
+                onValueChange={setTone}
+              >
+                <SelectTrigger id="ai-tone" className="w-full">
                   <SelectValue placeholder="Pilih gaya" />
                 </SelectTrigger>
-                <SelectContent>
-                  {TONE_OPTIONS.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      <span className="font-medium">{t.label}</span>
-                      <span className="ml-1.5 text-xs text-muted-foreground">
-                        — {t.desc}
-                      </span>
-                    </SelectItem>
-                  ))}
+                <SelectContent position="popper">
+                  <SelectGroup>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="creative">Creative</SelectItem>
+                  </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
@@ -150,7 +122,7 @@ export function AIGenerateAboutModal({
             <div className="grid gap-1.5">
               <Label htmlFor="ai-language">Bahasa</Label>
               <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger id="ai-language">
+                <SelectTrigger id="ai-language" className="w-full">
                   <SelectValue placeholder="Pilih bahasa" />
                 </SelectTrigger>
                 <SelectContent>
@@ -164,29 +136,15 @@ export function AIGenerateAboutModal({
             </div>
           </div>
 
-          {/* ── Years Experience ── */}
-          <div className="grid gap-1.5">
-            <Label htmlFor="ai-years">Pengalaman (tahun)</Label>
-            <Input
-              id="ai-years"
-              type="number"
-              min={0}
-              max={50}
-              value={yearsExp}
-              onChange={(e) => setYearsExp(e.target.value)}
-              className="w-32"
-            />
-          </div>
-
           <Separator />
 
           {/* ── Key Points ── */}
           <div className="grid gap-2">
             <div>
-              <Label htmlFor="ai-point-input">
+              <Label htmlFor="user-notes">
                 Poin Penting{" "}
                 <span className="text-xs text-muted-foreground font-normal">
-                  (opsional, maks 10)
+                  — opsional
                 </span>
               </Label>
               <p className="text-xs text-muted-foreground mt-0.5">
@@ -195,116 +153,34 @@ export function AIGenerateAboutModal({
               </p>
             </div>
 
-            {/* Existing points */}
-            {points.length > 0 && (
-              <div className="flex flex-col gap-1.5">
-                {points.map((point, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-2 rounded-md border bg-muted/40 px-3 py-2 text-sm animate-in fade-in-0 slide-in-from-top-1 duration-200"
-                  >
-                    <span className="shrink-0 text-xs font-mono text-muted-foreground mt-0.5 w-4">
-                      {idx + 1}.
-                    </span>
-                    <span className="flex-1">{point}</span>
-                    <button
-                      type="button"
-                      onClick={() => removePoint(idx)}
-                      className="shrink-0 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors text-muted-foreground hover:text-foreground"
-                      aria-label={`Hapus poin ${idx + 1}`}
-                    >
-                      <XIcon className="size-3.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Input new point */}
-            {points.length < 10 && (
-              <div className="flex gap-2">
-                <Input
-                  id="ai-point-input"
-                  placeholder='Contoh: "Pernah memimpin tim 5 orang di startup fintech"'
-                  value={pointInput}
-                  onChange={(e) => setPointInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="flex-1"
-                />
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  onClick={addPoint}
-                  disabled={!pointInput.trim()}
-                  className="shrink-0 gap-1"
-                >
-                  <PlusIcon className="size-3.5" />
-                  Tambah
-                </Button>
-              </div>
-            )}
-
-            {points.length > 0 && (
-              <div className="flex items-center gap-1.5 flex-wrap mt-1">
-                <Badge variant="secondary" className="text-xs">
-                  {points.length}/10 poin
-                </Badge>
-              </div>
-            )}
+            <div className="flex gap-2">
+              <Textarea
+                value={userNotesInput}
+                onChange={(e) => setUserNotesInput(e.target.value)}
+                className="flex-1"
+              />
+            </div>
           </div>
-
-          {/* ── Preview prefill data ── */}
-          {(prefill?.name || prefill?.role || prefill?.location) && (
-            <>
-              <Separator />
-              <div className="rounded-md bg-muted/50 border px-3 py-2.5 text-xs text-muted-foreground space-y-1">
-                <p className="font-medium text-foreground mb-1.5">
-                  Data dari profil (otomatis)
-                </p>
-                {prefill?.name && (
-                  <p>
-                    <span className="font-medium">Nama:</span> {prefill.name}
-                  </p>
-                )}
-                {prefill?.role && (
-                  <p>
-                    <span className="font-medium">Role:</span> {prefill.role}
-                  </p>
-                )}
-                {prefill?.location && (
-                  <p>
-                    <span className="font-medium">Lokasi:</span>{" "}
-                    {prefill.location}
-                  </p>
-                )}
-                {prefill?.skills && prefill.skills.length > 0 && (
-                  <p>
-                    <span className="font-medium">Skills:</span>{" "}
-                    {prefill.skills.join(", ")}
-                  </p>
-                )}
-              </div>
-            </>
-          )}
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0">
+        <DialogFooter className="gap-3 sm:gap-3">
           <Button
+            id="user-notes"
             variant="outline"
             onClick={handleClose}
             disabled={isGenerating}
+            className="cursor-pointer"
           >
             Batal
           </Button>
           <Button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="gap-2"
+            className="gap-2 cursor-pointer"
           >
             {isGenerating ? (
               <>
-                <Loader2Icon className="size-3.5 animate-spin" />
+                <Loader2Icon className="size-3.5 animate-spin " />
                 Sedang Generate...
               </>
             ) : (

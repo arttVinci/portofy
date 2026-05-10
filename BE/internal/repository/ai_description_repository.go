@@ -31,9 +31,6 @@ func (r *AIDescriptionRepository) GenerateAboutDescription(ctx context.Context, 
 		User Information:
 		- Full Name: %s
 		- Current Role: %s
-		- Years of Experience: %d years
-		- Core Skills: %s
-		- Location: %s
 		- Tone: %s
 
 		%s
@@ -56,9 +53,7 @@ func (r *AIDescriptionRepository) GenerateAboutDescription(ctx context.Context, 
 		STRICT RULE: Return ONLY valid JSON. No markdown, no explanation outside JSON.
 		{"paragraphs":["paragraph 1...","paragraph 2...","paragraph 3..."]}
 		`,
-    request.Name, request.Role, request.YearsExp,
-    strings.Join(request.Skills, ", "),
-    request.Location, request.Tone,
+    request.Name, request.Role, request.Tone,
     utils.BuildUserNotesBlock(request.UserNotes),
 	utils.BuildUserNotesLanguage(request.Language),
 )
