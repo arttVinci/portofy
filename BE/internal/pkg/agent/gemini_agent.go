@@ -31,7 +31,9 @@ func NewGeminiAgent(client *genai.Client, log *logrus.Logger) *geminiAgent {
 
 
 func (g *geminiAgent) GenerateJSON(ctx context.Context, prompt string) (string, error) {
-    model := g.Client.GenerativeModel("gemini-3.1-flash-lite")
+    model := g.Client.GenerativeModel("gemini-2.5-flash")
+    // model := g.Client.GenerativeModel("gemini-3.1-flash-lite")
+    // model := g.Client.GenerativeModel("gemini-3.1-flash")
     model.ResponseMIMEType = "application/json"
 
     response, err := model.GenerateContent(ctx, genai.Text(prompt))
