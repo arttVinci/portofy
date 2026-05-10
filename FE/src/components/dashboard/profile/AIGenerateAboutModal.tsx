@@ -66,6 +66,7 @@ export function AIGenerateAboutModal({
     };
 
     await onGenerate(payload);
+    handleClose();
   };
 
   const handleClose = () => {

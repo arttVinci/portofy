@@ -161,7 +161,7 @@ export function ProfileInfoTab({
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="gap-1.5 h-7 text-xs"
+                      className="gap-1.5 h-7 text-xs cursor-pointer"
                       onClick={onUndoAbout}
                     >
                       <Undo2Icon className="size-3" />
@@ -172,12 +172,12 @@ export function ProfileInfoTab({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="gap-1.5 h-7 text-xs"
+                    className="gap-1.5 h-7 text-xs cursor-pointer"
                     onClick={onGenerateAbout}
                     disabled={isGeneratingAbout}
                   >
                     <SparklesIcon className="size-3" />
-                    Generate AI
+                    Generate Description with AI
                   </Button>
                 </div>
               )}
