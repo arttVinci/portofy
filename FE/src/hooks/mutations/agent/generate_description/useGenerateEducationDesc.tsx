@@ -6,13 +6,13 @@ import { useMutation } from "@tanstack/react-query";
 import { aiDescriptionService } from "@/services";
 import { ApiError } from "@/api/apiError";
 
-interface UseGenerateEducationDescOptions {
+interface UseGenerateEducationDescriptionOptions {
   onSuccess?: (data: GenerateEducationDescResponse) => void;
   onError?: (error: ApiError) => void;
 }
 
 export const useGenerateEducationDescription = (
-  options?: UseGenerateEducationDescOptions,
+  options?: UseGenerateEducationDescriptionOptions,
 ) => {
   return useMutation<
     GenerateEducationDescResponse,

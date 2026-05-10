@@ -6,13 +6,13 @@ import { useMutation } from "@tanstack/react-query";
 import { aiDescriptionService } from "@/services";
 import { ApiError } from "@/api/apiError";
 
-interface UseGenerateProjectDescOptions {
+interface UseGenerateProjectDescriptionOptions {
   onSuccess?: (data: GenerateProjectDescResponse) => void;
   onError?: (error: ApiError) => void;
 }
 
 export const useGenerateProjectDescription = (
-  options?: UseGenerateProjectDescOptions,
+  options?: UseGenerateProjectDescriptionOptions,
 ) => {
   return useMutation<
     GenerateProjectDescResponse,
