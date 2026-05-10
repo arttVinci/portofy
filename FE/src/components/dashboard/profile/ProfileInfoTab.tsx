@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { XIcon, SparklesIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { XIcon, SparklesIcon, Loader2Icon, Undo2Icon } from "lucide-react";
 import type { UpdateProfileRequest } from "@/@types/entities/profile.types";
 
 const MAX_TAGS = 10;
@@ -25,6 +26,8 @@ interface ProfileInfoTabProps {
   username: string;
   onGenerateAbout?: () => void;
   isGeneratingAbout?: boolean;
+  onUndoAbout?: () => void;
+  canUndoAbout?: boolean;
 }
 
 export function ProfileInfoTab({
@@ -33,6 +36,8 @@ export function ProfileInfoTab({
   username,
   onGenerateAbout,
   isGeneratingAbout,
+  onUndoAbout,
+  canUndoAbout,
 }: ProfileInfoTabProps) {
   const [tagInput, setTagInput] = useState("");
   const tagInputRef = useRef<HTMLInputElement>(null);
@@ -128,15 +133,16 @@ export function ProfileInfoTab({
                 (tampil di bawah nama)
               </span>
             </Label>
-            <Input
+            <Textarea
               id="bio"
               placeholder="Fullstack Developer · Software Engineering Student"
               value={values.bio}
               onChange={(e) => onChange("bio", e.target.value)}
-              maxLength={100}
+              className="resize-none"
+              maxLength={750}
             />
             <p className="text-xs text-muted-foreground text-right">
-              {values.bio.length}/100
+              {values.bio.length}/750
             </p>
           </div>
 
@@ -149,30 +155,69 @@ export function ProfileInfoTab({
                 </span>
               </Label>
               {onGenerateAbout && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="gap-1.5 h-7 text-xs"
-                  onClick={onGenerateAbout}
-                  disabled={isGeneratingAbout}
-                >
-                  <SparklesIcon className="size-3" />
-                  Generate AI
-                </Button>
+                <div className="flex items-center gap-1.5">
+                  {canUndoAbout && onUndoAbout && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="gap-1.5 h-7 text-xs"
+                      onClick={onUndoAbout}
+                    >
+                      <Undo2Icon className="size-3" />
+                      Undo
+                    </Button>
+                  )}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="gap-1.5 h-7 text-xs"
+                    onClick={onGenerateAbout}
+                    disabled={isGeneratingAbout}
+                  >
+                    <SparklesIcon className="size-3" />
+                    Generate AI
+                  </Button>
+                </div>
               )}
             </div>
-            <Textarea
-              id="about"
-              placeholder="Ceritakan tentang dirimu, perjalanan karir, dan apa yang sedang kamu kerjakan..."
-              value={values.about}
-              onChange={(e) => onChange("about", e.target.value)}
-              className="min-h-28 resize-none"
-              maxLength={500}
-            />
-            <p className="text-xs text-muted-foreground text-right">
-              {values.about.length}/500
-            </p>
+
+            {isGeneratingAbout ? (
+              /* ── Skeleton state saat AI sedang generate ── */
+              <div className="relative rounded-md border overflow-hidden min-h-28">
+                <Skeleton className="absolute inset-0 rounded-md" />
+                <Skeleton
+                  className="absolute inset-0 rounded-md opacity-60"
+                  style={{ animationDelay: "0.15s" }}
+                />
+                <div className="relative z-10 flex flex-col items-center justify-center gap-2 min-h-28 py-6">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2Icon className="size-4 animate-spin text-primary" />
+                    <span className="text-sm font-medium text-primary">
+                      Sedang digenerate oleh AI...
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Mohon tunggu, AI sedang menyusun deskripsi untukmu
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Textarea
+                  id="about"
+                  placeholder="Ceritakan tentang dirimu, perjalanan karir, dan apa yang sedang kamu kerjakan..."
+                  value={values.about}
+                  onChange={(e) => onChange("about", e.target.value)}
+                  className="min-h-28 resize-none"
+                  maxLength={5000}
+                />
+                <p className="text-xs text-muted-foreground text-right">
+                  {values.about.length}/5000
+                </p>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

@@ -28,6 +28,7 @@ export default function ProfilePage() {
   const [avatarImageFile, setAvatarImageFile] = useState<File | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [previousAbout, setPreviousAbout] = useState<string | null>(null);
   const { toast, renderToasts } = useToast();
 
   const { data: profile, isLoading, error } = useGetProfile();
@@ -88,9 +89,9 @@ export default function ProfilePage() {
     onSuccess: (response) => {
       /* Gabungkan paragraf menjadi satu string, pisahkan dengan newline */
       const combinedText = response.paragraphs.join("\n\n");
+      setPreviousAbout(form.values.about);
       form.handleChange("about", combinedText);
       setIsDirty(true);
-      setIsAIModalOpen(false);
       toast(
         "success",
         "Berhasil",
@@ -114,9 +115,18 @@ export default function ProfilePage() {
   const handleGenerateDescAbout = async (
     payload: GenerateAboutDescriptionRequest,
   ) => {
+    /* Tutup modal langsung sebelum request — skeleton muncul di ProfileInfoTab */
+    setIsAIModalOpen(false);
     const response =
       await generateAboutDescriptionMutation.mutateAsync(payload);
     console.log("response ai desc", response);
+  };
+
+  const handleUndoAbout = () => {
+    if (previousAbout === null) return;
+    form.handleChange("about", previousAbout);
+    setPreviousAbout(null);
+    toast("success", "Berhasil", "Deskripsi About berhasil di-undo.");
   };
 
   const handleSave = async () => {
@@ -231,6 +241,8 @@ export default function ProfilePage() {
                 username={currentUser?.username ?? "Username"}
                 onGenerateAbout={() => setIsAIModalOpen(true)}
                 isGeneratingAbout={generateAboutDescriptionMutation.isPending}
+                onUndoAbout={handleUndoAbout}
+                canUndoAbout={previousAbout !== null}
               />
             </TabsContent>
 
