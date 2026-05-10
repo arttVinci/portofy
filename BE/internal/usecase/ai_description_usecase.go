@@ -43,7 +43,79 @@ func (u *AIDescriptionUseCase) GenerateAboutDescription(ctx context.Context, req
 	err = json.Unmarshal([]byte(response), result)
 	if err != nil {
 		u.Log.WithError(err).Error("error unmarshalling json from ai agent")
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "FFailed to generate about description")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate about description")
+	}
+
+	return result, nil
+}
+
+func (u *AIDescriptionUseCase) GenerateExperienceDesc(ctx context.Context, request *model.GenerateExperienceDescRequest) (*model.GenerateExperienceDescResponse, error) {
+	err := u.Validate.Struct(request)
+	if err != nil {
+		u.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	response, err := u.AIDescRepo.GenerateExperienceDesc(ctx, *request)
+	if err != nil {
+		u.Log.Warnf("Failed generate experience description to database : %+v", err)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate experience description")
+	}
+
+	result := new(model.GenerateExperienceDescResponse)
+	
+	err = json.Unmarshal([]byte(response), result)
+	if err != nil {
+		u.Log.WithError(err).Error("error unmarshalling json from ai agent")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate experience description")
+	}
+
+	return result, nil
+}
+
+func (u *AIDescriptionUseCase) GenerateEducationDesc(ctx context.Context, request *model.GenerateEducationDescRequest) (*model.GenerateEducationDescResponse, error) {
+	err := u.Validate.Struct(request)
+	if err != nil {
+		u.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	response, err := u.AIDescRepo.GenerateEducationDesc(ctx, *request)
+	if err != nil {
+		u.Log.Warnf("Failed generate education description to database : %+v", err)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate education description")
+	}
+
+	result := new(model.GenerateEducationDescResponse)
+	
+	err = json.Unmarshal([]byte(response), result)
+	if err != nil {
+		u.Log.WithError(err).Error("error unmarshalling json from ai agent")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate education description")
+	}
+
+	return result, nil
+}
+
+func (u *AIDescriptionUseCase) GenerateProjectDesc(ctx context.Context, request *model.GenerateProjectDescRequest) (*model.GenerateProjectDescResponse, error) {
+	err := u.Validate.Struct(request)
+	if err != nil {
+		u.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	response, err := u.AIDescRepo.GenerateProjectDesc(ctx, *request)
+	if err != nil {
+		u.Log.Warnf("Failed generate project description to database : %+v", err)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate project description")
+	}
+
+	result := new(model.GenerateProjectDescResponse)
+	
+	err = json.Unmarshal([]byte(response), result)
+	if err != nil {
+		u.Log.WithError(err).Error("error unmarshalling json from ai agent")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate project description")
 	}
 
 	return result, nil
