@@ -32,8 +32,8 @@ func (u *CVParserUseCase) ParseCV(ctx context.Context, file *multipart.FileHeade
 	}
 	defer src.Close()
 
-	contentType := file.Header.Get("Content-Type")
-	res, err := docconv.Convert(src, contentType, false)
+	// contentType := file.Header.Get("Content-Type")
+	res, err := docconv.ConvertPath(file.Filename)
 	if err != nil {
 		u.Log.WithError(err).Error("error converting file to text")
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to parse CV file")

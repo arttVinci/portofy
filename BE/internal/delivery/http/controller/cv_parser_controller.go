@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	model "tratech.my.id/server/internal/model"
@@ -40,11 +43,18 @@ func (c *CVParserController) ParseCV(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "File size must not exceed 5MB")
 	}
 
+	tempFilePath := fmt.Sprintf("./%s", file.Filename)
+	if err := ctx.SaveFile(file, tempFilePath); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to save temporary file")
+	}
+
 	response, err := c.CVParserUseCase.ParseCV(ctx.UserContext(), file)
 	if err != nil {
 		c.Log.WithError(err).Error("error parsing CV")
 		return err
 	}
+
+	defer os.Remove(tempFilePath)
 
 	return ctx.JSON(model.WebResponse[*agent.ParsedCVResponse]{Data: response})
 }
