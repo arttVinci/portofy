@@ -375,7 +375,11 @@ export function ProjectFormSection({
                             size="sm"
                             className="gap-1.5 h-7 text-xs cursor-pointer"
                             onClick={onGenerateDesc}
-                            disabled={isGeneratingDesc}
+                            disabled={
+                              isGeneratingDesc ||
+                              !values.tools ||
+                              values.tools.length === 0
+                            }
                           >
                             <SparklesIcon className="size-3" />
                             Generate Description with AI
@@ -422,14 +426,11 @@ export function ProjectFormSection({
                           style={{ minHeight: "120px" }}
                           maxLength={5000}
                         />
-                        <div className="flex justify-between py-1 px-1">
+                        <div className="flex justify-between px-1">
                           <FieldDescription>
-                            Disarankan untuk mengisi tools untuk hasil terbaik
-                            dari Generate With AI
+                            Harap mengisi form tools terlebih dahulu sebelum
+                            menggunakan fitur Generate with AI
                           </FieldDescription>
-                          <p className="text-xs text-muted-foreground text-right">
-                            {(values.description ?? "").length}/5000
-                          </p>
                         </div>
                       </>
                     )}
