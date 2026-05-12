@@ -19,6 +19,7 @@ type RouteConfig struct {
 	SocialController        *controller.SocialController
 	UploadController        *controller.UploadController
 	AIDescriptionController *controller.AIDescriptionController
+	CVParserController      *controller.CVParserController
 }
 
 func (c *RouteConfig) Setup() {
@@ -111,4 +112,6 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/agent/description/experience", c.AIDescriptionController.GenerateExperienceDesc)
 	c.App.Post("/api/agent/description/education", c.AIDescriptionController.GenerateEducationDesc)
 	c.App.Post("/api/agent/description/project", c.AIDescriptionController.GenerateProjectDesc)
+
+	c.App.Post("/api/agent/cv/parse", c.CVParserController.ParseCV)
 }

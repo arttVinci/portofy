@@ -10,3 +10,4 @@ export * from "./entities/user.types";
 export * from "./entities/education.types";
 export * from "./base/api.types";
 export * from "./entities/ai_description.types";
+export * from "./entities/cv_parser.types";

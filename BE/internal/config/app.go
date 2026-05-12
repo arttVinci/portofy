@@ -42,6 +42,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialRepository := repository.NewSocialRepository()
 	emailVerificationRepository := repository.NewEmailVerificationRepository()
 	aiDescriptionRepository := repository.NewAIDescriptionRepository(gemini, config.Log)
+	cvParserRepository := repository.NewCVParserRepository(gemini, config.Log)
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
@@ -53,6 +54,7 @@ func Bootstrap(config *BootstrapConfig) {
 	skillUseCase := usecase.NewSkillUsecase(config.DB, config.Log, config.Validate, skillRepository)
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
+	cvParserUseCase := usecase.NewCVParserUseCase(cvParserRepository, config.Log)
 
 	//Setup Controller
 	userController := controller.NewUserController(userUseCase, config.Log)
@@ -65,6 +67,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialController := controller.NewSocialController(socialUseCase, config.Log)
 	uploadController := controller.NewUploadController(localStorage, config.Log)
 	aiDescriptionController := controller.NewAIDescriptionController(aiDescriptionUseCase, config.Log)
+	cvParserController := controller.NewCVParserController(cvParserUseCase, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -82,6 +85,7 @@ func Bootstrap(config *BootstrapConfig) {
 		SocialController:      socialController,
 		UploadController:      uploadController,
 		AIDescriptionController: aiDescriptionController,
+		CVParserController:      cvParserController,
 	}
 	routeConfig.Setup()
 }
