@@ -15,6 +15,7 @@ import {
   Undo2Icon,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FieldDescription } from "@/components/ui/field";
 import {
   Card,
   CardContent,
@@ -233,7 +234,7 @@ export function ProjectFormSection({
           </TabsTrigger>
           <TabsTrigger value="tech" className="gap-1.5 text-xs">
             <CodeIcon className="size-3.5" />
-            Tech & Story
+            Tools & Story
           </TabsTrigger>
           <TabsTrigger value="gallery" className="gap-1.5 text-xs">
             <ImagePlayIcon className="size-3.5" />
@@ -384,13 +385,19 @@ export function ProjectFormSection({
                     </div>
 
                     {isGeneratingDesc ? (
-                      <div className="relative rounded-md border overflow-hidden" style={{ minHeight: "120px" }}>
+                      <div
+                        className="relative rounded-md border overflow-hidden"
+                        style={{ minHeight: "120px" }}
+                      >
                         <Skeleton className="absolute inset-0 rounded-md" />
                         <Skeleton
                           className="absolute inset-0 rounded-md opacity-60"
                           style={{ animationDelay: "0.15s" }}
                         />
-                        <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-6" style={{ minHeight: "120px" }}>
+                        <div
+                          className="relative z-10 flex flex-col items-center justify-center gap-2 py-6"
+                          style={{ minHeight: "120px" }}
+                        >
                           <div className="flex items-center gap-2 text-muted-foreground">
                             <Loader2Icon className="size-4 animate-spin text-primary" />
                             <span className="text-sm font-medium text-primary">
@@ -408,14 +415,22 @@ export function ProjectFormSection({
                           id="desc"
                           placeholder="Deskripsikan project kamu..."
                           value={values.description ?? ""}
-                          onChange={(e) => onChange("description", e.target.value)}
+                          onChange={(e) =>
+                            onChange("description", e.target.value)
+                          }
                           className="resize-none"
                           style={{ minHeight: "120px" }}
                           maxLength={5000}
                         />
-                        <p className="text-xs text-muted-foreground text-right">
-                          {(values.description ?? "").length}/5000
-                        </p>
+                        <div className="flex justify-between py-1 px-1">
+                          <FieldDescription>
+                            Disarankan untuk mengisi tools untuk hasil terbaik
+                            dari Generate With AI
+                          </FieldDescription>
+                          <p className="text-xs text-muted-foreground text-right">
+                            {(values.description ?? "").length}/5000
+                          </p>
+                        </div>
                       </>
                     )}
                   </div>
@@ -452,7 +467,7 @@ export function ProjectFormSection({
               <CardHeader>
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
                   <CodeIcon className="size-4 text-muted-foreground" />
-                  Tech Stack
+                  Tools Stack
                 </CardTitle>
                 <CardDescription className="text-xs">
                   Teknologi dan tools yang digunakan dalam project
@@ -492,7 +507,7 @@ export function ProjectFormSection({
                 {/* Add tool input */}
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Ketik nama tools lalu Enter (mis: React, Node.js)"
+                    placeholder="Ketik nama tools lalu Enter (contoh: Adobe Photoshop, Canva, Figma)"
                     value={toolInput}
                     onChange={(e) => setToolInput(e.target.value)}
                     onKeyDown={onToolKey}
@@ -755,7 +770,10 @@ export function ProjectFormSection({
                     />
                     <Textarea
                       placeholder={
-                        "Tulis item per baris:\nJWT login\nRefresh token\nRole-based access"
+                        "Tulis item per baris:\n" +
+                        "JWT login\n" +
+                        "Refresh token\n" +
+                        "Role-based access"
                       }
                       value={featItems}
                       onChange={(e) => setFeatItems(e.target.value)}
