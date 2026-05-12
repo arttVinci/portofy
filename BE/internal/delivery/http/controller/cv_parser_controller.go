@@ -48,13 +48,13 @@ func (c *CVParserController) ParseCV(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed to save temporary file")
 	}
 
-	response, err := c.CVParserUseCase.ParseCV(ctx.UserContext(), file)
+	defer os.Remove(tempFilePath)
+
+	response, err := c.CVParserUseCase.ParseCV(ctx.UserContext(), tempFilePath)
 	if err != nil {
 		c.Log.WithError(err).Error("error parsing CV")
 		return err
 	}
-
-	defer os.Remove(tempFilePath)
 
 	return ctx.JSON(model.WebResponse[*agent.ParsedCVResponse]{Data: response})
 }

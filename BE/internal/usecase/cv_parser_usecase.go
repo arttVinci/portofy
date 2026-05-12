@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"encoding/json"
-	"mime/multipart"
 
 	"code.sajari.com/docconv/v2"
 	"github.com/gofiber/fiber/v2"
@@ -24,16 +23,8 @@ func NewCVParserUseCase(cvParserRepo *repository.CVParserRepository, log *logrus
 	}
 }
 
-func (u *CVParserUseCase) ParseCV(ctx context.Context, file *multipart.FileHeader) (*model.ParsedCVResponse, error) {
-	src, err := file.Open()
-	if err != nil {
-		u.Log.WithError(err).Error("error opening uploaded file")
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to read uploaded file")
-	}
-	defer src.Close()
-
-	// contentType := file.Header.Get("Content-Type")
-	res, err := docconv.ConvertPath(file.Filename)
+func (u *CVParserUseCase) ParseCV(ctx context.Context, filePath string) (*model.ParsedCVResponse, error) {
+	res, err := docconv.ConvertPath(filePath)
 	if err != nil {
 		u.Log.WithError(err).Error("error converting file to text")
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to parse CV file")
