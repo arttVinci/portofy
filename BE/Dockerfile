@@ -9,7 +9,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/main.go
 # Runner    
 FROM alpine:latest
 WORKDIR /app
-RUN apk --no-cache add ca-certificates tzdata
+RUN apk --no-cache add ca-certificates poppler-utils tzdata
 COPY --from=builder /app/server .
 EXPOSE 3000
 CMD ["./server"]
