@@ -326,12 +326,7 @@ export default function CVBuilderPage() {
       {pageState === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
           <div className="w-full max-w-lg">
-            <FileUpload
-              onChange={(files) => {
-                const f = files[0];
-                if (f) handleFileSelect(f);
-              }}
-            />
+            <FileUpload onChange={(files) => handleFileSelect(files[0])} />
           </div>
 
           {file && (
