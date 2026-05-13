@@ -10,6 +10,7 @@ class AIParsedCVService {
     const response: AxiosResponse<ApiResponse<ParsedCVResponse>> =
       await apiClient.post(`${this.BASE_PATH}/parse`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
+        timeout: 60000,
       });
     return response.data.data;
   }
