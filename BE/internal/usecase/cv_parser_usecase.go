@@ -30,6 +30,9 @@ func (u *CVParserUseCase) ParseCV(ctx context.Context, filePath string) (*model.
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to parse CV file")
 	}
 
+	// u.Log.Infof("Hasil ekstrak CV: \n%s", res.Body)
+	// u.Log.WithField("extracted_text", res.Body).Info("Berhasil ekstrak file CV")
+
 	if res.Body == "" {
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Could not extract text from the uploaded file")
 	}
