@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"math"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	"tratech.my.id/server/internal/delivery/http/middleware"
@@ -120,7 +122,23 @@ func (c *AchievementController) List(ctx *fiber.Ctx) error {
 		Size:   ctx.QueryInt("size", 10),
 	}
 
-	
+	responses, total, err := c.UseCase.Search(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error searching achievements")
+		return err
+	}
+
+	paging := &model.PageMetadata{
+		Page:      request.Page,
+		Size:      request.Size,
+		TotalItem: total,
+		TotalPage: int64(math.Ceil(float64(total) / float64(request.Size))),
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
+		Data:   responses,
+		Paging: paging,
+	})
 }
 
 // GetAll godoc
