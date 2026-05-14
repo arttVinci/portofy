@@ -110,6 +110,19 @@ func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
+func (c *AchievementController) List(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := &model.SearchAchievementRequest{
+		UserId: auth.ID,
+		Title:  ctx.Query("title"),
+		Page:   ctx.QueryInt("page", 1),
+		Size:   ctx.QueryInt("size", 10),
+	}
+
+	
+}
+
 // GetAll godoc
 // @Summary      Get all achievements (user)
 // @Tags         Achievement

@@ -24,7 +24,20 @@ import {
   SendIcon,
   XCircleIcon,
   CheckCircle2Icon,
+  CircleFadingPlusIcon,
 } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 import { useCreateParsedCV } from "@/hooks/mutations/agent/useCreateParsedCV";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
@@ -34,6 +47,17 @@ import { useCreateProject } from "@/hooks/mutations/project/useCreateProject";
 import { useCreateSkill } from "@/hooks/mutations/skill/useCreateSkill";
 import { useToast } from "@/hooks/ui/useToast";
 import { ApiError } from "@/api/apiError";
+import {
+  useAdminProjects,
+  useGetProfile,
+  useAdminEducations,
+  useAdminExperiences,
+  useAdminSkills,
+} from "@/hooks/queries";
+import { useDeleteProject } from "@/hooks/mutations/project/useDeleteProject";
+import { useDeleteEducation } from "@/hooks/mutations/education/useDeleteEducation";
+import { useDeleteExperience } from "@/hooks/mutations/experience/useDeleteExperience";
+import { useDeleteSkill } from "@/hooks/mutations/skill/useDeleteSkill";
 
 import type {
   ParsedCVResponse,
@@ -63,6 +87,7 @@ export default function CVBuilderPage() {
   const [parsedData, setParsedData] = useState<ParsedCVResponse | null>(null);
   const [submitProgress, setSubmitProgress] = useState("");
   const { toast, renderToasts } = useToast();
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
 
   const parseMutation = useCreateParsedCV({
     onSuccess: (data) => {
@@ -76,11 +101,22 @@ export default function CVBuilderPage() {
     },
   });
 
+  const { data: profile } = useGetProfile();
+  const { data: project } = useAdminProjects();
+  const { data: education } = useAdminEducations();
+  const { data: experience } = useAdminExperiences();
+  const { data: skill } = useAdminSkills();
+
   const updateProfileMutation = useUpdateProfile();
   const createExperienceMutation = useCreateExperience();
   const createEducationMutation = useCreateEducation();
   const createProjectMutation = useCreateProject();
   const createSkillMutation = useCreateSkill();
+
+  const deleteProjectMutation = useDeleteProject();
+  const deleteEducationMutation = useDeleteEducation();
+  const deleteExperienceMutation = useDeleteExperience();
+  const deleteSkillMutation = useDeleteSkill();
 
   const validateFile = (f: File): string | null => {
     if (!ALLOWED_TYPES.includes(f.type))
@@ -190,9 +226,54 @@ export default function CVBuilderPage() {
     });
   };
 
+  const handleReplacePortfolio = async () => {
+    if (!parsedData) return;
+    setPageState("submitting");
+
+    try {
+      if (profile) {
+        const profilePayload: UpdateProfileRequest = {
+          full_name: parsedData.profile.full_name,
+          image_url: parsedData.profile.image_url || "",
+          address: parsedData.profile.address || "",
+          about: parsedData.profile.about || "",
+          bio: parsedData.profile.bio || "",
+          theme: parsedData.profile.theme || "",
+          tags: parsedData.profile.tags || [],
+        };
+        await updateProfileMutation.mutateAsync(profilePayload);
+      }
+      if (experience) {
+        parsedData.experiences.forEach(async (experience) => {
+          await deleteExperienceMutation.mutateAsync(experience.id);
+          const payload: CreateExperienceRequest = {
+            position: experience.position,
+            company_name: experience.company_name,
+            location: experience.location || undefined,
+            employment_type:
+              (experience.employment_type as CreateExperienceRequest["employment_type"]) ||
+              undefined,
+            location_type:
+              (experience.location_type as CreateExperienceRequest["location_type"]) ||
+              undefined,
+            start_date: experience.start_date,
+            end_date: experience.end_date || undefined,
+            description: experience.description || undefined,
+          };
+          await createExperienceMutation.mutateAsync(payload);
+        });
+      }
+    } catch (err) {}
+  };
+
   const handleSubmitAll = async () => {
     if (!parsedData) return;
     setPageState("submitting");
+
+    if (profile || project || education || experience || skill) {
+      setOpenAlertDialog(true);
+      return;
+    }
 
     try {
       setSubmitProgress("Menyimpan profil...");
@@ -272,11 +353,7 @@ export default function CVBuilderPage() {
         await createSkillMutation.mutateAsync(payload);
       }
 
-      toast(
-        "success",
-        "Berhasil!",
-        "Semua data CV berhasil disimpan ke portofolio kamu.",
-      );
+      toast("success", "Berhasil!", "CV berhasil disimpan ke portofolio kamu.");
       setPageState("idle");
       setFile(null);
       setParsedData(null);
@@ -301,6 +378,33 @@ export default function CVBuilderPage() {
   return (
     <div className="flex flex-col gap-6">
       {renderToasts()}
+
+      <AlertDialog
+        open={openAlertDialog}
+        onOpenChange={() => setOpenAlertDialog((prev) => !prev)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogMedia>
+              <CircleFadingPlusIcon />
+            </AlertDialogMedia>
+            <AlertDialogTitle>Simpan Portofolio Baru?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Apakah Anda yakin ingin menyimpan perubahan ini? Portofolio Anda
+              sebelumnya akan dihapus dan digantikan secara permanen dengan
+              versi ini.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="cursor-pointer">
+              Batal
+            </AlertDialogCancel>
+            <AlertDialogAction className="cursor-pointer">
+              Simpan Portfolio
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="flex items-start justify-between gap-4">
         <div>

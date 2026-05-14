@@ -1,9 +1,10 @@
 package model
 
 type WebResponse[T any] struct {
-	Data    T      `json:"data"`
-	Message string `json:"message,omitempty"`
-	Success bool   `json:"success,omitempty"`
+	Data    T             `json:"data"`
+	Message string        `json:"message,omitempty"`
+	Success bool          `json:"success,omitempty"`
+	Paging  *PageMetadata `json:"paging,omitempty"`
 }
 
 type ApiErrorResponse struct {

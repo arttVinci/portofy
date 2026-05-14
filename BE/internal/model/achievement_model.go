@@ -35,10 +35,17 @@ type UpdateAchievementRequest struct {
 	CredentialUrl string     `json:"credential_url" validate:"omitempty"`
 	CredentialId  string     `json:"credential_id" validate:"omitempty,max=100"`
 }
-
 type DeleteAchievementRequest struct {
 	ID     string `json:"-" validate:"required,max=100"`
 	UserId string `json:"-" validate:"required"`
+}
+
+
+type SearchAchievementRequest struct {
+	UserId string `json:"-" validate:"required"`
+	Title  string `json:"title" validate:"omitempty"`
+	Page   int    `json:"page" validate:"min=1"`
+	Size   int    `json:"size" validate:"min=1,max=100"`
 }
 
 // Middleware

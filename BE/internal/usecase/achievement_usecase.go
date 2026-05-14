@@ -35,13 +35,13 @@ func NewAchievementUseCase(
 	}
 }
 
-func (c *AchievementUseCase) Create(ctx context.Context, request *model.CreateAchievementRequest) (*model.AchievementResponse, error) {
-	tx := c.DB.WithContext(ctx).Begin()
+func (u *AchievementUseCase) Create(ctx context.Context, request *model.CreateAchievementRequest) (*model.AchievementResponse, error) {
+	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	err := c.Validate.Struct(request)
+	err := u.Validate.Struct(request)
 	if err != nil {
-		c.Log.Warnf("Invalid request body : %+v", err)
+		u.Log.Warnf("Invalid request body : %+v", err)
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
@@ -56,31 +56,31 @@ func (c *AchievementUseCase) Create(ctx context.Context, request *model.CreateAc
 		CredentialUrl: *request.CredentialUrl,
 	}
 
-	if err := c.AchievRepo.Create(tx, achievement); err != nil {
-		c.Log.Warnf("Failed create Achievement to database : %+v", err)
+	if err := u.AchievRepo.Create(tx, achievement); err != nil {
+		u.Log.Warnf("Failed create Achievement to database : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed create Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.Warnf("Failed commit transaction : %+v", err)
+		u.Log.Warnf("Failed commit transaction : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed create Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAchievementRequest) (*model.AchievementResponse, error) {
-	tx := c.DB.WithContext(ctx).Begin()
+func (u *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAchievementRequest) (*model.AchievementResponse, error) {
+	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	if err := c.Validate.Struct(request); err != nil {
-		c.Log.Warnf("Invalid request body : %+v", err)
+	if err := u.Validate.Struct(request); err != nil {
+		u.Log.Warnf("Invalid request body : %+v", err)
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := new(entity.Achievement)
-	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting Achievement")
+	if err := u.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
+		u.Log.WithError(err).Error("error getting Achievement")
 		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
@@ -91,45 +91,68 @@ func (c *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAc
 	achievement.CredentialUrl = request.CredentialUrl
 	achievement.CredentialId = request.CredentialId
 
-	if err := c.AchievRepo.Update(tx, achievement); err != nil {
-		c.Log.WithError(err).Error("error updating achievement")
+	if err := u.AchievRepo.Update(tx, achievement); err != nil {
+		u.Log.WithError(err).Error("error updating achievement")
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed update Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error updating achievement")
+		u.Log.WithError(err).Error("error updating achievement")
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed update Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAchievementRequest) error {
-	tx := c.DB.WithContext(ctx).Begin()
+func (u *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAchievementRequest) error {
+	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	if err := c.Validate.Struct(request); err != nil {
-		c.Log.WithError(err).Error("error validating request body")
+	if err := u.Validate.Struct(request); err != nil {
+		u.Log.WithError(err).Error("error validating request body")
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := new(entity.Achievement)
-	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error find achievement by id and user_id")
+	if err := u.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
+		u.Log.WithError(err).Error("error find achievement by id and user_id")
 		return fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
-	if err := c.AchievRepo.Delete(tx, achievement); err != nil {
-		c.Log.WithError(err).Error("error deleting achievement")
+	if err := u.AchievRepo.Delete(tx, achievement); err != nil {
+		u.Log.WithError(err).Error("error deleting achievement")
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed delete Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error deleting achievement")
+		u.Log.WithError(err).Error("error deleting achievement")
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed delete Achievement")
 	}
 
 	return nil
+}
+
+func (u *AchievementUseCase) Search(ctx context.Context, request *model.SearchAchievementRequest) ([]model.AchievementResponse,int64, error) {
+	if err := u.Validate.Struct(request); err != nil {
+		u.Log.WithError(err).Error("error validating request body")
+		return nil, 0, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	db := u.DB.WithContext(ctx)
+
+	achievements, total, err := u.AchievRepo.Search(db, request)
+	if err != nil {
+		u.Log.WithError(err).Error("error getting achievements")
+		return nil, 0,fiber.NewError(fiber.StatusInternalServerError, "Failed getting Achievements")
+	}
+
+	responses := make([]model.AchievementResponse, len(achievements))
+	for i, achiev := range achievements {
+		responses[i] = *converter.AchievementToResponse(&achiev)
+	}
+
+	return responses, total, nil
+	
 }
 
 func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {

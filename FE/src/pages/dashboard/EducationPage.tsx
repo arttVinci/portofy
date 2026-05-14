@@ -134,7 +134,6 @@ export default function EducationPage() {
     try {
       let payload = { ...form.values };
 
-      // Format dates to RFC3339 (backend validation expects valid time string)
       if (payload.start_date && !payload.start_date.includes("T")) {
         payload.start_date = `${payload.start_date}T00:00:00Z`;
       }
