@@ -14,12 +14,10 @@ export const useAdminAchievements = ({
   page = 1,
   size = 10,
   title = "",
-  ...options
 }: UseAdminAchievementsOptions) => {
   return useQuery<ApiResponse<AchievementResponse[]>, ApiError>({
     queryKey: ["achievements", "admin", { page, size, title }],
     queryFn: () => achievementService.search({ page, size, title }),
-    enabled: options?.enabled !== false,
     staleTime: 5 * 60 * 1000,
     retry: 1,
 

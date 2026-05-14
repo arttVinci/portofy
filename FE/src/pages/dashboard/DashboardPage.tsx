@@ -29,7 +29,7 @@ export default function DashboardPage() {
   // ── Data from TanStack Query cache ──────────────────────────────────────────
   const { data: profile, isLoading: profileLoading } = useGetProfile();
   const { data: projects } = useAdminProjects();
-  const { data: achievements } = useAdminAchievements();
+  const { data: achievements } = useAdminAchievements({ page: 1, size: 3 });
   const { data: skills } = useAdminSkills();
   const { data: socials } = useAdminSocials();
   const { data: experiences } = useAdminExperiences();
@@ -53,7 +53,7 @@ export default function DashboardPage() {
     },
     {
       label: "Tunjukan minimal 1 Pencapaian Kamu",
-      done: (achievements?.length ?? 0) > 0,
+      done: (achievements?.data.length ?? 0) > 0,
       url: "/app/achievements",
     },
     {
@@ -135,7 +135,7 @@ export default function DashboardPage() {
       {/* ── Portfolio Highlights ──────────────────────────────────────────── */}
       <PortfolioHighlights
         projects={projects ?? []}
-        achievements={achievements ?? []}
+        achievements={achievements?.data ?? []}
       />
 
       {/* ── Checklist + Quick Actions ────────────────────────────────────── */}

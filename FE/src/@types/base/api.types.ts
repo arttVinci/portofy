@@ -2,7 +2,7 @@ export interface ApiResponse<T = any> {
   data: T;
   message?: string;
   Success?: string;
-  Pagging?: PageMetadata;
+  paging?: PageMetadata;
 }
 
 export interface ApiErrorResponse {

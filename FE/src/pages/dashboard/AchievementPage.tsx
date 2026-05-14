@@ -58,9 +58,13 @@ export default function AchievementPage() {
     refetch,
   } = useAdminAchievements({
     page: page,
-    size: 10,
+    size: 8,
     title: search,
   });
+
+  const totalPage = achievements?.paging?.total_page || 1;
+
+  console.log("cobaaa", page, totalPage, achievements?.paging);
 
   const form = useFormData<UpdateAchievementRequest>({
     initialValues: EMPTY_FORM,
@@ -221,6 +225,9 @@ export default function AchievementPage() {
               onEdit={handleEdit}
               onDelete={handleDelete}
               onViewDetail={handleViewDetail}
+              currentPage={page}
+              totalPages={totalPage}
+              onPageChange={(newPage) => setPage(newPage)}
             />
           </TabsContent>
 

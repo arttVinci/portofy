@@ -11,6 +11,7 @@ import {
   EmptyContent,
   EmptyMedia,
 } from "@/components/ui/empty";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +22,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+
+import { CustomPagination } from "@/components/dashboard/common/Pagination";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import type { AchievementResponse } from "@/@types";
 import ShowcaseCard from "@/components/dashboard/common/ShowcaseCard";
@@ -32,6 +36,9 @@ interface AchievementListSectionProps {
   onEdit: (achievement: AchievementResponse) => void;
   onDelete: (id: string) => void;
   onViewDetail: (achievement: AchievementResponse) => void;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 function CardSkeleton() {
@@ -57,6 +64,9 @@ export function AchievementListSection({
   onEdit,
   onDelete,
   onViewDetail,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: AchievementListSectionProps) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -146,6 +156,11 @@ export function AchievementListSection({
           </EmptyContent>
         </Empty>
       )}
+      <CustomPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
 
       {/* Delete confirm */}
       <AlertDialog

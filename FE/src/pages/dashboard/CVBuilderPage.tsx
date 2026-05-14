@@ -270,10 +270,10 @@ export default function CVBuilderPage() {
     if (!parsedData) return;
     setPageState("submitting");
 
-    if (profile || project || education || experience || skill) {
-      setOpenAlertDialog(true);
-      return;
-    }
+    // if (profile || project || education || experience || skill) {
+    //   setOpenAlertDialog(true);
+    //   return;
+    // }
 
     try {
       setSubmitProgress("Menyimpan profil...");
