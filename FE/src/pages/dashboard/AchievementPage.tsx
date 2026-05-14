@@ -36,6 +36,9 @@ const EMPTY_FORM: UpdateAchievementRequest = {
 };
 
 export default function AchievementPage() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
   const { toast, renderToasts } = useToast();
@@ -49,7 +52,15 @@ export default function AchievementPage() {
       : "",
   );
 
-  const { data: achievements, isLoading, refetch } = useAdminAchievements();
+  const {
+    data: achievements,
+    isLoading,
+    refetch,
+  } = useAdminAchievements({
+    page: page,
+    size: 10,
+    title: search,
+  });
 
   const form = useFormData<UpdateAchievementRequest>({
     initialValues: EMPTY_FORM,
@@ -204,7 +215,7 @@ export default function AchievementPage() {
           {/* List */}
           <TabsContent value="list" className="mt-0">
             <AchievementListSection
-              achievements={achievements ?? []}
+              achievements={achievements?.data ?? []}
               isLoading={isLoading}
               onAdd={handleAdd}
               onEdit={handleEdit}
