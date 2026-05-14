@@ -2,6 +2,7 @@ export interface ApiResponse<T = any> {
   data: T;
   message?: string;
   Success?: string;
+  Pagging?: PageMetadata;
 }
 
 export interface ApiErrorResponse {
@@ -22,4 +23,10 @@ export interface PaginatedApiResponse<T> {
   message: string;
   data: T[];
   meta: PageMetadata;
+}
+
+export interface SearchParams {
+  page: number;
+  size: number;
+  title?: string;
 }

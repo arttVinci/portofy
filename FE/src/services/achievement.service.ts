@@ -3,6 +3,7 @@ import type {
   CreateAchievementRequest,
   UpdateAchievementRequest,
   ApiResponse,
+  SearchParams,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 import apiClient from "@/api/apiClient";
@@ -11,11 +12,17 @@ class AchievementService {
   private readonly BASE_PATH = "/achievements";
   private readonly PUBLIC_PATH = "/public";
 
-  async getAll(): Promise<AchievementResponse[]> {
-    const response: AxiosResponse<ApiResponse<AchievementResponse[]>> =
-      await apiClient.get(this.BASE_PATH);
+  async search(
+    params: SearchParams,
+  ): Promise<ApiResponse<AchievementResponse[]>> {
+    const response = await apiClient.get<ApiResponse<AchievementResponse[]>>(
+      this.BASE_PATH,
+      {
+        params: params,
+      },
+    );
 
-    return response.data.data;
+    return response.data;
   }
 
   async getById(id: string): Promise<AchievementResponse> {
