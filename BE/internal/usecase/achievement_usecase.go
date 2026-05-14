@@ -152,10 +152,9 @@ func (u *AchievementUseCase) Search(ctx context.Context, request *model.SearchAc
 	}
 
 	return responses, total, nil
-	
 }
 
-func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {
+func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchievementRequest) (*model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -164,8 +163,8 @@ func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchie
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	achievements := new([]entity.Achievement)
-	if err := c.AchievRepo.FindAllByUserId(tx, achievements, request.UserId); err != nil {
+	achievement := new(entity.Achievement)
+	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
 		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
@@ -175,13 +174,9 @@ func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchie
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
 	}
 
-	responses := make([]model.AchievementResponse, len(*achievements))
-	for i, achiev := range *achievements {
-		responses[i] = *converter.AchievementToResponse(&achiev)
-	}
-
-	return responses, nil
+	return converter.AchievementToResponse(achievement), nil
 }
+
 
 func (c *AchievementUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicAchievementRequest) ([]model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
@@ -209,29 +204,6 @@ func (c *AchievementUseCase) GetAllByUsername(ctx context.Context, request *mode
 	}
 
 	return responses, nil
-}
-
-func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchievementRequest) (*model.AchievementResponse, error) {
-	tx := c.DB.WithContext(ctx).Begin()
-	defer tx.Rollback()
-
-	if err := c.Validate.Struct(request); err != nil {
-		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
-	}
-
-	achievement := new(entity.Achievement)
-	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
-	}
-
-	return converter.AchievementToResponse(achievement), nil
 }
 
 func (c *AchievementUseCase) GetByUsername(ctx context.Context, request *model.GetPublicAchievementByIdRequest) (*model.AchievementResponse, error) {

@@ -49,11 +49,6 @@ type SearchAchievementRequest struct {
 }
 
 // Middleware
-type GetAchievementRequest struct {
-	UserId string `json:"-" validate:"required"`
-}
-
-// Middleware
 type GetByIdAchievementRequest struct {
 	ID     string `json:"-" validate:"required,max=100"`
 	UserId string `json:"-" validate:"required"`

@@ -141,58 +141,6 @@ func (c *AchievementController) List(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll godoc
-// @Summary      Get all achievements (user)
-// @Tags         Achievement
-// @Produce      json
-// @Success      200  {object}  model.WebResponse[[]model.AchievementResponse]
-// @Failure      401  {object}  model.ApiErrorResponse
-// @Security     BearerAuth
-// @Router       /api/achievements [get]
-func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
-	auth := middleware.GetUser(ctx)
-
-	request := &model.GetAchievementRequest{
-		UserId: auth.ID,
-	}
-
-	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
-	if err != nil {
-		c.Log.WithError(err).Error("error get achievements")
-		return err
-	}
-
-	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
-		Data: response,
-	})
-}
-
-// GetAllByUsername godoc
-// @Summary      Get all achievements (public)
-// @Tags         Public
-// @Produce      json
-// @Param        username  path      string  true  "Username"
-// @Success      200       {object}  model.WebResponse[[]model.AchievementResponse]
-// @Failure      404       {object}  model.ApiErrorResponse
-// @Router       /api/public/{username}/achievements [get]
-func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
-	username := ctx.Params("username")
-
-	request := &model.GetPublicAchievementRequest{
-		Username: username,
-	}
-
-	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
-	if err != nil {
-		c.Log.WithError(err).Error("error get achievements")
-		return err
-	}
-
-	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
-		Data: response,
-	})
-}
-
 // Get godoc
 // @Summary      Get achievement by ID (user)
 // @Tags         Achievement
@@ -219,6 +167,32 @@ func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
+}
+
+// GetAllByUsername godoc
+// @Summary      Get all achievements (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.AchievementResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/achievements [get]
+func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+
+	request := &model.GetPublicAchievementRequest{
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get achievements")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
+		Data: response,
+	})
 }
 
 // GetByUsername godoc
