@@ -142,6 +142,7 @@ func (c *ExperienceUseCase) Delete(ctx context.Context, request *model.DeleteExp
 }
 
 func (c *ExperienceUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteExperienceRequest) error {
+	c.Log.Info("DEBUG bulk delete request:", request)
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -152,6 +153,7 @@ func (c *ExperienceUseCase) BulkDelete(ctx context.Context, request *model.BulkD
 
 	if err := c.ExperienceRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
 		c.Log.WithError(err).Error("error bulk deleting experiences")
+		c.Log.Info("DEBUG bulk delete request:", request)
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Experiences")
 	}
 

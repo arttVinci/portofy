@@ -29,7 +29,7 @@ type DeleteSkillRequest struct {
 }
 
 type BulkDeleteSkillRequest struct {
-	ID     []string `json:"-" validate:"required"`
+	ID     []string `json:"ids" validate:"required"`
 	UserId string   `json:"-" validate:"required"`
 }
 

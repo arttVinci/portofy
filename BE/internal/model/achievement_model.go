@@ -36,12 +36,12 @@ type UpdateAchievementRequest struct {
 	CredentialId  string     `json:"credential_id" validate:"omitempty,max=100"`
 }
 type DeleteAchievementRequest struct {
-	ID     string `json:"-" validate:"required,max=100"`
+	ID     string `json:"id" validate:"required"`
 	UserId string `json:"-" validate:"required"`
 }
 
 type BulkDeleteAchievementRequest struct {
-	ID     []string `json:"-" validate:"required"`
+	ID     []string `json:"ids" validate:"required"`
 	UserId string   `json:"-" validate:"required"`
 }
 
