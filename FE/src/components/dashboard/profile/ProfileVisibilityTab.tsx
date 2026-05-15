@@ -10,11 +10,13 @@ import { Switch } from "@/components/ui/switch";
 import { GlobeIcon, LockIcon } from "lucide-react";
 
 interface ProfileVisibilityTabProps {
+  username: string;
   isPublic: boolean;
   onTogglePublic: (val: boolean) => void;
 }
 
 export function ProfileVisibilityTab({
+  username,
   isPublic,
   onTogglePublic,
 }: ProfileVisibilityTabProps) {
@@ -55,7 +57,9 @@ export function ProfileVisibilityTab({
           {isPublic && (
             <div className="rounded-lg border bg-emerald-50 dark:bg-emerald-950/30 p-3 text-xs text-emerald-700 dark:text-emerald-400">
               Portofolio kamu dapat diakses di{" "}
-              <span className="font-medium">portof.id/</span>
+              <span className="font-medium">
+                https://portofy.net/{username}
+              </span>
             </div>
           )}
         </CardContent>

@@ -127,12 +127,7 @@ export function ProfileInfoTab({
           </div>
 
           <div className="grid gap-1.5">
-            <Label htmlFor="bio">
-              Bio / Headline
-              <span className="ml-1.5 text-xs text-muted-foreground font-normal">
-                (tampil di bawah nama)
-              </span>
-            </Label>
+            <Label htmlFor="bio">Bio / Headline</Label>
             <Textarea
               id="bio"
               placeholder="Fullstack Developer · Software Engineering Student"
@@ -148,12 +143,7 @@ export function ProfileInfoTab({
 
           <div className="grid gap-1.5">
             <div className="flex items-center justify-between">
-              <Label htmlFor="about">
-                About
-                <span className="ml-1.5 text-xs text-muted-foreground font-normal">
-                  (deskripsi panjang, tampil di section About)
-                </span>
-              </Label>
+              <Label htmlFor="about">About</Label>
               {onGenerateAbout && (
                 <div className="flex items-center gap-1.5">
                   {canUndoAbout && onUndoAbout && (
@@ -227,8 +217,7 @@ export function ProfileInfoTab({
         <CardHeader>
           <CardTitle className="text-sm font-medium">Skill & Tags</CardTitle>
           <CardDescription className="text-xs">
-            Tambahkan skill atau tag yang mendeskripsikan keahlianmu (maks{" "}
-            {MAX_TAGS})
+            Tambahkan skill atau tag yang mendeskripsikan keahlianmu
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">

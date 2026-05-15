@@ -208,7 +208,9 @@ export function EducationFormSection({
 
               {/* Gelar / Jenjang */}
               <div className="grid gap-1.5">
-                <Label htmlFor="edu-degree">Gelar / Jenjang</Label>
+                <Label htmlFor="edu-degree">
+                  Gelar / Jenjang <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="edu-degree"
                   placeholder="Sarjana (S1)"
@@ -219,7 +221,9 @@ export function EducationFormSection({
 
               {/* Bidang Studi */}
               <div className="grid gap-1.5">
-                <Label htmlFor="edu-field">Bidang Studi</Label>
+                <Label htmlFor="edu-field">
+                  Bidang Studi <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="edu-field"
                   placeholder="Teknik Informatika"
@@ -316,13 +320,19 @@ export function EducationFormSection({
                 </div>
 
                 {isGeneratingDesc ? (
-                  <div className="relative rounded-md border overflow-hidden" style={{ minHeight: "120px" }}>
+                  <div
+                    className="relative rounded-md border overflow-hidden"
+                    style={{ minHeight: "120px" }}
+                  >
                     <Skeleton className="absolute inset-0 rounded-md" />
                     <Skeleton
                       className="absolute inset-0 rounded-md opacity-60"
                       style={{ animationDelay: "0.15s" }}
                     />
-                    <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-6" style={{ minHeight: "120px" }}>
+                    <div
+                      className="relative z-10 flex flex-col items-center justify-center gap-2 py-6"
+                      style={{ minHeight: "120px" }}
+                    >
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <Loader2Icon className="size-4 animate-spin text-primary" />
                         <span className="text-sm font-medium text-primary">

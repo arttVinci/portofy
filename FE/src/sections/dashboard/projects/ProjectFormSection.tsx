@@ -7,12 +7,12 @@ import {
   ArrowLeftIcon,
   ImageIcon,
   CheckCircle2Icon,
-  CodeIcon,
   ImagePlayIcon,
   LayoutGridIcon,
   InfoIcon,
   SparklesIcon,
   Undo2Icon,
+  WrenchIcon,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FieldDescription } from "@/components/ui/field";
@@ -233,7 +233,7 @@ export function ProjectFormSection({
             Info
           </TabsTrigger>
           <TabsTrigger value="tech" className="gap-1.5 text-xs">
-            <CodeIcon className="size-3.5" />
+            <WrenchIcon className="size-3.5" />
             Tools & Story
           </TabsTrigger>
           <TabsTrigger value="gallery" className="gap-1.5 text-xs">
@@ -331,7 +331,6 @@ export function ProjectFormSection({
                     </Label>
                     <Input
                       id="title"
-                      placeholder="portof.id"
                       value={values.title ?? ""}
                       onChange={(e) => onChange("title", e.target.value)}
                     />
@@ -354,7 +353,9 @@ export function ProjectFormSection({
                   {/* Deskripsi */}
                   <div className="grid gap-1.5">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="desc">Deskripsi</Label>
+                      <Label htmlFor="desc">
+                        Deskripsi <span className="text-destructive">*</span>
+                      </Label>
                       {onGenerateDesc && (
                         <div className="flex items-center gap-1.5">
                           {canUndoDesc && onUndoDesc && (
@@ -467,8 +468,8 @@ export function ProjectFormSection({
             <Card className="border-border/60 shadow-sm">
               <CardHeader>
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <CodeIcon className="size-4 text-muted-foreground" />
-                  Tools Stack
+                  <WrenchIcon className="size-4 text-muted-foreground" />
+                  Tools Stack <span className="text-destructive">*</span>
                 </CardTitle>
                 <CardDescription className="text-xs">
                   Teknologi dan tools yang digunakan dalam project
@@ -541,7 +542,9 @@ export function ProjectFormSection({
               <CardContent>
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                   <div className="grid gap-1.5">
-                    <Label>Tantangan</Label>
+                    <Label>
+                      Tantangan <span className="text-destructive">*</span>
+                    </Label>
                     <Textarea
                       placeholder="Apa tantangan utama dalam project ini?"
                       value={values.challenges ?? ""}
@@ -551,7 +554,9 @@ export function ProjectFormSection({
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label>Solusi</Label>
+                    <Label>
+                      Solusi <span className="text-destructive">*</span>
+                    </Label>
                     <Textarea
                       placeholder="Bagaimana kamu menyelesaikannya?"
                       value={values.solution ?? ""}

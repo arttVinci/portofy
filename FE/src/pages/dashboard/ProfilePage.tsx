@@ -261,6 +261,7 @@ export default function ProfilePage() {
 
             <TabsContent value="visibility" className="mt-0">
               <ProfileVisibilityTab
+                username={currentUser?.username ?? "Username"}
                 isPublic={isPublic}
                 onTogglePublic={handleTogglePublic}
               />

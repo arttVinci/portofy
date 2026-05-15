@@ -71,7 +71,8 @@ const PLATFORM_ICONS: Record<string, React.ReactNode> = {
 const PLATFORM_COLORS: Record<string, string> = {
   github: "bg-gray-900 text-white dark:bg-gray-700",
   linkedin: "bg-blue-600 text-white",
-  instagram: "bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white",
+  instagram:
+    "bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white",
   x: "bg-black text-white dark:bg-gray-800",
   twitter: "bg-sky-500 text-white",
   facebook: "bg-blue-500 text-white",
@@ -353,7 +354,7 @@ export function ProfileSocialTab() {
                   <Input
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
-                    placeholder="https://github.com/username"
+                    placeholder="https://"
                     className="h-9"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") handleAdd();

@@ -57,9 +57,6 @@ export function ProfileAvatarTab({
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">Foto Profil</CardTitle>
-          <CardDescription className="text-xs">
-            Foto akan ditampilkan di header portofolio publik kamu
-          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-6">
           {/* ── Preview + actions ── */}

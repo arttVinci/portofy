@@ -218,7 +218,6 @@ export function ExperienceFormSection({
                 </Label>
                 <Input
                   id="exp-position"
-                  placeholder="Frontend Developer"
                   value={values.position ?? ""}
                   onChange={(e) => onChange("position", e.target.value)}
                 />
@@ -231,7 +230,6 @@ export function ExperienceFormSection({
                 </Label>
                 <Input
                   id="exp-company"
-                  placeholder="PT Teknologi Indonesia"
                   value={values.company_name ?? ""}
                   onChange={(e) => onChange("company_name", e.target.value)}
                 />
@@ -254,7 +252,9 @@ export function ExperienceFormSection({
               {/* Tipe pekerjaan + tipe lokasi — 1 row */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="grid gap-1.5">
-                  <Label>Tipe Pekerjaan</Label>
+                  <Label>
+                    Tipe Pekerjaan <span className="text-destructive">*</span>
+                  </Label>
                   <Select
                     value={values.employment_type ?? ""}
                     onValueChange={(v) => onChange("employment_type", v)}
@@ -273,7 +273,9 @@ export function ExperienceFormSection({
                 </div>
 
                 <div className="grid gap-1.5">
-                  <Label>Tipe Lokasi</Label>
+                  <Label>
+                    Tipe Lokasi <span className="text-destructive">*</span>
+                  </Label>
                   <Select
                     value={values.location_type ?? ""}
                     onValueChange={(v) => onChange("location_type", v)}
@@ -366,13 +368,19 @@ export function ExperienceFormSection({
                 </div>
 
                 {isGeneratingDesc ? (
-                  <div className="relative rounded-md border overflow-hidden" style={{ minHeight: "120px" }}>
+                  <div
+                    className="relative rounded-md border overflow-hidden"
+                    style={{ minHeight: "120px" }}
+                  >
                     <Skeleton className="absolute inset-0 rounded-md" />
                     <Skeleton
                       className="absolute inset-0 rounded-md opacity-60"
                       style={{ animationDelay: "0.15s" }}
                     />
-                    <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-6" style={{ minHeight: "120px" }}>
+                    <div
+                      className="relative z-10 flex flex-col items-center justify-center gap-2 py-6"
+                      style={{ minHeight: "120px" }}
+                    >
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <Loader2Icon className="size-4 animate-spin text-primary" />
                         <span className="text-sm font-medium text-primary">

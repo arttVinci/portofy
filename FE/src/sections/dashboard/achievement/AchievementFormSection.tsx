@@ -188,7 +188,6 @@ export function AchievementFormSection({
                 </Label>
                 <Input
                   id="ach-title"
-                  placeholder="AWS Certified Developer"
                   value={values.title ?? ""}
                   onChange={(e) => onChange("title", e.target.value)}
                 />
@@ -196,10 +195,12 @@ export function AchievementFormSection({
 
               {/* Organisasi */}
               <div className="grid gap-1.5">
-                <Label htmlFor="ach-org">Organisasi / Penerbit</Label>
+                <Label htmlFor="ach-org">
+                  Organisasi / Penerbit{" "}
+                  <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="ach-org"
-                  placeholder="Amazon Web Services"
                   value={values.organization ?? ""}
                   onChange={(e) => onChange("organization", e.target.value)}
                 />
@@ -210,7 +211,9 @@ export function AchievementFormSection({
             <div className="flex flex-col gap-5">
               {/* Tanggal Terbit */}
               <div className="grid gap-1.5">
-                <Label htmlFor="ach-date">Tanggal Terbit</Label>
+                <Label htmlFor="ach-date">
+                  Tanggal Terbit <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="ach-date"
                   type="date"
@@ -224,7 +227,6 @@ export function AchievementFormSection({
                 <Label htmlFor="ach-cred-id">Credential ID</Label>
                 <Input
                   id="ach-cred-id"
-                  placeholder="ABC123XYZ"
                   value={values.credential_id ?? ""}
                   onChange={(e) => onChange("credential_id", e.target.value)}
                 />
@@ -235,7 +237,7 @@ export function AchievementFormSection({
                 <Label htmlFor="ach-cred-url">Credential URL</Label>
                 <Input
                   id="ach-cred-url"
-                  placeholder="https://www.credly.com/badges/..."
+                  placeholder="https://..."
                   value={values.credential_url ?? "https://"}
                   onChange={(e) => onChange("credential_url", e.target.value)}
                 />

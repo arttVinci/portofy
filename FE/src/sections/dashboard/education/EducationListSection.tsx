@@ -7,6 +7,7 @@ import {
   MapPinIcon,
   GraduationCapIcon,
   ChevronDownIcon,
+  GraduationCap,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -179,7 +180,9 @@ export function EducationListSection({
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <span className="text-lg select-none">🎓</span>
+                            <span className="text-lg select-none">
+                              <GraduationCap />
+                            </span>
                           )}
                         </div>
 
