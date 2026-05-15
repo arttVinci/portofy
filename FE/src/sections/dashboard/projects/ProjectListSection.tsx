@@ -144,11 +144,13 @@ export function ProjectListSection({
           </EmptyContent>
         </Empty>
       )}
-      <CustomPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
+      {projects?.length > 0 && (
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
 
       {/* ── Delete confirm ── */}
       <AlertDialog

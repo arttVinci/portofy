@@ -156,11 +156,13 @@ export function AchievementListSection({
           </EmptyContent>
         </Empty>
       )}
-      <CustomPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
+      {achievements?.length > 0 && (
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
 
       {/* Delete confirm */}
       <AlertDialog
