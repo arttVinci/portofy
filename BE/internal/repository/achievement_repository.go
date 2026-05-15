@@ -18,6 +18,14 @@ func (r *AchievementRepository) FindByIdAndUserId(db *gorm.DB, achievement *enti
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(achievement).Error
 }
 
+func (r *AchievementRepository) BulkDeleteByUserIdAndIds(db *gorm.DB, userId string, ids []string) error {
+	return db.Where("user_id = ? AND id IN ?", userId, ids).Delete(&entity.Achievement{}).Error
+}
+
+func (r *AchievementRepository) BulkCreate(db *gorm.DB, achievements []entity.Achievement) error {
+	return db.Create(&achievements).Error
+}
+
 func (r *AchievementRepository) Search(db *gorm.DB, request *model.SearchAchievementRequest) ([]entity.Achievement, int64, error) {
 	var achievements []entity.Achievement
 	

@@ -132,6 +132,73 @@ func (u *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAc
 	return nil
 }
 
+func (u *AchievementUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteAchievementRequest) error {
+	tx := u.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := u.Validate.Struct(request); err != nil {
+		u.Log.WithError(err).Error("error validating request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	if err := u.AchievRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
+		u.Log.WithError(err).Error("error bulk deleting achievements")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Achievements")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		u.Log.WithError(err).Error("error committing bulk delete")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Achievements")
+	}
+
+	return nil
+}
+
+func (u *AchievementUseCase) BulkCreate(ctx context.Context, request *model.BulkCreateAchievementRequest) ([]model.AchievementResponse, error) {
+	tx := u.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := u.Validate.Struct(request); err != nil {
+		u.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	achievements := make([]entity.Achievement, len(request.Items))
+	for i, item := range request.Items {
+		achievements[i] = entity.Achievement{
+			ID:           uuid.NewString(),
+			UserId:       request.UserId,
+			Title:        item.Title,
+			ImageUrl:     item.ImageUrl,
+			Organization: item.Organization,
+			IssuedDate:   item.IssuedDate,
+		}
+		if item.CredentialId != nil {
+			achievements[i].CredentialId = *item.CredentialId
+		}
+		if item.CredentialUrl != nil {
+			achievements[i].CredentialUrl = *item.CredentialUrl
+		}
+	}
+
+	if err := u.AchievRepo.BulkCreate(tx, achievements); err != nil {
+		u.Log.WithError(err).Error("error bulk creating achievements")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Achievements")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		u.Log.WithError(err).Error("error committing bulk create")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Achievements")
+	}
+
+	responses := make([]model.AchievementResponse, len(achievements))
+	for i, achievement := range achievements {
+		responses[i] = *converter.AchievementToResponse(&achievement)
+	}
+
+	return responses, nil
+}
+
 func (u *AchievementUseCase) Search(ctx context.Context, request *model.SearchAchievementRequest) ([]model.AchievementResponse,int64, error) {
 	if err := u.Validate.Struct(request); err != nil {
 		u.Log.WithError(err).Error("error validating request body")

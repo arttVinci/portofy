@@ -27,3 +27,11 @@ export interface UpdateAchievementRequest {
   credential_url?: string;
   credential_id?: string;
 }
+
+export interface BulkDeleteAchievementRequest {
+  ids: string[];
+}
+
+export interface BulkCreateAchievementRequest {
+  items: CreateAchievementRequest[];
+}

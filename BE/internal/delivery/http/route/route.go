@@ -77,6 +77,8 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/achievements", c.AchievementController.Create)
 	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
 	c.App.Delete("/api/achievements/:achievementId", c.AchievementController.Delete)
+	c.App.Post("/api/achievements/_bulk", c.AchievementController.BulkCreate)
+	c.App.Delete("/api/achievements/_bulk", c.AchievementController.BulkDelete)
 
 	c.App.Get("/api/projects", c.ProjectController.List)
 	c.App.Get("/api/projects/:projectId", c.ProjectController.Get)

@@ -40,6 +40,15 @@ type DeleteAchievementRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type BulkDeleteAchievementRequest struct {
+	ID     []string `json:"-" validate:"required"`
+	UserId string   `json:"-" validate:"required"`
+}
+
+type BulkCreateAchievementRequest struct {
+	UserId string                     `json:"-" validate:"required"`
+	Items  []CreateAchievementRequest `json:"items" validate:"required"`
+}
 
 type SearchAchievementRequest struct {
 	UserId string `json:"-" validate:"required"`

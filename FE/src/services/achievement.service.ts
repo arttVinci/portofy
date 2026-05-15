@@ -2,6 +2,8 @@ import type {
   AchievementResponse,
   CreateAchievementRequest,
   UpdateAchievementRequest,
+  BulkDeleteAchievementRequest,
+  BulkCreateAchievementRequest,
   ApiResponse,
   SearchParams,
 } from "@/@types";
@@ -53,6 +55,19 @@ class AchievementService {
 
   async delete(id: string): Promise<void> {
     await apiClient.delete(`${this.BASE_PATH}/${id}`);
+  }
+
+  async bulkDelete(payload: BulkDeleteAchievementRequest): Promise<void> {
+    await apiClient.delete(`${this.BASE_PATH}/_bulk`, { data: payload });
+  }
+
+  async bulkCreate(
+    payload: BulkCreateAchievementRequest,
+  ): Promise<AchievementResponse[]> {
+    const response: AxiosResponse<ApiResponse<AchievementResponse[]>> =
+      await apiClient.post(`${this.BASE_PATH}/_bulk`, payload);
+
+    return response.data.data;
   }
 
   async getAllByUsername(username: string): Promise<AchievementResponse[]> {
