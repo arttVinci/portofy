@@ -235,6 +235,20 @@ export default function CVBuilderPage() {
     });
   };
 
+  const handleSaveClick = () => {
+    const hasOldData =
+      (project?.data && project.data.length > 0) ||
+      (education && education.length > 0) ||
+      (experience && experience.length > 0) ||
+      (skill && skill.length > 0);
+
+    if (hasOldData) {
+      setOpenAlertDialog(true);
+    } else {
+      handleSubmitAll();
+    }
+  };
+
   const handleSubmitAll = async () => {
     if (!parsedData) return;
     setPageState("submitting");
@@ -382,7 +396,10 @@ export default function CVBuilderPage() {
             <AlertDialogCancel className="cursor-pointer">
               Batal
             </AlertDialogCancel>
-            <AlertDialogAction className="cursor-pointer">
+            <AlertDialogAction
+              className="cursor-pointer"
+              onClick={handleSubmitAll}
+            >
               Simpan Portfolio
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -722,7 +739,7 @@ export default function CVBuilderPage() {
             <Button variant="outline" onClick={handleReset}>
               Batal
             </Button>
-            <Button onClick={handleSubmitAll} className="gap-2">
+            <Button onClick={handleSaveClick} className="gap-2">
               <SendIcon className="size-4" />
               Simpan Semua ke Portofolio
             </Button>
