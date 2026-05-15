@@ -15,3 +15,11 @@ export interface UpdateSkillRequest {
   title?: string; // min=1, max=50
   level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
 }
+
+export interface BulkDeleteSkillRequest {
+  ids: string[];
+}
+
+export interface BulkCreateSkillRequest {
+  items: CreateSkillRequest[];
+}

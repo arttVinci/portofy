@@ -24,6 +24,14 @@ func (r *ProjectRepository) FindByIdAndUserId(db *gorm.DB, project *entity.Proje
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(project).Error
 }
 
+func (r *ProjectRepository) BulkDeleteByUserIdAndIds(db *gorm.DB, userId string, ids []string) error {
+	return db.Where("user_id = ? AND id IN ?", userId, ids).Delete(&entity.Project{}).Error
+}
+
+func (r *ProjectRepository) BulkCreate(db *gorm.DB, projects []entity.Project) error {
+	return db.Create(&projects).Error
+}
+
 func (r *ProjectRepository) Search(db *gorm.DB, request *model.SearchProjectRequest) ([]entity.Project, int64, error) {
 	var projects []entity.Project
 

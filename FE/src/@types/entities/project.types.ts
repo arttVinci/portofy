@@ -49,3 +49,11 @@ export interface UpdateProjectRequest {
   gallery?: ProjectGallery[];
   features?: ProjectFeature[];
 }
+
+export interface BulkDeleteProjectRequest {
+  ids: string[];
+}
+
+export interface BulkCreateProjectRequest {
+  items: CreateProjectRequest[];
+}

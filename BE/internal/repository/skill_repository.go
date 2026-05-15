@@ -21,6 +21,14 @@ func (r *SkillRepository) FindByIdAndUserId(db *gorm.DB, skill *entity.Skill, id
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(skill).Error
 }
 
+func (r *SkillRepository) BulkDeleteByUserIdAndIds(db *gorm.DB, userId string, ids []string) error {
+	return db.Where("user_id = ? AND id IN ?", userId, ids).Delete(&entity.Skill{}).Error
+}
+
+func (r *SkillRepository) BulkCreate(db *gorm.DB, skills []entity.Skill) error {
+	return db.Create(&skills).Error
+}
+
 // Public Endpoint
 func (r *SkillRepository) FindAllByUsername(db *gorm.DB, skill *[]entity.Skill, username string) error {
 	return db.Table("skills").

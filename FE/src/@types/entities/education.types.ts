@@ -36,3 +36,11 @@ export interface UpdateEducationRequest {
   end_date?: string; // ISO 8601
   description?: string; // max=1000
 }
+
+export interface BulkDeleteEducationRequest {
+  ids: string[];
+}
+
+export interface BulkCreateEducationRequest {
+  items: CreateEducationRequest[];
+}

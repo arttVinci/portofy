@@ -51,3 +51,11 @@ export interface UpdateExperienceRequest {
   end_date?: string;
   description?: string;
 }
+
+export interface BulkDeleteExperienceRequest {
+  ids: string[];
+}
+
+export interface BulkCreateExperienceRequest {
+  items: CreateExperienceRequest[];
+}

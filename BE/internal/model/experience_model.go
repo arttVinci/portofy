@@ -55,6 +55,16 @@ type DeleteExperienceRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type BulkDeleteExperienceRequest struct {
+	ID     []string `json:"-" validate:"required"`
+	UserId string   `json:"-" validate:"required"`
+}
+
+type BulkCreateExperienceRequest struct {
+	UserId string                     `json:"-" validate:"required"`
+	Items  []CreateExperienceRequest  `json:"items" validate:"required"`
+}
+
 // Middleware
 type GetExperienceRequest struct {
 	UserId string `json:"-" validate:"required"`

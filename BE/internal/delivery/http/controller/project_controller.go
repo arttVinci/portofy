@@ -111,6 +111,43 @@ func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
+func (c *ProjectController) BulkDelete(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.BulkDeleteProjectRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+	request.UserId = auth.ID
+
+	if err := c.UseCase.BulkDelete(ctx.UserContext(), request); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting projects")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[bool]{Data: true})
+}
+
+func (c *ProjectController) BulkCreate(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.BulkCreateProjectRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+	request.UserId = auth.ID
+
+	responses, err := c.UseCase.BulkCreate(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error bulk creating projects")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.ProjectResponse]{Data: responses})
+}
+
 func (c *ProjectController) List(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 

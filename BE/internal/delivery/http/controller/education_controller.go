@@ -110,6 +110,43 @@ func (c *EducationController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
+func (c *EducationController) BulkDelete(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.BulkDeleteEducationRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+	request.UserId = auth.ID
+
+	if err := c.UseCase.BulkDelete(ctx.UserContext(), request); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting educations")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[bool]{Data: true})
+}
+
+func (c *EducationController) BulkCreate(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.BulkCreateEducationRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+	request.UserId = auth.ID
+
+	responses, err := c.UseCase.BulkCreate(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error bulk creating educations")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.EducationResponse]{Data: responses})
+}
+
 // GetAll godoc
 // @Summary      Get all educations (user)
 // @Tags         Education

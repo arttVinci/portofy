@@ -142,6 +142,72 @@ func (c *EducationUseCase) Delete(ctx context.Context, request *model.DeleteEduc
 	return nil
 }
 
+func (c *EducationUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteEducationRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	if err := c.EducationRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting educations")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Educations")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk delete")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Educations")
+	}
+
+	return nil
+}
+
+func (c *EducationUseCase) BulkCreate(ctx context.Context, request *model.BulkCreateEducationRequest) ([]model.EducationResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	entities := make([]entity.Education, len(request.Items))
+	for i, item := range request.Items {
+		entities[i] = entity.Education{
+			ID:           uuid.NewString(),
+			UserId:       request.UserId,
+			Institution:  item.Institution,
+			Degree:       item.Degree,
+			FieldOfStudy: item.FieldOfStudy,
+			Grade:        item.Grade,
+			ImageUrl:     item.ImageUrl,
+			Location:     item.Location,
+			StartDate:    item.StartDate,
+			EndDate:      item.EndDate,
+			Description:  item.Description,
+		}
+	}
+
+	if err := c.EducationRepo.BulkCreate(tx, entities); err != nil {
+		c.Log.WithError(err).Error("error bulk creating educations")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Educations")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk create")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Educations")
+	}
+
+	responses := make([]model.EducationResponse, len(entities))
+	for i, e := range entities {
+		responses[i] = *converter.EducationToResponse(&e)
+	}
+
+	return responses, nil
+}
+
 func (c *EducationUseCase) GetAll(ctx context.Context, request *model.GetEducationRequest) ([]model.EducationResponse, error) {
 	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()

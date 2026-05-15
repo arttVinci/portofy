@@ -21,6 +21,14 @@ func (r *ExperienceRepository) FindByIdAndUserId(db *gorm.DB, experience *entity
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(experience).Error
 }
 
+func (r *ExperienceRepository) BulkDeleteByUserIdAndIds(db *gorm.DB, userId string, ids []string) error {
+	return db.Where("user_id = ? AND id IN ?", userId, ids).Delete(&entity.Experience{}).Error
+}
+
+func (r *ExperienceRepository) BulkCreate(db *gorm.DB, experiences []entity.Experience) error {
+	return db.Create(&experiences).Error
+}
+
 // Public Endpoint
 func (r *ExperienceRepository) FindAllByUsername(db *gorm.DB, experiences *[]entity.Experience, username string) error {
 	return db.Table("experiences").

@@ -53,6 +53,21 @@ class ProjectService {
     await apiClient.delete(`${this.BASE_PATH}/${id}`);
   }
 
+  async bulkDelete(payload: { ids: string[] }): Promise<void> {
+    await apiClient.delete(`${this.BASE_PATH}/_bulk`, {
+      data: payload,
+    });
+  }
+
+  async bulkCreate(payload: {
+    items: CreateProjectRequest[];
+  }): Promise<ProjectResponse[]> {
+    const response: AxiosResponse<ApiResponse<ProjectResponse[]>> =
+      await apiClient.post(`${this.BASE_PATH}/_bulk`, payload);
+
+    return response.data.data;
+  }
+
   async getAllByUsername(username: string): Promise<ProjectResponse[]> {
     const response: AxiosResponse<ApiResponse<ProjectResponse[]>> =
       await apiClient.get(`${this.PUBLIC_PATH}/${username}/projects`);

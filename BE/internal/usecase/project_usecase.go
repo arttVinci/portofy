@@ -135,6 +135,73 @@ func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjec
 	return nil
 }
 
+func (c *ProjectUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteProjectRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	if err := c.ProjectRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting projects")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Projects")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk delete")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Projects")
+	}
+
+	return nil
+}
+
+func (c *ProjectUseCase) BulkCreate(ctx context.Context, request *model.BulkCreateProjectRequest) ([]model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	entities := make([]entity.Project, len(request.Items))
+	for i, item := range request.Items {
+		entities[i] = entity.Project{
+			ID:          uuid.NewString(),
+			UserId:      request.UserId,
+			Title:       item.Title,
+			Description: item.Description,
+			ImageUrl:    item.ImageUrl,
+			LinkUrl:     item.LinkUrl,
+			Challenge:   item.Challenges,
+			Solution:    item.Solution,
+			IsFeatured:  item.IsFeatured,
+			Tools:       item.Tools,
+			Gallery:     item.Gallery,
+			Features:    item.Features,
+		}
+	}
+
+	if err := c.ProjectRepo.BulkCreate(tx, entities); err != nil {
+		c.Log.WithError(err).Error("error bulk creating projects")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Projects")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk create")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Projects")
+	}
+
+	responses := make([]model.ProjectResponse, len(entities))
+	for i, e := range entities {
+		responses[i] = *converter.ProjectToResponse(&e)
+	}
+
+	return responses, nil
+}
+
 // TODO(post-prod): hapus comment "// Middleware" — bukan nama yang tepat
 // TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *ProjectUseCase) Search(ctx context.Context, request *model.SearchProjectRequest) ([]model.ProjectResponse, int64, error) {

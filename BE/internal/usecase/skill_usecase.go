@@ -124,6 +124,65 @@ func (c *SkillUseCase) Delete(ctx context.Context, request *model.DeleteSkillReq
 	return nil
 }
 
+func (c *SkillUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteSkillRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	if err := c.SkillRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting skills")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Skills")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk delete")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Skills")
+	}
+
+	return nil
+}
+
+func (c *SkillUseCase) BulkCreate(ctx context.Context, request *model.BulkCreateSkillRequest) ([]model.SkillResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	entities := make([]entity.Skill, len(request.Items))
+	for i, item := range request.Items {
+		entities[i] = entity.Skill{
+			ID:     uuid.NewString(),
+			UserId: request.UserId,
+			Title:  item.Title,
+			Level:  item.Level,
+		}
+	}
+
+	if err := c.SkillRepo.BulkCreate(tx, entities); err != nil {
+		c.Log.WithError(err).Error("error bulk creating skills")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Skills")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk create")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Skills")
+	}
+
+	responses := make([]model.SkillResponse, len(entities))
+	for i, e := range entities {
+		responses[i] = *converter.SkillToResponse(&e)
+	}
+
+	return responses, nil
+}
+
 // TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *SkillUseCase) GetAll(ctx context.Context, request *model.GetSkillRequest) ([]model.SkillResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()

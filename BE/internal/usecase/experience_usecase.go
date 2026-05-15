@@ -141,6 +141,73 @@ func (c *ExperienceUseCase) Delete(ctx context.Context, request *model.DeleteExp
 	return nil
 }
 
+func (c *ExperienceUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteExperienceRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	if err := c.ExperienceRepo.BulkDeleteByUserIdAndIds(tx, request.UserId, request.ID); err != nil {
+		c.Log.WithError(err).Error("error bulk deleting experiences")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Experiences")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk delete")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed bulk delete Experiences")
+	}
+
+	return nil
+}
+
+func (c *ExperienceUseCase) BulkCreate(ctx context.Context, request *model.BulkCreateExperienceRequest) ([]model.ExperienceResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
+	entities := make([]entity.Experience, len(request.Items))
+	for i, item := range request.Items {
+		entities[i] = entity.Experience{
+			ID:             uuid.NewString(),
+			UserId:         request.UserId,
+			Position:       item.Position,
+			CompanyName:    item.CompanyName,
+			LinkUrl:        item.LinkUrl,
+			ImageUrl:       item.ImageUrl,
+			Location:       item.Location,
+			EmploymentType: item.EmploymentType,
+			LocationType:   item.LocationType,
+			StartDate:      item.StartDate,
+			EndDate:        item.EndDate,
+			Description:    item.Description,
+		}
+	}
+
+	if err := c.ExperienceRepo.BulkCreate(tx, entities); err != nil {
+		c.Log.WithError(err).Error("error bulk creating experiences")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Experiences")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing bulk create")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed bulk create Experiences")
+	}
+
+	responses := make([]model.ExperienceResponse, len(entities))
+	for i, e := range entities {
+		responses[i] = *converter.ExperienceToResponse(&e)
+	}
+
+	return responses, nil
+}
+
 func (c *ExperienceUseCase) GetAll(ctx context.Context, request *model.GetExperienceRequest) ([]model.ExperienceResponse, error) {
 	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()

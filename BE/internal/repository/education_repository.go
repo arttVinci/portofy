@@ -21,6 +21,14 @@ func (r *EducationRepository) FindByIdAndUserId(db *gorm.DB, education *entity.E
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(education).Error
 }
 
+func (r *EducationRepository) BulkDeleteByUserIdAndIds(db *gorm.DB, userId string, ids []string) error {
+	return db.Where("user_id = ? AND id IN ?", userId, ids).Delete(&entity.Education{}).Error
+}
+
+func (r *EducationRepository) BulkCreate(db *gorm.DB, educations []entity.Education) error {
+	return db.Create(&educations).Error
+}
+
 // Public Endpoint
 func (r *EducationRepository) FindAllByUsername(db *gorm.DB, educations *[]entity.Education, username string) error {
 	return db.Table("educations").

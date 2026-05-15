@@ -63,6 +63,16 @@ type DeleteProjectRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type BulkDeleteProjectRequest struct {
+	ID     []string `json:"-" validate:"required"`
+	UserId string   `json:"-" validate:"required"`
+}
+
+type BulkCreateProjectRequest struct {
+	UserId string                   `json:"-" validate:"required"`
+	Items  []CreateProjectRequest   `json:"items" validate:"required"`
+}
+
 type SearchProjectRequest struct {
 	UserId string `json:"-" validate:"required"`
 	Title  string `json:"title" validate:"omitempty"`

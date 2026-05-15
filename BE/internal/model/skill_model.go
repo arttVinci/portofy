@@ -28,6 +28,16 @@ type DeleteSkillRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type BulkDeleteSkillRequest struct {
+	ID     []string `json:"-" validate:"required"`
+	UserId string   `json:"-" validate:"required"`
+}
+
+type BulkCreateSkillRequest struct {
+	UserId string               `json:"-" validate:"required"`
+	Items  []CreateSkillRequest `json:"items" validate:"required"`
+}
+
 // Middleware
 type GetSkillRequest struct {
 	UserId string `json:"-" validate:"required"`

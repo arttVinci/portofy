@@ -50,6 +50,16 @@ type DeleteEducationRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type BulkDeleteEducationRequest struct {
+	ID     []string `json:"-" validate:"required"`
+	UserId string   `json:"-" validate:"required"`
+}
+
+type BulkCreateEducationRequest struct {
+	UserId string                    `json:"-" validate:"required"`
+	Items  []CreateEducationRequest  `json:"items" validate:"required"`
+}
+
 // Middleware
 type GetEducationRequest struct {
 	UserId string `json:"-" validate:"required"`
