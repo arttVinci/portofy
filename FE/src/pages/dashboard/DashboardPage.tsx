@@ -28,7 +28,11 @@ export default function DashboardPage() {
 
   // ── Data from TanStack Query cache ──────────────────────────────────────────
   const { data: profile, isLoading: profileLoading } = useGetProfile();
-  const { data: projects } = useAdminProjects();
+  const { data: projects } = useAdminProjects({
+    page: 1,
+    size: 8,
+    title: "",
+  });
   const { data: achievements } = useAdminAchievements({ page: 1, size: 3 });
   const { data: skills } = useAdminSkills();
   const { data: socials } = useAdminSocials();
@@ -48,7 +52,7 @@ export default function DashboardPage() {
     { label: "Lengkapi Profile", done: !!profile, url: "/app/profile" },
     {
       label: "Perlihatkan minimal 1 Project Kamu",
-      done: (projects?.length ?? 0) > 0,
+      done: (projects?.data.length ?? 0) > 0,
       url: "/app/projects",
     },
     {
@@ -134,7 +138,7 @@ export default function DashboardPage() {
 
       {/* ── Portfolio Highlights ──────────────────────────────────────────── */}
       <PortfolioHighlights
-        projects={projects ?? []}
+        projects={projects?.data ?? []}
         achievements={achievements?.data ?? []}
       />
 

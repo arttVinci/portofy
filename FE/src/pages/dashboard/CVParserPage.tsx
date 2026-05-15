@@ -5,6 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FileUpload } from "@/components/ui/file-upload";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Card,
   CardHeader,
   CardTitle,
@@ -102,7 +109,11 @@ export default function CVBuilderPage() {
   });
 
   const { data: profile } = useGetProfile();
-  const { data: project } = useAdminProjects();
+  const { data: project } = useAdminProjects({
+    page: 1,
+    size: 20,
+    title: "",
+  });
   const { data: education } = useAdminEducations();
   const { data: experience } = useAdminExperiences();
   const { data: skill } = useAdminSkills();
@@ -410,7 +421,7 @@ export default function CVBuilderPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
             <SparklesIcon className="size-6 text-blue-400" />
-            CV Parser
+            CV Builder
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Upload CV kamu dan biarkan AI mengisi semua data portofolio secara
@@ -672,7 +683,7 @@ export default function CVBuilderPage() {
               {parsedData.skills.map((skill, idx) => (
                 <div
                   key={idx}
-                  className="group flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors hover:border-violet-500/50"
+                  className="group flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors hover:border-blue-700/50"
                 >
                   <input
                     className="bg-transparent outline-none w-auto min-w-[60px] max-w-[140px]"
@@ -684,18 +695,42 @@ export default function CVBuilderPage() {
                       width: `${Math.max(60, skill.title.length * 8)}px`,
                     }}
                   />
-                  <select
-                    className="bg-transparent text-xs text-muted-foreground outline-none cursor-pointer"
-                    value={skill.level}
-                    onChange={(e) =>
-                      handleSkillChange(idx, "level", e.target.value)
+                  <Select
+                    value={skill.level || "Intermediate"}
+                    onValueChange={(val) =>
+                      handleSkillChange(idx, "level", val)
                     }
                   >
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                    <option value="Expert">Expert</option>
-                  </select>
+                    <SelectTrigger className="h-auto w-auto border-0 bg-transparent px-1 py-0 text-xs text-muted-foreground shadow-none hover:text-foreground focus:ring-0 [&>svg]:size-3">
+                      <SelectValue placeholder="Level" />
+                    </SelectTrigger>
+                    <SelectContent className="min-w-[120px]">
+                      <SelectItem
+                        value="Beginner"
+                        className="text-xs cursor-pointer"
+                      >
+                        Beginner
+                      </SelectItem>
+                      <SelectItem
+                        value="Intermediate"
+                        className="text-xs cursor-pointer"
+                      >
+                        Intermediate
+                      </SelectItem>
+                      <SelectItem
+                        value="Advanced"
+                        className="text-xs cursor-pointer"
+                      >
+                        Advanced
+                      </SelectItem>
+                      <SelectItem
+                        value="Expert"
+                        className="text-xs cursor-pointer"
+                      >
+                        Expert
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <button
                     onClick={() => removeSkill(idx)}
                     className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-all"
