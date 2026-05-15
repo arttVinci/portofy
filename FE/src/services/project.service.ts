@@ -3,6 +3,7 @@ import type {
   CreateProjectRequest,
   UpdateProjectRequest,
   ApiResponse,
+  SearchParams,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 import apiClient from "@/api/apiClient";
@@ -11,11 +12,17 @@ class ProjectService {
   private readonly BASE_PATH = "/projects";
   private readonly PUBLIC_PATH = "/public";
 
-  async getAll(): Promise<ProjectResponse[]> {
-    const response: AxiosResponse<ApiResponse<ProjectResponse[]>> =
-      await apiClient.get(this.BASE_PATH);
+  async search(
+    params: SearchParams,
+  ): Promise<ApiResponse<ProjectResponse[]>> {
+    const response = await apiClient.get<ApiResponse<ProjectResponse[]>>(
+      this.BASE_PATH,
+      {
+        params: params,
+      },
+    );
 
-    return response.data.data;
+    return response.data;
   }
 
   async getById(id: string): Promise<ProjectResponse> {

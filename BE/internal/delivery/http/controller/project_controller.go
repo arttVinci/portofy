@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"math"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	"tratech.my.id/server/internal/delivery/http/middleware"
@@ -109,29 +111,32 @@ func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll godoc
-// @Summary      Get all projects (user)
-// @Tags         Project
-// @Produce      json
-// @Success      200  {object}  model.WebResponse[[]model.ProjectResponse]
-// @Failure      401  {object}  model.ApiErrorResponse
-// @Security     BearerAuth
-// @Router       /api/projects [get]
-func (c *ProjectController) GetAll(ctx *fiber.Ctx) error {
+func (c *ProjectController) List(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
-	request := &model.GetProjectRequest{
+	request := &model.SearchProjectRequest{
 		UserId: auth.ID,
+		Title:  ctx.Query("title"),
+		Page:   ctx.QueryInt("page", 1),
+		Size:   ctx.QueryInt("size", 10),
 	}
 
-	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
+	responses, total, err := c.UseCase.Search(ctx.UserContext(), request)
 	if err != nil {
-		c.Log.WithError(err).Error("error get Projects")
+		c.Log.WithError(err).Error("error searching projects")
 		return err
 	}
 
+	paging := &model.PageMetadata{
+		Page:      request.Page,
+		Size:      request.Size,
+		TotalItem: total,
+		TotalPage: int64(math.Ceil(float64(total) / float64(request.Size))),
+	}
+
 	return ctx.JSON(model.WebResponse[[]model.ProjectResponse]{
-		Data: response,
+		Data:   responses,
+		Paging: paging,
 	})
 }
 

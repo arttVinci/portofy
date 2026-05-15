@@ -137,33 +137,26 @@ func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjec
 
 // TODO(post-prod): hapus comment "// Middleware" — bukan nama yang tepat
 // TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
-func (c *ProjectUseCase) GetAll(ctx context.Context, request *model.GetProjectRequest) ([]model.ProjectResponse, error) {
-	tx := c.DB.WithContext(ctx).Begin()
-	defer tx.Rollback()
-
+func (c *ProjectUseCase) Search(ctx context.Context, request *model.SearchProjectRequest) ([]model.ProjectResponse, int64, error) {
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+		return nil, 0, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	projects := new([]entity.Project)
-	if err := c.ProjectRepo.FindAllByUserId(tx, projects, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting projects")
-		// TODO(post-prod): bedakan DB error vs empty — pakai errors.Is(err, gorm.ErrRecordNotFound)
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
+	db := c.DB.WithContext(ctx)
+
+	projects, total, err := c.ProjectRepo.Search(db, request)
+	if err != nil {
+		c.Log.WithError(err).Error("error searching projects")
+		return nil, 0, fiber.NewError(fiber.StatusInternalServerError, "Failed getting Projects")
 	}
 
-	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error committing get projects")
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
-	}
-
-	responses := make([]model.ProjectResponse, len(*projects))
-	for i, project := range *projects {
+	responses := make([]model.ProjectResponse, len(projects))
+	for i, project := range projects {
 		responses[i] = *converter.ProjectToResponse(&project)
 	}
 
-	return responses, nil
+	return responses, total, nil
 }
 
 // TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)

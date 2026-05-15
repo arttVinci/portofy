@@ -31,6 +31,9 @@ type ActiveView =
   | { type: "detail"; project: ProjectResponse };
 
 export default function ProjectPage() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
 
@@ -43,7 +46,17 @@ export default function ProjectPage() {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const [previousDesc, setPreviousDesc] = useState<string | null>(null);
 
-  const { data: projects, isLoading, refetch } = useAdminProjects();
+  const {
+    data: projects,
+    isLoading,
+    refetch,
+  } = useAdminProjects({
+    page: page,
+    size: 8,
+    title: search,
+  });
+
+  const totalPage = projects?.paging?.total_page || 1;
   const [project, setProject] = useState<ProjectResponse>();
 
   const form = useFormData<UpdateProjectRequest>({
@@ -306,12 +319,15 @@ export default function ProjectPage() {
           {/* List */}
           <TabsContent value="list" className="mt-0">
             <ProjectListSection
-              projects={projects ?? []}
+              projects={projects?.data ?? []}
               isLoading={isLoading}
               onAdd={handleAdd}
               onEdit={handleEdit}
               onDelete={handleDelete}
               onViewDetail={handleViewDetail}
+              currentPage={page}
+              totalPages={totalPage}
+              onPageChange={(newPage) => setPage(newPage)}
             />
           </TabsContent>
 

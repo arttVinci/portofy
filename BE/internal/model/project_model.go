@@ -63,6 +63,13 @@ type DeleteProjectRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type SearchProjectRequest struct {
+	UserId string `json:"-" validate:"required"`
+	Title  string `json:"title" validate:"omitempty"`
+	Page   int    `json:"page" validate:"min=1"`
+	Size   int    `json:"size" validate:"min=1,max=100"`
+}
+
 // Middleware
 type GetProjectRequest struct {
 	UserId string `json:"-" validate:"required"`

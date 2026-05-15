@@ -25,6 +25,7 @@ import {
 
 import type { ProjectResponse } from "@/@types";
 import ShowcaseCard from "@/components/dashboard/common/ShowcaseCard";
+import { CustomPagination } from "@/components/dashboard/common/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectListSectionProps {
@@ -34,6 +35,9 @@ interface ProjectListSectionProps {
   onDelete: (id: string) => void;
   onViewDetail: (project: ProjectResponse) => void;
   isLoading?: boolean;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 export function ProjectListSection({
@@ -43,6 +47,9 @@ export function ProjectListSection({
   onDelete,
   onViewDetail,
   isLoading,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: ProjectListSectionProps) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -137,6 +144,11 @@ export function ProjectListSection({
           </EmptyContent>
         </Empty>
       )}
+      <CustomPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
 
       {/* ── Delete confirm ── */}
       <AlertDialog
