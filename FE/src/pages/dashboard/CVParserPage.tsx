@@ -409,8 +409,8 @@ export default function CVBuilderPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
-            <SparklesIcon className="size-6 text-violet-500" />
-            CV Builder
+            <SparklesIcon className="size-6 text-blue-400" />
+            CV Parser
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Upload CV kamu dan biarkan AI mengisi semua data portofolio secara

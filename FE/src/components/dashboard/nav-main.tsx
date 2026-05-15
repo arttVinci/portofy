@@ -29,6 +29,7 @@ export type NavItem = {
   group: string;
   badge?: React.ReactNode;
   children?: NavSubItem[];
+  disabled?: boolean;
 };
 
 const GROUP_ORDER = ["Overview", "Content", "Features", "System"] as const;
@@ -78,6 +79,7 @@ export function NavMain({ items }: { items: NavItem[] }) {
                           <SidebarMenuButton
                             tooltip={item.title}
                             isActive={isActive}
+                            className={item.disabled ? "pointer-events-none opacity-50" : ""}
                           >
                             {item.icon}
                             <span>{item.title}</span>
@@ -113,8 +115,9 @@ export function NavMain({ items }: { items: NavItem[] }) {
                       asChild
                       tooltip={item.title}
                       isActive={isActive}
+                      className={item.disabled ? "pointer-events-none opacity-50" : ""}
                     >
-                      <Link to={item.url}>
+                      <Link to={item.disabled ? "#" : item.url}>
                         {item.icon}
                         <span>{item.title}</span>
                         {item.badge && (

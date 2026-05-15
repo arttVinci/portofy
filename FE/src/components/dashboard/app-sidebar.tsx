@@ -30,27 +30,10 @@ import {
 import { useCurrent } from "@/hooks/queries";
 import { useGetProfile } from "@/hooks/queries";
 
-function NewBadge() {
+function UngoingBadge() {
   return (
-    <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-      New
-    </span>
-  );
-}
-
-function ProBadge() {
-  return (
-    <span className="rounded-full bg-violet-100 px-1.5 py-0.5 text-[10px] font-medium text-violet-800 dark:bg-violet-900 dark:text-violet-200">
-      Pro
-    </span>
-  );
-}
-
-function UnreadBadge({ count }: { count: number }) {
-  if (!count) return null;
-  return (
-    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-medium text-destructive-foreground">
-      {count > 99 ? "99+" : count}
+    <span className="rounded-full bg-blue-900 px-1.5 py-0.5 text-[10px] font-medium text-blue-300 dark:bg-blue-900 dark:text-blue-300">
+      Ungoing
     </span>
   );
 }
@@ -67,7 +50,8 @@ const NAV_ITEMS: NavItem[] = [
     url: "/app/analytics",
     icon: <BarChart2Icon />,
     group: "Overview",
-    badge: <NewBadge />,
+    badge: <UngoingBadge />,
+    disabled: true,
   },
 
   {
@@ -99,24 +83,26 @@ const NAV_ITEMS: NavItem[] = [
   },
 
   {
-    title: "CV Builder",
-    url: "/app/cv-builder",
+    title: "CV Parser",
+    url: "/app/cv-parser",
     icon: <FileTextIcon />,
     group: "Features",
-    badge: <ProBadge />,
   },
   {
     title: "Messages",
     url: "/app/messages",
     icon: <MessageSquareIcon />,
     group: "Features",
+    badge: <UngoingBadge />,
+    disabled: true,
   },
   {
     title: "AI Assistant",
     url: "/app/ai-assistant",
     icon: <SparklesIcon />,
     group: "Features",
-    badge: <NewBadge />,
+    badge: <UngoingBadge />,
+    disabled: true,
   },
 
   {
@@ -134,11 +120,9 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const unreadMessages = 3;
-
   const items = NAV_ITEMS.map((item) =>
-    item.url === "/dashboard/messages"
-      ? { ...item, badge: <UnreadBadge count={unreadMessages} /> }
+    item.url === "/app/messages" || item.url === "/dashboard/messages"
+      ? { ...item, badge: <UngoingBadge />, disabled: true }
       : item,
   );
 

@@ -29,32 +29,23 @@ interface SkillListSectionProps {
 }
 
 /* Level → color mapping */
-const LEVEL_STYLES: Record<string, { bg: string; text: string; bar: string }> = {
-  Beginner:     { bg: "bg-sky-500/10",     text: "text-sky-700 dark:text-sky-400",     bar: "bg-sky-500" },
-  Intermediate: { bg: "bg-amber-500/10",   text: "text-amber-700 dark:text-amber-400", bar: "bg-amber-500" },
-  Advanced:     { bg: "bg-violet-500/10",   text: "text-violet-700 dark:text-violet-400", bar: "bg-violet-500" },
-  Expert:       { bg: "bg-emerald-500/10",  text: "text-emerald-700 dark:text-emerald-400", bar: "bg-emerald-500" },
-};
-
-/* Level → progress percentage */
-const LEVEL_PERCENT: Record<string, number> = {
-  Beginner: 25,
-  Intermediate: 50,
-  Advanced: 75,
-  Expert: 100,
+const LEVEL_STYLES: Record<string, { bg: string; text: string; border: string }> = {
+  Beginner:     { bg: "bg-sky-500/8",      text: "text-sky-700 dark:text-sky-400",      border: "border-sky-500/20" },
+  Intermediate: { bg: "bg-amber-500/8",    text: "text-amber-700 dark:text-amber-400",  border: "border-amber-500/20" },
+  Advanced:     { bg: "bg-violet-500/8",    text: "text-violet-700 dark:text-violet-400", border: "border-violet-500/20" },
+  Expert:       { bg: "bg-emerald-500/8",   text: "text-emerald-700 dark:text-emerald-400", border: "border-emerald-500/20" },
 };
 
 function CardSkeleton() {
   return (
-    <div className="rounded-xl border border-border/60 bg-card p-4 space-y-3">
-      <div className="flex items-center gap-3">
-        <Skeleton className="size-9 rounded-lg" />
-        <div className="flex-1 space-y-1.5">
-          <Skeleton className="h-3.5 w-28" />
-          <Skeleton className="h-2.5 w-16" />
+    <div className="rounded-lg border border-border/60 bg-card px-4 py-3">
+      <div className="flex items-center justify-between">
+        <div className="space-y-1.5">
+          <Skeleton className="h-3.5 w-24" />
+          <Skeleton className="h-5 w-16 rounded-full" />
         </div>
+        <Skeleton className="size-6 rounded-md" />
       </div>
-      <Skeleton className="h-1.5 w-full rounded-full" />
     </div>
   );
 }
@@ -97,16 +88,15 @@ export function SkillListSection({
 
       {/* Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {Array.from({ length: 10 }).map((_, i) => (
             <CardSkeleton key={i} />
           ))}
         </div>
       ) : sorted.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {sorted.map((skill, index) => {
             const style = LEVEL_STYLES[skill.level] ?? LEVEL_STYLES.Beginner;
-            const pct = LEVEL_PERCENT[skill.level] ?? 25;
 
             return (
               <motion.div
@@ -118,22 +108,19 @@ export function SkillListSection({
                   ease: smooth,
                   delay: index * 0.04,
                 }}
-                className="group rounded-xl border border-border/60 bg-card p-4 transition-all hover:border-border hover:bg-muted/30 hover:shadow-sm"
+                className="group rounded-lg border border-border/60 bg-card px-4 py-3 transition-all hover:border-border hover:bg-muted/30 hover:shadow-sm"
               >
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  {/* Icon + title + badge */}
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <div className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${style.bg}`}>
-                      <ZapIcon className={`size-4 ${style.text}`} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-medium text-foreground truncate leading-snug">
-                        {skill.title}
-                      </h3>
-                      <span className={`text-[11px] font-medium ${style.text}`}>
-                        {skill.level}
-                      </span>
-                    </div>
+                <div className="flex items-center justify-between gap-2">
+                  {/* Skill name + level badge */}
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <h3 className="text-sm font-medium text-foreground truncate leading-snug">
+                      {skill.title}
+                    </h3>
+                    <span
+                      className={`inline-block rounded-full border px-2.5 py-0.5 text-[11px] font-medium leading-none ${style.bg} ${style.text} ${style.border}`}
+                    >
+                      {skill.level}
+                    </span>
                   </div>
 
                   {/* Actions */}
@@ -153,16 +140,6 @@ export function SkillListSection({
                       <Trash2Icon className="size-3.5" />
                     </button>
                   </div>
-                </div>
-
-                {/* Progress bar */}
-                <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                  <motion.div
-                    className={`h-full rounded-full ${style.bar}`}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.6, ease: smooth, delay: index * 0.04 + 0.2 }}
-                  />
                 </div>
               </motion.div>
             );

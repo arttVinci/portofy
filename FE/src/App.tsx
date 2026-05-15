@@ -22,7 +22,7 @@ import DashboardAchievementPage from "./pages/dashboard/AchievementPage";
 import DashboardEducationPage from "./pages/dashboard/EducationPage";
 import DashboardExperiencePage from "./pages/dashboard/ExperiencePage";
 import DashboardSkillPage from "./pages/dashboard/SkillPage";
-import CVBuilderPage from "./pages/dashboard/CVBuilderPage";
+import CVBuilderPage from "./pages/dashboard/CVParserPage";
 
 export default function App() {
   return (
@@ -42,7 +42,7 @@ export default function App() {
         <Route path="education" element={<DashboardEducationPage />} />
         <Route path="experience" element={<DashboardExperiencePage />} />
         <Route path="skills" element={<DashboardSkillPage />} />
-        <Route path="cv-builder" element={<CVBuilderPage />} />
+        <Route path="cv-parser" element={<CVBuilderPage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>
