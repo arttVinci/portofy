@@ -48,23 +48,22 @@ import {
 
 import { useCreateParsedCV } from "@/hooks/mutations/agent/useCreateParsedCV";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
-import { useCreateExperience } from "@/hooks/mutations/experience/useCreateExperience";
-import { useCreateEducation } from "@/hooks/mutations/education/useCreateEducation";
-import { useCreateProject } from "@/hooks/mutations/project/useCreateProject";
-import { useCreateSkill } from "@/hooks/mutations/skill/useCreateSkill";
+import { useBulkCreateExperience } from "@/hooks/mutations/experience/useBulkCreateExperience";
+import { useBulkCreateEducation } from "@/hooks/mutations/education/useBulkCreateEducation";
+import { useBulkCreateProject } from "@/hooks/mutations/project/useBulkCreateProject";
+import { useBulkCreateSkill } from "@/hooks/mutations/skill/useBulkCreateSkill";
 import { useToast } from "@/hooks/ui/useToast";
 import { ApiError } from "@/api/apiError";
 import {
   useAdminProjects,
-  useGetProfile,
   useAdminEducations,
   useAdminExperiences,
   useAdminSkills,
 } from "@/hooks/queries";
-import { useDeleteProject } from "@/hooks/mutations/project/useDeleteProject";
-import { useDeleteEducation } from "@/hooks/mutations/education/useDeleteEducation";
-import { useDeleteExperience } from "@/hooks/mutations/experience/useDeleteExperience";
-import { useDeleteSkill } from "@/hooks/mutations/skill/useDeleteSkill";
+import { useBulkDeleteProject } from "@/hooks/mutations/project/useBulkDeleteProject";
+import { useBulkDeleteEducation } from "@/hooks/mutations/education/useBulkDeleteEducation";
+import { useBulkDeleteExperience } from "@/hooks/mutations/experience/useBulkDeleteExperience";
+import { useBulkDeleteSkill } from "@/hooks/mutations/skill/useBulkDeleteSkill";
 
 import type {
   ParsedCVResponse,
@@ -108,7 +107,6 @@ export default function CVBuilderPage() {
     },
   });
 
-  const { data: profile } = useGetProfile();
   const { data: project } = useAdminProjects({
     page: 1,
     size: 20,
@@ -119,15 +117,15 @@ export default function CVBuilderPage() {
   const { data: skill } = useAdminSkills();
 
   const updateProfileMutation = useUpdateProfile();
-  const createExperienceMutation = useCreateExperience();
-  const createEducationMutation = useCreateEducation();
-  const createProjectMutation = useCreateProject();
-  const createSkillMutation = useCreateSkill();
+  const bulkCreateExperienceMutation = useBulkCreateExperience();
+  const bulkCreateEducationMutation = useBulkCreateEducation();
+  const bulkCreateProjectMutation = useBulkCreateProject();
+  const bulkCreateSkillMutation = useBulkCreateSkill();
 
-  const deleteProjectMutation = useDeleteProject();
-  const deleteEducationMutation = useDeleteEducation();
-  const deleteExperienceMutation = useDeleteExperience();
-  const deleteSkillMutation = useDeleteSkill();
+  const bulkDeleteProjectMutation = useBulkDeleteProject();
+  const bulkDeleteEducationMutation = useBulkDeleteEducation();
+  const bulkDeleteExperienceMutation = useBulkDeleteExperience();
+  const bulkDeleteSkillMutation = useBulkDeleteSkill();
 
   const validateFile = (f: File): string | null => {
     if (!ALLOWED_TYPES.includes(f.type))
@@ -237,54 +235,9 @@ export default function CVBuilderPage() {
     });
   };
 
-  const handleReplacePortfolio = async () => {
-    if (!parsedData) return;
-    setPageState("submitting");
-
-    try {
-      if (profile) {
-        const profilePayload: UpdateProfileRequest = {
-          full_name: parsedData.profile.full_name,
-          image_url: parsedData.profile.image_url || "",
-          address: parsedData.profile.address || "",
-          about: parsedData.profile.about || "",
-          bio: parsedData.profile.bio || "",
-          theme: parsedData.profile.theme || "",
-          tags: parsedData.profile.tags || [],
-        };
-        await updateProfileMutation.mutateAsync(profilePayload);
-      }
-      if (experience) {
-        parsedData.experiences.forEach(async (experience) => {
-          await deleteExperienceMutation.mutateAsync(experience.id);
-          const payload: CreateExperienceRequest = {
-            position: experience.position,
-            company_name: experience.company_name,
-            location: experience.location || undefined,
-            employment_type:
-              (experience.employment_type as CreateExperienceRequest["employment_type"]) ||
-              undefined,
-            location_type:
-              (experience.location_type as CreateExperienceRequest["location_type"]) ||
-              undefined,
-            start_date: experience.start_date,
-            end_date: experience.end_date || undefined,
-            description: experience.description || undefined,
-          };
-          await createExperienceMutation.mutateAsync(payload);
-        });
-      }
-    } catch (err) {}
-  };
-
   const handleSubmitAll = async () => {
     if (!parsedData) return;
     setPageState("submitting");
-
-    // if (profile || project || education || experience || skill) {
-    //   setOpenAlertDialog(true);
-    //   return;
-    // }
 
     try {
       setSubmitProgress("Menyimpan profil...");
@@ -299,69 +252,88 @@ export default function CVBuilderPage() {
       };
       await updateProfileMutation.mutateAsync(profilePayload);
 
-      for (let i = 0; i < parsedData.experiences.length; i++) {
-        setSubmitProgress(
-          `Menyimpan experience ${i + 1}/${parsedData.experiences.length}...`,
+      // --- Experiences ---
+      setSubmitProgress("Menyimpan experiences...");
+      if (experience && experience.length > 0) {
+        await bulkDeleteExperienceMutation.mutateAsync({
+          ids: experience.map((e) => e.id),
+        });
+      }
+      if (parsedData.experiences.length > 0) {
+        const expItems: CreateExperienceRequest[] = parsedData.experiences.map(
+          (exp) => ({
+            position: exp.position,
+            company_name: exp.company_name,
+            location: exp.location || undefined,
+            employment_type:
+              (exp.employment_type as CreateExperienceRequest["employment_type"]) ||
+              undefined,
+            location_type:
+              (exp.location_type as CreateExperienceRequest["location_type"]) ||
+              undefined,
+            start_date: exp.start_date,
+            end_date: exp.end_date || undefined,
+            description: exp.description || undefined,
+          }),
         );
-        const exp = parsedData.experiences[i];
-        const payload: CreateExperienceRequest = {
-          position: exp.position,
-          company_name: exp.company_name,
-          location: exp.location || undefined,
-          employment_type:
-            (exp.employment_type as CreateExperienceRequest["employment_type"]) ||
-            undefined,
-          location_type:
-            (exp.location_type as CreateExperienceRequest["location_type"]) ||
-            undefined,
-          start_date: exp.start_date,
-          end_date: exp.end_date || undefined,
-          description: exp.description || undefined,
-        };
-        await createExperienceMutation.mutateAsync(payload);
+        await bulkCreateExperienceMutation.mutateAsync({ items: expItems });
       }
 
-      for (let i = 0; i < parsedData.educations.length; i++) {
-        setSubmitProgress(
-          `Menyimpan education ${i + 1}/${parsedData.educations.length}...`,
+      // --- Educations ---
+      setSubmitProgress("Menyimpan educations...");
+      if (education && education.length > 0) {
+        await bulkDeleteEducationMutation.mutateAsync({
+          ids: education.map((e) => e.id),
+        });
+      }
+      if (parsedData.educations.length > 0) {
+        const eduItems: CreateEducationRequest[] = parsedData.educations.map(
+          (edu) => ({
+            institution: edu.institution,
+            degree: edu.degree || undefined,
+            field_of_study: edu.field_of_study || undefined,
+            grade: edu.grade || undefined,
+            location: edu.location || undefined,
+            start_date: edu.start_date,
+            end_date: edu.end_date || undefined,
+            description: edu.description || undefined,
+          }),
         );
-        const edu = parsedData.educations[i];
-        const payload: CreateEducationRequest = {
-          institution: edu.institution,
-          degree: edu.degree || undefined,
-          field_of_study: edu.field_of_study || undefined,
-          grade: edu.grade || undefined,
-          location: edu.location || undefined,
-          start_date: edu.start_date,
-          end_date: edu.end_date || undefined,
-          description: edu.description || undefined,
-        };
-        await createEducationMutation.mutateAsync(payload);
+        await bulkCreateEducationMutation.mutateAsync({ items: eduItems });
       }
 
-      for (let i = 0; i < parsedData.projects.length; i++) {
-        setSubmitProgress(
-          `Menyimpan project ${i + 1}/${parsedData.projects.length}...`,
+      // --- Projects ---
+      setSubmitProgress("Menyimpan projects...");
+      const existingProjects = project?.data || [];
+      if (existingProjects.length > 0) {
+        await bulkDeleteProjectMutation.mutateAsync({
+          ids: existingProjects.map((p) => p.id),
+        });
+      }
+      if (parsedData.projects.length > 0) {
+        const projItems: CreateProjectRequest[] = parsedData.projects.map(
+          (proj) => ({
+            title: proj.title,
+            description: proj.description,
+            tools: proj.tools || undefined,
+          }),
         );
-        const proj = parsedData.projects[i];
-        const payload: CreateProjectRequest = {
-          title: proj.title,
-          description: proj.description,
-          tools: proj.tools || undefined,
-        };
-        await createProjectMutation.mutateAsync(payload);
+        await bulkCreateProjectMutation.mutateAsync({ items: projItems });
       }
 
-      for (let i = 0; i < parsedData.skills.length; i++) {
-        setSubmitProgress(
-          `Menyimpan skill ${i + 1}/${parsedData.skills.length}...`,
-        );
-        const skill = parsedData.skills[i];
-        const payload: CreateSkillRequest = {
-          title: skill.title,
-          level: skill.level || "Intermediate",
-        };
-        await createSkillMutation.mutateAsync(payload);
+      // --- Skills ---
+      setSubmitProgress("Menyimpan skills...");
+      if (skill && skill.length > 0) {
+        await bulkDeleteSkillMutation.mutateAsync({
+          ids: skill.map((s) => s.id),
+        });
+      }
+      if (parsedData.skills.length > 0) {
+        const skillItems: CreateSkillRequest[] = parsedData.skills.map((s) => ({
+          title: s.title,
+          level: s.level || "Intermediate",
+        }));
+        await bulkCreateSkillMutation.mutateAsync({ items: skillItems });
       }
 
       toast("success", "Berhasil!", "CV berhasil disimpan ke portofolio kamu.");
