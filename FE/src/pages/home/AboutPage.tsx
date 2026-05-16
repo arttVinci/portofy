@@ -17,7 +17,6 @@ import {
   IconHeartHandshake,
   IconBrandLinkedin,
   IconBrandGithub,
-  IconBrandInstagram,
 } from "@tabler/icons-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { cn } from "@/lib/utils";
@@ -77,36 +76,36 @@ const FEATURES = [
     icon: IconMessageChatbot,
     title: "AI Consultation",
     desc: "Berdialog dengan AI untuk mendapatkan saran strategi portofolio, konten, dan tips meningkatkan daya tarik profil.",
-    gradient: "from-violet-500 to-purple-400",
-    iconColor: "text-violet-400",
+    gradient: "from-blue-500 to-cyan-400",
+    iconColor: "text-blue-400",
   },
   {
     icon: IconFileSearch,
     title: "CV Parser & Detector",
     desc: "Unggah CV-mu dan sistem AI akan mengekstrak informasi penting lalu mengisi template portofolio secara otomatis.",
-    gradient: "from-emerald-500 to-teal-400",
-    iconColor: "text-emerald-400",
+    gradient: "from-blue-500 to-cyan-400",
+    iconColor: "text-blue-400",
   },
   {
     icon: IconChartBar,
     title: "Portfolio Analyzer",
     desc: "Dapatkan skor kelayakan portofolio, rekomendasi perbaikan spesifik, dan analisis kesesuaian dengan standar industri.",
-    gradient: "from-amber-500 to-orange-400",
-    iconColor: "text-amber-400",
+    gradient: "from-blue-500 to-cyan-400",
+    iconColor: "text-blue-400",
   },
   {
     icon: IconTemplate,
     title: "Template Builder No-Code",
     desc: "Pilih dari galeri template modern dan responsif. Kustomisasi warna, font, dan layout tanpa coding — preview real-time.",
-    gradient: "from-rose-500 to-pink-400",
-    iconColor: "text-rose-400",
+    gradient: "from-blue-500 to-cyan-400",
+    iconColor: "text-blue-400",
   },
   {
     icon: IconWorld,
     title: "Custom Domain & Hosting",
     desc: "Sub-domain gratis (username.portofy.id) dan integrasi custom domain untuk pengguna premium. Hosting dikelola platform.",
-    gradient: "from-cyan-500 to-sky-400",
-    iconColor: "text-cyan-400",
+    gradient: "from-blue-500 to-cyan-400",
+    iconColor: "text-blue-400",
   },
 ];
 
@@ -366,12 +365,12 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="group relative rounded-3xl border border-violet-500/20 bg-white/[0.02] p-8 md:p-10 backdrop-blur-sm transition-all duration-500 hover:bg-white/[0.04] hover:shadow-2xl overflow-hidden"
+              className="group relative rounded-3xl border border-blue-500/20 bg-white/[0.02] p-8 md:p-10 backdrop-blur-sm transition-all duration-500 hover:bg-white/[0.04] hover:shadow-2xl overflow-hidden"
             >
-              <div className="absolute -top-20 -right-20 w-[250px] h-[250px] bg-violet-500/8 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-400 p-[1px] mb-6">
+              <div className="absolute -top-20 -right-20 w-[250px] h-[250px] bg-blue-500/8 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[1px] mb-6">
                 <div className="flex items-center justify-center w-full h-full rounded-[15px] bg-[#070e1b]">
-                  <IconHeartHandshake className="w-6 h-6 text-violet-400" />
+                  <IconHeartHandshake className="w-6 h-6 text-blue-400" />
                 </div>
               </div>
               <h3
@@ -391,7 +390,7 @@ export default function AboutPage() {
                 bagi kalangan umum Indonesia — dengan pendekatan intuitif yang
                 didukung kecerdasan buatan.
               </p>
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-violet-500 to-purple-400 opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
             </motion.div>
           </div>
         </div>
@@ -600,37 +599,33 @@ export default function AboutPage() {
                       "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
                   }}
                 >
-                  Putra Rizky
+                  Putra Rizky Nugraha
                 </h3>
                 <span className="inline-block text-sm font-semibold tracking-wide uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-4">
-                  Founder & Creator
+                  Founder & Developer
                 </span>
                 <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6 max-w-lg">
-                  Visioner di balik Portofy. Percaya bahwa setiap orang berhak
-                  tampil profesional di dunia digital — dan teknologi harus jadi
-                  jembatan, bukan penghalang. Membangun Portofy dari nol dengan
-                  misi memberdayakan kreator Indonesia.
+                  Visioner di balik Portofy.net Percaya bahwa setiap orang
+                  berhak tampil profesional di dunia digital — dan teknologi
+                  harus jadi jembatan, bukan penghalang. Membangun Portofy dari
+                  nol dengan misi memberdayakan kreator Indonesia.
                 </p>
 
                 {/* Socials */}
                 <div className="flex justify-center md:justify-start gap-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/putra-rizky-nugraha/"
+                    target="_blank"
                     className="flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-500 hover:text-blue-400 hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-300"
                   >
                     <IconBrandLinkedin size={18} stroke={1.5} />
                   </a>
                   <a
-                    href="#"
+                    href="https://github.com/arttVinci"
+                    target="_blank"
                     className="flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-500 hover:text-white hover:border-white/20 hover:bg-white/[0.06] transition-all duration-300"
                   >
                     <IconBrandGithub size={18} stroke={1.5} />
-                  </a>
-                  <a
-                    href="#"
-                    className="flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-500 hover:text-pink-400 hover:border-pink-500/40 hover:bg-pink-500/10 transition-all duration-300"
-                  >
-                    <IconBrandInstagram size={18} stroke={1.5} />
                   </a>
                 </div>
               </div>
@@ -695,7 +690,7 @@ export default function AboutPage() {
               </HoverBorderGradient>
             </a>
 
-            <a
+            {/* <a
               href="/templates"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/[0.1] text-sm font-semibold text-slate-300 hover:text-white hover:border-white/[0.2] bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-300"
             >
@@ -705,7 +700,7 @@ export default function AboutPage() {
                 stroke={2}
                 className="group-hover:translate-x-1 transition-transform"
               />
-            </a>
+            </a> */}
           </motion.div>
         </div>
       </section>

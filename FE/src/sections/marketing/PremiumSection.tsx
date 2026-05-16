@@ -5,7 +5,6 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 const PREMIUM_FEATURES = [
   "Akses Penuh Seluruh Template Eksklusif",
   "Akses Penuh AI Consultation & Description Generator",
-  "Integrasi Custom Domain (Misal: namakamu.com)",
   "Analisis Kelayakan Detail via Portfolio Analyzer",
   "Penyimpanan File & Aset Media Tak Terbatas",
   "Bebas Indikasi Watermark 'Made with Portofy'",
@@ -13,7 +12,10 @@ const PREMIUM_FEATURES = [
 
 export default function PremiumSection() {
   return (
-    <section id="langganan" className="relative bg-[#050a15] pb-24 pt-10 overflow-hidden">
+    <section
+      id="langganan"
+      className="relative bg-[#050a15] pb-24 pt-10 overflow-hidden"
+    >
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
 
@@ -65,9 +67,6 @@ export default function PremiumSection() {
               >
                 <span className="font-semibold text-sm">Upgrade Sekarang</span>
               </HoverBorderGradient>
-              <button className="text-sm font-semibold text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">
-                Bandingkan Paket
-              </button>
             </div>
           </div>
 
