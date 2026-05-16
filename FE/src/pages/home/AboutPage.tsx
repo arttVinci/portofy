@@ -15,8 +15,6 @@ import {
   IconBuildingStore,
   IconCertificate,
   IconHeartHandshake,
-  IconBrandLinkedin,
-  IconBrandGithub,
 } from "@tabler/icons-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { cn } from "@/lib/utils";
@@ -256,6 +254,17 @@ export default function AboutPage() {
               semua orang bisa coding, dan menyewa developer seringkali tidak
               efisien. Di Indonesia, platform yang khusus menyasar kreator lokal
               dengan pendekatan mudah, cerdas, dan terjangkau hampir tidak ada.
+            </p>
+            <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-2xl mt-4">
+              Platform ini dirancang dan dibangun oleh{" "}
+              <span className="font-semibold text-slate-300">
+                Putra Rizky Nugraha
+              </span>
+              , seorang Full-stack Developer dengan fokus pada aplikasi web
+              berkinerja tinggi serta arsitektur sistem yang bersih dan
+              skalabel. Putra Rizky membangun platform ini dengan satu tujuan:
+              menghadirkan solusi portofolio digital yang mudah, cerdas, dan
+              relevan bagi para profesional Indonesia.
             </p>
           </motion.div>
 
@@ -535,105 +544,6 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ PEMBUAT ═══════════════════ */}
-      <section className="relative bg-[#050a15] py-24 lg:py-32 overflow-hidden">
-        <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none z-0" />
-
-        <div className="relative z-10 container mx-auto px-6 max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6">
-              <span className="text-blue-300 text-xs font-semibold tracking-widest uppercase">
-                Pembuat
-              </span>
-            </div>
-            <h2
-              className="text-3xl md:text-5xl font-bold text-white mb-4"
-              style={{
-                fontFamily:
-                  "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-              }}
-            >
-              Di Balik{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                Portofy
-              </span>
-            </h2>
-          </motion.div>
-
-          {/* Creator Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="group relative rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 md:p-12 backdrop-blur-sm overflow-hidden"
-          >
-            {/* Glow */}
-            <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-blue-500/6 blur-[100px] rounded-full pointer-events-none" />
-
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-              {/* Avatar */}
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 p-[2px] shadow-xl flex-shrink-0">
-                <div className="flex items-center justify-center w-full h-full rounded-full bg-[#0a1122]">
-                  <span className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-cyan-300">
-                    PR
-                  </span>
-                </div>
-              </div>
-
-              {/* Info */}
-              <div className="text-center md:text-left flex-1">
-                <h3
-                  className="text-2xl md:text-3xl font-bold text-white mb-2"
-                  style={{
-                    fontFamily:
-                      "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
-                  }}
-                >
-                  Putra Rizky Nugraha
-                </h3>
-                <span className="inline-block text-sm font-semibold tracking-wide uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-4">
-                  Founder & Developer
-                </span>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6 max-w-lg">
-                  Visioner di balik Portofy.net Percaya bahwa setiap orang
-                  berhak tampil profesional di dunia digital — dan teknologi
-                  harus jadi jembatan, bukan penghalang. Membangun Portofy dari
-                  nol dengan misi memberdayakan kreator Indonesia.
-                </p>
-
-                {/* Socials */}
-                <div className="flex justify-center md:justify-start gap-3">
-                  <a
-                    href="https://www.linkedin.com/in/putra-rizky-nugraha/"
-                    target="_blank"
-                    className="flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-500 hover:text-blue-400 hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-300"
-                  >
-                    <IconBrandLinkedin size={18} stroke={1.5} />
-                  </a>
-                  <a
-                    href="https://github.com/arttVinci"
-                    target="_blank"
-                    className="flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-500 hover:text-white hover:border-white/20 hover:bg-white/[0.06] transition-all duration-300"
-                  >
-                    <IconBrandGithub size={18} stroke={1.5} />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom accent */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 opacity-20" />
-          </motion.div>
         </div>
       </section>
 
