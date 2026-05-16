@@ -210,7 +210,7 @@ export default function ProfilePage() {
             size="sm"
             onClick={handleSave}
             disabled={(!isDirty && !avatarImageFile) || isSaving}
-            className="gap-2"
+            className="gap-2 cursor-pointer"
           >
             {isSaving ? (
               <Loader2Icon className="size-3.5 animate-spin" />

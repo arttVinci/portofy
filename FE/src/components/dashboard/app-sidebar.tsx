@@ -110,6 +110,8 @@ const NAV_ITEMS: NavItem[] = [
     url: "/app/appearance",
     icon: <PaletteIcon />,
     group: "System",
+    badge: <UngoingBadge />,
+    disabled: true,
   },
   {
     title: "Settings",
@@ -156,7 +158,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <div className="grid flex-1 text-left text-base leading-tight">
                   <span className="truncate font-medium">Portofy</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    Pro
+                    Tahap Uji Coba
                   </span>
                 </div>
               </Link>

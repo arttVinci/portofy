@@ -125,7 +125,7 @@ export function NavUser({ user, profile, isLoading }: NavUserProps) {
 
             {/* Account actions */}
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => navigate("/dashboard/settings")}>
+              {/* <DropdownMenuItem onClick={() => navigate("/dashboard/settings")}>
                 <BadgeCheckIcon />
                 Account
               </DropdownMenuItem>
@@ -138,7 +138,7 @@ export function NavUser({ user, profile, isLoading }: NavUserProps) {
               >
                 <BellIcon />
                 Notifications
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />

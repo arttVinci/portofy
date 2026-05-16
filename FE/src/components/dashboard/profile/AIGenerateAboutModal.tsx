@@ -156,7 +156,6 @@ export function AIGenerateAboutModal({
                 value={userNotesInput}
                 onChange={(e) => setUserNotesInput(e.target.value)}
                 className="overflow-y-auto"
-                placeholder='Contoh: "Pernah memimpin tim 5 orang di startup fintech..."'
               />
             </div>
           </div>
