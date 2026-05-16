@@ -44,6 +44,9 @@ export default function TabsContent({ content, activeTab }: TabsContentProps) {
                 muted
                 autoPlay
                 loop
+                playsInline
+                preload="auto"
+                poster={content[activeTab].video.replace(".mp4", ".jpg")}
               >
                 <source src={content[activeTab].video} type="video/mp4" />
                 Browser kamu tidak mendukung pemutaran video.

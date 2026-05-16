@@ -14,7 +14,8 @@ export const TABS_CONTENT = [
     description:
       "Pengguna cukup memasukkan informasi dasar tentang proyek atau pengalaman mereka, dan AI akan menghasilkan deskripsi yang profesional, menarik, dan sesuai konteks. Fitur ini membantu pengguna yang kesulitan mengartikulasikan pencapaian mereka dalam kata-kata yang tepat.",
     shortDescription: "",
-    video: "/media/ai-generate-desc.mp4",
+    video:
+      "https://res.cloudinary.com/dvlhr7x7f/video/upload/q_auto/f_auto/v1778941451/ai-generate-desc_vmjjci.mp4",
   },
   {
     eyebrow: "AUTOMATION",
@@ -22,7 +23,8 @@ export const TABS_CONTENT = [
     description:
       "Pengguna dapat mengunggah CV atau resume mereka, dan sistem AI akan secara otomatis mengekstrak informasi penting seperti pengalaman, pendidikan, skill, lalu mengisi profil secara otonom.",
     shortDescription: "",
-    video: "/media/cv-parser.mp4",
+    video:
+      "https://res.cloudinary.com/dvlhr7x7f/video/upload/q_auto/f_auto/v1778941456/cv-parser_fm2vw2.mp4",
   },
   {
     eyebrow: "ANALYTICS",

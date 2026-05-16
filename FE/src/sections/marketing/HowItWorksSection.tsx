@@ -13,8 +13,8 @@ const STEPS = [
     icon: <IconUserPlus className="h-6 w-6 text-blue-400" />,
     description:
       "Daftar cepat via platform. Opsional: unggah dokumen lamamu untuk memanfaatkan AI CV Parser dan meng-auto-fill profil portofoliomu secara instan.",
-    videoSrc: "",
-    videoPoster: "",
+    videoSrc:
+      "https://res.cloudinary.com/dvlhr7x7f/video/upload/q_auto/f_auto/v1778941461/register_h7v5a9.mp4",
     videoLabel: "Demo: Registrasi & Auto-fill Profil",
   },
   {
@@ -23,7 +23,6 @@ const STEPS = [
     description:
       "Pilah dari galeri template modern. Kustomisasi menyeluruh orientasi layout, paduan warna, hingga tipografi secara presisi—sepenuhnya tanpa coding.",
     videoSrc: "",
-    videoPoster: "",
     videoLabel: "Demo: Kustomisasi Drag & Drop",
   },
   {
@@ -32,7 +31,6 @@ const STEPS = [
     description:
       "Lengkapi riwayat karirmu. Gunakan AI Description Generator untuk menyulap draf sederhana jadi teks profesional, serta berdialoglah dengan AI Consultation untuk saran strategis.",
     videoSrc: "",
-    videoPoster: "",
     videoLabel: "Demo: AI Generative Tools",
   },
   {
@@ -41,7 +39,6 @@ const STEPS = [
     description:
       "Jalankan instruksi AI Portfolio Analyzer demi meraih Skor Kelayakan. Saat matang, luncurkan portofoliomu ke publik menggunakan subdomain istimewa yang kami sediakan.",
     videoSrc: "",
-    videoPoster: "",
     videoLabel: "Demo: Analyzer & Publish Live",
   },
 ];
@@ -56,7 +53,22 @@ export default function HowItWorksSection() {
             {step.description}
           </p>
         </div>
-        <div className="w-full h-64 bg-slate-800 rounded-lg"></div>
+        {step.videoSrc != "" && (
+          <div className="relative w-full rounded-2xl overflow-hidden border border-slate-700/50 bg-[#0c1322] shadow-inner">
+            <video
+              className="w-full aspect-video object-cover"
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="auto"
+              poster={step.videoSrc.replace(".mp4", ".jpg")}
+            >
+              <source src={step.videoSrc} type="video/mp4" />
+              Browser kamu tidak mendukung pemutaran video.
+            </video>
+          </div>
+        )}
       </div>
     ),
   }));
