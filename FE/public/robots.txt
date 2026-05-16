@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cad73b18.portofy.pages.dev/sitemap.xml
+Sitemap: https://portofy.net/sitemap.xml
