@@ -7,7 +7,7 @@ import AuthLayout from "./layouts/AuthLayout";
 
 // 2. Pages Marketing
 import HomePage from "./pages/home/HomePage";
-import TemplatePage from "./pages/home/TemplatePage";
+// import TemplatePage from "./pages/home/TemplatePage";
 import MarketingAboutPage from "./pages/home/AboutPage";
 
 // 3. Pages Auth
@@ -29,7 +29,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomeLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="templates" element={<TemplatePage />} />
+        {/* <Route path="templates" element={<TemplatePage />} /> */}
         <Route path="about" element={<MarketingAboutPage />} />
         <Route path="#langganan" element={<HomePage />} />
       </Route>
