@@ -24,17 +24,12 @@ export const TABS_CONTENT = [
     shortDescription: "",
     video: "/media/cv-parser.mp4",
   },
-  // {
-  //   eyebrow: "ANALYTICS",
-  //   title: "Portfolio Analyzer",
-  //   description:
-  //     "Setelah portofolio selesai dibuat, AI akan melakukan analisis mendalam dan memberikan skor kelayakan portofolio (Portfolio Score), analisis kesesuaian industri, serta flag item yang perlu diperbaiki.",
-  //   shortDescription:
-  //     "Dapatkan skor kelayakan dan analisis mendalam AI demi memperkuat nilai saing portofoliomu.",
-  //   content: (
-  //     <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--amber-400),var(--orange-500))] text-white text-3xl font-bold p-8 text-center drop-shadow-lg">
-  //       Portfolio Analyzer
-  //     </div>
-  //   ),
-  // },
+  {
+    eyebrow: "ANALYTICS",
+    title: "Portfolio Analyzer",
+    description:
+      "Setelah portofolio selesai dibuat, AI akan melakukan analisis mendalam dan memberikan skor kelayakan portofolio (Portfolio Score), analisis kesesuaian industri, serta flag item yang perlu diperbaiki.",
+    shortDescription: "Ungoing, Stay Tune for more info...",
+    video: "",
+  },
 ];
