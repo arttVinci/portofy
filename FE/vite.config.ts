@@ -13,6 +13,9 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  build: {
+    sourcemap: true, // tambahkan ini
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
