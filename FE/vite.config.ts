@@ -14,7 +14,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    sourcemap: true, // tambahkan ini
+    sourcemap: true,
   },
   resolve: {
     alias: {
