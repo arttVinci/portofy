@@ -14,13 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  ChevronsUpDownIcon,
-  BadgeCheckIcon,
-  CreditCardIcon,
-  BellIcon,
-  LogOutIcon,
-} from "lucide-react";
+import { ChevronsUpDownIcon, LogOutIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { ProfileResponse, UserResponse } from "@/@types";
 import { Skeleton } from "../ui/skeleton";

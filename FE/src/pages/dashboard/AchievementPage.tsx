@@ -37,7 +37,7 @@ const EMPTY_FORM: UpdateAchievementRequest = {
 
 export default function AchievementPage() {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search] = useState("");
 
   const [activeView, setActiveView] = useState<ActiveView>({ type: "list" });
   const [activeTab, setActiveTab] = useState("list");
