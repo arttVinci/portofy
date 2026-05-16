@@ -6,7 +6,7 @@ interface TabsContentProps {
     description: string;
     shortDescription: string;
     eyebrow: string;
-    content: React.ReactNode;
+    video: string;
   }[];
   activeTab: number;
 }
@@ -36,9 +36,20 @@ export default function TabsContent({ content, activeTab }: TabsContentProps) {
           </div>
 
           {/* Content Visual */}
-          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-700/50 bg-[#0c1322] shadow-inner mt-4">
-            {content[activeTab].content}
-          </div>
+
+          {content[activeTab].video != "" && (
+            <div className="relative w-full  rounded-2xl overflow-hidden border border-slate-700/50 bg-[#0c1322] shadow-inner">
+              <video
+                className="w-full aspect-video object-cover"
+                muted
+                autoPlay
+                loop
+              >
+                <source src={content[activeTab].video} type="video/mp4" />
+                Browser kamu tidak mendukung pemutaran video.
+              </video>
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

@@ -7,7 +7,7 @@ interface TabsProps {
     description: string;
     shortDescription: string;
     eyebrow: string;
-    content: React.ReactNode;
+    video: string;
   }[];
   activeTab: number;
   setActiveTab: (index: number) => void;
