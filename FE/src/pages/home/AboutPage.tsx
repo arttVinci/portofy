@@ -257,7 +257,7 @@ export default function AboutPage() {
             </p>
             <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-2xl mt-4">
               Platform ini dirancang dan dibangun oleh{" "}
-              <span className="font-semibold text-slate-300">
+              <span className="text-slate-300 font-medium text-md md:text-base leading-relaxed">
                 Putra Rizky Nugraha
               </span>
               , seorang Full-stack Developer dengan fokus pada aplikasi web
