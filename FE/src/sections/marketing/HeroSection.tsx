@@ -96,14 +96,14 @@ export default function HeroSection() {
             </p>
 
             {/* CTAs */}
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <HoverBorderGradient
                 containerClassName="rounded-full"
                 as="button"
-                className="bg-black text-white flex items-center space-x-2 cursor-pointer text-sm sm:text-base"
+                className="bg-black text-white flex items-center space-x-1.5 sm:space-x-2 cursor-pointer text-sm px-6 py-3 sm:px-5 sm:py-2.5"
               >
-                <span className="font-semibold whitespace-nowrap">Mulai Gratis Sekarang</span>
-                <IconArrowRight size={17} stroke={2.5} />
+                <span className="font-semibold whitespace-nowrap">Mulai Gratis</span>
+                <IconArrowRight size={14} stroke={2.5} className="sm:w-[17px] sm:h-[17px]" />
               </HoverBorderGradient>
               <button
                 onClick={() =>
@@ -111,9 +111,9 @@ export default function HeroSection() {
                     .getElementById("how-it-works")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-full border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white text-xs sm:text-sm font-semibold hover:bg-white/[0.04] transition-colors duration-200 cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3 sm:px-6 sm:py-3 rounded-full border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white text-sm font-semibold hover:bg-white/[0.04] transition-colors duration-200 cursor-pointer whitespace-nowrap"
               >
-                <IconPlayerPlay size={16} stroke={1.5} />
+                <IconPlayerPlay size={14} stroke={1.5} className="shrink-0" />
                 Lihat Cara Kerjanya
               </button>
             </div>
