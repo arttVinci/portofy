@@ -17,7 +17,6 @@ type RouteConfig struct {
 	EducationController     *controller.EducationController
 	SkillController         *controller.SkillController
 	SocialController        *controller.SocialController
-	UploadController        *controller.UploadController
 	AIDescriptionController *controller.AIDescriptionController
 	CVParserController      *controller.CVParserController
 }
@@ -62,7 +61,6 @@ func (c *RouteConfig) SetupPublicRoute() {
 
 func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Use(c.AuthMiddleware)
-	c.App.Post("/api/upload/image", c.UploadController.UploadImage)
 
 	c.App.Delete("/api/users", c.UserController.Logout)
 	c.App.Patch("/api/users/_current", c.UserController.Update)

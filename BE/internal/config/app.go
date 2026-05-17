@@ -29,7 +29,6 @@ type BootstrapConfig struct {
 }
 
 func Bootstrap(config *BootstrapConfig) {
-	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
 	resend := mail.NewResend(config.Log, config.Config)
 	gemini := agent.NewGeminiAgent(config.GoogleAiStudio, config.Log)
 	cloudinary := storage.NewCloudinaryStorage(config.Cloudinary)
@@ -59,7 +58,6 @@ func Bootstrap(config *BootstrapConfig) {
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
 	cvParserUseCase := usecase.NewCVParserUseCase(cvParserRepository, config.Log)
-	uploadUseCase := usecase.NewUploadUsecase(uploadRepository, config.Log)
 
 	//Setup Controller
 	userController := controller.NewUserController(userUseCase, config.Log)
@@ -70,7 +68,6 @@ func Bootstrap(config *BootstrapConfig) {
 	educationController := controller.NewEducationController(educationUseCase, config.Log)
 	skillController := controller.NewSkillController(skillUseCase, config.Log)
 	socialController := controller.NewSocialController(socialUseCase, config.Log)
-	uploadController := controller.NewUploadController(localStorage, uploadUseCase, config.Log)
 	aiDescriptionController := controller.NewAIDescriptionController(aiDescriptionUseCase, config.Log)
 	cvParserController := controller.NewCVParserController(cvParserUseCase, config.Log)
 
@@ -88,7 +85,6 @@ func Bootstrap(config *BootstrapConfig) {
 		EducationController:   educationController,
 		SkillController:       skillController,
 		SocialController:      socialController,
-		UploadController:      uploadController,
 		AIDescriptionController: aiDescriptionController,
 		CVParserController:      cvParserController,
 
