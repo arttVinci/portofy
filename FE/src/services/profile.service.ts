@@ -38,6 +38,19 @@ class ProfileService {
 
     return response.data.data;
   }
+
+  async uploadAvatar(payload: FormData): Promise<string> {
+    const response: AxiosResponse<ApiResponse<string>> = await apiClient.post(
+      `${this.BASE_PATH}/_avatar`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.data;
+  }
 }
 
 export default new ProfileService();

@@ -19,6 +19,7 @@ import { useCreateExperience } from "@/hooks/mutations/experience/useCreateExper
 import { useUpdateExperience } from "@/hooks/mutations/experience/useUpdateExperience";
 import { useDeleteExperience } from "@/hooks/mutations/experience/useDeleteExperience";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useUploadExperienceImage } from "@/hooks/mutations/experience/useUploadExperienceImage";
 import { useGenerateExperienceDescription } from "@/hooks/mutations/agent/generate_description/useGenerateExperienceDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
@@ -113,6 +114,10 @@ export default function ExperiencePage() {
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
+  const specificUploadMutation = useUploadExperienceImage({
+    onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
+  });
+
   const generateDescMutation = useGenerateExperienceDescription({
     onSuccess: (response) => {
       const combined = `${response.summary}\n\n${response.bullets.map((b) => `• ${b.title}: ${b.description}`).join("\n")}`;
@@ -133,7 +138,8 @@ export default function ExperiencePage() {
     createMutation.isPending ||
     updateMutation.isPending ||
     deleteMutation.isPending ||
-    uploadMutation.isPending;
+    uploadMutation.isPending ||
+    specificUploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
   const handleSave = async () => {
@@ -153,9 +159,15 @@ export default function ExperiencePage() {
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
         const fd = new FormData();
-        fd.append("images", thumbnailFile);
-        const res = await uploadMutation.mutateAsync(fd);
-        payload.image_url = res.image_url[0];
+        if (activeView.type === "edit" && experience) {
+          fd.append("image", thumbnailFile);
+          const resUrl = await specificUploadMutation.mutateAsync({ id: experience.id, payload: fd });
+          payload.image_url = resUrl;
+        } else {
+          fd.append("images", thumbnailFile);
+          const res = await uploadMutation.mutateAsync(fd);
+          payload.image_url = res.image_url[0];
+        }
       }
 
       if (activeView.type === "edit" && experience) {

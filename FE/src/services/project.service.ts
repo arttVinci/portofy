@@ -81,6 +81,32 @@ class ProjectService {
 
     return response.data.data;
   }
+
+  async uploadThumbnail(id: string, payload: FormData): Promise<string> {
+    const response: AxiosResponse<ApiResponse<string>> = await apiClient.post(
+      `${this.BASE_PATH}/${id}/_thumbnail`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.data;
+  }
+
+  async uploadGallery(id: string, payload: FormData): Promise<string[]> {
+    const response: AxiosResponse<ApiResponse<string[]>> = await apiClient.post(
+      `${this.BASE_PATH}/${id}/_gallery`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.data;
+  }
 }
 
 export default new ProjectService();

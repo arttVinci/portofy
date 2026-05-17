@@ -18,6 +18,7 @@ import { useCreateEducation } from "@/hooks/mutations/education/useCreateEducati
 import { useUpdateEducation } from "@/hooks/mutations/education/useUpdateEducation";
 import { useDeleteEducation } from "@/hooks/mutations/education/useDeleteEducation";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useUploadEducationImage } from "@/hooks/mutations/education/useUploadEducationImage";
 import { useGenerateEducationDescription } from "@/hooks/mutations/agent/generate_description/useGenerateEducationDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
@@ -107,6 +108,10 @@ export default function EducationPage() {
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
+  const specificUploadMutation = useUploadEducationImage({
+    onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
+  });
+
   const generateDescMutation = useGenerateEducationDescription({
     onSuccess: (response) => {
       const combined = `${response.summary}\n\n${response.bullets.map((b) => `• ${b.title}: ${b.description}`).join("\n")}`;
@@ -127,7 +132,8 @@ export default function EducationPage() {
     createMutation.isPending ||
     updateMutation.isPending ||
     deleteMutation.isPending ||
-    uploadMutation.isPending;
+    uploadMutation.isPending ||
+    specificUploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
   const handleSave = async () => {
@@ -146,9 +152,15 @@ export default function EducationPage() {
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
         const fd = new FormData();
-        fd.append("images", thumbnailFile);
-        const res = await uploadMutation.mutateAsync(fd);
-        payload.image_url = res.image_url[0];
+        if (activeView.type === "edit" && education) {
+          fd.append("image", thumbnailFile);
+          const resUrl = await specificUploadMutation.mutateAsync({ id: education.id, payload: fd });
+          payload.image_url = resUrl;
+        } else {
+          fd.append("images", thumbnailFile);
+          const res = await uploadMutation.mutateAsync(fd);
+          payload.image_url = res.image_url[0];
+        }
       }
 
       if (activeView.type === "edit" && education) {

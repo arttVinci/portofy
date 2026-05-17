@@ -16,7 +16,7 @@ import { type GenerateAboutDescriptionRequest } from "@/@types/entities/ai_descr
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useUpdateProfile } from "@/hooks/mutations/profile/useUpdateProfile";
 import { useToast } from "@/hooks/ui/useToast";
-import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useUploadAvatar } from "@/hooks/mutations/profile/useUploadAvatar";
 import { ApiError } from "@/api/apiError";
 import { useGetProfile } from "@/hooks/queries";
 import { useCurrent } from "@/hooks/queries/user/useCurrent";
@@ -72,9 +72,9 @@ export default function ProfilePage() {
     },
   });
 
-  const uploadMutation = useUploadImage({
-    onSuccess: (response) => {
-      form.handleChange("image_url", response.image_url);
+  const uploadMutation = useUploadAvatar({
+    onSuccess: (imageUrl) => {
+      form.handleChange("image_url", imageUrl);
       setAvatarImageFile(null);
       setAvatarPreviewUrl(null);
       toast("success", "Berhasil", "Foto profil berhasil diperbarui!");
@@ -135,11 +135,11 @@ export default function ProfilePage() {
 
       if (avatarImageFile) {
         const uploadData = new FormData();
-        uploadData.append("images", avatarImageFile);
+        uploadData.append("avatar", avatarImageFile);
 
         const uploadResponse = await uploadMutation.mutateAsync(uploadData);
 
-        payload.image_url = uploadResponse.image_url[0];
+        payload.image_url = uploadResponse;
       }
 
       await updateProfileMutation.mutateAsync(payload);

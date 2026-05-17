@@ -20,6 +20,8 @@ import { useUpdateProject } from "@/hooks/mutations/project/useUpdateProject";
 import { useCreateProject } from "@/hooks/mutations/project/useCreateProject";
 import { useDeleteProject } from "@/hooks/mutations/project/useDeleteProject";
 import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useUploadProjectThumbnail } from "@/hooks/mutations/project/useUploadProjectThumbnail";
+import { useUploadProjectGallery } from "@/hooks/mutations/project/useUploadProjectGallery";
 import { useGenerateProjectDescription } from "@/hooks/mutations/agent/generate_description/useGenerateProjectDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
@@ -129,6 +131,18 @@ export default function ProjectPage() {
     },
   });
 
+  const specificUploadThumbnailMutation = useUploadProjectThumbnail({
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Upload Thumbnail", error.message);
+    },
+  });
+
+  const specificUploadGalleryMutation = useUploadProjectGallery({
+    onError: (error: ApiError) => {
+      toast("error", "Gagal Upload Gallery", error.message);
+    },
+  });
+
   const generateDescMutation = useGenerateProjectDescription({
     onSuccess: (response) => {
       const formattedArray = response.key_features.map((feature) => ({
@@ -160,16 +174,29 @@ export default function ProjectPage() {
       // Upload Thumbnail
       if (thumbnailFile) {
         const uploadData = new FormData();
-        uploadData.append("images", thumbnailFile);
-        const uploadResponse = await uploadMutation.mutateAsync(uploadData);
-        payload.image_url = uploadResponse.image_url[0];
+        if (activeView.type === "edit" && project) {
+          uploadData.append("image", thumbnailFile);
+          const resUrl = await specificUploadThumbnailMutation.mutateAsync({ id: project.id, payload: uploadData });
+          payload.image_url = resUrl;
+        } else {
+          uploadData.append("images", thumbnailFile);
+          const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+          payload.image_url = uploadResponse.image_url[0];
+        }
       }
 
       // Upload Gallery Images
       if (galleryFiles && galleryFiles.length > 0) {
         const uploadData = new FormData();
         galleryFiles.forEach((file) => uploadData.append("images", file));
-        const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+        
+        let newImageUrls: string[] = [];
+        if (activeView.type === "edit" && project) {
+          newImageUrls = await specificUploadGalleryMutation.mutateAsync({ id: project.id, payload: uploadData });
+        } else {
+          const uploadResponse = await uploadMutation.mutateAsync(uploadData);
+          newImageUrls = uploadResponse.image_url;
+        }
 
         let urlIndex = 0;
         payload.gallery =
@@ -177,7 +204,7 @@ export default function ProjectPage() {
             if (item.image_url.startsWith("blob:")) {
               return {
                 ...item,
-                image_url: uploadResponse.image_url[urlIndex++],
+                image_url: newImageUrls[urlIndex++],
               };
             }
             return item;
@@ -228,7 +255,9 @@ export default function ProjectPage() {
     updateProjectMutation.isPending ||
     createProjectMutation.isPending ||
     deleteProjectMutation.isPending ||
-    uploadMutation.isPending;
+    uploadMutation.isPending ||
+    specificUploadThumbnailMutation.isPending ||
+    specificUploadGalleryMutation.isPending;
 
   const handleCancel = () => {
     form.setValues({
