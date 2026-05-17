@@ -11,6 +11,7 @@ FROM alpine:latest
 WORKDIR /app
 RUN apk --no-cache add ca-certificates poppler-utils tzdata
 
+COPY --from=builder /app/server .
 COPY --from=builder /app/config.json .
 
 ENV PORT=8080
