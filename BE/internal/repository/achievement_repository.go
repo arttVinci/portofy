@@ -68,7 +68,7 @@ func (r *AchievementRepository) FindAllByUsername(db *gorm.DB, achievements *[]e
 	return db.Table("achievements").
 		Joins("JOIN users ON users.id = achievements.user_id").
 		Where("users.username = ?", username).
-		Take(achievements).Error
+		Find(achievements).Error
 }
 
 // Public Endpoint

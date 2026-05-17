@@ -24,6 +24,17 @@ import DashboardExperiencePage from "./pages/dashboard/ExperiencePage";
 import DashboardSkillPage from "./pages/dashboard/SkillPage";
 import CVBuilderPage from "./pages/dashboard/CVParserPage";
 
+// 4. Public Portfolio Templates
+import {
+  DefaultLayout,
+  DefaultHomePage,
+  DefaultAboutPage,
+  DefaultProjectsPage,
+  DefaultProjectDetailPage,
+  DefaultAchievementsPage,
+  DefaultContactPage,
+} from "./templates/default";
+
 export default function App() {
   return (
     <Routes>
@@ -50,14 +61,15 @@ export default function App() {
         <Route path="register" element={<RegisterPage />} />
       </Route>
 
-      {/* <Route path="/:username" element={<PublicLayout />}>
-        <Route index element={<PortfolioHomePage />} />{" "}
-        <Route path="about" element={<AboutPage />} />
-        <Route path="achievements" element={<AchievementPage />} />
-        <Route path="projects" element={<ProjectPage />} />
-        <Route path="projects/:projectId" element={<DetailProjectPage />} />
-        <Route path="contact" element={<ContactPage />} />
-      </Route> */}
+      {/* Public Portfolio — Default Template */}
+      <Route path="/:username" element={<DefaultLayout />}>
+        <Route index element={<DefaultHomePage />} />
+        <Route path="about" element={<DefaultAboutPage />} />
+        <Route path="achievements" element={<DefaultAchievementsPage />} />
+        <Route path="projects" element={<DefaultProjectsPage />} />
+        <Route path="projects/:projectId" element={<DefaultProjectDetailPage />} />
+        <Route path="contact" element={<DefaultContactPage />} />
+      </Route>
     </Routes>
   );
 }
