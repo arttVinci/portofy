@@ -216,7 +216,6 @@ export default function AchievementPage() {
         </TabsList>
 
         <div className="mt-4">
-          {/* List */}
           <TabsContent value="list" className="mt-0">
             <AchievementListSection
               achievements={achievements?.data ?? []}
