@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trash2, PencilLine } from "lucide-react";
+import { Trash2, PencilLine, Eye } from "lucide-react";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -53,8 +53,8 @@ export default function ShowcaseCard<T extends BaseCardData>({
           }`}
       >
         {/* Preview */}
-        <div className="p-3 pb-0">
-          <div className="rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-white/5">
+        <div className="p-2 pb-0 sm:p-3 sm:pb-0">
+          <div className="rounded-lg sm:rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-white/5">
             {data.image_url ? (
               <img
                 src={data.image_url}
@@ -70,35 +70,39 @@ export default function ShowcaseCard<T extends BaseCardData>({
         </div>
 
         {/* Info */}
-        <div className="p-4">
-          <h3 className="text-[14px] font-semibold text-slate-800 dark:text-white/80 mb-1">
+        <div className="p-3 sm:p-4">
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-slate-800 dark:text-white/80 mb-0.5 sm:mb-1 line-clamp-1">
             {data.title}
           </h3>
 
-          <p className="text-[12px] leading-relaxed mb-3 line-clamp-2 text-slate-500 dark:text-white/30">
+          <p className="text-[11px] sm:text-[12px] leading-relaxed mb-2.5 sm:mb-3 line-clamp-2 text-slate-500 dark:text-white/30">
             {data.description}
           </p>
 
-          {/* Actions */}
-          <div className="flex gap-2">
+          {/* Actions — icon-only on mobile, text on desktop */}
+          <div className="flex gap-1.5 sm:gap-2">
             {/* View Details Button */}
             <button
               onClick={() => onViewDetail(data)}
-              className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200 cursor-pointer
+              className="flex-1 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-[12px] font-semibold transition-all duration-200 cursor-pointer
+                         flex items-center justify-center gap-1.5
                          bg-slate-900 text-white hover:bg-black
                          dark:bg-white/90 dark:text-[#0a0a0f] dark:hover:bg-white"
             >
-              See Details →
+              <Eye className="w-3 h-3 sm:hidden" />
+              <span className="hidden sm:inline">See Details →</span>
+              <span className="sm:hidden">Detail</span>
             </button>
 
             {/* Edit Button */}
             <button
               onClick={() => onEdit(data)}
-              className="px-4 py-2 flex items-center gap-2 rounded-xl text-[12px] font-medium cursor-pointer transition-all duration-200
+              className="px-2.5 sm:px-4 py-2 flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl text-[11px] sm:text-[12px] font-medium cursor-pointer transition-all duration-200
                          bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200
                          dark:bg-white/5 dark:text-white/30 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white/60"
             >
-              Edit <PencilLine className="w-3 h-3" />
+              <span className="hidden sm:inline">Edit</span>
+              <PencilLine className="w-3 h-3" />
             </button>
 
             {/* Delete Button */}
@@ -108,7 +112,7 @@ export default function ShowcaseCard<T extends BaseCardData>({
                          bg-red-50 text-red-500 border border-red-100 hover:bg-red-100
                          dark:bg-white/5 dark:text-white/30 dark:border-white/10 dark:hover:bg-red-500/10 dark:hover:text-red-400 dark:hover:border-red-500/20"
             >
-              <Trash2 size={16} />
+              <Trash2 size={14} className="sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>

@@ -65,8 +65,8 @@ export function ProjectListSection({
   return (
     <div className="flex flex-col gap-5">
       {/* ── Toolbar ── */}
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-xs">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+        <div className="relative flex-1 sm:max-w-xs">
           <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
           <Input
             placeholder="Cari project..."
@@ -78,7 +78,7 @@ export function ProjectListSection({
         <Button
           size="sm"
           onClick={onAdd}
-          className="gap-1.5 ml-auto shrink-0 cursor-pointer"
+          className="gap-1.5 sm:ml-auto shrink-0 cursor-pointer w-full sm:w-auto"
         >
           <PlusIcon className="size-3.5" />
           Tambah Project
@@ -92,7 +92,7 @@ export function ProjectListSection({
 
       {/* ── Grid ── */}
       {isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
@@ -107,7 +107,7 @@ export function ProjectListSection({
           ))}
         </div>
       ) : filtered.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((project, index) => (
             <ShowcaseCard
               i={index}

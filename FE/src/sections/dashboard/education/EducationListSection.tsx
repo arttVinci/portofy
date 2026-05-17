@@ -167,12 +167,12 @@ export function EducationListSection({
 
                   {/* Card content */}
                   <div
-                    className={`rounded-xl max-w-2xl border border-border/60 bg-card p-4 transition-all group-hover:border-border group-hover:bg-muted/30 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}
+                    className={`rounded-xl max-w-2xl border border-border/60 bg-card p-3 sm:p-4 transition-all group-hover:border-border group-hover:bg-muted/30 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <div className="flex gap-3 min-w-0 flex-1">
+                      <div className="flex gap-2.5 sm:gap-3 min-w-0 flex-1">
                         {/* Logo / icon */}
-                        <div className="size-15 shrink-0 rounded-[10px] border bg-muted flex items-center justify-center overflow-hidden">
+                        <div className="size-10 sm:size-15 shrink-0 rounded-lg sm:rounded-[10px] border bg-muted flex items-center justify-center overflow-hidden">
                           {edu.image_url ? (
                             <img
                               src={edu.image_url}
@@ -236,20 +236,20 @@ export function EducationListSection({
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
+                      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
                         <button
                           onClick={() => onEdit(edu)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/5 text-primary border border-primary/15 hover:bg-primary/10 hover:border-primary/30 hover:shadow-sm transition-all duration-200 cursor-pointer"
+                          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/5 text-primary border border-primary/15 hover:bg-primary/10 hover:border-primary/30 hover:shadow-sm transition-all duration-200 cursor-pointer"
                         >
                           <PencilIcon className="size-3" />
-                          Edit
+                          <span className="hidden sm:inline">Edit</span>
                         </button>
                         <button
                           onClick={() => setDeleteId(edu.id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-destructive/5 text-destructive/80 border border-destructive/15 hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive hover:shadow-sm transition-all duration-200 cursor-pointer"
+                          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-destructive/5 text-destructive/80 border border-destructive/15 hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive hover:shadow-sm transition-all duration-200 cursor-pointer"
                         >
                           <Trash2Icon className="size-3" />
-                          Hapus
+                          <span className="hidden sm:inline">Hapus</span>
                         </button>
                       </div>
                     </div>

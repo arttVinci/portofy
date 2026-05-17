@@ -23,9 +23,9 @@ export default function HomePage() {
 
       {/* About preview */}
       {profile.about && (
-        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <section className="mx-auto max-w-6xl px-4 py-12 sm:py-20 sm:px-6">
           <SectionHeading title="About Me" />
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <AboutSection
               about={
                 profile.about.length > 500
@@ -40,9 +40,9 @@ export default function HomePage() {
       {/* Skills */}
       {skills.length > 0 && (
         <section className="border-t border-border/20 bg-card/20">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:py-20 sm:px-6">
             <SectionHeading title="Skills & Technologies" />
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <SkillGrid skills={skills} />
             </div>
           </div>
@@ -51,12 +51,12 @@ export default function HomePage() {
 
       {/* Featured Projects */}
       {displayProjects.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <section className="mx-auto max-w-6xl px-4 py-12 sm:py-20 sm:px-6">
           <SectionHeading
             title="Projects"
             subtitle="A selection of work I'm proud of"
           />
-          <div className="mt-10">
+          <div className="mt-8 sm:mt-10">
             <ProjectGrid projects={displayProjects} username={username} />
           </div>
         </section>

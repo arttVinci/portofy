@@ -132,7 +132,7 @@ export function ExperienceListSection({
                 {/* Timeline line + dot */}
                 <div className="flex flex-col items-center">
                   <div
-                    className={`relative z-10 flex size-17 shrink-0 items-center justify-center rounded-xl border-2 bg-background shadow-sm transition-all ${
+                    className={`relative z-10 flex size-11 sm:size-17 shrink-0 items-center justify-center rounded-xl border-2 bg-background shadow-sm transition-all ${
                       isActive
                         ? "border-emerald-500/40 group-hover:border-emerald-500/70 group-hover:shadow-emerald-500/10"
                         : "border-border/60 group-hover:border-primary/40 group-hover:shadow-md"
@@ -142,7 +142,7 @@ export function ExperienceListSection({
                       <img
                         src={exp.image_url}
                         alt={exp.company_name}
-                        className="size-15 rounded-lg object-cover"
+                        className="size-9 sm:size-15 rounded-lg object-cover"
                       />
                     ) : (
                       <BriefcaseIcon className="size-4 text-muted-foreground" />
@@ -176,9 +176,9 @@ export function ExperienceListSection({
 
                   {/* Card content */}
                   <div
-                    className={`rounded-xl max-w-2xl border border-border/60 bg-card p-4 shadow-sm transition-all group-hover:shadow-md group-hover:border-primary/20 group-hover:bg-card/80 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}
+                    className={`rounded-xl max-w-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-sm transition-all group-hover:shadow-md group-hover:border-primary/20 group-hover:bg-card/80 ${isActive ? "border-t-2 border-t-emerald-500/40 group-hover:border-t-emerald-500/70" : ""}`}
                   >
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start justify-between gap-2 sm:gap-3">
                       <div className="min-w-0 flex-1">
                         <h3 className="text-sm font-semibold text-foreground truncate leading-snug">
                           {exp.position}
@@ -224,27 +224,27 @@ export function ExperienceListSection({
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
+                      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
                         <button
                           onClick={() => onViewDetail(exp)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-muted/50 text-muted-foreground border border-border/60 hover:bg-muted hover:border-border hover:text-foreground hover:shadow-sm transition-all duration-200 cursor-pointer"
+                          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-muted/50 text-muted-foreground border border-border/60 hover:bg-muted hover:border-border hover:text-foreground hover:shadow-sm transition-all duration-200 cursor-pointer"
                         >
                           <EyeIcon className="size-3" />
-                          Detail
+                          <span className="hidden sm:inline">Detail</span>
                         </button>
                         <button
                           onClick={() => onEdit(exp)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/5 text-primary border border-primary/15 hover:bg-primary/10 hover:border-primary/30 hover:shadow-sm transition-all duration-200 cursor-pointer"
+                          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/5 text-primary border border-primary/15 hover:bg-primary/10 hover:border-primary/30 hover:shadow-sm transition-all duration-200 cursor-pointer"
                         >
                           <PencilIcon className="size-3" />
-                          Edit
+                          <span className="hidden sm:inline">Edit</span>
                         </button>
                         <button
                           onClick={() => setDeleteId(exp.id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-destructive/5 text-destructive/80 border border-destructive/15 hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive hover:shadow-sm transition-all duration-200 cursor-pointer"
+                          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-destructive/5 text-destructive/80 border border-destructive/15 hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive hover:shadow-sm transition-all duration-200 cursor-pointer"
                         >
                           <Trash2Icon className="size-3" />
-                          Hapus
+                          <span className="hidden sm:inline">Hapus</span>
                         </button>
                       </div>
                     </div>
