@@ -46,13 +46,11 @@ export default function FooterSection() {
           {/* Brand & Newsletter (Left Col) */}
           <div className="lg:col-span-5 pr-0 lg:pr-12">
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[1px]">
-                <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-[#050a15] text-white">
-                  <span className="font-bold text-lg bg-gradient-to-br from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                    P
-                  </span>
-                </div>
-              </div>
+              <img
+                src="/images/portofLogo.png"
+                alt="Portofy logo"
+                className="h-10 w-10 rounded-xl object-contain shadow-[0_0_10px_rgba(255,255,255,0.15)]"
+              />
               <span className="text-2xl font-bold text-white tracking-tight">
                 Portofy
               </span>
