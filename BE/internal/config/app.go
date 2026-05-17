@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/generative-ai-go/genai"
@@ -18,18 +19,20 @@ import (
 )
 
 type BootstrapConfig struct {
-	App      *fiber.App
-	DB       *gorm.DB
-	Config   *viper.Viper
-	Log      *logrus.Logger
-	Validate *validator.Validate
-	GoogleAiStudio *genai.Client
+	App              *fiber.App
+	DB               *gorm.DB
+	Config           *viper.Viper
+	Log              *logrus.Logger
+	Validate         *validator.Validate
+	GoogleAiStudio   *genai.Client
+	Cloudinary       *cloudinary.Cloudinary
 }
 
 func Bootstrap(config *BootstrapConfig) {
 	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
 	resend := mail.NewResend(config.Log, config.Config)
 	gemini := agent.NewGeminiAgent(config.GoogleAiStudio, config.Log)
+	cloudinary := storage.NewCloudinaryStorage(config.Cloudinary)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
@@ -43,6 +46,7 @@ func Bootstrap(config *BootstrapConfig) {
 	emailVerificationRepository := repository.NewEmailVerificationRepository()
 	aiDescriptionRepository := repository.NewAIDescriptionRepository(gemini, config.Log)
 	cvParserRepository := repository.NewCVParserRepository(gemini, config.Log)
+	uploadRepository := repository.NewUploadRepository(cloudinary, config.Log)
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
@@ -55,6 +59,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
 	cvParserUseCase := usecase.NewCVParserUseCase(cvParserRepository, config.Log)
+	uploadUseCase := usecase.NewUploadUsecase(uploadRepository, config.Log)
 
 	//Setup Controller
 	userController := controller.NewUserController(userUseCase, config.Log)
@@ -65,7 +70,7 @@ func Bootstrap(config *BootstrapConfig) {
 	educationController := controller.NewEducationController(educationUseCase, config.Log)
 	skillController := controller.NewSkillController(skillUseCase, config.Log)
 	socialController := controller.NewSocialController(socialUseCase, config.Log)
-	uploadController := controller.NewUploadController(localStorage, config.Log)
+	uploadController := controller.NewUploadController(localStorage, uploadUseCase, config.Log)
 	aiDescriptionController := controller.NewAIDescriptionController(aiDescriptionUseCase, config.Log)
 	cvParserController := controller.NewCVParserController(cvParserUseCase, config.Log)
 
@@ -86,6 +91,7 @@ func Bootstrap(config *BootstrapConfig) {
 		UploadController:      uploadController,
 		AIDescriptionController: aiDescriptionController,
 		CVParserController:      cvParserController,
+
 	}
 	routeConfig.Setup()
 }

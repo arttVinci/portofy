@@ -7,16 +7,18 @@ import (
 	"github.com/sirupsen/logrus"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/pkg/storage"
+	"tratech.my.id/server/internal/usecase"
 )
 
 type UploadController struct {
-	Storage storage.FileStorage
-	Log     *logrus.Logger
+	UploadUsecase *usecase.UploadUsecase
+	Storage 	  storage.FileStorage
+	Log           *logrus.Logger
 }
 
-func NewUploadController(storage storage.FileStorage, logger *logrus.Logger) *UploadController {
+func NewUploadController(storage storage.FileStorage, uploadUsecase *usecase.UploadUsecase, logger *logrus.Logger) *UploadController {
 	return &UploadController{
-		Storage: storage,
+		UploadUsecase: uploadUsecase,
 		Log:     logger,
 	}
 }
@@ -77,4 +79,56 @@ func (c *UploadController) UploadImage(ctx *fiber.Ctx) error {
 		Success: true,
 		Message: "Gambar berhasil diunggah",
 	})
+}
+
+func (c *UploadController) UploadImageCloudinary(ctx *fiber.Ctx) error {
+	form, err := ctx.MultipartForm()
+	if err != nil {
+		c.Log.WithError(err).Error("Failed parsing multipart form")
+		return fiber.NewError(fiber.StatusBadRequest, "Gagal membaca form data")
+	}
+
+	files := form.File["images"]
+	if len(files) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "File gambar tidak ditemukan")
+	}
+
+	var imageUrls []string
+
+	for _, file := range files {
+		if file.Size > 7*1024*1024 {
+			c.Log.Warn("Upload failed: file size exceeds 7MB limit")
+			return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
+		}
+		
+		contentType := file.Header.Get("Content-Type")
+		if !strings.HasPrefix(contentType, "image/") {
+			c.Log.Warn("Upload failed: file is not an image")
+			return fiber.NewError(fiber.StatusBadRequest, "Semua file harus berupa gambar")
+		}
+
+		src, err := file.Open()
+		if err != nil {
+			c.Log.WithError(err).Error("Failed open file")
+			return err
+		}
+
+		src.Close()
+
+		url, err := c.UploadUsecase.UploadImage(ctx.Context(), src, "portofy-assets/public")
+		if err != nil {
+			c.Log.WithError(err).Error("Failed save image to server")
+			return fiber.NewError(fiber.StatusInternalServerError, "Gagal menyimpan gambar ke cloudinary")
+		}
+
+		imageUrls = append(imageUrls, url)
+	}
+
+
+	return ctx.JSON(model.WebResponse[map[string][]string]{
+		Data:    map[string][]string{"image_url": imageUrls},
+		Success: true,
+		Message: "Gambar berhasil diunggah",
+	})
+	
 }

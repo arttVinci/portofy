@@ -24,6 +24,7 @@ func main() {
 	validate := config.NewValidator(viperConfig)
 	app := config.NewFiber(viperConfig)
 	googleAiStudio := config.NewGoogleAiStudio(viperConfig)
+	cloudinary, _ := config.NewCloudinary(viperConfig)
 
 	config.Bootstrap(&config.BootstrapConfig{
 		DB:               db,
@@ -32,6 +33,7 @@ func main() {
 		Validate:         validate,
 		Config:           viperConfig,
 		GoogleAiStudio:   googleAiStudio,
+		Cloudinary:       cloudinary,
 	})
 
 	port := os.Getenv("PORT")
