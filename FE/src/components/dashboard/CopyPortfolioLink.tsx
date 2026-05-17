@@ -54,7 +54,7 @@ export function CopyPortfolioLink({ username }: { username: string }) {
 
             <Button size="sm" variant="outline" asChild>
               <a
-                href={PORTFOLIO_URL}
+                href={PORTFOLIO_URL + username}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="gap-1.5 cursor-pointer"

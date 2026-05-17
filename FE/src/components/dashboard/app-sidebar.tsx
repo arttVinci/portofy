@@ -173,7 +173,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip="Live Preview">
-              <a href="" target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://portofy.net/${currentUser?.username ?? ""}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <ExternalLinkIcon />
                 <span>Live Preview</span>
               </a>
