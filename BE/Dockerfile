@@ -10,6 +10,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/main.go
 FROM alpine:latest
 WORKDIR /app
 RUN apk --no-cache add ca-certificates poppler-utils tzdata
-COPY --from=builder /app/server .
-EXPOSE 3000
+
+COPY --from=builder /app/config.json .
+
+ENV PORT=8080
+EXPOSE ${PORT}
+
 CMD ["./server"]

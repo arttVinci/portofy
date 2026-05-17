@@ -1,7 +1,7 @@
 // @title           Tratech API
 // @version         1.0
 // @description     API untuk platform portofolio Tratech
-// @host            localhost:3000
+// @host            localhost:8080
 // @BasePath        /
 
 // @securityDefinitions.apikey  BearerAuth
@@ -12,6 +12,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"tratech.my.id/server/internal/config"
 )
@@ -32,6 +33,13 @@ func main() {
 		Config:           viperConfig,
 		GoogleAiStudio:   googleAiStudio,
 	})
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = fmt.Sprintf("%d", viperConfig.GetInt("web.port"))
+	}
+
+	log.Infof("Server is starting on port :%s", port)
 
 	webPort := viperConfig.GetInt("web.port")
 	err := app.Listen(fmt.Sprintf(":%d", webPort))
