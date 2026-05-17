@@ -51,7 +51,7 @@ func Bootstrap(config *BootstrapConfig) {
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
 	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, uploadImageRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository, uploadImageRepository)
-	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
+	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository, uploadImageRepository)
 	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository, uploadImageRepository)
 	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository, uploadImageRepository)
 	skillUseCase := usecase.NewSkillUsecase(config.DB, config.Log, config.Validate, skillRepository)

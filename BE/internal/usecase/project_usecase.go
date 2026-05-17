@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"mime/multipart"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -16,18 +17,20 @@ import (
 
 // TODO(post-prod): ProjectRepo jadi interface untuk testability
 type ProjectUseCase struct {
-	DB          *gorm.DB
-	Log         *logrus.Logger
-	Validate    *validator.Validate
-	ProjectRepo *repository.ProjectRepository
+	DB              *gorm.DB
+	Log             *logrus.Logger
+	Validate        *validator.Validate
+	ProjectRepo     *repository.ProjectRepository
+	UploadImageRepo *repository.UploadImageRepository
 }
 
-func NewProjectUsecase(db *gorm.DB, log *logrus.Logger, validate *validator.Validate, repo *repository.ProjectRepository) *ProjectUseCase {
+func NewProjectUsecase(db *gorm.DB, log *logrus.Logger, validate *validator.Validate, repo *repository.ProjectRepository, uploadImageRepo *repository.UploadImageRepository) *ProjectUseCase {
 	return &ProjectUseCase{
-		DB:          db,
-		Log:         log,
-		Validate:    validate,
-		ProjectRepo: repo,
+		DB:              db,
+		Log:             log,
+		Validate:        validate,
+		ProjectRepo:     repo,
+		UploadImageRepo: uploadImageRepo,
 	}
 }
 
@@ -133,6 +136,58 @@ func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjec
 	}
 
 	return nil
+}
+
+func (c *ProjectUseCase) UploadThumbnail(ctx context.Context, userId string, projectId string, file *multipart.FileHeader) (string, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	project := new(entity.Project)
+	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, projectId, userId); err != nil {	
+		c.Log.WithError(err).Error("error getting project")
+		return "", fiber.NewError(fiber.StatusNotFound, "Project not found")
+	}
+
+	imageUrl, err := c.UploadImageRepo.UploadImage(ctx, project.ImageUrl, file, "portofy-assets/public/projects")
+	if err != nil {
+		c.Log.WithError(err).Error("error uploading image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing upload project image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save project image")
+	}
+
+	return imageUrl, nil	
+}
+
+func (c *ProjectUseCase) UploadGallery(ctx context.Context, userId string, projectId string, files []*multipart.FileHeader) ([]string, error) {
+    tx := c.DB.WithContext(ctx).Begin()
+    defer tx.Rollback()
+
+    project := new(entity.Project)
+    if err := c.ProjectRepo.FindByIdAndUserId(tx, project, projectId, userId); err != nil {
+        c.Log.WithError(err).Error("error getting project")
+        return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
+    }
+
+    var imageUrls []string
+    for _, file := range files {
+        imageUrl, err := c.UploadImageRepo.UploadImage(ctx, "", file, "portofy-assets/public/projects/gallery")
+        if err != nil {
+            c.Log.WithError(err).Error("error uploading image")
+            return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+        }
+        imageUrls = append(imageUrls, imageUrl)
+    }
+
+    if err := tx.Commit().Error; err != nil {
+        c.Log.WithError(err).Error("error committing upload project gallery")
+        return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save project gallery")
+    }
+
+    return imageUrls, nil
 }
 
 func (c *ProjectUseCase) BulkDelete(ctx context.Context, request *model.BulkDeleteProjectRequest) error {

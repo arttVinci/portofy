@@ -128,11 +128,34 @@ func (c *ProjectController) UploadThumbnail(ctx *fiber.Ctx) error {
 
 	response, err := c.UseCase.UploadThumbnail(ctx.UserContext(), auth.ID, projectId, file)
 	if err != nil {
-		c.Log.WithError(err).Error("error upload education image")
+		c.Log.WithError(err).Error("error upload project thumbnail")
 		return err
 	}
 
 	return ctx.JSON(model.WebResponse[string]{Data: response})
+}
+
+func (c *ProjectController) UploadGallery(ctx *fiber.Ctx) error {
+    auth := middleware.GetUser(ctx)
+    projectId := ctx.Params("projectId")
+
+    form, err := ctx.MultipartForm()
+    if err != nil {
+        return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+    }
+
+    files := form.File["images"]
+    if len(files) == 0 {
+        return fiber.NewError(fiber.StatusBadRequest, "File gambar tidak ditemukan")
+    }
+
+    response, err := c.UseCase.UploadGallery(ctx.UserContext(), auth.ID, projectId, files)
+    if err != nil {
+		c.Log.WithError(err).Error("error upload project gallery")
+        return err
+    }
+
+    return ctx.JSON(model.WebResponse[[]string]{Data: response})
 }
 
 func (c *ProjectController) BulkDelete(ctx *fiber.Ctx) error {
