@@ -45,11 +45,11 @@ func Bootstrap(config *BootstrapConfig) {
 	emailVerificationRepository := repository.NewEmailVerificationRepository()
 	aiDescriptionRepository := repository.NewAIDescriptionRepository(gemini, config.Log)
 	cvParserRepository := repository.NewCVParserRepository(gemini, config.Log)
-	uploadRepository := repository.NewUploadRepository(cloudinary, config.Log)
+	uploadImageRepository := repository.NewUploadImageRepository(cloudinary, config.Log)
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
-	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, achievementRepository, projectRepository, educationRepository, experienceRepository)
+	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, uploadImageRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
 	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository)

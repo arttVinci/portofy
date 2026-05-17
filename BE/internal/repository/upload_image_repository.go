@@ -9,16 +9,16 @@ import (
 	"tratech.my.id/server/internal/pkg/storage"
 )
 
-type UploadRepository struct {
+type UploadImageRepository struct {
 	Storage *storage.CloudinaryStorage
 	Log     *logrus.Logger
 }
 
-func NewUploadRepository(s *storage.CloudinaryStorage, log *logrus.Logger) *UploadRepository {
-    return &UploadRepository{Storage: s, Log: log}
+func NewUploadImageRepository(s *storage.CloudinaryStorage, log *logrus.Logger) *UploadImageRepository {
+    return &UploadImageRepository{Storage: s, Log: log}
 }
 
-func (r *UploadRepository) UploadImage(ctx context.Context, oldUrl string, file multipart.File, folder string) (string, error) {
+func (r *UploadImageRepository) UploadImage(ctx context.Context, oldUrl string, file *multipart.FileHeader, folder string) (string, error) {
     if oldUrl != "" {
         publicID := r.Storage.ExtractPublicID(oldUrl)
         if err := r.Storage.Delete(ctx, publicID); err != nil {

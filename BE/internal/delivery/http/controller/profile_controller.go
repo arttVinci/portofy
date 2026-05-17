@@ -84,6 +84,37 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }
 
+func (c *ProfileController) UploadAvatar(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	file, err := ctx.FormFile("avatar")
+	if err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		c.Log.WithError(err).Error("Failed open file")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file")
+	}
+
+	defer src.Close()
+
+	if file.Size > 7*1024*1024 {
+		c.Log.Warn("Upload failed: file size exceeds 7MB limit")
+		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
+	}
+
+	response, err := c.UseCase.UploadAvatar(ctx.UserContext(), auth.ID, file)
+	if err != nil {
+		c.Log.WithError(err).Error("error upload avatar")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[string]{Data: response})
+}
+
 // Get godoc
 // @Summary      Get profile (user)
 // @Description  Ambil profil milik user yang sedang login

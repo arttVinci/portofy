@@ -2,9 +2,7 @@ package usecase
 
 import (
 	"context"
-	"os"
-	"path/filepath"
-	"strings"
+	"mime/multipart"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -23,10 +21,7 @@ type ProfileUseCase struct {
 	log            *logrus.Logger
 	validate       *validator.Validate
 	profileRepo    *repository.ProfileRepository
-	achivRepo      *repository.AchievementRepository
-	projectRepo    *repository.ProjectRepository
-	educatinRepo   *repository.EducationRepository
-	experienceRepo *repository.ExperienceRepository
+	uploadImageRepo *repository.UploadImageRepository
 }
 
 func NewProfileUseCase(
@@ -34,20 +29,14 @@ func NewProfileUseCase(
 	log *logrus.Logger,
 	validate *validator.Validate,
 	profileRepo *repository.ProfileRepository,
-	achivRepo *repository.AchievementRepository,
-	projectRepo *repository.ProjectRepository,
-	educatinRepo *repository.EducationRepository,
-	experienceRepo *repository.ExperienceRepository,
+	uploadImageRepo *repository.UploadImageRepository,
 ) *ProfileUseCase {
 	return &ProfileUseCase{
 		db:             db,
 		log:            log,
 		validate:       validate,
 		profileRepo:    profileRepo,
-		achivRepo:      achivRepo,
-		projectRepo:    projectRepo,
-		educatinRepo:   educatinRepo,
-		experienceRepo: experienceRepo,
+		uploadImageRepo: uploadImageRepo,
 	}
 }
 
@@ -120,35 +109,32 @@ func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfil
 	return converter.ProfileToResponse(profile), nil
 }
 
-// TODO(post-prod): logic hapus file sebaiknya dipindah ke service/helper tersendiri
-// agar use case tidak langsung akses filesystem (melanggar single responsibility)
-func (c *ProfileUseCase) DeleteImageProfile(ctx context.Context, request *model.GetProfileRequest) error {
-	db := c.db.WithContext(ctx)
 
-	if err := c.validate.Struct(request); err != nil {
-		c.log.WithError(err).Error("error validating request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
-	}
+func (c *ProfileUseCase) UploadAvatar(ctx context.Context, userId string, file *multipart.FileHeader) (string, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
 
 	profile := new(entity.Profile)
-	if err := c.profileRepo.FindByUserId(db, profile, request.UserId); err != nil {
-		return nil
+	
+	if err := c.profileRepo.FindByUserId(tx, profile, userId); err != nil {	
+		c.log.WithError(err).Error("error getting profile")
+		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
 	}
 
-	if profile.ImageUrl == "" {
-		return nil
+	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, profile.ImageUrl, file, "portofy-assets/public/avatars")
+	if err != nil {
+		c.log.WithError(err).Error("error uploading image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
 
-	splitUrl := strings.Split(profile.ImageUrl, "/")
-	fileName := splitUrl[len(splitUrl)-1]
 
-	if fileName != "" && fileName != "uploads" {
-		oldPath := filepath.Join("./public/uploads", fileName)
-		// TODO(post-prod): log error os.Remove jika gagal, jangan di-ignore pakai _
-		_ = os.Remove(oldPath)
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error committing upload profile avatar")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save profile avatar")
 	}
 
-	return nil
+	return imageUrl, nil	
 }
 
 // TODO(post-prod): rename — "Middleware" bukan nama yang tepat untuk method ini

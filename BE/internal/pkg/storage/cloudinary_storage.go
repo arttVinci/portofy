@@ -19,7 +19,7 @@ func NewCloudinaryStorage(client *cloudinary.Cloudinary) *CloudinaryStorage {
     return &CloudinaryStorage{Client: client}
 }
 
-func (s *CloudinaryStorage) Upload(ctx context.Context, file multipart.File, folder string) (string, error) {
+func (s *CloudinaryStorage) Upload(ctx context.Context, file *multipart.FileHeader, folder string) (string, error) {
     response, err := s.Client.Upload.Upload(ctx, file, uploader.UploadParams{
         Folder: folder,
     })
