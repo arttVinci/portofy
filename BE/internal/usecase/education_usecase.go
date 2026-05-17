@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"mime/multipart"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -16,10 +17,11 @@ import (
 )
 
 type EducationUseCase struct {
-	DB            *gorm.DB
-	Log           *logrus.Logger
-	Validate      *validator.Validate
-	EducationRepo *repository.EducationRepository
+	DB              *gorm.DB
+	Log             *logrus.Logger
+	Validate        *validator.Validate
+	EducationRepo   *repository.EducationRepository
+	uploadImageRepo *repository.UploadImageRepository
 }
 
 func NewEducationUseCase(
@@ -27,12 +29,14 @@ func NewEducationUseCase(
 	log *logrus.Logger,
 	validate *validator.Validate,
 	educationRepo *repository.EducationRepository,
+	uploadImageRepo *repository.UploadImageRepository,
 ) *EducationUseCase {
 	return &EducationUseCase{
-		DB:            db,
-		Log:           log,
-		Validate:      validate,
-		EducationRepo: educationRepo,
+		DB:              db,
+		Log:             log,
+		Validate:        validate,
+		EducationRepo:   educationRepo,
+		uploadImageRepo: uploadImageRepo,
 	}
 }
 
@@ -112,6 +116,31 @@ func (c *EducationUseCase) Update(ctx context.Context, request *model.UpdateEduc
 	}
 
 	return converter.EducationToResponse(education), nil
+}
+
+func (c *EducationUseCase) UploadImage(ctx context.Context, userId string, educationId string, file *multipart.FileHeader) (string, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	education := new(entity.Education)
+	
+	if err := c.EducationRepo.FindByIdAndUserId(tx, education, educationId, userId); err != nil {	
+		c.Log.WithError(err).Error("error getting education")
+		return "", fiber.NewError(fiber.StatusNotFound, "Education not found")
+	}
+
+	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, education.ImageUrl, file, "portofy-assets/public/educations")
+	if err != nil {
+		c.Log.WithError(err).Error("error uploading image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing upload education image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save education image")
+	}
+
+	return imageUrl, nil	
 }
 
 func (c *EducationUseCase) Delete(ctx context.Context, request *model.DeleteEducationRequest) error {

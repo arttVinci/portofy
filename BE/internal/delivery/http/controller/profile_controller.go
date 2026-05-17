@@ -93,14 +93,6 @@ func (c *ProfileController) UploadAvatar(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
 	}
 
-	src, err := file.Open()
-	if err != nil {
-		c.Log.WithError(err).Error("Failed open file")
-		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file")
-	}
-
-	defer src.Close()
-
 	if file.Size > 7*1024*1024 {
 		c.Log.Warn("Upload failed: file size exceeds 7MB limit")
 		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")

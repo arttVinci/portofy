@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 
+	"mime/multipart"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -15,10 +17,11 @@ import (
 )
 
 type AchievementUseCase struct {
-	DB         *gorm.DB
-	Log        *logrus.Logger
-	Validate   *validator.Validate
-	AchievRepo *repository.AchievementRepository
+	DB              *gorm.DB
+	Log             *logrus.Logger
+	Validate        *validator.Validate
+	AchievRepo      *repository.AchievementRepository
+	uploadImageRepo *repository.UploadImageRepository
 }
 
 func NewAchievementUseCase(
@@ -26,12 +29,14 @@ func NewAchievementUseCase(
 	log *logrus.Logger,
 	validate *validator.Validate,
 	achievRepo *repository.AchievementRepository,
+	uploadImageRepo *repository.UploadImageRepository,
 ) *AchievementUseCase {
 	return &AchievementUseCase{
-		DB:         DB,
-		Log:        log,
-		Validate:   validate,
-		AchievRepo: achievRepo,
+		DB:              DB,
+		Log:             log,
+		Validate:        validate,
+		AchievRepo:      achievRepo,
+		uploadImageRepo: uploadImageRepo,
 	}
 }
 
@@ -102,6 +107,31 @@ func (u *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAc
 	}
 
 	return converter.AchievementToResponse(achievement), nil
+}
+
+func (c *AchievementUseCase) UploadImage(ctx context.Context, userId string, achievementId string, file *multipart.FileHeader) (string, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	achievement := new(entity.Achievement)
+	
+	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, achievementId, userId); err != nil {	
+		c.Log.WithError(err).Error("error getting achievement")
+		return "", fiber.NewError(fiber.StatusNotFound, "Achievement not found")
+	}
+
+	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, achievement.ImageUrl, file, "portofy-assets/public/achievements")
+	if err != nil {
+		c.Log.WithError(err).Error("error uploading image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing upload achievement image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save achievement image")
+	}
+
+	return imageUrl, nil	
 }
 
 func (u *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAchievementRequest) error {

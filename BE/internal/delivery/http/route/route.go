@@ -66,6 +66,7 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Patch("/api/users/_current", c.UserController.Update)
 	c.App.Get("/api/users/_current", c.UserController.Current)
 
+	c.App.Post("/api/profiles/_avatar", c.ProfileController.UploadAvatar)
 	c.App.Get("/api/profiles", c.ProfileController.Get)
 	c.App.Post("/api/profiles", c.ProfileController.Create)
 	c.App.Put("/api/profiles", c.ProfileController.Update)
@@ -75,6 +76,7 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/achievements/_bulk", c.AchievementController.BulkCreate)
 	c.App.Post("/api/achievements", c.AchievementController.Create)
 	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
+	c.App.Post("/api/achievements/:achievementId/_image", c.AchievementController.UploadImage)
 	c.App.Delete("/api/achievements/_bulk", c.AchievementController.BulkDelete)
 	c.App.Delete("/api/achievements/:achievementId", c.AchievementController.Delete)
 
@@ -91,6 +93,7 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/experiences/_bulk", c.ExperienceController.BulkCreate)
 	c.App.Post("/api/experiences", c.ExperienceController.Create)
 	c.App.Put("/api/experiences/:experienceId", c.ExperienceController.Update)
+	c.App.Post("/api/experiences/:experienceId/_image", c.ExperienceController.UploadImage)
 	c.App.Delete("/api/experiences/_bulk", c.ExperienceController.BulkDelete)
 	c.App.Delete("/api/experiences/:experienceId", c.ExperienceController.Delete)
 	
@@ -100,6 +103,7 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/educations/_bulk", c.EducationController.BulkCreate)
 	c.App.Post("/api/educations", c.EducationController.Create)
 	c.App.Put("/api/educations/:educationId", c.EducationController.Update)
+	c.App.Post("/api/educations/:educationId/_image", c.EducationController.UploadImage)
 	c.App.Delete("/api/educations/_bulk", c.EducationController.BulkDelete)
 	c.App.Delete("/api/educations/:educationId", c.EducationController.Delete)
 

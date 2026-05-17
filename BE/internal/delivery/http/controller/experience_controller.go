@@ -83,6 +83,30 @@ func (c *ExperienceController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
 
+func (c *ExperienceController) UploadImage(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+	experienceId := ctx.Params("experienceId")
+
+	file, err := ctx.FormFile("image")
+	if err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
+
+	if file.Size > 7*1024*1024 {
+		c.Log.Warn("Upload failed: file size exceeds 7MB limit")
+		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
+	}
+
+	response, err := c.UseCase.UploadImage(ctx.UserContext(), auth.ID, experienceId, file)
+	if err != nil {
+		c.Log.WithError(err).Error("error upload experience image")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[string]{Data: response})
+}
+
 // Delete godoc
 // @Summary      Delete experience
 // @Tags         Experience

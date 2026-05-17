@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"mime/multipart"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -16,10 +17,11 @@ import (
 )
 
 type ExperienceUseCase struct {
-	DB             *gorm.DB
-	Log            *logrus.Logger
-	Validate       *validator.Validate
-	ExperienceRepo *repository.ExperienceRepository
+	DB              *gorm.DB
+	Log             *logrus.Logger
+	Validate        *validator.Validate
+	ExperienceRepo  *repository.ExperienceRepository
+	uploadImageRepo *repository.UploadImageRepository
 }
 
 func NewExperienceUseCase(
@@ -27,12 +29,14 @@ func NewExperienceUseCase(
 	log *logrus.Logger,
 	validate *validator.Validate,
 	experienceRepo *repository.ExperienceRepository,
+	uploadImageRepo *repository.UploadImageRepository,
 ) *ExperienceUseCase {
 	return &ExperienceUseCase{
-		DB:             db,
-		Log:            log,
-		Validate:       validate,
-		ExperienceRepo: experienceRepo,
+		DB:              db,
+		Log:             log,
+		Validate:        validate,
+		ExperienceRepo:  experienceRepo,
+		uploadImageRepo: uploadImageRepo,
 	}
 }
 
@@ -111,6 +115,31 @@ func (c *ExperienceUseCase) Update(ctx context.Context, request *model.UpdateExp
 	}
 
 	return converter.ExperienceToResponse(experience), nil
+}
+
+func (c *ExperienceUseCase) UploadImage(ctx context.Context, userId string, experienceId string, file *multipart.FileHeader) (string, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	experience := new(entity.Experience)
+	
+	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, experienceId, userId); err != nil {	
+		c.Log.WithError(err).Error("error getting experience")
+		return "", fiber.NewError(fiber.StatusNotFound, "Experience not found")
+	}
+
+	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, experience.ImageUrl, file, "portofy-assets/public/experiences")
+	if err != nil {
+		c.Log.WithError(err).Error("error uploading image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error committing upload experience image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save experience image")
+	}
+
+	return imageUrl, nil	
 }
 
 func (c *ExperienceUseCase) Delete(ctx context.Context, request *model.DeleteExperienceRequest) error {

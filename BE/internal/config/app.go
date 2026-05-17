@@ -50,10 +50,10 @@ func Bootstrap(config *BootstrapConfig) {
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
 	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, uploadImageRepository)
-	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
+	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository, uploadImageRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
-	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository)
-	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository)
+	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository, uploadImageRepository)
+	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository, uploadImageRepository)
 	skillUseCase := usecase.NewSkillUsecase(config.DB, config.Log, config.Validate, skillRepository)
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
