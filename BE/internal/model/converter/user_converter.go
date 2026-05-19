@@ -10,7 +10,6 @@ func UserToResponse(user *entity.User) *model.UserResponse {
 		ID:        user.ID,
 		Username:  user.Username,
 		Email:     user.Email,
-		Phone:     user.Phone,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 	}
