@@ -7,7 +7,9 @@ import (
 	"github.com/google/generative-ai-go/genai"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"golang.org/x/oauth2"
 	"gorm.io/gorm"
+
 	"tratech.my.id/server/internal/delivery/http/controller"
 	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/delivery/http/route"
@@ -26,12 +28,14 @@ type BootstrapConfig struct {
 	Validate         *validator.Validate
 	GoogleAiStudio   *genai.Client
 	Cloudinary       *cloudinary.Cloudinary
+	GoogleOAuth      *oauth2.Config
 }
 
 func Bootstrap(config *BootstrapConfig) {
 	resend := mail.NewResend(config.Log, config.Config)
 	gemini := agent.NewGeminiAgent(config.GoogleAiStudio, config.Log)
 	cloudinary := storage.NewCloudinaryStorage(config.Cloudinary)
+	googleOAuth := InitGoogleOAuth(config.Config)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
@@ -58,6 +62,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 	aiDescriptionUseCase := usecase.NewAIDescriptionUseCase(aiDescriptionRepository, config.Validate ,config.Log)
 	cvParserUseCase := usecase.NewCVParserUseCase(cvParserRepository, config.Log)
+	oauthUseCase := usecase.NewOauthUseCase(googleOAuth, config.Log, userRepository, config.DB, config.Config)
 
 	//Setup Controller
 	userController := controller.NewUserController(userUseCase, config.Log)
@@ -70,6 +75,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialController := controller.NewSocialController(socialUseCase, config.Log)
 	aiDescriptionController := controller.NewAIDescriptionController(aiDescriptionUseCase, config.Log)
 	cvParserController := controller.NewCVParserController(cvParserUseCase, config.Log)
+	oauthController := controller.NewOauthController(oauthUseCase, config.Log, config.Config)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -87,7 +93,7 @@ func Bootstrap(config *BootstrapConfig) {
 		SocialController:      socialController,
 		AIDescriptionController: aiDescriptionController,
 		CVParserController:      cvParserController,
-
+		OauthController:         oauthController,
 	}
 	routeConfig.Setup()
 }

@@ -13,6 +13,7 @@ import MarketingAboutPage from "./pages/home/AboutPage";
 // 3. Pages Auth
 import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
+import OAuthCallbackPage from "./pages/auth/OAuthCallbackPage";
 
 // Pages Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -23,6 +24,7 @@ import DashboardEducationPage from "./pages/dashboard/EducationPage";
 import DashboardExperiencePage from "./pages/dashboard/ExperiencePage";
 import DashboardSkillPage from "./pages/dashboard/SkillPage";
 import CVBuilderPage from "./pages/dashboard/CVParserPage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
 
 // 4. Public Portfolio Templates
 import {
@@ -54,11 +56,13 @@ export default function App() {
         <Route path="experience" element={<DashboardExperiencePage />} />
         <Route path="skills" element={<DashboardSkillPage />} />
         <Route path="cv-parser" element={<CVBuilderPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="callback" element={<OAuthCallbackPage />} />
       </Route>
 
       {/* Public Portfolio — Default Template */}
@@ -67,7 +71,10 @@ export default function App() {
         <Route path="about" element={<DefaultAboutPage />} />
         <Route path="achievements" element={<DefaultAchievementsPage />} />
         <Route path="projects" element={<DefaultProjectsPage />} />
-        <Route path="projects/:projectId" element={<DefaultProjectDetailPage />} />
+        <Route
+          path="projects/:projectId"
+          element={<DefaultProjectDetailPage />}
+        />
         <Route path="contact" element={<DefaultContactPage />} />
       </Route>
     </Routes>

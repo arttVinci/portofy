@@ -1,10 +1,10 @@
 package model
 
 type UserResponse struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Phone    string `json:"phone,omitempty"`
-	Email    string `json:"email"`
+	ID           string `json:"id"`
+	Username     string `json:"username"`
+	Email        string `json:"email"`
+	AuthProvider string `json:"auth_provider,omitempty"`
 
 	CreatedAt int64 `json:"created_at,omitempty"`
 	UpdatedAt int64 `json:"updated_at,omitempty"`
@@ -19,7 +19,6 @@ type RegisterUserRequest struct {
 	Username string `json:"username" validate:"required,min=3,max=30,alphanum"` // Hanya huruf & angka
 	Password string `json:"password" validate:"required,min=8,max=100"`         // Min 8 karakter
 	Email    string `json:"email" validate:"required,email"`                    // Validasi format email wajib
-	Phone    string `json:"phone" validate:"omitempty,numeric,min=10,max=15"`   // Validasi nomor telepon
 
 	OtpCode string `json:"otp_code" validate:"required,len=6"`
 }
@@ -33,7 +32,6 @@ type UpdateUserRequest struct {
 	ID       string `json:"-" validate:"required"`
 	Username string `json:"username,omitempty" validate:"omitempty,min=3,max=30,alphanum"`
 	Password string `json:"password,omitempty" validate:"omitempty,min=8,max=100"`
-	Phone    string `json:"phone,omitempty" validate:"omitempty,numeric,min=10,max=15"`
 	Email    string `json:"email,omitempty" validate:"omitempty,email"`
 }
 

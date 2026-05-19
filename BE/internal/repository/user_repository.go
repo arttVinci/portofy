@@ -20,3 +20,7 @@ func NewUserRepository(log *logrus.Logger) *UserRepository {
 func (r *UserRepository) FindByUsername(db *gorm.DB, user *entity.User, username string) error {
 	return db.Where("username = ?", username).First(user).Error
 }
+
+func (r *UserRepository) FindByEmail(db *gorm.DB, user *entity.User, email string) error {
+	return db.Where("email = ?", email).First(user).Error
+}

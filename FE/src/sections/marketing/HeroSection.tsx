@@ -10,6 +10,8 @@ import {
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
+import { Link } from "react-router-dom";
+
 /* ─── AI Analyzer criteria ─────────────────────────────── */
 const ANALYZER_CRITERIA = [
   { label: "Kelengkapan Profil", pct: 95, color: "#60a5fa" },
@@ -97,14 +99,23 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                as="button"
-                className="bg-black text-white flex items-center space-x-1.5 sm:space-x-2 cursor-pointer text-sm px-6 py-3 sm:px-5 sm:py-2.5"
-              >
-                <span className="font-semibold whitespace-nowrap">Mulai Gratis</span>
-                <IconArrowRight size={14} stroke={2.5} className="sm:w-[17px] sm:h-[17px]" />
-              </HoverBorderGradient>
+              <Link to="/auth/register">
+                <HoverBorderGradient
+                  containerClassName="rounded-full"
+                  as="button"
+                  className="bg-black text-white flex items-center space-x-1.5 sm:space-x-2 cursor-pointer text-sm px-6 py-3 sm:px-5 sm:py-2.5"
+                >
+                  <span className="font-semibold whitespace-nowrap">
+                    Mulai Gratis
+                  </span>
+                  <IconArrowRight
+                    size={14}
+                    stroke={2.5}
+                    className="sm:w-[17px] sm:h-[17px]"
+                  />
+                </HoverBorderGradient>
+              </Link>
+
               <button
                 onClick={() =>
                   document

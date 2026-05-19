@@ -43,12 +43,10 @@ export default function CreateUserProfile({
   setAvatarImageFile,
 }: CreateUserProfileProps) {
   return (
-    <div
-      className="grid grid-cols-5 divide-x divide-white/[0.06]"
-    >
+    <div className="flex flex-col md:grid md:grid-cols-5 md:divide-x divide-white/[0.06]">
       {/* Left: profile form */}
       <div
-        className="p-5 col-span-3 space-y-3.5 overflow-y-auto no-scrollbar"
+        className="p-4 sm:p-5 md:col-span-3 space-y-3.5 overflow-y-auto no-scrollbar"
         style={{ maxHeight: 480 }}
       >
         <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600">
@@ -56,13 +54,13 @@ export default function CreateUserProfile({
         </span>
 
         {/* Avatar + Nama */}
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
           <AvatarUpload
             preview={avatarPreview}
             setAvatarPreviewUrl={setAvatarPreview}
             setAvatarImageFile={setAvatarImageFile}
           />
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500 mb-2">
               Nama Lengkap
             </label>
@@ -134,9 +132,9 @@ export default function CreateUserProfile({
         </div>
       </div>
 
-      {/* Right: CV upload */}
+      {/* Right / Bottom: CV upload */}
       {!cvFile && (
-        <div className="p-5 flex flex-col col-span-2">
+        <div className="p-4 sm:p-5 flex flex-col md:col-span-2 border-t md:border-t-0 border-white/[0.06]">
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-3">
             Atau upload CV
           </span>
