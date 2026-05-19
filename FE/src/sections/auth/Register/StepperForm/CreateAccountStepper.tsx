@@ -14,6 +14,7 @@ interface CreateAccountStepperProps {
   setFocused: (field: string | null) => void;
   setShowPw: (v: boolean) => void;
   setShowCpw: (v: boolean) => void;
+  onGoogleLogin: () => void;
 }
 
 const inputCn = (isFocused: boolean) =>
@@ -37,6 +38,7 @@ export default function CreateAccountStepper({
   setFocused,
   setShowPw,
   setShowCpw,
+  onGoogleLogin,
 }: CreateAccountStepperProps) {
   return (
     <div className="p-6 space-y-5">
@@ -47,6 +49,7 @@ export default function CreateAccountStepper({
         </span>
         <button
           type="button"
+          onClick={onGoogleLogin}
           className="w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-medium border border-white/[0.08] bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all duration-200 cursor-pointer"
         >
           <IconBrandGoogle size={18} stroke={1.5} />

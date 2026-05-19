@@ -388,7 +388,7 @@ export default function RegisterPage() {
       </div>
 
       {/* ── RIGHT FORM ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center px-3 sm:px-6 py-6 sm:py-10 relative z-10">
         {/* Mobile brand */}
         <div className="lg:hidden mb-8">
           <a href="/" className="flex items-center gap-2.5">
@@ -406,7 +406,7 @@ export default function RegisterPage() {
           </a>
         </div>
 
-        <div className="w-full max-w-150">
+        <div className="w-full max-w-[calc(100vw-1.5rem)] sm:max-w-150">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div
@@ -422,7 +422,7 @@ export default function RegisterPage() {
                   <div className="h-px bg-linear-to-r from-transparent via-blue-500/40 to-transparent" />
 
                   {/* Stepper header */}
-                  <div className="px-6 pt-5 pb-4 border-b border-white/6">
+                  <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-3 sm:pb-4 border-b border-white/6">
                     <div className="flex items-center mb-3">
                       {steps.map((s, i) => {
                         const isDone = step > s.num;
@@ -503,6 +503,7 @@ export default function RegisterPage() {
                             setFocused={setFocused}
                             setShowPw={setShowPw}
                             setShowCpw={setShowCpw}
+                            onGoogleLogin={handleGoogleLogin}
                           />
                         )}
 
@@ -538,7 +539,7 @@ export default function RegisterPage() {
                   </div>
 
                   {/* Footer nav */}
-                  <div className="px-6 py-4 flex items-center justify-between border-t border-white/6">
+                  <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-t border-white/6">
                     {step > 1 && !isOAuth ? (
                       <button
                         onClick={goPrev}
@@ -587,15 +588,22 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Login link */}
-                <p className="text-center mt-6 text-sm text-slate-500">
-                  Sudah punya akun?{" "}
-                  <a
-                    href="/auth/login"
-                    className="font-semibold text-slate-300 hover:text-white transition-colors"
-                  >
-                    Masuk
-                  </a>
-                </p>
+                {step === 1 && (
+                  <p className="text-center mt-6 text-sm text-slate-500">
+                    Sudah punya akun?{" "}
+                    <a
+                      href="/auth/login"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+                        window.location.href = "/auth/login";
+                      }}
+                      className="font-semibold text-slate-300 hover:text-white transition-colors"
+                    >
+                      Masuk
+                    </a>
+                  </p>
+                )}
               </motion.div>
             ) : (
               <SuccessScreen
