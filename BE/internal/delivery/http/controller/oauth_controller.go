@@ -48,7 +48,7 @@ func (c *OauthController) Login(ctx *fiber.Ctx) error {
 		Value:    state,
 		Expires:  time.Now().Add(stateTTL),
 		HTTPOnly: true,
-		Secure:   false,
+		Secure:   true,
 		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 	
@@ -73,7 +73,7 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		Value:    "",
 		Expires:  time.Now().Add(-1 * time.Hour),
 		HTTPOnly: true,
-		Secure:   false,
+		Secure:   true,
 		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 
