@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { IconCheck, IconArrowRight, IconArrowLeft } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { ApiError } from "@/api/apiError";
+import { useSearchParams } from "react-router-dom";
+import { STORAGE_KEYS } from "@/config/api.config";
 
 import SuccessScreen from "@/components/auth/SuccessScreen";
 
@@ -48,6 +50,8 @@ interface FormData {
 
 export default function RegisterPage() {
   const { toast, renderToasts } = useToast();
+  const [searchParams] = useSearchParams();
+  const isOAuth = searchParams.get("oauth") === "true";
 
   const [token, setToken] = useState<string>("");
 
@@ -78,6 +82,10 @@ export default function RegisterPage() {
     tags: [],
     userId: "",
   });
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://127.0.0.1:8080/api/auth/google/login";
+  };
 
   const createUserMutation = useRegister({
     onSuccess: (response) => {
@@ -205,6 +213,30 @@ export default function RegisterPage() {
   };
 
   useEffect(() => {
+    // OAuth flow: user already has an account + token, skip to step 3
+    if (isOAuth) {
+      const savedToken = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      if (savedToken) {
+        setToken(savedToken);
+        setStep(3);
+        setDir(1);
+
+        // Decode JWT to extract userId
+        try {
+          const payload = JSON.parse(atob(savedToken.split(".")[1]));
+          setFormData((prev) => ({
+            ...prev,
+            userId: payload.id || "",
+            username: payload.username || "",
+          }));
+        } catch (e) {
+          console.error("Failed to decode OAuth token:", e);
+        }
+      }
+      return;
+    }
+
+    // Normal register flow: resume from saved state
     const savedToken = localStorage.getItem("authToken");
     const savedStep = localStorage.getItem("registerStep");
     const savedUserData = localStorage.getItem("registerData");
@@ -227,7 +259,7 @@ export default function RegisterPage() {
         }));
       }
     }
-  }, []);
+  }, [isOAuth]);
 
   useEffect(() => {
     if (token && step > 1) {
@@ -507,7 +539,7 @@ export default function RegisterPage() {
 
                   {/* Footer nav */}
                   <div className="px-6 py-4 flex items-center justify-between border-t border-white/6">
-                    {step > 1 ? (
+                    {step > 1 && !isOAuth ? (
                       <button
                         onClick={goPrev}
                         className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-300 cursor-pointer transition-colors"

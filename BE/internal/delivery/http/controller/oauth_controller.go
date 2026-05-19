@@ -48,8 +48,8 @@ func (c *OauthController) Login(ctx *fiber.Ctx) error {
 		Value:    state,
 		Expires:  time.Now().Add(stateTTL),
 		HTTPOnly: true,
-		Secure:   true,
-		SameSite: fiber.CookieSameSiteStrictMode,
+		Secure:   false,
+		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 	
 	return ctx.Redirect(url)
@@ -73,8 +73,8 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		Value:    "",
 		Expires:  time.Now().Add(-1 * time.Hour),
 		HTTPOnly: true,
-		Secure:   true,
-		SameSite: fiber.CookieSameSiteStrictMode,
+		Secure:   false,
+		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 
 	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url")
