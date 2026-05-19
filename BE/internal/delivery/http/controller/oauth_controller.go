@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
-	"tratech.my.id/server/internal/model"
+	"github.com/spf13/viper"
 	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/usecase"
 )
@@ -13,12 +14,14 @@ import (
 type OauthController struct {
 	OauthUseCase *usecase.OauthUseCase
 	Log 		 *logrus.Logger
+	Viper 		 *viper.Viper
 }
 
-func NewOauthController(oauthUseCase *usecase.OauthUseCase, log *logrus.Logger) *OauthController {
+func NewOauthController(oauthUseCase *usecase.OauthUseCase, log *logrus.Logger, viper *viper.Viper) *OauthController {
 	return &OauthController{
 		OauthUseCase: oauthUseCase,
 		Log: log,
+		Viper: viper,
 	}
 }
 
@@ -80,5 +83,7 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Error callback oauth")
 	}
 	
-	return ctx.JSON(model.WebResponse[*model.LoginUserResponse]{Data: response})
+	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url")
+	redirectURL := fmt.Sprintf("%s/auth/callback?token=%s", frontendURL, response.Token)
+	return ctx.Redirect(redirectURL)
 }
