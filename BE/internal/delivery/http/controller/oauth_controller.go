@@ -77,13 +77,15 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		SameSite: fiber.CookieSameSiteStrictMode,
 	})
 
+	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url")
+
 	response, err := c.OauthUseCase.Callback(ctx.UserContext(), ctx.Query("code"))
 	if err != nil {
 		c.Log.WithError(err).Error("Error callback oauth")
-		return fiber.NewError(fiber.StatusBadRequest, "Error callback oauth")
+		errorRedirect := fmt.Sprintf("%s/auth/login?error=oauth_failed", frontendURL)
+		return ctx.Redirect(errorRedirect)
 	}
 	
-	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url")
 	redirectURL := fmt.Sprintf("%s/auth/callback?token=%s", frontendURL, response.Token)
 	return ctx.Redirect(redirectURL)
 }

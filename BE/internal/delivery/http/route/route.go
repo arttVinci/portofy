@@ -19,6 +19,7 @@ type RouteConfig struct {
 	SocialController        *controller.SocialController
 	AIDescriptionController *controller.AIDescriptionController
 	CVParserController      *controller.CVParserController
+	OauthController         *controller.OauthController
 }
 
 func (c *RouteConfig) Setup() {
@@ -37,6 +38,9 @@ func (c *RouteConfig) SetupGuestRoute() {
 	c.App.Post("/api/users", c.UserController.Register)
 	c.App.Post("/api/users/_otp", c.UserController.RequestOTP)
 	c.App.Post("/api/users/_login", c.UserController.Login)
+
+	c.App.Get("/api/auth/google/login", c.OauthController.Login)
+	c.App.Get("/api/auth/google/callback", c.OauthController.Callback)
 }
 
 func (c *RouteConfig) SetupPublicRoute() {

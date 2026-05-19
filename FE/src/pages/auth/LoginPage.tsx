@@ -41,6 +41,10 @@ export default function LoginPage() {
     },
   });
 
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/api/auth/google/login";
+  };
+
   return (
     <div className="relative flex min-h-screen bg-[#070e1b] font-sans overflow-hidden">
       {/* ── Background grid ── */}
@@ -171,6 +175,7 @@ export default function LoginPage() {
               {/* Google SSO */}
               <button
                 type="button"
+                onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-medium border border-white/[0.08] bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all duration-200 cursor-pointer"
               >
                 <IconBrandGoogle size={18} stroke={1.5} />

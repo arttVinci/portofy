@@ -13,6 +13,7 @@ import MarketingAboutPage from "./pages/home/AboutPage";
 // 3. Pages Auth
 import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
+import OAuthCallbackPage from "./pages/auth/OAuthCallbackPage";
 
 // Pages Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -59,6 +60,7 @@ export default function App() {
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="callback" element={<OAuthCallbackPage />} />
       </Route>
 
       {/* Public Portfolio — Default Template */}
@@ -67,7 +69,10 @@ export default function App() {
         <Route path="about" element={<DefaultAboutPage />} />
         <Route path="achievements" element={<DefaultAchievementsPage />} />
         <Route path="projects" element={<DefaultProjectsPage />} />
-        <Route path="projects/:projectId" element={<DefaultProjectDetailPage />} />
+        <Route
+          path="projects/:projectId"
+          element={<DefaultProjectDetailPage />}
+        />
         <Route path="contact" element={<DefaultContactPage />} />
       </Route>
     </Routes>
