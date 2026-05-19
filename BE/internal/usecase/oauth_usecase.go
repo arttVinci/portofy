@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
@@ -60,7 +61,8 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Gagal mendapatkan informasi user dari google")
 	}
 
-	googleUser, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+	client := &http.Client{Timeout: 10 * time.Second}
+	googleUser, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
 		u.Log.WithError(err).Error("error getting user info from google")
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Gagal mendapatkan informasi user dari google")
@@ -90,6 +92,7 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 		Email: userInfo.Email,
 		Username: fmt.Sprintf("%s_%s", strings.ReplaceAll(userInfo.Name, " ", ""), utils.GenerateRandomString(4)),
 		Password: "",
+		AuthProvider: "google",
 	}
 
 	tx := u.DB.WithContext(ctx).Begin()

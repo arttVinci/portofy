@@ -132,10 +132,11 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 	}
 
 	user := &entity.User{
-		ID:       userId,
-		Password: string(password),
-		Username: request.Username,
-		Email:    request.Email,
+		ID:           userId,
+		Password:     string(password),
+		Username:     request.Username,
+		Email:        request.Email,
+		AuthProvider: "local",
 	}
 
 	if err := c.UserRepository.Create(tx, user); err != nil {
@@ -222,6 +223,11 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 		c.Log.Warnf("Failed find user by username : %+v", err)
 		// Pesan sengaja digabung agar tidak bocorkan info username valid/tidak
 		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau password anda salah")
+	}
+
+	if user.AuthProvider != "local" {
+		c.Log.Warnf("User is not local : %+v", user.AuthProvider)
+		return nil, fiber.NewError(fiber.StatusUnauthorized, "Akun ini terdaftar via Google, silahkan login menggunakan Google")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
