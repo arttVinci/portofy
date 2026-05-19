@@ -42,7 +42,8 @@ export default function LoginPage() {
   });
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://127.0.0.1:8080/api/auth/google/login";
+    window.location.href =
+      "https://portofy-be-482363896451.asia-southeast2.run.app/api/auth/google/login";
   };
 
   return (
