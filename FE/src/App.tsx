@@ -24,6 +24,7 @@ import DashboardEducationPage from "./pages/dashboard/EducationPage";
 import DashboardExperiencePage from "./pages/dashboard/ExperiencePage";
 import DashboardSkillPage from "./pages/dashboard/SkillPage";
 import CVBuilderPage from "./pages/dashboard/CVParserPage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
 
 // 4. Public Portfolio Templates
 import {
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="experience" element={<DashboardExperiencePage />} />
         <Route path="skills" element={<DashboardSkillPage />} />
         <Route path="cv-parser" element={<CVBuilderPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="/auth" element={<AuthLayout />}>

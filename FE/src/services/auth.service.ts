@@ -5,6 +5,7 @@ import type {
   ApiResponse,
   UserResponse,
   SendOtpRequest,
+  UpdateUserRequest,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 
@@ -47,6 +48,13 @@ class AuthService {
       `${this.BASE_PATH}/_otp`,
       payload,
     );
+
+    return response.data.data;
+  }
+
+  async updateUser(payload: UpdateUserRequest): Promise<UserResponse> {
+    const response: AxiosResponse<ApiResponse<UserResponse>> =
+      await apiClient.patch(`${this.BASE_PATH}/_current`, payload);
 
     return response.data.data;
   }

@@ -1,9 +1,10 @@
 package model
 
 type UserResponse struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
+	ID           string `json:"id"`
+	Username     string `json:"username"`
+	Email        string `json:"email"`
+	AuthProvider string `json:"auth_provider,omitempty"`
 
 	CreatedAt int64 `json:"created_at,omitempty"`
 	UpdatedAt int64 `json:"updated_at,omitempty"`
