@@ -88,7 +88,7 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 	user := &entity.User{
 		ID: userId,
 		Email: userInfo.Email,
-		Username: strings.ReplaceAll(userInfo.Name, " ", ""),
+		Username: fmt.Sprintf("%s_%s", strings.ReplaceAll(userInfo.Name, " ", ""), utils.GenerateRandomString(4)),
 		Password: "",
 	}
 
