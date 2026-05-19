@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
+	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/usecase"
 )
@@ -73,6 +74,11 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		SameSite: fiber.CookieSameSiteStrictMode,
 	})
 
+	response, err := c.OauthUseCase.Callback(ctx.UserContext(), ctx.Query("code"))
+	if err != nil {
+		c.Log.WithError(err).Error("Error callback oauth")
+		return fiber.NewError(fiber.StatusBadRequest, "Error callback oauth")
+	}
 	
-	
+	return ctx.JSON(model.WebResponse[*model.LoginUserResponse]{Data: response})
 }

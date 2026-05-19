@@ -2,21 +2,16 @@ package usecase
 
 import (
 	"context"
-	"crypto/rand"
-	"errors"
-	"fmt"
-	"math/big"
-	"strings"
 	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"tratech.my.id/server/internal/auth"
 	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/model/converter"
@@ -130,7 +125,7 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
-	userId, err := c.generateUserId(request.Username)
+	userId, err := utils.GenerateUserId(request.Username)
 	if err != nil {
 		c.Log.Warnf("Failed to generate user id : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
@@ -141,7 +136,6 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		Password: string(password),
 		Username: request.Username,
 		Email:    request.Email,
-		Phone:    request.Phone,
 	}
 
 	if err := c.UserRepository.Create(tx, user); err != nil {
@@ -149,7 +143,7 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
-	token, err := c.generateJWT(user)
+	token, err := auth.GenerateJWT(c.Viper.GetString("jwt.secret"), user.ID, user.Username)
 	if err != nil {
 		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
@@ -190,9 +184,6 @@ func (c *UserUseCase) Update(ctx context.Context, request *model.UpdateUserReque
 	}
 	if request.Email != "" {
 		user.Email = request.Email
-	}
-	if request.Phone != "" {
-		user.Phone = request.Phone
 	}
 
 	if request.Password != "" {
@@ -240,7 +231,7 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau password anda salah")
 	}
 
-	token, err := c.generateJWT(user)
+	token, err := auth.GenerateJWT(c.Viper.GetString("jwt.secret"), user.ID, user.Username)
 	if err != nil {
 		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
@@ -264,37 +255,6 @@ func (c *UserUseCase) Logout(ctx context.Context, request *model.LogoutUserReque
 	return true, nil
 }
 
-// TODO(post-prod): fix — generateUserId return fiber.ErrNotFound saat random gagal, seharusnya ErrInternal
-func (c *UserUseCase) generateUserId(username string) (string, error) {
-	cleanUsername := strings.ToLower(strings.ReplaceAll(username, " ", ""))
-
-	max := big.NewInt(10000)
-	randomNumber, err := rand.Int(rand.Reader, max)
-	if err != nil {
-		c.Log.WithError(err).Error("error generate user id")
-		return "", errors.New("failed to generate user id")
-	}
-
-	return fmt.Sprintf("usr_%s_%04d", cleanUsername, randomNumber.Int64()), nil
-}
-
-func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
-	jwtSecret := c.Viper.GetString("jwt.secret")
-	if jwtSecret == "" {
-		c.Log.Error("JWT_SECRET not found in config")
-		return "", errors.New("JWT secret not configured")
-	}
-
-	claims := jwt.MapClaims{
-		"id":       user.ID,
-		"username": user.Username,
-		"exp":      time.Now().Add(time.Hour * 72).Unix(),
-		"iat":      time.Now().Unix(),
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(jwtSecret))
-}
 
 func (c *UserUseCase) CreateVerificationCode(ctx context.Context, request *model.SendOTPRequest) (bool, error) {
 	tx := c.DB.WithContext(ctx).Begin()
