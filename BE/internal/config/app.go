@@ -7,6 +7,7 @@ import (
 	"github.com/google/generative-ai-go/genai"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"golang.org/x/oauth2"
 	"gorm.io/gorm"
 	"tratech.my.id/server/internal/delivery/http/controller"
 	"tratech.my.id/server/internal/delivery/http/middleware"
@@ -26,6 +27,7 @@ type BootstrapConfig struct {
 	Validate         *validator.Validate
 	GoogleAiStudio   *genai.Client
 	Cloudinary       *cloudinary.Cloudinary
+	GoogleOAuth      *oauth2.Config
 }
 
 func Bootstrap(config *BootstrapConfig) {
