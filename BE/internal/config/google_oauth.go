@@ -1,17 +1,16 @@
 package config
 
 import (
-	"os"
-
+	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
 
-func InitGoogleOAuth() *oauth2.Config {
-	return &oauth2.Config{
-		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
-		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
-		RedirectURL:  os.Getenv("GOOGLE_REDIRECT_URL"),
+func InitGoogleOAuth(config *viper.Viper) *oauth2.Config {
+		return &oauth2.Config{
+		ClientID:     config.GetString("google_oauth.client_id"),
+		ClientSecret: config.GetString("google_oauth.client_secret"),
+		RedirectURL:  config.GetString("google_oauth.redirect_url"),
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 			"https://www.googleapis.com/auth/userinfo.profile",

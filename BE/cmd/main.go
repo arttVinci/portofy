@@ -25,7 +25,7 @@ func main() {
 	app := config.NewFiber(viperConfig)
 	googleAiStudio := config.NewGoogleAiStudio(viperConfig)
 	cloudinary, _ := config.NewCloudinary(viperConfig)
-	googleOAuth := config.InitGoogleOAuth()
+	googleOAuth := config.InitGoogleOAuth(viperConfig)
 
 	config.Bootstrap(&config.BootstrapConfig{
 		DB:               db,

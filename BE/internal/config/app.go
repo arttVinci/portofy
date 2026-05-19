@@ -35,7 +35,7 @@ func Bootstrap(config *BootstrapConfig) {
 	resend := mail.NewResend(config.Log, config.Config)
 	gemini := agent.NewGeminiAgent(config.GoogleAiStudio, config.Log)
 	cloudinary := storage.NewCloudinaryStorage(config.Cloudinary)
-	googleOAuth := InitGoogleOAuth()
+	googleOAuth := InitGoogleOAuth(config.Config)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
