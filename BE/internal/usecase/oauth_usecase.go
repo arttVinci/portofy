@@ -123,7 +123,7 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 	}
 
 	return &model.LoginUserResponse{
-		User:  *converter.UserToResponse(user),
+		User:  *converter.UserToResponse(existingUser),
 		Token: tokenJWT,
 	}, nil
 }
