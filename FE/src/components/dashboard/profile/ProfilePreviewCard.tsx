@@ -82,7 +82,7 @@ export function ProfilePreviewCard({
                 {values.image_url && (
                   <span className="flex items-center gap-1.5">
                     <GlobeIcon className="size-3 shrink-0" />
-                    portof.id/{username}
+                    portof.net/{username}
                   </span>
                 )}
               </div>
@@ -117,9 +117,8 @@ export function ProfilePreviewCard({
           <Separator />
           <div className="flex items-center gap-1.5 text-xs">
             <span
-              className={`size-1.5 rounded-full ${
-                isPublic ? "bg-emerald-500" : "bg-muted-foreground/40"
-              }`}
+              className={`size-1.5 rounded-full ${isPublic ? "bg-emerald-500" : "bg-muted-foreground/40"
+                }`}
             />
             <span className="text-muted-foreground">
               {isPublic ? "Profil publik" : "Profil privat"}
