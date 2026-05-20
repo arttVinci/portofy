@@ -108,6 +108,7 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 		}
 
 		existingUser = user
+
 	}
 
 	tokenJWT, err := auth.GenerateJWT(u.Viper.GetString("jwt.secret"), existingUser.ID, existingUser.Username)
