@@ -26,7 +26,7 @@ type OauthUseCase struct {
 	Log         *logrus.Logger
 	UserRepo    *repository.UserRepository
 	DB          *gorm.DB
-	Viper        *viper.Viper
+	Viper       *viper.Viper
 }
 
 func NewOauthUseCase(googleOAuth *oauth2.Config, log *logrus.Logger, userRepo *repository.UserRepository, db *gorm.DB, viper *viper.Viper) *OauthUseCase {
@@ -45,7 +45,7 @@ func (u *OauthUseCase) Login(_ context.Context, state string) (string, error) {
 	}
 
 	authUrl := u.GoogleOAuth.AuthCodeURL(state, oauth2.AccessTypeOffline)
-	
+
 	return authUrl, nil
 }
 
@@ -86,29 +86,33 @@ func (u *OauthUseCase) Callback(ctx context.Context, codeOauth string) (*model.L
 		u.Log.Warnf("Failed to generate user id : %+v", err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
-	
+
 	user := &entity.User{
-		ID: userId,
-		Email: userInfo.Email,
-		Username: fmt.Sprintf("%s_%s", strings.ReplaceAll(userInfo.Name, " ", ""), utils.GenerateRandomString(4)),
-		Password: "",
+		ID:           userId,
+		Email:        userInfo.Email,
+		Username:     fmt.Sprintf("%s_%s", strings.ReplaceAll(userInfo.Name, " ", ""), utils.GenerateRandomString(4)),
+		Password:     "",
 		AuthProvider: "google",
 	}
 
 	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	err = u.UserRepo.FindByEmail(tx, user, userInfo.Email)
+	existingUser := new(entity.User)
+
+	err = u.UserRepo.FindByEmail(tx, existingUser, userInfo.Email)
 	if err != nil {
 		if err := u.UserRepo.Create(tx, user); err != nil {
 			u.Log.Warnf("Failed create user to database : %+v", err)
 			return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 		}
+
+		existingUser = user
 	}
 
-	tokenJWT, err := auth.GenerateJWT(u.Viper.GetString("jwt.secret"), user.ID, user.Username)
+	tokenJWT, err := auth.GenerateJWT(u.Viper.GetString("jwt.secret"), existingUser.ID, existingUser.Username)
 	if err != nil {
-		u.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
+		u.Log.Errorf("Failed to generate JWT for user %s: %v", existingUser.ID, err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
 	}
 
