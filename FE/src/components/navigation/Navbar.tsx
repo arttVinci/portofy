@@ -14,8 +14,6 @@ import { IconArrowRight } from "@tabler/icons-react";
 
 export function NavbarDemo() {
   const navItems = [
-    { name: "Langganan", link: "/#langganan" },
-    { name: "Blog", link: "/#blog" },
     { name: "FAQ", link: "/#faq" },
     { name: "Tentang Kami", link: "/about" },
   ];
