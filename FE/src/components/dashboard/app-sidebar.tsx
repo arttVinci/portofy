@@ -157,9 +157,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 />
                 <div className="grid flex-1 text-left text-base leading-tight">
                   <span className="truncate font-medium">Portofy</span>
-                  <span className="truncate text-xs text-muted-foreground">
+                  {/* <span className="truncate text-xs text-muted-foreground">
                     Tahap Uji Coba
-                  </span>
+                  </span> */}
                 </div>
               </Link>
             </SidebarMenuButton>
