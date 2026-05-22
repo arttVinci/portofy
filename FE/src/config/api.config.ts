@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080",
+  baseURL: import.meta.env.VITE_API_URL || "https://portofy-be-482363896451.asia-southeast2.run.app",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
