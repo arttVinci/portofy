@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Portofy — Platform Portfolio Builder</title>
+    <script>
+      if (window.trustedTypes && trustedTypes.createPolicy) {
+        trustedTypes.createPolicy('default', {
+          createHTML: (string) => string,
+          createScriptURL: (string) => string,
+          createScript: (string) => string,
+        });
+      }
+    </script>
     <meta name="title" content="Portofy — Platform Portfolio Builder" />
     <meta
       name="description"

@@ -30,7 +30,7 @@ export default function TabsContent({ content, activeTab }: TabsContentProps) {
             <h3 className="text-2xl font-bold text-white mb-3">
               {content[activeTab].title}
             </h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-slate-300 text-sm leading-relaxed">
               {content[activeTab].shortDescription}
             </p>
           </div>
@@ -46,6 +46,7 @@ export default function TabsContent({ content, activeTab }: TabsContentProps) {
                 loop
                 playsInline
                 preload="auto"
+                aria-hidden="true"
                 poster={content[activeTab].video.replace(".mp4", ".jpg")}
               >
                 <source src={content[activeTab].video} type="video/mp4" />

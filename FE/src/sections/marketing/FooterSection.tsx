@@ -63,16 +63,16 @@ export default function FooterSection() {
 
             {/* Newsletter */}
             <div className="mb-8">
-              <h4 className="text-sm font-semibold text-white mb-3">
+              <p className="text-sm font-semibold text-white mb-3">
                 Subscribe newsletter kami
-              </h4>
+              </p>
               <div className="flex gap-2 max-w-sm">
                 <input
                   type="email"
                   placeholder="Email kamu..."
                   className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
                 />
-                <button className="bg-white/10 hover:bg-blue-500 hover:text-white transition-colors text-slate-300 rounded-lg px-3 flex items-center justify-center shrink-0 border border-white/10 hover:border-transparent">
+                <button aria-label="Subscribe to newsletter" className="bg-white/10 hover:bg-blue-500 hover:text-white transition-colors text-slate-300 rounded-lg px-3 flex items-center justify-center shrink-0 border border-white/10 hover:border-transparent">
                   <ArrowRightIcon size={18} strokeWidth={1.5} />
                 </button>
               </div>
@@ -97,9 +97,9 @@ export default function FooterSection() {
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {Object.entries(FOOTER_LINKS).map(([title, links]) => (
               <div key={title}>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">
+                <p className="text-sm font-bold text-white uppercase tracking-wider mb-6">
                   {title}
-                </h4>
+                </p>
                 <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.label}>
