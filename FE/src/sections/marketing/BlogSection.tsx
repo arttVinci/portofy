@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { IconClock, IconUser, IconArrowRight } from "@tabler/icons-react";
+import { ClockIcon, UserIcon, ArrowRightIcon } from "lucide-react";
 import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const BLOG_POSTS = [
@@ -141,11 +141,11 @@ export default function BlogSection() {
               {/* Meta */}
               <div className="flex items-center justify-between text-[10px] text-slate-500">
                 <div className="flex items-center gap-1.5 truncate">
-                  <IconUser className="h-3 w-3 shrink-0" />
+                  <UserIcon className="h-3 w-3 shrink-0" />
                   <span className="truncate">{post.author}</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <IconClock className="h-3 w-3" />
+                  <ClockIcon className="h-3 w-3" />
                   <span>{post.readTime}</span>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function BlogSection() {
         >
           <button className="group inline-flex items-center gap-2 px-8 py-3 rounded-full border border-violet-500/30 text-sm font-semibold text-violet-300 hover:text-white hover:border-violet-500/60 bg-violet-500/10 hover:bg-violet-500/20 transition-all">
             Lihat Lebih Banyak
-            <IconArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </motion.div>
       </div>

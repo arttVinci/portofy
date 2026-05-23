@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { IconPlus, IconMinus } from "@tabler/icons-react";
+import { PlusIcon, MinusIcon } from "lucide-react";
 import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const FAQS = [
@@ -80,9 +80,9 @@ export default function FAQSection() {
                     className="flex-shrink-0"
                   >
                     {isOpen ? (
-                      <IconMinus className="h-5 w-5 text-blue-400" />
+                      <MinusIcon className="h-5 w-5 text-blue-400" />
                     ) : (
-                      <IconPlus className="h-5 w-5 text-slate-500" />
+                      <PlusIcon className="h-5 w-5 text-slate-500" />
                     )}
                   </motion.div>
                 </button>

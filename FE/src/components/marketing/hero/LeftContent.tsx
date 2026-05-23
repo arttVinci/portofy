@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { IconArrowRight, IconPlayerPlay } from "@tabler/icons-react";
+import { ArrowRightIcon, PlayIcon } from "lucide-react";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 
 export default function LeftContent() {
@@ -64,7 +64,7 @@ export default function LeftContent() {
           className="bg-black text-white flex items-center space-x-2 cursor-pointer"
         >
           <span>Mulai Gratis</span>
-          <IconArrowRight size={18} stroke={2} />
+          <ArrowRightIcon size={18} strokeWidth={2} />
         </HoverBorderGradient>
         <button
           onClick={(e) => {
@@ -76,7 +76,7 @@ export default function LeftContent() {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold text-sm hover:bg-slate-800/50 transition-all duration-300 cursor-pointer"
           style={{ fontFamily: "var(--font-dm, 'DM Sans', sans-serif)" }}
         >
-          <IconPlayerPlay size={18} stroke={1.5} />
+          <PlayIcon size={18} strokeWidth={1.5} />
           Lihat Cara Kerjanya
         </button>
       </motion.div>

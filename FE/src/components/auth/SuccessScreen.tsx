@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
 import {
-  IconCheck,
-  IconExternalLink,
-  IconLayoutDashboard,
-} from "@tabler/icons-react";
+  CheckIcon,
+  ExternalLinkIcon,
+  LayoutDashboardIcon,
+} from "lucide-react";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -39,9 +39,9 @@ export default function SuccessScreen({ name, username }: SuccessScreenProps) {
           }}
           className="size-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-blue-500/10 border border-blue-500/20"
         >
-          <IconCheck
+          <CheckIcon
             size={28}
-            stroke={2}
+            strokeWidth={2}
             className="text-blue-400"
           />
         </motion.div>
@@ -86,7 +86,7 @@ export default function SuccessScreen({ name, username }: SuccessScreenProps) {
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 mb-8 transition-colors"
         >
           portof.id/{username || "username"}{" "}
-          <IconExternalLink size={14} />
+          <ExternalLinkIcon size={14} />
         </motion.a>
 
         <motion.div
@@ -99,13 +99,13 @@ export default function SuccessScreen({ name, username }: SuccessScreenProps) {
             href={`https://portof.id/${username}`}
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold bg-white text-[#070e1b] hover:bg-blue-50 transition-all duration-200 hover:-translate-y-0.5"
           >
-            <IconExternalLink size={15} /> Lihat Portfolioku
+            <ExternalLinkIcon size={15} /> Lihat Portfolioku
           </a>
           <a
             href="/app"
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium border border-white/[0.08] bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all duration-200 hover:-translate-y-0.5"
           >
-            <IconLayoutDashboard size={15} /> Ke Dashboard
+            <LayoutDashboardIcon size={15} /> Ke Dashboard
           </a>
         </motion.div>
 

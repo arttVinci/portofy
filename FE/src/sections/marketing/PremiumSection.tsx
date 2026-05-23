@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { IconCircleCheck, IconSparkles } from "@tabler/icons-react";
+import { CheckCircleIcon, SparklesIcon } from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 const PREMIUM_FEATURES = [
@@ -34,7 +34,7 @@ export default function PremiumSection() {
           {/* Left Side: Pricing & CTA */}
           <div className="flex-1 w-full text-center md:text-left relative z-10">
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-1.5 mb-6">
-              <IconSparkles className="w-4 h-4 text-amber-400" />
+              <SparklesIcon className="w-4 h-4 text-amber-400" />
               <span className="text-amber-400 text-xs font-bold tracking-widest uppercase">
                 Portofy Premium
               </span>
@@ -86,7 +86,7 @@ export default function PremiumSection() {
                     transition={{ duration: 0.4, delay: i * 0.1 }}
                     className="flex items-start gap-3.5"
                   >
-                    <IconCircleCheck className="w-5 h-5 text-amber-500 shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+                    <CheckCircleIcon className="w-5 h-5 text-amber-500 shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
                     <span className="text-slate-300 text-sm md:text-base leading-snug">
                       {feature}
                     </span>

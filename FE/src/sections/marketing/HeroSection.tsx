@@ -1,12 +1,12 @@
 import {
-  IconArrowRight,
-  IconPlayerPlay,
-  IconBrain,
-  IconChartBar,
-  IconFileText,
-  IconMapPin,
-  IconBriefcase,
-} from "@tabler/icons-react";
+  ArrowRightIcon,
+  PlayIcon,
+  BrainIcon,
+  BarChartIcon,
+  FileTextIcon,
+  MapPinIcon,
+  BriefcaseIcon,
+} from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
@@ -108,9 +108,9 @@ export default function HeroSection() {
                   <span className="font-semibold whitespace-nowrap">
                     Mulai Gratis
                   </span>
-                  <IconArrowRight
+                  <ArrowRightIcon
                     size={14}
-                    stroke={2.5}
+                    strokeWidth={2.5}
                     className="sm:w-[17px] sm:h-[17px]"
                   />
                 </HoverBorderGradient>
@@ -124,7 +124,7 @@ export default function HeroSection() {
                 }
                 className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3 sm:px-6 sm:py-3 rounded-full border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white text-sm font-semibold hover:bg-white/[0.04] transition-colors duration-200 cursor-pointer whitespace-nowrap"
               >
-                <IconPlayerPlay size={14} stroke={1.5} className="shrink-0" />
+                <PlayIcon size={14} strokeWidth={1.5} className="shrink-0" />
                 Lihat Cara Kerjanya
               </button>
             </div>
@@ -180,11 +180,11 @@ export default function HeroSection() {
                     </p>
                     <div className="flex items-center gap-3 mt-1 text-[10px] text-slate-500">
                       <span className="flex items-center gap-1">
-                        <IconMapPin size={9} />
+                        <MapPinIcon size={9} />
                         Jakarta, Indonesia
                       </span>
                       <span className="flex items-center gap-1">
-                        <IconBriefcase size={9} />3 yr exp
+                        <BriefcaseIcon size={9} />3 yr exp
                       </span>
                     </div>
                   </div>
@@ -194,7 +194,7 @@ export default function HeroSection() {
                 <div className="px-5 pt-4 pb-4 border-b border-white/[0.04]">
                   <div className="flex items-center justify-between mb-2.5">
                     <div className="flex items-center gap-1.5">
-                      <IconBrain size={11} className="text-violet-400" />
+                      <BrainIcon size={11} className="text-violet-400" />
                       <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                         AI Description
                       </span>
@@ -230,7 +230,7 @@ export default function HeroSection() {
                 {/* ── AI Analyzer — criteria bars ────────────── */}
                 <div className="px-5 pt-4 pb-4 flex-1 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5 mb-3">
-                    <IconChartBar size={11} className="text-violet-400" />
+                    <BarChartIcon size={11} className="text-violet-400" />
                     <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                       AI Analyzer
                     </span>
@@ -312,7 +312,7 @@ export default function HeroSection() {
                       border: "1px solid rgba(139,92,246,0.13)",
                     }}
                   >
-                    <IconFileText size={13} className="text-violet-400" />
+                    <FileTextIcon size={13} className="text-violet-400" />
                   </div>
                   <div>
                     <p className="text-white text-[10px] font-bold leading-none">
@@ -332,7 +332,7 @@ export default function HeroSection() {
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
-                  <IconFileText
+                  <FileTextIcon
                     size={11}
                     className="text-violet-400 flex-shrink-0"
                   />
@@ -374,7 +374,7 @@ export default function HeroSection() {
                   boxShadow: "0 4px 14px rgba(0,0,0,0.22)",
                 }}
               >
-                <IconBrain
+                <BrainIcon
                   size={11}
                   className="text-violet-400 flex-shrink-0"
                 />

@@ -10,7 +10,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { IconArrowRight } from "@tabler/icons-react";
+import { ArrowRightIcon } from "lucide-react";
 
 export function NavbarDemo() {
   const navItems = [
@@ -68,7 +68,7 @@ export function NavbarDemo() {
             href="/auth/register"
           >
             Mulai Gratis
-            <IconArrowRight size={16} stroke={2} />
+            <ArrowRightIcon size={16} strokeWidth={2.5} />
           </NavbarButton>
         </div>
       </NavBody>
@@ -124,7 +124,7 @@ export function NavbarDemo() {
               className="w-full gap-2 justify-center"
               href="/auth/register"
             >
-              Mulai Gratis <IconArrowRight size={16} stroke={2} />
+              Mulai Gratis <ArrowRightIcon size={16} strokeWidth={2.5} />
             </NavbarButton>
           </div>
         </MobileNavMenu>

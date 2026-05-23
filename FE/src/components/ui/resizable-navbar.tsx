@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { IconMenu2, IconX } from "@tabler/icons-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import {
   motion,
   AnimatePresence,
@@ -232,12 +232,12 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX
+    <XIcon
       className="text-blue-200 hover:text-white transition-colors"
       onClick={onClick}
     />
   ) : (
-    <IconMenu2
+    <MenuIcon
       className="text-blue-200 hover:text-white transition-colors"
       onClick={onClick}
     />

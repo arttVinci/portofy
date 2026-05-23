@@ -15,6 +15,24 @@ export default defineConfig({
   ],
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor: core React + router
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          // UI framework
+          "vendor-radix": ["radix-ui"],
+          // Data fetching
+          "vendor-query": ["@tanstack/react-query"],
+          // Animation libraries
+          "vendor-motion": ["motion", "framer-motion"],
+          // HTTP client
+          "vendor-axios": ["axios"],
+          // Icon libraries (tree-shaken by Rollup in production)
+          "vendor-lucide": ["lucide-react"],
+        },
+      },
+    },
   },
   resolve: {
     alias: {

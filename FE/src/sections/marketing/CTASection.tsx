@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { IconArrowRight } from "@tabler/icons-react";
+import { ArrowRightIcon } from "lucide-react";
 import { Boxes } from "@/components/ui/background-boxes";
 
 export default function CTASection() {
@@ -62,7 +62,7 @@ export default function CTASection() {
           className="bg-black text-white flex items-center space-x-2 hover:brightness-110 transition-all cursor-pointer"
         >
           <span>Mulai Gratis Sekarang</span>
-          <IconArrowRight size={18} stroke={2} />
+          <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
         </HoverBorderGradient>
       </motion.div>
     </section>

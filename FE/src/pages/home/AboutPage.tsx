@@ -1,21 +1,21 @@
 import { motion } from "motion/react";
 import {
-  IconArrowRight,
-  IconSparkles,
-  IconBrain,
-  IconFileSearch,
-  IconChartBar,
-  IconMessageChatbot,
-  IconTemplate,
-  IconWorld,
-  IconSchool,
-  IconBriefcase,
-  IconPalette,
-  IconUserSearch,
-  IconBuildingStore,
-  IconCertificate,
-  IconHeartHandshake,
-} from "@tabler/icons-react";
+  ArrowRightIcon,
+  SparklesIcon,
+  BrainIcon,
+  FileSearchIcon,
+  BarChartIcon,
+  MessageSquareIcon,
+  LayoutTemplateIcon,
+  GlobeIcon,
+  GraduationCapIcon,
+  BriefcaseIcon,
+  PaletteIcon,
+  UserSearchIcon,
+  StoreIcon,
+  AwardIcon,
+  HandshakeIcon,
+} from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { cn } from "@/lib/utils";
 import FooterSection from "@/sections/marketing/FooterSection";
@@ -64,42 +64,42 @@ const PROBLEMS = [
 
 const FEATURES = [
   {
-    icon: IconBrain,
+    icon: BrainIcon,
     title: "AI Description Generator",
     desc: "Masukkan informasi dasar tentang proyek, dan AI menghasilkan deskripsi profesional yang siap pakai.",
     gradient: "from-blue-500 to-cyan-400",
     iconColor: "text-blue-400",
   },
   {
-    icon: IconMessageChatbot,
+    icon: MessageSquareIcon,
     title: "AI Consultation",
     desc: "Berdialog dengan AI untuk mendapatkan saran strategi portofolio, konten, dan tips meningkatkan daya tarik profil.",
     gradient: "from-blue-500 to-cyan-400",
     iconColor: "text-blue-400",
   },
   {
-    icon: IconFileSearch,
+    icon: FileSearchIcon,
     title: "CV Parser & Detector",
     desc: "Unggah CV-mu dan sistem AI akan mengekstrak informasi penting lalu mengisi template portofolio secara otomatis.",
     gradient: "from-blue-500 to-cyan-400",
     iconColor: "text-blue-400",
   },
   {
-    icon: IconChartBar,
+    icon: BarChartIcon,
     title: "Portfolio Analyzer",
     desc: "Dapatkan skor kelayakan portofolio, rekomendasi perbaikan spesifik, dan analisis kesesuaian dengan standar industri.",
     gradient: "from-blue-500 to-cyan-400",
     iconColor: "text-blue-400",
   },
   {
-    icon: IconTemplate,
+    icon: LayoutTemplateIcon,
     title: "Template Builder No-Code",
     desc: "Pilih dari galeri template modern dan responsif. Kustomisasi warna, font, dan layout tanpa coding — preview real-time.",
     gradient: "from-blue-500 to-cyan-400",
     iconColor: "text-blue-400",
   },
   {
-    icon: IconWorld,
+    icon: GlobeIcon,
     title: "Custom Domain & Hosting",
     desc: "Sub-domain gratis (username.portofy.id) dan integrasi custom domain untuk pengguna premium. Hosting dikelola platform.",
     gradient: "from-blue-500 to-cyan-400",
@@ -109,32 +109,32 @@ const FEATURES = [
 
 const TARGET_USERS = [
   {
-    icon: IconSchool,
+    icon: GraduationCapIcon,
     segment: "Mahasiswa",
     need: "Membangun portofolio akademik dan project kampus untuk magang atau kerja pertama.",
   },
   {
-    icon: IconCertificate,
+    icon: AwardIcon,
     segment: "Fresh Graduate",
     need: "Menampilkan pengalaman dan skill untuk menarik perhatian rekruter.",
   },
   {
-    icon: IconBriefcase,
+    icon: BriefcaseIcon,
     segment: "Pekerja Profesional",
     need: "Memperbarui personal branding dan mempersiapkan career pivot.",
   },
   {
-    icon: IconPalette,
+    icon: PaletteIcon,
     segment: "Freelancer & Kreator",
     need: "Menampilkan karya dan proyek kepada klien potensial.",
   },
   {
-    icon: IconUserSearch,
+    icon: UserSearchIcon,
     segment: "HR & Rekruter",
     need: "Memiliki profil profesional untuk memperkuat personal brand di industri.",
   },
   {
-    icon: IconBuildingStore,
+    icon: StoreIcon,
     segment: "Pengusaha & UMKM",
     need: "Menampilkan portofolio bisnis dan produk secara digital.",
   },
@@ -161,7 +161,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-5 py-2 mb-8"
           >
-            <IconHeartHandshake className="w-4 h-4 text-blue-400" />
+            <HandshakeIcon className="w-4 h-4 text-blue-400" />
             <span className="text-blue-300 text-xs font-semibold tracking-widest uppercase">
               Tentang Portofy
             </span>
@@ -346,7 +346,7 @@ export default function AboutPage() {
               <div className="absolute -top-20 -right-20 w-[250px] h-[250px] bg-blue-500/8 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[1px] mb-6">
                 <div className="flex items-center justify-center w-full h-full rounded-[15px] bg-[#070e1b]">
-                  <IconSparkles className="w-6 h-6 text-blue-400" />
+                  <SparklesIcon className="w-6 h-6 text-blue-400" />
                 </div>
               </div>
               <h3
@@ -379,7 +379,7 @@ export default function AboutPage() {
               <div className="absolute -top-20 -right-20 w-[250px] h-[250px] bg-blue-500/8 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[1px] mb-6">
                 <div className="flex items-center justify-center w-full h-full rounded-[15px] bg-[#070e1b]">
-                  <IconHeartHandshake className="w-6 h-6 text-blue-400" />
+                  <HandshakeIcon className="w-6 h-6 text-blue-400" />
                 </div>
               </div>
               <h3
@@ -596,7 +596,7 @@ export default function AboutPage() {
                 className="bg-black text-white flex items-center space-x-2 hover:brightness-110 transition-all cursor-pointer"
               >
                 <span className="font-semibold">Mulai Gratis Sekarang</span>
-                <IconArrowRight size={18} stroke={2} />
+                <ArrowRightIcon size={18} strokeWidth={2} />
               </HoverBorderGradient>
             </a>
 

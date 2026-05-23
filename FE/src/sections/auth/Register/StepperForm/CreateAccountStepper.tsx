@@ -1,4 +1,4 @@
-import { IconCheck, IconEye, IconEyeOff, IconBrandGoogle } from "@tabler/icons-react";
+import { CheckIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CreateAccountStepperProps {
@@ -52,7 +52,10 @@ export default function CreateAccountStepper({
           onClick={onGoogleLogin}
           className="w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-medium border border-white/[0.08] bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all duration-200 cursor-pointer"
         >
-          <IconBrandGoogle size={18} stroke={1.5} />
+          <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8" />
+          </svg>
           Lanjut dengan Google
         </button>
       </div>
@@ -136,9 +139,9 @@ export default function CreateAccountStepper({
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors cursor-pointer"
           >
             {showPw ? (
-              <IconEyeOff size={16} stroke={1.5} />
+              <EyeOffIcon size={16} strokeWidth={1.5} />
             ) : (
-              <IconEye size={16} stroke={1.5} />
+              <EyeIcon size={16} strokeWidth={1.5} />
             )}
           </button>
         </div>
@@ -169,9 +172,9 @@ export default function CreateAccountStepper({
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors cursor-pointer"
           >
             {showCpw ? (
-              <IconEyeOff size={16} stroke={1.5} />
+              <EyeOffIcon size={16} strokeWidth={1.5} />
             ) : (
-              <IconEye size={16} stroke={1.5} />
+              <EyeIcon size={16} strokeWidth={1.5} />
             )}
           </button>
         </div>
@@ -182,7 +185,7 @@ export default function CreateAccountStepper({
         )}
         {confirmPw && pwMatch && (
           <p className="text-[10px] mt-1.5 flex items-center gap-1 text-emerald-400/70">
-            <IconCheck size={10} /> Password cocok
+            <CheckIcon size={10} /> Password cocok
           </p>
         )}
       </div>

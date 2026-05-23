@@ -1,10 +1,10 @@
 import {
-  IconBrandInstagram,
-  IconBrandTwitter,
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconArrowRight,
-} from "@tabler/icons-react";
+  InstagramIcon,
+  TwitterIcon,
+  GithubIcon,
+  LinkedinIcon,
+  ArrowRightIcon,
+} from "lucide-react";
 
 const FOOTER_LINKS = {
   Produk: [
@@ -28,10 +28,10 @@ const FOOTER_LINKS = {
 };
 
 const SOCIALS = [
-  { icon: IconBrandTwitter, href: "#", label: "Twitter" },
-  { icon: IconBrandInstagram, href: "#", label: "Instagram" },
-  { icon: IconBrandLinkedin, href: "#", label: "LinkedIn" },
-  { icon: IconBrandGithub, href: "#", label: "GitHub" },
+  { icon: TwitterIcon, href: "#", label: "Twitter" },
+  { icon: InstagramIcon, href: "#", label: "Instagram" },
+  { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
+  { icon: GithubIcon, href: "#", label: "GitHub" },
 ];
 
 export default function FooterSection() {
@@ -73,7 +73,7 @@ export default function FooterSection() {
                   className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
                 />
                 <button className="bg-white/10 hover:bg-blue-500 hover:text-white transition-colors text-slate-300 rounded-lg px-3 flex items-center justify-center shrink-0 border border-white/10 hover:border-transparent">
-                  <IconArrowRight size={18} stroke={1.5} />
+                  <ArrowRightIcon size={18} strokeWidth={1.5} />
                 </button>
               </div>
             </div>
@@ -87,7 +87,7 @@ export default function FooterSection() {
                   aria-label={social.label}
                   className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.02] text-slate-400 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-blue-500/10 hover:text-blue-400 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                 >
-                  <social.icon size={18} stroke={1.5} />
+                  <social.icon size={18} strokeWidth={1.5} />
                 </a>
               ))}
             </div>

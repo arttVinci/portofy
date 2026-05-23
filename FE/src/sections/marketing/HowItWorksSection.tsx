@@ -1,16 +1,16 @@
 import { Timeline } from "@/components/ui/timeline";
 import {
-  IconUserPlus,
-  IconLayout,
-  IconPencilStar,
-  IconRocket,
-} from "@tabler/icons-react";
+  UserPlusIcon,
+  LayoutIcon,
+  WandIcon,
+  RocketIcon,
+} from "lucide-react";
 import SectionHeader from "@/components/marketing/common/SectionHeader";
 
 const STEPS = [
   {
     title: "1. Registrasi & Onboarding",
-    icon: <IconUserPlus className="h-6 w-6 text-blue-400" />,
+    icon: <UserPlusIcon className="h-6 w-6 text-blue-400" />,
     description:
       "Daftar cepat via platform. Opsional: unggah dokumen lamamu untuk memanfaatkan AI CV Parser dan meng-auto-fill profil portofoliomu secara instan.",
     videoSrc:
@@ -19,7 +19,7 @@ const STEPS = [
   },
   {
     title: "2. Pilih Template & Kustomisasi",
-    icon: <IconLayout className="h-6 w-6 text-emerald-400" />,
+    icon: <LayoutIcon className="h-6 w-6 text-emerald-400" />,
     description:
       "Pilah dari galeri template modern. Kustomisasi menyeluruh orientasi layout, paduan warna, hingga tipografi secara presisi—sepenuhnya tanpa coding.",
     videoSrc: "",
@@ -27,7 +27,7 @@ const STEPS = [
   },
   {
     title: "3. Konten & Eksekusi Kecerdasan Buatan",
-    icon: <IconPencilStar className="h-6 w-6 text-violet-400" />,
+    icon: <WandIcon className="h-6 w-6 text-violet-400" />,
     description:
       "Lengkapi riwayat karirmu. Gunakan AI Description Generator untuk menyulap draf sederhana jadi teks profesional, serta berdialoglah dengan AI Consultation untuk saran strategis.",
     videoSrc: "",
@@ -35,7 +35,7 @@ const STEPS = [
   },
   {
     title: "4. Analisa & Publikasi Final",
-    icon: <IconRocket className="h-6 w-6 text-amber-400" />,
+    icon: <RocketIcon className="h-6 w-6 text-amber-400" />,
     description:
       "Jalankan instruksi AI Portfolio Analyzer demi meraih Skor Kelayakan. Saat matang, luncurkan portofoliomu ke publik menggunakan subdomain istimewa yang kami sediakan.",
     videoSrc: "",

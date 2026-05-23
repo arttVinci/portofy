@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusIcon, SearchIcon } from "lucide-react";
-import { IconFolderCode } from "@tabler/icons-react";
+import { FolderCodeIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -129,7 +129,7 @@ export function ProjectListSection({
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <IconFolderCode />
+              <FolderCodeIcon />
             </EmptyMedia>
             <EmptyTitle>No Projects Yet</EmptyTitle>
             <EmptyDescription>

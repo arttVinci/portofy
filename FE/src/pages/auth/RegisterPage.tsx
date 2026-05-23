@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { IconCheck, IconArrowRight, IconArrowLeft } from "@tabler/icons-react";
+import { CheckIcon, ArrowRightIcon, ArrowLeftIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ApiError } from "@/api/apiError";
 import { useSearchParams } from "react-router-dom";
@@ -445,7 +445,7 @@ export default function RegisterPage() {
                               )}
                             >
                               {isDone ? (
-                                <IconCheck size={12} stroke={2.5} />
+                                <CheckIcon size={12} strokeWidth={2.5} />
                               ) : (
                                 s.num
                               )}
@@ -546,7 +546,7 @@ export default function RegisterPage() {
                         onClick={goPrev}
                         className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-300 cursor-pointer transition-colors"
                       >
-                        <IconArrowLeft size={14} /> Kembali
+                        <ArrowLeftIcon size={18} /> Kembali
                       </button>
                     ) : (
                       <div />
@@ -568,7 +568,7 @@ export default function RegisterPage() {
                             : "Lanjut"}
                         {!createUserMutation.isPending &&
                           !createProfileMutation.isPending && (
-                            <IconArrowRight size={14} />
+                            <ArrowRightIcon size={14} />
                           )}
                       </button>
                     ) : (
@@ -581,7 +581,7 @@ export default function RegisterPage() {
                           ? "Memproses..."
                           : "Buat Portfolio"}
                         {!createProfileMutation.isPending && (
-                          <IconArrowRight size={14} />
+                          <ArrowRightIcon size={14} />
                         )}
                       </button>
                     )}

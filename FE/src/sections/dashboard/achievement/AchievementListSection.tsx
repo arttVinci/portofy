@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { PlusIcon, SearchIcon } from "lucide-react";
+import { PlusIcon, SearchIcon, AwardIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { PiCertificate } from "react-icons/pi";
 import {
   Empty,
   EmptyHeader,
@@ -141,7 +140,7 @@ export function AchievementListSection({
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <PiCertificate />
+              <AwardIcon />
             </EmptyMedia>
             <EmptyTitle>No Achievements Yet</EmptyTitle>
             <EmptyDescription>
