@@ -62,6 +62,7 @@ export default function HowItWorksSection() {
               loop
               playsInline
               preload="auto"
+              crossOrigin="anonymous"
               poster={step.videoSrc.replace(".mp4", ".jpg")}
             >
               <source src={step.videoSrc} type="video/mp4" />

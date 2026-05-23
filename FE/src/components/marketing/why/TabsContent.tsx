@@ -47,6 +47,7 @@ export default function TabsContent({ content, activeTab }: TabsContentProps) {
                 playsInline
                 preload="auto"
                 aria-hidden="true"
+                crossOrigin="anonymous"
                 poster={content[activeTab].video.replace(".mp4", ".jpg")}
               >
                 <source src={content[activeTab].video} type="video/mp4" />
