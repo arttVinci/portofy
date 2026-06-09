@@ -31,25 +31,8 @@ const SKILLS = ["React", "TypeScript", "Figma", "Node.js", "Tailwind"];
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen bg-[#070e1b] overflow-hidden flex items-center">
+    <section className="relative min-h-screen flex items-center">
       {/* ── Background ─────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 z-0 opacity-[0.05]"
-        style={{
-          backgroundSize: "40px 40px",
-          backgroundImage:
-            "radial-gradient(circle, #3b82f6 1px, transparent 1px)",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, #070e1b 80%)",
-        }}
-      />
-      <div className="absolute top-[10%] left-[5%]  w-[480px] h-[480px] bg-blue-700/[0.06]   blur-[140px] rounded-full pointer-events-none z-0" />
-      <div className="absolute bottom-[5%] right-[5%] w-[380px] h-[380px] bg-violet-700/[0.05] blur-[120px] rounded-full pointer-events-none z-0" />
 
       {/* ── Main content ───────────────────────────────────── */}
       <div className="relative z-10 container mx-auto px-6 max-w-7xl py-28 lg:py-0 min-h-screen flex items-center">
@@ -59,8 +42,10 @@ export default function HeroSection() {
           ═══════════════════════ */}
           <div className="flex flex-col items-start text-left">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 bg-blue-500/[0.07] border border-blue-500/[0.18] rounded-full px-4 py-1.5 mb-7">
-              <span className="w-2 h-2 rounded-full bg-cyan-400" />
+            <div
+              className="inline-flex items-center gap-2.5 bg-blue-500/[0.07] rounded-full px-4 py-1.5 mb-7"
+              style={{ border: "2px dashed rgba(255,255,255,0.12)" }}
+            >
               <span className="text-blue-200 text-xs font-semibold tracking-widest uppercase">
                 Platform Portfolio Builder untuk Indonesia
               </span>
@@ -139,15 +124,12 @@ export default function HeroSection() {
               RIGHT — AI card stack
           ═══════════════════════ */}
           <div className="hidden lg:flex justify-center items-center">
-            {/* Container — extra height for floating card overflow */}
-            <div className="relative w-[390px] h-[500px]">
+            <div className="relative w-[390px] h-[500px] mt-12">
               {/* ══ Main portfolio card ════════════════════════════════ */}
               <div
-                className="absolute inset-0 rounded-3xl overflow-hidden flex flex-col"
+                className="absolute inset-0 rounded-3xl flex flex-col"
                 style={{
-                  background: "rgba(11,20,42,0.93)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  boxShadow: "0 12px 40px rgba(0,0,0,0.28)",
+                  border: "2px dashed rgba(255,255,255,0.12)",
                 }}
               >
                 {/* ── Profile header ─────────────────────────── */}
@@ -155,7 +137,7 @@ export default function HeroSection() {
                   <div
                     className="w-12 h-12 rounded-2xl flex-shrink-0 flex items-center justify-center text-base font-bold text-white"
                     style={{
-                      background: "linear-gradient(135deg, #2563eb, #7c3aed)",
+                      border: "2px dashed rgba(255,255,255,0.12)",
                     }}
                   >
                     AN
@@ -166,10 +148,10 @@ export default function HeroSection() {
                         Nama Kamu
                       </span>
                       <span
-                        className="text-[9px] text-emerald-300 rounded-full px-2 py-0.5 font-semibold"
+                        className="text-[9px] text-blue-300 rounded-full px-2 py-0.5 font-semibold"
                         style={{
-                          background: "rgba(52,211,153,0.08)",
-                          border: "1px solid rgba(52,211,153,0.15)",
+                          background: "rgba(96,165,250,0.08)",
+                          border: "1px solid rgba(96,165,250,0.15)",
                         }}
                       >
                         Open to Work
@@ -194,7 +176,7 @@ export default function HeroSection() {
                 <div className="px-5 pt-4 pb-4 border-b border-white/[0.04]">
                   <div className="flex items-center justify-between mb-2.5">
                     <div className="flex items-center gap-1.5">
-                      <IconBrain size={11} className="text-violet-400" />
+                      <IconBrain size={11} className="text-blue-400" />
                       <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                         AI Description
                       </span>
@@ -202,20 +184,19 @@ export default function HeroSection() {
                     <span
                       className="text-[9px] font-bold rounded-full px-2 py-0.5"
                       style={{
-                        color: "#a78bfa",
-                        background: "rgba(167,139,250,0.07)",
-                        border: "1px solid rgba(167,139,250,0.13)",
+                        color: "#60a5fa",
+                        background: "rgba(96,165,250,0.07)",
+                        border: "1px solid rgba(96,165,250,0.13)",
                       }}
                     >
                       ✦ Generated
                     </span>
                   </div>
-                  {/* Generated text block */}
                   <div
                     className="rounded-xl px-3 py-2.5"
                     style={{
-                      background: "rgba(139,92,246,0.05)",
-                      border: "1px solid rgba(139,92,246,0.09)",
+                      background: "rgba(59,130,246,0.05)",
+                      border: "1px solid rgba(59,130,246,0.09)",
                     }}
                   >
                     <p className="text-slate-300 text-[10px] leading-[1.75]">
@@ -230,15 +211,15 @@ export default function HeroSection() {
                 {/* ── AI Analyzer — criteria bars ────────────── */}
                 <div className="px-5 pt-4 pb-4 flex-1 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5 mb-3">
-                    <IconChartBar size={11} className="text-violet-400" />
+                    <IconChartBar size={11} className="text-blue-400" />
                     <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                       AI Analyzer
                     </span>
                     <span
-                      className="ml-auto text-emerald-300  text-[9px] font-bold rounded-full px-2 py-0.5"
+                      className="ml-auto text-blue-300 text-[9px] font-bold rounded-full px-2 py-0.5"
                       style={{
-                        background: "rgba(52,211,153,0.08)",
-                        border: "1px solid rgba(52,211,153,0.15)",
+                        background: "rgba(96,165,250,0.08)",
+                        border: "1px solid rgba(96,165,250,0.15)",
                       }}
                     >
                       Skor 94
@@ -280,8 +261,8 @@ export default function HeroSection() {
                       key={s}
                       className="text-[10px] text-slate-400 px-2.5 py-1 rounded-md"
                       style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
                       }}
                     >
                       {s}
@@ -295,24 +276,21 @@ export default function HeroSection() {
 
               {/* ══ Floating card — AI CV Parser (top-right, tilted) ═══ */}
               <div
-                className="absolute -top-6 -right-8 w-[195px] rounded-2xl p-4"
+                className="absolute -top-8 -right-16 w-[185px] rounded-2xl p-4"
                 style={{
-                  background: "rgba(12,22,46,0.97)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.28)",
-                  transform: "rotate(5deg)",
+                  border: "2px dashed rgba(255,255,255,0.15)",
+                  transform: "rotate(4deg)",
                 }}
               >
-                {/* Header */}
                 <div className="flex items-center gap-2 mb-3">
                   <div
                     className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center"
                     style={{
-                      background: "rgba(139,92,246,0.09)",
-                      border: "1px solid rgba(139,92,246,0.13)",
+                      background: "rgba(59,130,246,0.09)",
+                      border: "1px solid rgba(59,130,246,0.13)",
                     }}
                   >
-                    <IconFileText size={13} className="text-violet-400" />
+                    <IconFileText size={13} className="text-blue-400" />
                   </div>
                   <div>
                     <p className="text-white text-[10px] font-bold leading-none">
@@ -324,7 +302,6 @@ export default function HeroSection() {
                   </div>
                 </div>
 
-                {/* File chip */}
                 <div
                   className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 mb-2.5"
                   style={{
@@ -334,20 +311,19 @@ export default function HeroSection() {
                 >
                   <IconFileText
                     size={11}
-                    className="text-violet-400 flex-shrink-0"
+                    className="text-blue-400 flex-shrink-0"
                   />
                   <span className="text-slate-400 text-[10px] flex-1 truncate">
                     Your_CV.pdf
                   </span>
                   <span
-                    className="text-[9px] text-emerald-400 font-bold rounded-full px-1.5 py-0.5 flex-shrink-0"
-                    style={{ background: "rgba(52,211,153,0.08)" }}
+                    className="text-[9px] text-blue-400 font-bold rounded-full px-1.5 py-0.5 flex-shrink-0"
+                    style={{ background: "rgba(96,165,250,0.08)" }}
                   >
                     ✓
                   </span>
                 </div>
 
-                {/* Auto-filled field rows */}
                 <div className="space-y-1.5">
                   {CV_FIELDS.map((row) => (
                     <div
@@ -367,17 +343,12 @@ export default function HeroSection() {
 
               {/* ══ AI Consultation pill — bottom-right ════════════════ */}
               <div
-                className="absolute -bottom-4 right-0 flex items-center gap-2 rounded-full px-3.5 py-2"
+                className="absolute -bottom-5 right-2 flex items-center gap-2 rounded-full px-3.5 py-2"
                 style={{
-                  background: "rgba(7,14,27,0.97)",
-                  border: "1px solid rgba(167,139,250,0.14)",
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.22)",
+                  border: "1px dashed rgba(96,165,250,0.3)",
                 }}
               >
-                <IconBrain
-                  size={11}
-                  className="text-violet-400 flex-shrink-0"
-                />
+                <IconBrain size={11} className="text-blue-400 flex-shrink-0" />
                 <span className="text-slate-300 text-[11px] font-medium">
                   AI Consultation aktif
                 </span>
@@ -385,14 +356,12 @@ export default function HeroSection() {
 
               {/* ══ Published status pill — bottom-left ════════════════ */}
               <div
-                className="absolute -bottom-4 -left-4 flex items-center gap-2 rounded-full px-3.5 py-2"
+                className="absolute -bottom-5 -left-2 flex items-center gap-2 rounded-full px-3.5 py-2"
                 style={{
-                  background: "rgba(7,14,27,0.97)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.22)",
+                  border: "1px dashed rgba(255,255,255,0.15)",
                 }}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
                 <span className="text-slate-300 text-[11px] font-medium">
                   Portfolio Published
                 </span>
