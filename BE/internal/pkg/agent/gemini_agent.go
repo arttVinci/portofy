@@ -10,63 +10,66 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-
 type GeminiAgent interface {
 	GenerateJSON(ctx context.Context, prompt string) (string, error)
+	GenerateText(ctx context.Context, prompt string) (string, error)
 }
 
 type geminiAgent struct {
 	Client *genai.Client
 	Log    *logrus.Logger
-
 }
 
-
-func NewGeminiAgent(client *genai.Client, log *logrus.Logger) *geminiAgent {
+func NewGeminiAgent(client *genai.Client, log *logrus.Logger) GeminiAgent {
 	return &geminiAgent{
 		Client: client,
 		Log:    log,
 	}
 }
 
-
 func (g *geminiAgent) GenerateJSON(ctx context.Context, prompt string) (string, error) {
-    // model := g.Client.GenerativeModel("gemini-2.5-flash")
-    model := g.Client.GenerativeModel("gemini-3.1-flash-lite")
-    // model := g.Client.GenerativeModel("gemini-3.1-flash")
-    model.ResponseMIMEType = "application/json"
+	model := g.Client.GenerativeModel("gemini-3.5-flash")
+	model.ResponseMIMEType = "application/json"
+	return g.generate(ctx, model, prompt, true)
+}
 
-    response, err := model.GenerateContent(ctx, genai.Text(prompt))
-    if err != nil {
-        g.Log.WithError(err).Error("error generating content from gemini")
-        return "", err
-    }
+func (g *geminiAgent) GenerateText(ctx context.Context, prompt string) (string, error) {
+	model := g.Client.GenerativeModel("gemini-3.5-flash")
+	return g.generate(ctx, model, prompt, false)
+}
 
-    if len(response.Candidates) == 0 {
-        return "", errors.New("gemini returned no candidates")
-    }
+func (g *geminiAgent) generate(ctx context.Context, model *genai.GenerativeModel, prompt string, validateJSON bool) (string, error) {
+	response, err := model.GenerateContent(ctx, genai.Text(prompt))
+	if err != nil {
+		g.Log.WithError(err).Error("error generating content from gemini")
+		return "", err
+	}
 
-    candidate := response.Candidates[0]
+	if len(response.Candidates) == 0 {
+		return "", errors.New("gemini returned no candidates")
+	}
 
-    if candidate.FinishReason != genai.FinishReasonStop {
-        return "", fmt.Errorf("gemini stopped early, reason: %v", candidate.FinishReason)
-    }
-	
-    if candidate.Content == nil || len(candidate.Content.Parts) == 0 {
-        return "", errors.New("gemini returned empty content")
-    }
+	candidate := response.Candidates[0]
 
-    part, ok := candidate.Content.Parts[0].(genai.Text)
-    if !ok {
-        return "", errors.New("gemini response part is not text")
-    }
+	if candidate.FinishReason != genai.FinishReasonStop {
+		return "", fmt.Errorf("gemini stopped early, reason: %v", candidate.FinishReason)
+	}
 
-    jsonStr := string(part)
+	if candidate.Content == nil || len(candidate.Content.Parts) == 0 {
+		return "", errors.New("gemini returned empty content")
+	}
 
-    if !json.Valid([]byte(jsonStr)) {
-        g.Log.WithField("raw", jsonStr).Warn("gemini returned invalid JSON")
-        return "", errors.New("gemini returned invalid JSON structure")
-    }
+	part, ok := candidate.Content.Parts[0].(genai.Text)
+	if !ok {
+		return "", errors.New("gemini response part is not text")
+	}
 
-    return jsonStr, nil
+	result := string(part)
+
+	if validateJSON && !json.Valid([]byte(result)) {
+		g.Log.WithField("raw", result).Warn("gemini returned invalid JSON")
+		return "", errors.New("gemini returned invalid JSON structure")
+	}
+
+	return result, nil
 }
