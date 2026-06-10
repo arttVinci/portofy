@@ -512,6 +512,7 @@ export default function RegisterPage() {
                             email={formData.email}
                             otp={otp}
                             setOtp={setOtp}
+                            handleCreateUser={handleCreateUser}
                           />
                         )}
 
