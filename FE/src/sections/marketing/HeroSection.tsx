@@ -176,7 +176,7 @@ export default function HeroSection() {
                 <div className="px-5 pt-4 pb-4 border-b border-white/[0.04]">
                   <div className="flex items-center justify-between mb-2.5">
                     <div className="flex items-center gap-1.5">
-                      <BrainIcon size={11} className="text-violet-400" />
+                      <BrainIcon size={11} className="text-blue-400" />
                       <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                         AI Description
                       </span>
@@ -211,7 +211,7 @@ export default function HeroSection() {
                 {/* ── AI Analyzer — criteria bars ────────────── */}
                 <div className="px-5 pt-4 pb-4 flex-1 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5 mb-3">
-                    <BarChartIcon size={11} className="text-violet-400" />
+                    <BarChartIcon size={11} className="text-blue-400" />
                     <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                       AI Analyzer
                     </span>
@@ -290,7 +290,7 @@ export default function HeroSection() {
                       border: "1px solid rgba(59,130,246,0.13)",
                     }}
                   >
-                    <FileTextIcon size={13} className="text-violet-400" />
+                    <FileTextIcon size={13} className="text-blue-400" />
                   </div>
                   <div>
                     <p className="text-white text-[10px] font-bold leading-none">
@@ -348,10 +348,7 @@ export default function HeroSection() {
                   border: "1px dashed rgba(96,165,250,0.3)",
                 }}
               >
-                <BrainIcon
-                  size={11}
-                  className="text-violet-400 flex-shrink-0"
-                />
+                <BrainIcon size={11} className="text-blue-400 flex-shrink-0" />
                 <span className="text-slate-300 text-[11px] font-medium">
                   AI Consultation aktif
                 </span>

@@ -19,6 +19,10 @@ export default function SectionHeader({
     <>
       {isCenterHeader ? (
         <div className="text-center mb-16">
+          <div className="absolute inset-0 z-0 select-none pointer-events-none">
+            <div className="absolute -top-[20%] left-0 h-[50%] w-[50%] rounded-full bg-blue-600/10 blur-[120px]" />
+            <div className="absolute top-[50%] right-0 h-[50%] w-[50%] rounded-full bg-violet-600/10 blur-[120px]" />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +65,7 @@ export default function SectionHeader({
           )}
         </div>
       ) : (
-        <div className="mb-14 md:mb-20 px-4 max-w-3xl">
+        <div className="mb-14 md:mb-20 bg-[#070e1b] w-screen ml-[calc(50%-50vw)] px-38 py-5">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -95,7 +99,7 @@ export default function SectionHeader({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 text-sm md:text-base leading-relaxed max-w-lg"
+            className="text-slate-400 text-sm md:text-base leading-relaxed max-w-3xl"
           >
             Memungkinkan siapa pun membangun portofolio profesional secara
             online tanpa perlu keahlian coding sama sekali. Pendekatan intuitif
