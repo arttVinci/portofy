@@ -61,7 +61,7 @@
   height: 250px;
   top: 15%;
   right: -5%;
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(0, 212, 255, 0.05);
 }
 
 /* ═══ FLOW CONTAINER ═══════════════════════════ */
@@ -122,13 +122,13 @@
   flex-shrink: 0;
 }
 .cv-node__status--active {
-  background: #22c55e;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
   animation: statusPulse 2s ease-in-out infinite;
 }
 .cv-node__status--pending {
-  background: #f59e0b;
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
   animation: statusPulse 2s ease-in-out infinite 0.5s;
 }
 .cv-node__status--done {
@@ -260,20 +260,12 @@
   border-radius: 2px 2px 0 0;
   opacity: 0.6;
 }
-.cv-agent-card--profile::before {
-  background: #00d4ff;
-}
-.cv-agent-card--experience::before {
-  background: #a78bfa;
-}
-.cv-agent-card--education::before {
-  background: #34d399;
-}
-.cv-agent-card--skills::before {
-  background: #fb923c;
-}
+.cv-agent-card--profile::before,
+.cv-agent-card--experience::before,
+.cv-agent-card--education::before,
+.cv-agent-card--skills::before,
 .cv-agent-card--projects::before {
-  background: #f472b6;
+  background: #00d4ff;
 }
 
 .cv-agent-card .cv-node__icon {
@@ -282,25 +274,13 @@
   margin: 0 auto 8px;
   border-radius: 8px;
 }
-.cv-agent-card--profile .cv-node__icon {
+.cv-agent-card--profile .cv-node__icon,
+.cv-agent-card--experience .cv-node__icon,
+.cv-agent-card--education .cv-node__icon,
+.cv-agent-card--skills .cv-node__icon,
+.cv-agent-card--projects .cv-node__icon {
   background: rgba(0, 212, 255, 0.08);
   border: 1px solid rgba(0, 212, 255, 0.12);
-}
-.cv-agent-card--experience .cv-node__icon {
-  background: rgba(167, 139, 250, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.12);
-}
-.cv-agent-card--education .cv-node__icon {
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.12);
-}
-.cv-agent-card--skills .cv-node__icon {
-  background: rgba(251, 146, 60, 0.08);
-  border: 1px solid rgba(251, 146, 60, 0.12);
-}
-.cv-agent-card--projects .cv-node__icon {
-  background: rgba(244, 114, 182, 0.08);
-  border: 1px solid rgba(244, 114, 182, 0.12);
 }
 
 .cv-agent-card__gemini {
@@ -359,11 +339,11 @@
 /* ═══ REVIEWER NODE ═════════════════════════════ */
 .cv-reviewer-node {
   width: 320px;
-  border: 1px solid rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.12);
 }
 .cv-reviewer-node .cv-node__icon {
-  background: rgba(245, 158, 11, 0.07);
-  border: 1px solid rgba(245, 158, 11, 0.12);
+  background: rgba(0, 212, 255, 0.07);
+  border: 1px solid rgba(0, 212, 255, 0.12);
 }
 .cv-reviewer-verdicts {
   display: flex;
@@ -381,9 +361,9 @@
   gap: 4px;
 }
 .cv-reviewer-verdict--pass {
-  color: #34d399;
-  background: rgba(52, 211, 153, 0.06);
-  border: 1px solid rgba(52, 211, 153, 0.1);
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.06);
+  border: 1px solid rgba(0, 212, 255, 0.1);
 }
 .cv-reviewer-verdict--pass::before {
   content: "✓";
@@ -393,16 +373,16 @@
 .cv-output-node {
   width: 260px;
   text-align: center;
-  border: 1px solid rgba(34, 197, 94, 0.15);
-  background: rgba(34, 197, 94, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  background: rgba(0, 212, 255, 0.03);
 }
 .cv-output-node .cv-node__icon {
   width: 44px;
   height: 44px;
   margin: 0 auto 10px;
   border-radius: 12px;
-  background: rgba(34, 197, 94, 0.08);
-  border: 1px solid rgba(34, 197, 94, 0.15);
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.15);
   animation: outputPulse 2.5s ease-in-out infinite;
 }
 
@@ -554,10 +534,10 @@
 @keyframes outputPulse {
   0%,
   100% {
-    box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
   }
   50% {
-    box-shadow: 0 0 35px rgba(34, 197, 94, 0.2);
+    box-shadow: 0 0 35px rgba(0, 212, 255, 0.2);
   }
 }
 

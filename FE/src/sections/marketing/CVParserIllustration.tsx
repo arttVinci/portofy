@@ -30,33 +30,33 @@ const AGENTS = [
     key: "experience",
     label: "Experience",
     sublabel: "Posisi, Perusahaan",
-    icon: <BriefcaseIcon size={15} className="text-[#a78bfa]" />,
+    icon: <BriefcaseIcon size={15} className="text-[#00d4ff]" />,
     modifier: "experience",
-    color: "#a78bfa",
+    color: "#00d4ff",
   },
   {
     key: "education",
     label: "Education",
     sublabel: "Gelar, Institusi",
-    icon: <GraduationCapIcon size={15} className="text-[#34d399]" />,
+    icon: <GraduationCapIcon size={15} className="text-[#00d4ff]" />,
     modifier: "education",
-    color: "#34d399",
+    color: "#00d4ff",
   },
   {
     key: "skills",
     label: "Skills",
     sublabel: "Level & Kategori",
-    icon: <WrenchIcon size={15} className="text-[#fb923c]" />,
+    icon: <WrenchIcon size={15} className="text-[#00d4ff]" />,
     modifier: "skills",
-    color: "#fb923c",
+    color: "#00d4ff",
   },
   {
     key: "projects",
     label: "Projects",
     sublabel: "Tools, Fitur, Detail",
-    icon: <FolderIcon size={15} className="text-[#f472b6]" />,
+    icon: <FolderIcon size={15} className="text-[#00d4ff]" />,
     modifier: "projects",
-    color: "#f472b6",
+    color: "#00d4ff",
   },
 ];
 
@@ -231,7 +231,7 @@ export default function CVParserIllustration() {
                 }}
               />
             ))}
-            <circle cx="350" cy="36" r="3" fill="#f59e0b" opacity="0.5" />
+            <circle cx="350" cy="36" r="3" fill="#00d4ff" opacity="0.5" />
           </svg>
         </div>
 
@@ -240,18 +240,16 @@ export default function CVParserIllustration() {
           <div className="cv-section-label">
             <span
               className="cv-section-label__dot"
-              style={{ background: "#f59e0b" }}
             />
             <span
               className="cv-section-label__text"
-              style={{ color: "#f59e0b" }}
             >
               Quality Gate
             </span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div className="cv-node__icon">
-              <ShieldCheckIcon size={17} className="text-[#f59e0b]" />
+              <ShieldCheckIcon size={17} className="text-[#00d4ff]" />
             </div>
             <div style={{ flex: 1 }}>
               <div className="cv-node__label">Reviewer Agent</div>
@@ -279,11 +277,11 @@ export default function CVParserIllustration() {
         {/* ── LAYER 5: Output ──────────────────────── */}
         <div className="cv-node cv-output-node">
           <div className="cv-node__icon">
-            <RocketIcon size={20} className="text-[#22c55e]" />
+            <RocketIcon size={20} className="text-[#00d4ff]" />
           </div>
           <div
             className="cv-node__label"
-            style={{ fontSize: "14px", color: "#22c55e" }}
+            style={{ fontSize: "14px", color: "#00d4ff" }}
           >
             Portfolio Ready
           </div>
