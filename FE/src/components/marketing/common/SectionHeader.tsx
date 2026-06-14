@@ -19,10 +19,6 @@ export default function SectionHeader({
     <>
       {isCenterHeader ? (
         <div className="text-center mb-16">
-          <div className="absolute inset-0 z-0 select-none pointer-events-none">
-            <div className="absolute -top-[20%] left-0 h-[50%] w-[50%] rounded-full bg-blue-600/10 blur-[120px]" />
-            <div className="absolute top-[50%] right-0 h-[50%] w-[50%] rounded-full bg-violet-600/10 blur-[120px]" />
-          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

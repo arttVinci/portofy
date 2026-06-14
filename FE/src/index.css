@@ -162,3 +162,79 @@
     scroll-behavior: smooth;
   }
 }
+
+/* ═══ CV Parser Illustration — Keyframes ═══════════ */
+@keyframes cv-data-flow {
+  0% { top: -4px; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: calc(100% - 8px); opacity: 0; }
+}
+
+@keyframes cv-upload-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.2); }
+}
+
+@keyframes cv-type-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes cv-status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes cv-agent-fade-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cv-output-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
+  50% { box-shadow: 0 0 35px rgba(0, 212, 255, 0.2); }
+}
+
+@keyframes cv-particle-float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  25% { opacity: 0.6; }
+  50% { transform: translateY(-40px) translateX(20px); opacity: 0.3; }
+  75% { opacity: 0.5; }
+}
+
+@layer utilities {
+  .animate-cv-data-flow {
+    animation: cv-data-flow 2s ease-in-out infinite;
+  }
+  .animate-cv-upload-glow {
+    animation: cv-upload-glow 3s ease-in-out infinite;
+  }
+  .animate-cv-type-flicker {
+    animation: cv-type-flicker 1.5s step-end infinite;
+  }
+  .animate-cv-status-pulse {
+    animation: cv-status-pulse 2s ease-in-out infinite;
+  }
+  .animate-cv-agent-fade-in {
+    animation: cv-agent-fade-in 0.6s ease-out both;
+  }
+  .animate-cv-output-pulse {
+    animation: cv-output-pulse 2.5s ease-in-out infinite;
+  }
+  .animate-cv-particle-1 {
+    animation: cv-particle-float 6s ease-in-out infinite;
+  }
+  .animate-cv-particle-2 {
+    animation: cv-particle-float 8s ease-in-out -1s infinite;
+  }
+  .animate-cv-particle-3 {
+    animation: cv-particle-float 7s ease-in-out -2.5s infinite;
+  }
+  .animate-cv-particle-4 {
+    animation: cv-particle-float 9s ease-in-out -4s infinite;
+  }
+  .animate-cv-particle-5 {
+    animation: cv-particle-float 5s ease-in-out -3s infinite;
+  }
+}
