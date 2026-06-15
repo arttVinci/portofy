@@ -238,3 +238,43 @@
     animation: cv-particle-float 5s ease-in-out -3s infinite;
   }
 }
+
+/* ═══ RAG Illustration — Keyframes ═════════════════ */
+@keyframes rag-orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rag-orbit-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes rag-dot-travel-left {
+  0%, 100% { left: 100%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: -4px; opacity: 0; }
+}
+
+@keyframes rag-dot-travel-right {
+  0%, 100% { right: 100%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { right: -4px; opacity: 0; }
+}
+
+@layer utilities {
+  .animate-rag-orbit-spin {
+    animation: rag-orbit-spin 12s linear infinite;
+  }
+  .animate-rag-orbit-spin-reverse {
+    animation: rag-orbit-spin-reverse 18s linear infinite;
+  }
+  .animate-rag-dot-travel-left {
+    animation: rag-dot-travel-left 2.5s ease-in-out infinite;
+  }
+  .animate-rag-dot-travel-right {
+    animation: rag-dot-travel-right 2.5s ease-in-out 1.2s infinite;
+  }
+}
