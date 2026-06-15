@@ -2,6 +2,7 @@ import HeroSection from "@/sections/marketing/HeroSection";
 import WhySection from "@/sections/marketing/WhySection";
 import CVParserSection from "@/sections/marketing/CVParserSection";
 import RAGSection from "@/sections/marketing/RAGSection";
+import WebDesignSection from "@/sections/marketing/WebDesignSection";
 import HowItWorksSection from "@/sections/marketing/HowItWorksSection";
 // import CTASection from "@/sections/marketing/CTASection";
 // import PremiumSection from "@/sections/marketing/PremiumSection";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <WhySection />
       <CVParserSection />
       <RAGSection />
+      <WebDesignSection />
       <HowItWorksSection />
       {/* <CTASection /> */}
       {/* <PremiumSection /> */}
