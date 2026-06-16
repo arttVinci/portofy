@@ -41,10 +41,10 @@ export default function FooterSection() {
       <div className="absolute top-0 right-1/4 w-[600px] h-[300px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
           {/* Brand & Newsletter (Left Col) */}
-          <div className="lg:col-span-5 pr-0 lg:pr-12">
+          <div className="md:col-span-5 pr-0 md:pr-8 lg:pr-12">
             <div className="flex items-center gap-3 mb-6">
               <img
                 src="/images/portofLogo.png"
@@ -94,7 +94,7 @@ export default function FooterSection() {
           </div>
 
           {/* Links Grid (Right Col) */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {Object.entries(FOOTER_LINKS).map(([title, links]) => (
               <div key={title}>
                 <p className="text-sm font-bold text-white uppercase tracking-wider mb-6">

@@ -4,7 +4,7 @@ import RAGIllustration from "./RAGIllustration";
 export default function RAGSection() {
   return (
     <section id="rag-agent" className="relative py-28 overflow-hidden">
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         <SectionHeader
           title="RAG Agent"
           titleGradient="Background Scanner"

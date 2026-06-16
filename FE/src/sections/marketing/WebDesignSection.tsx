@@ -4,7 +4,7 @@ import WebDesignIllustration from "./WebDesignIllustration";
 export default function WebDesignSection() {
   return (
     <section id="web-design-agent" className="relative py-28 overflow-hidden">
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         <SectionHeader
           title="Web Design"
           titleGradient="Berbasis Agentic"

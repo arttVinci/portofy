@@ -35,8 +35,8 @@ export default function HeroSection() {
       {/* ── Background ─────────────────────────────────────── */}
 
       {/* ── Main content ───────────────────────────────────── */}
-      <div className="relative z-10 container mx-auto px-6 max-w-7xl py-28 lg:py-0 min-h-screen flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center w-full">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl py-28 lg:py-0 min-h-screen flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-20 items-center w-full">
           {/* ═══════════════════════
               LEFT — Copy
           ═══════════════════════ */}
@@ -123,8 +123,8 @@ export default function HeroSection() {
           {/* ═══════════════════════
               RIGHT — AI card stack
           ═══════════════════════ */}
-          <div className="hidden lg:flex justify-center items-center">
-            <div className="relative w-[390px] h-[500px] mt-12">
+          <div className="hidden md:flex justify-center items-center">
+            <div className="relative w-[320px] h-[420px] lg:w-[390px] lg:h-[500px] mt-12">
               {/* ══ Main portfolio card ════════════════════════════════ */}
               <div
                 className="absolute inset-0 rounded-3xl flex flex-col"
@@ -276,7 +276,7 @@ export default function HeroSection() {
 
               {/* ══ Floating card — AI CV Parser (top-right, tilted) ═══ */}
               <div
-                className="absolute -top-8 -right-16 w-[185px] rounded-2xl p-4"
+                className="absolute -top-4 -right-8 lg:-top-8 lg:-right-16 w-[160px] lg:w-[185px] rounded-2xl p-3 lg:p-4"
                 style={{
                   border: "2px dashed rgba(255,255,255,0.15)",
                   transform: "rotate(4deg)",

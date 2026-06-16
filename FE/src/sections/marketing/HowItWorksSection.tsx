@@ -81,7 +81,7 @@ export default function HowItWorksSection() {
     >
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[700px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <SectionHeader
           title="Alur Mudah"

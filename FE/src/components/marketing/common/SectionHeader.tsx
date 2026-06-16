@@ -61,7 +61,7 @@ export default function SectionHeader({
           )}
         </div>
       ) : (
-        <div className="mb-14 md:mb-20 bg-[#070e1b] w-screen ml-[calc(50%-50vw)] px-38 py-5">
+        <div className="mb-10 md:mb-14 lg:mb-20 w-screen ml-[calc(50%-50vw)] px-6 sm:px-10 md:px-16 lg:px-38 py-5">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ export default function SectionHeader({
             }}
           >
             {title} <br className="hidden md:block" />
-            <span className="text-slate-500">{titleGradient}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{titleGradient}</span>
           </motion.h2>
 
           <motion.p

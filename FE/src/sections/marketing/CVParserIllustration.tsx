@@ -114,7 +114,7 @@ function Connector() {
 /* ─── Main Component ─────────────────────────────── */
 export default function CVParserIllustration() {
   return (
-    <div className="relative w-full max-w-[900px] mx-auto py-10 px-5">
+    <div className="relative w-full max-w-[900px] mx-auto py-6 sm:py-10 px-4 sm:px-5">
       {/* ── Ambient Glows ──────────────────────────── */}
       <div className="absolute w-[300px] h-[300px] top-[20%] -left-[5%] rounded-full pointer-events-none blur-[120px] bg-[rgba(0,212,255,0.06)]" />
       <div className="absolute w-[400px] h-[400px] top-[30%] left-1/2 -translate-x-1/2 rounded-full pointer-events-none blur-[120px] bg-[rgba(0,212,255,0.04)]" />
@@ -138,7 +138,7 @@ export default function CVParserIllustration() {
       {/* ═══ MAIN FLOW ═══════════════════════════════ */}
       <div className="relative z-10 flex flex-col items-center">
         {/* ── LAYER 1: Upload ──────────────────────── */}
-        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-[260px] text-center">
+        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-full max-w-[260px] text-center">
           <SectionLabel text="Input" center />
           <div className="w-[52px] h-[52px] mx-auto mb-3 rounded-[14px] flex items-center justify-center bg-[rgba(255,255,255,0.07)]">
             <FileTextIcon size={22} className="text-blue-400" />
@@ -163,7 +163,7 @@ export default function CVParserIllustration() {
         <Connector />
 
         {/* ── LAYER 2: Cleaner Agent ───────────────── */}
-        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-[300px]">
+        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-full max-w-[300px]">
           <SectionLabel text="Pre-Process" />
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 bg-[rgba(255,255,255,0.07)]">
@@ -208,6 +208,11 @@ export default function CVParserIllustration() {
           </svg>
         </div>
 
+        {/* ── Mobile connector (replaces fan-out SVG) ── */}
+        <div className="flex md:hidden items-center justify-center">
+          <Connector />
+        </div>
+
         {/* ── LAYER 3: Parallel Agents ─────────────── */}
         <div className="w-full text-center mb-1.5">
           <SectionLabel text="Parallel Extraction" center>
@@ -241,6 +246,11 @@ export default function CVParserIllustration() {
           ))}
         </div>
 
+        {/* ── Mobile connector (replaces fan-in SVG) ── */}
+        <div className="flex md:hidden items-center justify-center">
+          <Connector />
+        </div>
+
         {/* ── Fan-In Lines ─────────────────────────── */}
         <div className="relative w-full h-9 max-w-[700px] hidden md:block">
           <svg
@@ -263,7 +273,7 @@ export default function CVParserIllustration() {
         </div>
 
         {/* ── LAYER 4: Reviewer Agent ──────────────── */}
-        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-[320px] max-sm:w-full max-sm:max-w-[300px]">
+        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-full max-w-[320px]">
           <SectionLabel text="Quality Gate" />
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 bg-[rgba(255,255,255,0.07)]">
@@ -294,7 +304,7 @@ export default function CVParserIllustration() {
         <Connector />
 
         {/* ── LAYER 5: Output ──────────────────────── */}
-        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-[260px] text-center max-sm:w-full max-sm:max-w-[300px]">
+        <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-5 py-4 transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.06),inset_0_1px_0_rgba(255,255,255,0.04)] hover:-translate-y-0.5 w-full max-w-[260px] text-center">
           <div className="w-11 h-11 mx-auto mb-2.5 rounded-xl flex items-center justify-center bg-[rgba(255,255,255,0.07)]">
             <RocketIcon size={20} className="text-blue-400" />
           </div>

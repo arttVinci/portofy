@@ -59,7 +59,7 @@ const REASONING_STEPS = [
 
 export default function RAGIllustration() {
   return (
-    <div className="relative w-full max-w-[1200px] mx-auto py-10 px-5">
+    <div className="relative w-full max-w-[1100px] mx-auto py-6 sm:py-10 px-4 sm:px-5">
       {/* ── Ambient Glows ──────────────────────────── */}
       <div className="absolute w-[350px] h-[350px] top-[10%] left-[10%] rounded-full pointer-events-none blur-[140px] bg-[rgba(0,212,255,0.05)]" />
       <div className="absolute w-[300px] h-[300px] bottom-[10%] right-[10%] rounded-full pointer-events-none blur-[140px] bg-[rgba(0,212,255,0.04)]" />
@@ -69,7 +69,7 @@ export default function RAGIllustration() {
         {/* ────────────────────────────────────────────
             LEFT: Visual Diagram (Sources → Brain → Results)
         ──────────────────────────────────────────── */}
-        <div className="flex-1 flex flex-col lg:flex-row items-center gap-4">
+        <div className="flex-1 flex flex-col lg:flex-row items-center gap-4 w-full">
           {/* Sources column */}
           <div className="flex flex-col items-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
@@ -78,11 +78,11 @@ export default function RAGIllustration() {
                 Sources
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-row lg:flex-col gap-2 flex-wrap justify-center">
               {WEB_SOURCES.map((src, idx) => (
                 <div
                   key={src.key}
-                  className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.04)] border border-white/[0.06] transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_20px_rgba(0,212,255,0.06)] animate-cv-agent-fade-in w-[150px]"
+                  className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.04)] border border-white/[0.06] transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_20px_rgba(0,212,255,0.06)] animate-cv-agent-fade-in w-full max-w-[200px] lg:w-[150px]"
                   style={{ animationDelay: `${idx * 120}ms` }}
                 >
                   <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0 bg-[rgba(255,255,255,0.07)]">
@@ -97,6 +97,11 @@ export default function RAGIllustration() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* ── Mobile/Tablet connector: Sources → Brain ── */}
+          <div className="flex lg:hidden items-center justify-center py-2">
+            <div className="w-0.5 h-8 bg-gradient-to-b from-blue-400/30 to-blue-400/10 rounded-full" />
           </div>
 
           {/* ── SVG Fan-in connector: Sources → Brain ── */}
@@ -184,6 +189,11 @@ export default function RAGIllustration() {
                 Retrieval-Augmented
               </div>
             </div>
+          </div>
+
+          {/* ── Mobile/Tablet connector: Brain → Matched ── */}
+          <div className="flex lg:hidden items-center justify-center py-2">
+            <div className="w-0.5 h-8 bg-gradient-to-b from-blue-400/30 to-blue-400/10 rounded-full" />
           </div>
 
           {/* ── SVG connector: Brain → Matched ── */}
@@ -274,7 +284,7 @@ export default function RAGIllustration() {
                 Matched
               </span>
             </div>
-            <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-4 py-3 w-[200px]">
+            <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-4 py-3 w-full max-w-[250px] sm:max-w-[200px]">
               <div className="space-y-2">
                 {MATCHED_RESULTS.map((r, idx) => (
                   <div

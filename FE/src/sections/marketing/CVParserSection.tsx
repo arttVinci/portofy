@@ -4,7 +4,7 @@ import CVParserIllustration from "./CVParserIllustration";
 export default function CVParserSection() {
   return (
     <section id="cv-parser" className="relative py-28 overflow-hidden">
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <SectionHeader
           title="AI CV Parser"

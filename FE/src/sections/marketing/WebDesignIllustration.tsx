@@ -32,11 +32,11 @@ export default function WebDesignIllustration() {
       <div className="absolute w-[400px] h-[400px] top-[20%] left-[30%] rounded-full pointer-events-none blur-[150px] bg-[rgba(0,212,255,0.04)]" />
 
       {/* ═══ WORKSPACE LAYOUT ═══════════════════════ */}
-      <div className="relative z-10 flex flex-col lg:flex-row gap-6 h-[500px]">
+      <div className="relative z-10 flex flex-col lg:flex-row gap-6 lg:h-[500px]">
         {/* ────────────────────────────────────────────
             LEFT: Agentic Chat / Prompt Input
         ──────────────────────────────────────────── */}
-        <div className="w-full lg:w-[380px] flex flex-col bg-[rgba(10,10,10,0.85)] border border-white/[0.08] rounded-2xl overflow-hidden backdrop-blur-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        <div className="w-full lg:w-[380px] flex flex-col bg-[rgba(10,10,10,0.85)] border border-white/[0.08] rounded-2xl overflow-hidden backdrop-blur-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.5)] min-h-[350px] lg:min-h-0">
           {/* Header */}
           <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.04] bg-white/[0.01]">
             <div className="w-8 h-8 rounded-lg bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.2)] flex items-center justify-center shrink-0">
@@ -136,7 +136,7 @@ export default function WebDesignIllustration() {
         {/* ────────────────────────────────────────────
             RIGHT: Live Preview Canvas
         ──────────────────────────────────────────── */}
-        <div className="flex-1 flex flex-col bg-[rgba(15,15,18,0.9)] border border-white/[0.08] rounded-2xl overflow-hidden backdrop-blur-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.3)]">
+        <div className="flex-1 flex flex-col bg-[rgba(15,15,18,0.9)] border border-white/[0.08] rounded-2xl overflow-hidden backdrop-blur-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.3)] min-h-[300px] lg:min-h-0">
           {/* Editor Header */}
           <div className="flex justify-between items-center px-4 py-3 border-b border-white/[0.04] bg-black/20">
             <div className="flex items-center gap-4">
@@ -180,7 +180,7 @@ export default function WebDesignIllustration() {
                 <span className="w-1.5 h-1.5 rounded-full bg-white/[0.2]" />
               </div>
 
-              <div className="p-6 grid grid-cols-2 gap-6 items-center">
+              <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-center">
                 {/* Left: Text & CTA */}
                 <div className="space-y-4">
                   {/* Skeleton Title */}
