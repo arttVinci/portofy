@@ -10,7 +10,7 @@ export default function RAGSection() {
           titleGradient="Background Scanner"
           description="Agent cerdas yang menelusuri Google, LinkedIn, GitHub, dan berbagai sumber web untuk mencocokkan, memverifikasi, dan memperkaya data latar belakang portofoliomu secara otomatis."
           label="Intelligence Layer"
-          isCenterHeader={true}
+          isCenterHeader={false}
         />
         <RAGIllustration />
       </div>

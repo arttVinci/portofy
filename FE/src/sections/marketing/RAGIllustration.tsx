@@ -22,8 +22,8 @@ const WEB_SOURCES = [
 /* ─── Matched Results ────────────────────────────── */
 const MATCHED_RESULTS = [
   { field: "Nama", value: "Muhammad Rizky", confidence: 98 },
-  { field: "Universitas", value: "UI - Teknik Informatika", confidence: 95 },
-  { field: "Perusahaan", value: "PT Teknologi Nusantara", confidence: 92 },
+  { field: "Universitas", value: "ITB - Teknik Informatika", confidence: 95 },
+  { field: "Perusahaan", value: "PT Telkom Indonesia", confidence: 92 },
   { field: "GitHub Repos", value: "23 public repositories", confidence: 100 },
   { field: "Skills Match", value: "React, Go, Docker +8", confidence: 89 },
 ];

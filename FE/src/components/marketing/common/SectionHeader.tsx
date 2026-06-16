@@ -71,7 +71,7 @@ export default function SectionHeader({
           >
             <div className="h-[2px] w-8 bg-blue-600"></div>
             <span className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">
-              Kenapa Memilih Kami?
+              {label}
             </span>
           </motion.div>
 
@@ -86,8 +86,8 @@ export default function SectionHeader({
                 "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)",
             }}
           >
-            Platform Portofolio <br className="hidden md:block" />
-            <span className="text-slate-500">Cerdas Berbasis AI.</span>
+            {title} <br className="hidden md:block" />
+            <span className="text-slate-500">{titleGradient}</span>
           </motion.h2>
 
           <motion.p
@@ -97,9 +97,7 @@ export default function SectionHeader({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 text-sm md:text-base leading-relaxed max-w-3xl"
           >
-            Memungkinkan siapa pun membangun portofolio profesional secara
-            online tanpa perlu keahlian coding sama sekali. Pendekatan intuitif
-            yang dioptimalkan untuk pengguna Indonesia.
+            {description}
           </motion.p>
         </div>
       )}
