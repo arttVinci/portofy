@@ -283,7 +283,7 @@ export default function CVParserIllustration() {
             {REVIEW_SECTIONS.map((section) => (
               <span
                 key={section}
-                className="text-[9px] px-2.5 py-[3px] rounded-full font-semibold flex items-center gap-1 text-blue-400 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)]"
+                className="text-[9px] px-2.5 py-[3px] rounded-full font-semibold flex items-center gap-1 text-slate-400 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)]"
               >
                 ✓ {section}
               </span>

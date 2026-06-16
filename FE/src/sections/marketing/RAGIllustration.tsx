@@ -73,8 +73,8 @@ export default function RAGIllustration() {
           {/* Sources column */}
           <div className="flex flex-col items-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-[5px] h-[5px] rounded-full bg-[#00d4ff]" />
-              <span className="text-[9px] text-[#00d4ff] uppercase tracking-[2px] font-bold">
+              <span className="w-[5px] h-[5px] rounded-full bg-blue-400" />
+              <span className="text-[9px] text-blue-400 uppercase tracking-[2px] font-bold">
                 Sources
               </span>
             </div>
@@ -82,18 +82,18 @@ export default function RAGIllustration() {
               {WEB_SOURCES.map((src, idx) => (
                 <div
                   key={src.key}
-                  className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgba(18,18,18,0.85)] border border-white/[0.06] backdrop-blur-[20px] transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_20px_rgba(0,212,255,0.06)] animate-cv-agent-fade-in w-[150px]"
+                  className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.04)] border border-white/[0.06] transition-all duration-400 hover:border-[rgba(0,212,255,0.2)] hover:shadow-[0_0_20px_rgba(0,212,255,0.06)] animate-cv-agent-fade-in w-[150px]"
                   style={{ animationDelay: `${idx * 120}ms` }}
                 >
-                  <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0 bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.12)]">
-                    <src.icon size={12} className="text-[#00d4ff]" />
+                  <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0 bg-[rgba(255,255,255,0.07)]">
+                    <src.icon size={12} className="text-blue-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="text-[10px] font-semibold text-slate-200">
                       {src.label}
                     </div>
                   </div>
-                  <span className="w-[5px] h-[5px] rounded-full bg-[#00d4ff] shadow-[0_0_6px_rgba(0,212,255,0.5)] animate-cv-status-pulse" />
+                  <span className="w-[5px] h-[5px] rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)] animate-cv-status-pulse" />
                 </div>
               ))}
             </div>
@@ -120,7 +120,7 @@ export default function RAGIllustration() {
                     style={{ animationDelay: `${i * 0.4}s` }}
                   />
                   {/* Traveling dot */}
-                  <circle r="2.5" fill="#00d4ff" opacity="0.8">
+                  <circle r="2.5" fill="#60a5fa" opacity="0.8">
                     <animateMotion
                       dur="2.5s"
                       repeatCount="indefinite"
@@ -136,25 +136,25 @@ export default function RAGIllustration() {
                     />
                   </circle>
                   {/* Start dot */}
-                  <circle cx="0" cy={y} r="2" fill="#00d4ff" opacity="0.3" />
+                  <circle cx="0" cy={y} r="2" fill="#60a5fa" opacity="0.3" />
                 </g>
               ))}
               {/* Merge point glow */}
-              <circle cx="80" cy="80" r="3" fill="#00d4ff" opacity="0.5" />
+              <circle cx="80" cy="80" r="3" fill="#60a5fa" opacity="0.5" />
               <circle
                 cx="80"
                 cy="80"
                 r="6"
                 fill="none"
-                stroke="#00d4ff"
+                stroke="#60a5fa"
                 strokeWidth="0.5"
                 opacity="0.2"
               />
               {/* Gradient */}
               <defs>
                 <linearGradient id="rag-grad-left" x1="0" y1="0" x2="80" y2="0">
-                  <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.15" />
-                  <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.4" />
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.4" />
                 </linearGradient>
               </defs>
             </svg>
@@ -163,18 +163,18 @@ export default function RAGIllustration() {
           {/* Brain orbital */}
           <div className="flex flex-col items-center shrink-0">
             <div className="relative w-[120px] h-[120px]">
-              <div className="absolute inset-0 rounded-full border border-[rgba(0,212,255,0.1)] animate-rag-orbit-spin" />
-              <div className="absolute inset-2.5 rounded-full border border-dashed border-[rgba(0,212,255,0.08)]" />
-              <div className="absolute inset-5 rounded-full bg-[rgba(0,212,255,0.03)] border border-[rgba(0,212,255,0.12)]" />
+              <div className="absolute inset-0 rounded-full border border-blue-400/20 animate-rag-orbit-spin" />
+              <div className="absolute inset-2.5 rounded-full border border-dashed border-blue-400/20" />
+              <div className="absolute inset-5 rounded-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)]" />
               <div className="absolute inset-0 animate-rag-orbit-spin">
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00d4ff] shadow-[0_0_8px_rgba(0,212,255,0.6)]" />
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
               </div>
               <div className="absolute inset-0 animate-rag-orbit-spin-reverse">
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[rgba(0,212,255,0.5)]" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-blue-400/50" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-xl bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.2)] flex items-center justify-center animate-cv-upload-glow">
-                  <BrainIcon size={20} className="text-[#00d4ff]" />
+                <div className="w-12 h-12 rounded-xl bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
+                  <BrainIcon size={20} className="text-blue-400" />
                 </div>
               </div>
             </div>
@@ -206,18 +206,18 @@ export default function RAGIllustration() {
               {/* Side accent lines */}
               <path
                 d="M 10 12 Q 40 20, 70 12"
-                stroke="#00d4ff"
+                stroke="#60a5fa"
                 strokeWidth="0.6"
                 strokeOpacity="0.1"
               />
               <path
                 d="M 10 28 Q 40 20, 70 28"
-                stroke="#00d4ff"
+                stroke="#60a5fa"
                 strokeWidth="0.6"
                 strokeOpacity="0.1"
               />
               {/* Traveling dot */}
-              <circle r="3" fill="#00d4ff" opacity="0.8">
+              <circle r="3" fill="#60a5fa" opacity="0.8">
                 <animateMotion
                   dur="2s"
                   repeatCount="indefinite"
@@ -231,21 +231,21 @@ export default function RAGIllustration() {
                 />
               </circle>
               {/* Glow ring at start */}
-              <circle cx="0" cy="20" r="3" fill="#00d4ff" opacity="0.4" />
+              <circle cx="0" cy="20" r="3" fill="#60a5fa" opacity="0.4" />
               <circle
                 cx="0"
                 cy="20"
                 r="6"
                 fill="none"
-                stroke="#00d4ff"
+                stroke="#60a5fa"
                 strokeWidth="0.5"
                 opacity="0.15"
               />
               {/* Arrow at end */}
-              <circle cx="80" cy="20" r="3" fill="#00d4ff" opacity="0.4" />
+              <circle cx="80" cy="20" r="3" fill="#60a5fa" opacity="0.4" />
               <path
                 d="M 74 16 L 80 20 L 74 24"
-                stroke="#00d4ff"
+                stroke="#60a5fa"
                 strokeWidth="1"
                 strokeOpacity="0.4"
                 fill="none"
@@ -259,8 +259,8 @@ export default function RAGIllustration() {
                   x2="80"
                   y2="0"
                 >
-                  <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.15" />
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.15" />
                 </linearGradient>
               </defs>
             </svg>
@@ -269,12 +269,12 @@ export default function RAGIllustration() {
           {/* Matched results card */}
           <div className="flex flex-col items-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-[5px] h-[5px] rounded-full bg-[#00d4ff]" />
-              <span className="text-[9px] text-[#00d4ff] uppercase tracking-[2px] font-bold">
+              <span className="w-[5px] h-[5px] rounded-full bg-blue-400" />
+              <span className="text-[9px] text-blue-400 uppercase tracking-[2px] font-bold">
                 Matched
               </span>
             </div>
-            <div className="relative bg-[rgba(18,18,18,0.85)] border border-[rgba(0,212,255,0.1)] rounded-2xl px-4 py-3 backdrop-blur-[20px] w-[200px]">
+            <div className="relative bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-2xl px-4 py-3 w-[200px]">
               <div className="space-y-2">
                 {MATCHED_RESULTS.map((r, idx) => (
                   <div
@@ -290,7 +290,7 @@ export default function RAGIllustration() {
                         {r.value}
                       </div>
                     </div>
-                    <span className="text-[8px] font-bold text-[#00d4ff] bg-[rgba(0,212,255,0.08)] px-1.5 py-0.5 rounded-full shrink-0">
+                    <span className="text-[8px] font-bold text-slate-400 bg-[rgba(255,255,255,0.07)] px-1.5 py-0.5 rounded-full shrink-0">
                       {r.confidence}%
                     </span>
                   </div>
@@ -298,12 +298,12 @@ export default function RAGIllustration() {
               </div>
               <div className="mt-3 pt-2.5 border-t border-white/[0.05] flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  <UserCheckIcon size={10} className="text-[#00d4ff]" />
+                  <UserCheckIcon size={10} className="text-blue-400" />
                   <span className="text-[9px] text-slate-400 font-semibold">
                     Match
                   </span>
                 </div>
-                <span className="text-xs font-bold text-[#00d4ff]">94%</span>
+                <span className="text-xs font-bold text-slate-400">94%</span>
               </div>
             </div>
           </div>
@@ -314,12 +314,12 @@ export default function RAGIllustration() {
         ──────────────────────────────────────────── */}
         <div className="flex-1 w-full lg:w-auto">
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-[5px] h-[5px] rounded-full bg-[#00d4ff]" />
-            <span className="text-[9px] text-[#00d4ff] uppercase tracking-[2px] font-bold">
+            <span className="w-[5px] h-[5px] rounded-full bg-blue-400" />
+            <span className="text-[9px] text-blue-400 uppercase tracking-[2px] font-bold">
               Agent Reasoning
             </span>
           </div>
-          <div className="bg-[rgba(10,10,10,0.9)] border border-white/[0.06] rounded-xl overflow-hidden backdrop-blur-[20px]">
+          <div className="bg-[rgba(255,255,255,0.04)] border border-white/[0.06] rounded-xl overflow-hidden">
             {/* Terminal header */}
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.04]">
               <div className="flex gap-1.5">
@@ -338,7 +338,7 @@ export default function RAGIllustration() {
                   key={idx}
                   className={`flex items-start gap-2 text-[11px] leading-relaxed animate-cv-agent-fade-in ${
                     step.status === "result"
-                      ? "text-[#00d4ff] font-semibold"
+                      ? "text-blue-400 font-semibold"
                       : "text-slate-400"
                   }`}
                   style={{ animationDelay: `${800 + idx * 200}ms` }}
@@ -346,7 +346,7 @@ export default function RAGIllustration() {
                   <span
                     className={`shrink-0 mt-[1px] ${
                       step.status === "result"
-                        ? "text-[#00d4ff]"
+                        ? "text-blue-400"
                         : "text-slate-600"
                     }`}
                   >
@@ -354,7 +354,7 @@ export default function RAGIllustration() {
                   </span>
                   <span>{step.text}</span>
                   {step.status === "done" && (
-                    <span className="shrink-0 text-[9px] text-[#00d4ff]/60 mt-[1px]">
+                    <span className="shrink-0 text-[9px] text-blue-400/60 mt-[1px]">
                       ✓
                     </span>
                   )}
@@ -363,7 +363,7 @@ export default function RAGIllustration() {
               {/* Blinking cursor */}
               <div className="flex items-center gap-1 mt-1">
                 <span className="text-slate-600 text-[11px]">$</span>
-                <span className="w-[6px] h-3.5 bg-[#00d4ff] animate-cv-type-flicker" />
+                <span className="w-[6px] h-3.5 bg-blue-400 animate-cv-type-flicker" />
               </div>
             </div>
           </div>
@@ -381,10 +381,10 @@ export default function RAGIllustration() {
         ].map((b) => (
           <div
             key={b.label}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-[10px] bg-[rgba(18,18,18,0.6)] border border-white/[0.05] text-[11px] text-slate-400 font-medium backdrop-blur-[10px] transition-all duration-300 hover:border-[rgba(0,212,255,0.15)] hover:text-slate-200 hover:bg-[rgba(0,212,255,0.04)]"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-[10px] bg-[rgba(255,255,255,0.04)] border border-white/[0.06] text-[11px] text-slate-400 font-medium transition-all duration-300 hover:border-[rgba(0,212,255,0.15)] hover:text-slate-200 hover:bg-[rgba(255,255,255,0.06)]"
           >
-            <span className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center bg-[rgba(0,212,255,0.06)] border border-[rgba(0,212,255,0.1)]">
-              <b.icon size={10} className="text-[#00d4ff]" />
+            <span className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center bg-[rgba(255,255,255,0.07)]">
+              <b.icon size={10} className="text-blue-400" />
             </span>
             {b.label}
           </div>
