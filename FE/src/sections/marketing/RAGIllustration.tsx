@@ -1,8 +1,6 @@
 import {
   BrainIcon,
   GlobeIcon,
-  LinkedinIcon,
-  GithubIcon,
   SearchIcon,
   DatabaseIcon,
   UserCheckIcon,
@@ -11,11 +9,13 @@ import {
   ShieldCheckIcon,
 } from "lucide-react";
 
+import { GoogleIcon, LinkedinIcon, GitHubIcon } from "@/components/utils/icons";
+
 /* ─── Web Sources ────────────────────────────────── */
 const WEB_SOURCES = [
-  { key: "google", label: "Google", icon: GlobeIcon, delay: 0 },
+  { key: "google", label: "Google", icon: GoogleIcon, delay: 0 },
   { key: "linkedin", label: "LinkedIn", icon: LinkedinIcon, delay: 150 },
-  { key: "github", label: "GitHub", icon: GithubIcon, delay: 300 },
+  { key: "github", label: "GitHub", icon: GitHubIcon, delay: 300 },
   { key: "web", label: "Web Data", icon: SearchIcon, delay: 450 },
 ];
 
@@ -141,7 +141,15 @@ export default function RAGIllustration() {
               ))}
               {/* Merge point glow */}
               <circle cx="80" cy="80" r="3" fill="#00d4ff" opacity="0.5" />
-              <circle cx="80" cy="80" r="6" fill="none" stroke="#00d4ff" strokeWidth="0.5" opacity="0.2" />
+              <circle
+                cx="80"
+                cy="80"
+                r="6"
+                fill="none"
+                stroke="#00d4ff"
+                strokeWidth="0.5"
+                opacity="0.2"
+              />
               {/* Gradient */}
               <defs>
                 <linearGradient id="rag-grad-left" x1="0" y1="0" x2="80" y2="0">
@@ -224,13 +232,33 @@ export default function RAGIllustration() {
               </circle>
               {/* Glow ring at start */}
               <circle cx="0" cy="20" r="3" fill="#00d4ff" opacity="0.4" />
-              <circle cx="0" cy="20" r="6" fill="none" stroke="#00d4ff" strokeWidth="0.5" opacity="0.15" />
+              <circle
+                cx="0"
+                cy="20"
+                r="6"
+                fill="none"
+                stroke="#00d4ff"
+                strokeWidth="0.5"
+                opacity="0.15"
+              />
               {/* Arrow at end */}
               <circle cx="80" cy="20" r="3" fill="#00d4ff" opacity="0.4" />
-              <path d="M 74 16 L 80 20 L 74 24" stroke="#00d4ff" strokeWidth="1" strokeOpacity="0.4" fill="none" />
+              <path
+                d="M 74 16 L 80 20 L 74 24"
+                stroke="#00d4ff"
+                strokeWidth="1"
+                strokeOpacity="0.4"
+                fill="none"
+              />
               {/* Gradient */}
               <defs>
-                <linearGradient id="rag-grad-right" x1="0" y1="0" x2="80" y2="0">
+                <linearGradient
+                  id="rag-grad-right"
+                  x1="0"
+                  y1="0"
+                  x2="80"
+                  y2="0"
+                >
                   <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.4" />
                   <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.15" />
                 </linearGradient>

@@ -4,7 +4,6 @@ import {
   Code2Icon,
   EyeIcon,
   SparklesIcon,
-  MessageSquareIcon,
   CheckCircle2Icon,
   PenLineIcon,
 } from "lucide-react";
@@ -96,9 +95,12 @@ export default function WebDesignIllustration() {
                 </div>
               </div>
             ))}
-            
+
             {/* Typing Indicator */}
-            <div className="flex gap-3 animate-cv-agent-fade-in" style={{ animationDelay: "1400ms" }}>
+            <div
+              className="flex gap-3 animate-cv-agent-fade-in"
+              style={{ animationDelay: "1400ms" }}
+            >
               <div className="w-6 h-6 rounded-md bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.2)] flex items-center justify-center shrink-0">
                 <SparklesIcon size={10} className="text-[#00d4ff]" />
               </div>
@@ -167,14 +169,17 @@ export default function WebDesignIllustration() {
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
 
             {/* Generated Hero Section */}
-            <div className="relative w-full max-w-[500px] bg-black/40 border border-white/[0.05] rounded-xl overflow-hidden shadow-2xl animate-cv-agent-fade-in" style={{ animationDelay: '800ms' }}>
+            <div
+              className="relative w-full max-w-[500px] bg-black/40 border border-white/[0.05] rounded-xl overflow-hidden shadow-2xl animate-cv-agent-fade-in"
+              style={{ animationDelay: "800ms" }}
+            >
               {/* Browser bar mini */}
               <div className="h-5 bg-white/[0.02] border-b border-white/[0.05] flex items-center px-3 gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-white/[0.2]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-white/[0.2]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-white/[0.2]" />
               </div>
-              
+
               <div className="p-6 grid grid-cols-2 gap-6 items-center">
                 {/* Left: Text & CTA */}
                 <div className="space-y-4">
@@ -207,12 +212,14 @@ export default function WebDesignIllustration() {
                 </div>
               </div>
             </div>
-            
+
             {/* Updating Overlay */}
             <div className="absolute inset-x-0 bottom-4 flex justify-center">
               <div className="bg-[#00d4ff]/10 border border-[#00d4ff]/20 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 animate-cv-upload-glow">
                 <SparklesIcon size={12} className="text-[#00d4ff]" />
-                <span className="text-[10px] font-medium text-[#00d4ff]">Updating CTA Button Style...</span>
+                <span className="text-[10px] font-medium text-[#00d4ff]">
+                  Updating CTA Button Style...
+                </span>
               </div>
             </div>
           </div>
