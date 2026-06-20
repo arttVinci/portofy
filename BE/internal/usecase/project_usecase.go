@@ -359,3 +359,11 @@ func (c *ProjectUseCase) GetByUsername(ctx context.Context, request *model.GetPu
 
 	return converter.ProjectToResponse(project), nil
 }
+
+func (u *ProjectUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
+	imageUrl, err := u.UploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/projects")
+	if err != nil {
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+	return imageUrl, nil
+}

@@ -7,5 +7,5 @@ export const API_CONFIG = {
 } as const;
 
 export const STORAGE_KEYS = {
-  AUTH_TOKEN: "authToken",
+  AUTH_TOKEN: import.meta.env.VITE_AUTH_TOKEN,
 } as const;

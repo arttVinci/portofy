@@ -154,7 +154,7 @@ export default function EducationPage() {
         const fd = new FormData();
         if (activeView.type === "edit" && education) {
           fd.append("image", thumbnailFile);
-          const resUrl = await specificUploadMutation.mutateAsync({ id: education.id, payload: fd });
+          const resUrl = await specificUploadMutation.mutateAsync(fd);
           payload.image_url = resUrl;
         } else {
           fd.append("images", thumbnailFile);

@@ -109,30 +109,7 @@ func (u *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAc
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c *AchievementUseCase) UploadImage(ctx context.Context, userId string, achievementId string, file *multipart.FileHeader) (string, error) {
-	tx := c.DB.WithContext(ctx).Begin()
-	defer tx.Rollback()
 
-	achievement := new(entity.Achievement)
-	
-	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, achievementId, userId); err != nil {	
-		c.Log.WithError(err).Error("error getting achievement")
-		return "", fiber.NewError(fiber.StatusNotFound, "Achievement not found")
-	}
-
-	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, achievement.ImageUrl, file, "portofy-assets/public/achievements")
-	if err != nil {
-		c.Log.WithError(err).Error("error uploading image")
-		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error committing upload achievement image")
-		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save achievement image")
-	}
-
-	return imageUrl, nil	
-}
 
 func (u *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAchievementRequest) error {
 	tx := u.DB.WithContext(ctx).Begin()
@@ -324,4 +301,12 @@ func (c *AchievementUseCase) GetByUsername(ctx context.Context, request *model.G
 	}
 
 	return converter.AchievementToResponse(achievement), nil
+}
+
+func (u *AchievementUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
+	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/achievements")
+	if err != nil {
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+	}
+	return imageUrl, nil
 }

@@ -161,7 +161,7 @@ export default function ExperiencePage() {
         const fd = new FormData();
         if (activeView.type === "edit" && experience) {
           fd.append("image", thumbnailFile);
-          const resUrl = await specificUploadMutation.mutateAsync({ id: experience.id, payload: fd });
+          const resUrl = await specificUploadMutation.mutateAsync(fd);
           payload.image_url = resUrl;
         } else {
           fd.append("images", thumbnailFile);

@@ -145,7 +145,7 @@ export default function AchievementPage() {
         
         if (activeView.type === "edit" && achievement) {
           fd.append("image", thumbnailFile);
-          const resUrl = await specificUploadMutation.mutateAsync({ id: achievement.id, payload: fd });
+          const resUrl = await specificUploadMutation.mutateAsync(fd);
           payload.image_url = resUrl;
         } else {
           fd.append("images", thumbnailFile);

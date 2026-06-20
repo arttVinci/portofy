@@ -2,19 +2,16 @@ import { useMutation } from "@tanstack/react-query";
 import educationService from "@/services/education.service";
 import { ApiError } from "@/api/apiError";
 
-interface UseUploadEducationImageOptions {
+interface UseUploadImageOptions {
   onSuccess?: (imageUrl: string) => void;
   onError?: (error: ApiError) => void;
 }
 
-interface UploadEducationImageVariables {
-  id: string;
-  payload: FormData;
-}
 
-export const useUploadEducationImage = (options?: UseUploadEducationImageOptions) => {
-  return useMutation<string, ApiError, UploadEducationImageVariables>({
-    mutationFn: ({ id, payload }) => educationService.uploadImage(id, payload),
+
+export const useUploadEducationImage = (options?: UseUploadImageOptions) => {
+  return useMutation<string, ApiError, FormData>({
+    mutationFn: (formData) => educationService.uploadImage(formData),
     onSuccess: (data) => {
       options?.onSuccess?.(data);
     },
