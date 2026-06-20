@@ -24,7 +24,6 @@ func NewCVParserController(cvParserUseCase *usecase.CVParserUseCase, log *logrus
 }
 
 func (c *CVParserController) ParseCV(ctx *fiber.Ctx) error {
-	c.Log.Info("Parsing CV")
 	file, err := ctx.FormFile("cv")
 	if err != nil {
 		c.Log.WithError(err).Error("error getting cv file from form")
@@ -57,5 +56,5 @@ func (c *CVParserController) ParseCV(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	return ctx.JSON(model.WebResponse[*agent.ParsedCVResponse]{Data: response})
+	return ctx.JSON(model.WebResponse[*agent.CVParseResult]{Data: response})
 }
