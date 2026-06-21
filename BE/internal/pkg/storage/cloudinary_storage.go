@@ -3,9 +3,6 @@ package storage
 import (
 	"context"
 	"mime/multipart"
-	"path/filepath"
-	"regexp"
-	"strings"
 
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
@@ -36,18 +33,3 @@ func (s *CloudinaryStorage) Delete(ctx context.Context, publicID string) error {
     return err
 }
 
-func (s *CloudinaryStorage) ExtractPublicID(url string) string {
-    // url: https://res.cloudinary.com/cloud/image/upload/v123/portofy/avatars/abc123.jpg
-    // result: portofy/avatars/abc123
-    parts := strings.Split(url, "/upload/")
-    if len(parts) < 2 {
-        return ""
-    }
-    // buang version cntoh (v123/) 
-    withoutVersion := regexp.MustCompile(`v\d+/`).ReplaceAllString(parts[1], "")
-
-    // buang ekstensi
-    ext := filepath.Ext(withoutVersion)
-	
-    return strings.TrimSuffix(withoutVersion, ext)
-}

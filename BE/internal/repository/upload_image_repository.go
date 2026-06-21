@@ -18,13 +18,7 @@ func NewUploadImageRepository(s *storage.CloudinaryStorage, log *logrus.Logger) 
     return &UploadImageRepository{Storage: s, Log: log}
 }
 
-func (r *UploadImageRepository) UploadImage(ctx context.Context, oldUrl string, file *multipart.FileHeader, folder string) (string, error) {
-    if oldUrl != "" {
-        publicID := r.Storage.ExtractPublicID(oldUrl)
-        if err := r.Storage.Delete(ctx, publicID); err != nil {
-            r.Log.WithError(err).Warn("failed to delete old image, continuing upload")
-        }
-    }
+func (r *UploadImageRepository) UploadImage(ctx context.Context, file *multipart.FileHeader, folder string) (string, error) {
     url, err := r.Storage.Upload(ctx, file, folder)
     if err != nil {
         r.Log.WithError(err).Error("error uploading image to cloudinary")
@@ -32,3 +26,15 @@ func (r *UploadImageRepository) UploadImage(ctx context.Context, oldUrl string, 
     }
     return url, nil
 }
+
+func (r *UploadImageRepository) DeleteImage(ctx context.Context, publicId string) error {
+    if err := r.Storage.Delete(ctx, publicId); err != nil {
+        r.Log.WithError(err).Warn("failed to delete old image, continuing upload")
+        return err
+    }
+
+    return nil
+}
+
+
+

@@ -1,5 +1,7 @@
 package model
 
+import "mime/multipart"
+
 type WebResponse[T any] struct {
 	Data    T             `json:"data"`
 	Message string        `json:"message,omitempty"`
@@ -23,4 +25,11 @@ type PageMetadata struct {
 	Size      int   `json:"size"`
 	TotalItem int64 `json:"total_item"`
 	TotalPage int64 `json:"total_page"`
+}
+
+type UploadImageRequest struct {
+    ID        string                  `form:"id"`
+    UserID    string                  `form:"-"`
+    Image     *multipart.FileHeader   `form:"-"`
+    Gallery   []*multipart.FileHeader `form:"-"`
 }

@@ -26,7 +26,7 @@ require (
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
 	cloud.google.com/go/longrunning v0.5.7 // indirect
-	code.sajari.com/docconv/v2 v2.0.0-pre.4 // indirect
+	code.sajari.com/docconv/v2 v2.0.0-pre.4
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/JalfResi/justext v0.0.0-20170829062021-c0282dea7198 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
@@ -38,7 +38,7 @@ require (
 	github.com/andybalholm/cascadia v1.2.0 // indirect
 	github.com/araddon/dateparse v0.0.0-20200409225146-d820a6159ab1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cloudinary/cloudinary-go/v2 v2.15.0 // indirect
+	github.com/cloudinary/cloudinary-go/v2 v2.15.0
 	github.com/creasty/defaults v1.7.0 // indirect
 	github.com/fatih/set v0.2.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
@@ -98,7 +98,7 @@ require (
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/mod v0.34.0 // indirect
 	golang.org/x/net v0.53.0 // indirect
-	golang.org/x/oauth2 v0.36.0 // indirect
+	golang.org/x/oauth2 v0.36.0
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.43.0 // indirect
 	golang.org/x/text v0.36.0 // indirect

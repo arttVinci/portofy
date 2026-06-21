@@ -114,11 +114,7 @@ export default function AchievementPage() {
     onError: (error: ApiError) => toast("error", "Error", error.message),
   });
 
-  const uploadMutation = useUploadImage({
-    onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
-  });
-
-  const specificUploadMutation = useUploadAchievementImage({
+  const uploadMutation = useUploadAchievementImage({
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
@@ -127,7 +123,7 @@ export default function AchievementPage() {
     updateMutation.isPending ||
     deleteMutation.isPending ||
     uploadMutation.isPending ||
-    specificUploadMutation.isPending;
+    uploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
   const handleSave = async () => {
@@ -142,15 +138,15 @@ export default function AchievementPage() {
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
         const fd = new FormData();
-        
+
         if (activeView.type === "edit" && achievement) {
           fd.append("image", thumbnailFile);
-          const resUrl = await specificUploadMutation.mutateAsync(fd);
+          const resUrl = await uploadMutation.mutateAsync(fd);
           payload.image_url = resUrl;
         } else {
           fd.append("images", thumbnailFile);
           const res = await uploadMutation.mutateAsync(fd);
-          payload.image_url = res.image_url[0];
+          payload.image_url = res;
         }
       }
 

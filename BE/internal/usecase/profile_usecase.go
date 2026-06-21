@@ -121,7 +121,7 @@ func (c *ProfileUseCase) UploadAvatar(ctx context.Context, userId string, file *
 		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
 	}
 
-	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, profile.ImageUrl, file, "portofy-assets/public/avatars")
+	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/avatars")
 	if err != nil {
 		c.log.WithError(err).Error("error uploading image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")

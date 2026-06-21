@@ -3,8 +3,6 @@ package usecase
 import (
 	"context"
 
-	"mime/multipart"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -13,6 +11,7 @@ import (
 	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/model/converter"
+	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/repository"
 )
 
@@ -303,10 +302,35 @@ func (c *AchievementUseCase) GetByUsername(ctx context.Context, request *model.G
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (u *AchievementUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
-	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/achievements")
+func (u *AchievementUseCase) UploadImage(ctx context.Context, request *model.UploadImageRequest ) (string, error) {
+	tx := u.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	achievement := new(entity.Achievement)
+	
+	if err := u.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserID); err != nil {	
+		u.Log.WithError(err).Error("error getting profile")
+		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
+	}
+
+	if achievement.ImageUrl != "" {
+		publicId := utils.ExtractPublicID(achievement.ImageUrl)
+
+		if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+			u.Log.WithError(err).Error("error delete image old")
+			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+		}
+	}
+
+	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, request.Image, "portofy-assets/public/achievements")
 	if err != nil {
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
+
+	if err := tx.Commit().Error; err != nil {
+		u.Log.WithError(err).Error("error committing upload image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save image")
+	}
+
 	return imageUrl, nil
 }

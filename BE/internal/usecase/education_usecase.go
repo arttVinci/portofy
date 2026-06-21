@@ -321,7 +321,7 @@ func (c *EducationUseCase) GetByUsername(ctx context.Context, request *model.Get
 }
 
 func (u *EducationUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
-	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/educations")
+	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/educations")
 	if err != nil {
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}

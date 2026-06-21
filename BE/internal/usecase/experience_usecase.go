@@ -323,7 +323,7 @@ func (c *ExperienceUseCase) GetByUsername(ctx context.Context, request *model.Ge
 }
 
 func (u *ExperienceUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
-	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/experiences")
+	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/experiences")
 	if err != nil {
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}

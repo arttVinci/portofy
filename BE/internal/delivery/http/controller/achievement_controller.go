@@ -262,7 +262,13 @@ func (c *AchievementController) GetByUsername(ctx *fiber.Ctx) error {
 }
 
 func (c *AchievementController) UploadImage(ctx *fiber.Ctx) error {
-	oldImageUrl := ctx.FormValue("old_image_url")
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.UploadImageRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
 
 	file, err := ctx.FormFile("image")
 	if err != nil {
@@ -275,7 +281,10 @@ func (c *AchievementController) UploadImage(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
 	}
 
-	response, err := c.UseCase.UploadImage(ctx.UserContext(), oldImageUrl, file)
+	request.Image = file
+	request.UserID = auth.ID
+
+	response, err := c.UseCase.UploadImage(ctx.UserContext(), request)
 	if err != nil {
 		return err
 	}
