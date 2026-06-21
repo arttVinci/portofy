@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"mime/multipart"
+	"sync"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +13,7 @@ import (
 	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/model/converter"
+	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/repository"
 )
 
@@ -138,53 +140,100 @@ func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjec
 	return nil
 }
 
-func (c *ProjectUseCase) UploadThumbnail(ctx context.Context, userId string, projectId string, file *multipart.FileHeader) (string, error) {
-	tx := c.DB.WithContext(ctx).Begin()
+func (u *ProjectUseCase) UploadThumbnail(ctx context.Context, request *model.UploadImageRequest) (string, error) {
+	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	project := new(entity.Project)
-	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, projectId, userId); err != nil {	
-		c.Log.WithError(err).Error("error getting project")
+	if err := u.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {	
+		u.Log.WithError(err).Error("error getting project")
 		return "", fiber.NewError(fiber.StatusNotFound, "Project not found")
 	}
+	
+	if project.ImageUrl != "" {
+		publicId := utils.ExtractPublicID(project.ImageUrl)
 
-	imageUrl, err := c.UploadImageRepo.UploadImage(ctx, project.ImageUrl, file, "portofy-assets/public/projects")
+		if err := u.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+			u.Log.WithError(err).Error("error delete image old")
+			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+		}
+	}
+	
+	imageUrl, err := u.UploadImageRepo.UploadImage(ctx, request.Image, "portofy-assets/public/projects")
 	if err != nil {
-		c.Log.WithError(err).Error("error uploading image")
+		u.Log.WithError(err).Error("error uploading image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error committing upload project image")
+		u.Log.WithError(err).Error("error committing upload project image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save project image")
 	}
 
 	return imageUrl, nil	
 }
 
-func (c *ProjectUseCase) UploadGallery(ctx context.Context, userId string, projectId string, files []*multipart.FileHeader) ([]string, error) {
-    tx := c.DB.WithContext(ctx).Begin()
-    defer tx.Rollback()
+func (c *ProjectUseCase) UploadGallery(ctx context.Context, request *model.UploadImageRequest) ([]string, error) {
+    tx := c.DB.WithContext(ctx)
 
     project := new(entity.Project)
-    if err := c.ProjectRepo.FindByIdAndUserId(tx, project, projectId, userId); err != nil {
+    if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {
         c.Log.WithError(err).Error("error getting project")
         return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
     }
 
-    var imageUrls []string
-    for _, file := range files {
-        imageUrl, err := c.UploadImageRepo.UploadImage(ctx, "", file, "portofy-assets/public/projects/gallery")
-        if err != nil {
-            c.Log.WithError(err).Error("error uploading image")
-            return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+		var deleteWg sync.WaitGroup
+    deletErrChan := make(chan error, len(project.Gallery))
+
+    for _, gallery := range project.Gallery {
+        if gallery.ImageUrl == "" {
+            continue
         }
-        imageUrls = append(imageUrls, imageUrl)
+        deleteWg.Add(1)
+        go func(imageUrl string) {
+            defer deleteWg.Done()
+            publicId := utils.ExtractPublicID(imageUrl)
+
+            if err := c.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+                c.Log.WithError(err).Error("error delete old image")
+                deletErrChan <- err
+            }
+        }(gallery.ImageUrl)
     }
 
-    if err := tx.Commit().Error; err != nil {
-        c.Log.WithError(err).Error("error committing upload project gallery")
-        return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save project gallery")
+    deleteWg.Wait()
+    close(deletErrChan)
+
+	var(
+		wg      sync.WaitGroup
+        mu      sync.Mutex
+		imageUrls    = make([]string, len(request.Gallery))
+		errChan = make(chan error, len(request.Gallery))
+	)
+
+    for i, file := range request.Gallery {
+		wg.Add(1)
+		go func(i int, file *multipart.FileHeader) {
+			defer wg.Done()
+
+			imageUrl, err := c.UploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/projects/gallery")
+			if err != nil {
+				c.Log.WithError(err).Error("error uploading image")
+				errChan <- fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
+				return
+			}
+
+			mu.Lock()
+            imageUrls[i] = imageUrl
+            mu.Unlock()
+		}(i, file)
+    }
+
+	wg.Wait()
+    close(errChan)
+
+	if len(errChan) > 0 {
+        return nil, <-errChan
     }
 
     return imageUrls, nil
@@ -360,10 +409,3 @@ func (c *ProjectUseCase) GetByUsername(ctx context.Context, request *model.GetPu
 	return converter.ProjectToResponse(project), nil
 }
 
-func (u *ProjectUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
-	imageUrl, err := u.UploadImageRepo.UploadImage(ctx, oldImageUrl, file, "portofy-assets/public/projects")
-	if err != nil {
-		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
-	}
-	return imageUrl, nil
-}

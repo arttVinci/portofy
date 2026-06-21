@@ -113,7 +113,12 @@ func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 
 func (c *ProjectController) UploadThumbnail(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)	
-	projectId := ctx.Params("projectId")
+
+	request := new(model.UploadImageRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
 
 	file, err := ctx.FormFile("image")
 	if err != nil {
@@ -126,7 +131,10 @@ func (c *ProjectController) UploadThumbnail(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
 	}
 
-	response, err := c.UseCase.UploadThumbnail(ctx.UserContext(), auth.ID, projectId, file)
+	request.UserID = auth.ID
+	request.Image = file
+
+	response, err := c.UseCase.UploadThumbnail(ctx.UserContext(), request)
 	if err != nil {
 		c.Log.WithError(err).Error("error upload project thumbnail")
 		return err
@@ -135,27 +143,40 @@ func (c *ProjectController) UploadThumbnail(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[string]{Data: response})
 }
 
-func (c *ProjectController) UploadGallery(ctx *fiber.Ctx) error {
-    auth := middleware.GetUser(ctx)
-    projectId := ctx.Params("projectId")
+func (c *AchievementController) UploadGallery(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
 
-    form, err := ctx.MultipartForm()
-    if err != nil {
-        return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-    }
+	request := new(model.UploadImageRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
 
-    files := form.File["images"]
-    if len(files) == 0 {
-        return fiber.NewError(fiber.StatusBadRequest, "File gambar tidak ditemukan")
-    }
+	multiFile, err := ctx.MultipartForm()
+	if err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
+	}
 
-    response, err := c.UseCase.UploadGallery(ctx.UserContext(), auth.ID, projectId, files)
-    if err != nil {
-		c.Log.WithError(err).Error("error upload project gallery")
-        return err
-    }
+	if files, ok := multiFile.File["gallery"]; ok {
+		for _, file := range files {
+			if file.Size > 7*1024*1024 {
+				c.Log.Warn("Upload failed: file size exceeds 7MB limit")
+				return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
+			}
+		}
 
-    return ctx.JSON(model.WebResponse[[]string]{Data: response})
+		request.Gallery = files
+	}
+	
+	request.UserID = auth.ID
+
+	response, err := c.UseCase.UploadImage(ctx.UserContext(), request)
+	if err != nil {
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[string]{Data: response})
 }
 
 func (c *ProjectController) BulkDelete(ctx *fiber.Ctx) error {
@@ -305,50 +326,5 @@ func (c *ProjectController) GetByUsername(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProjectResponse]{Data: response})
 }
 
-func (c *AchievementController) UploadImage(ctx *fiber.Ctx) error {
-	auth := middleware.GetUser(ctx)
 
-	request := new(model.UploadImageRequest)
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-	}
-
-	file, err := ctx.FormFile("image")
-	if err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-	}
-
-	if file.Size > 7*1024*1024 {
-		c.Log.Warn("Upload failed: file size exceeds 7MB limit")
-		return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
-	}
-
-	multiFile, err := ctx.MultipartForm()
-	if err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return fiber.NewError(fiber.StatusBadRequest, "Format data request tidak valid")
-	}
-
-	if files, ok := multiFile.File["gallery"]; ok {
-		for _, file := range files {
-			if file.Size > 7*1024*1024 {
-				c.Log.Warn("Upload failed: file size exceeds 7MB limit")
-				return fiber.NewError(fiber.StatusBadRequest, "Ukuran file melebihi 7MB")
-			}
-		}
-
-		request.Gallery = files
-	}
-
-	request.Image = file
-
-	response, err := c.UseCase.UploadImage(ctx.UserContext(), request)
-	if err != nil {
-		return err
-	}
-
-	return ctx.JSON(model.WebResponse[string]{Data: response})
-}
 
