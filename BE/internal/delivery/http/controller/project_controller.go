@@ -143,7 +143,7 @@ func (c *ProjectController) UploadThumbnail(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[string]{Data: response})
 }
 
-func (c *AchievementController) UploadGallery(ctx *fiber.Ctx) error {
+func (c *ProjectController) UploadGallery(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
 	request := new(model.UploadImageRequest)
@@ -171,12 +171,12 @@ func (c *AchievementController) UploadGallery(ctx *fiber.Ctx) error {
 	
 	request.UserID = auth.ID
 
-	response, err := c.UseCase.UploadImage(ctx.UserContext(), request)
+	response, err := c.UseCase.UploadGallery(ctx.UserContext(), request)
 	if err != nil {
 		return err
 	}
 
-	return ctx.JSON(model.WebResponse[string]{Data: response})
+	return ctx.JSON(model.WebResponse[[]string]{Data: response})
 }
 
 func (c *ProjectController) BulkDelete(ctx *fiber.Ctx) error {
