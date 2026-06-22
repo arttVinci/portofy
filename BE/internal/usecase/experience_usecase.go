@@ -326,19 +326,15 @@ func (u *ExperienceUseCase) UploadImage(ctx context.Context, request *model.Uplo
 	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	experience := new(entity.Experience)
-	
-	if err := u.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserID); err != nil {	
-		u.Log.WithError(err).Error("error getting profile")
-		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
-	}
-
-	if experience.ImageUrl != "" {
-		publicId := utils.ExtractPublicID(experience.ImageUrl)
-
-		if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
-			u.Log.WithError(err).Error("error delete image old")
-			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+	if request.ID != "" {
+		experience := new(entity.Experience)
+		if err := u.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserID); err != nil {
+			u.Log.WithError(err).Error("error getting experience")
+		} else if experience.ImageUrl != "" {
+			publicId := utils.ExtractPublicID(experience.ImageUrl)
+			if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+				u.Log.WithError(err).Error("error delete image old")
+			}
 		}
 	}
 

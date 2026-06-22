@@ -144,18 +144,15 @@ func (u *ProjectUseCase) UploadThumbnail(ctx context.Context, request *model.Upl
 	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	project := new(entity.Project)
-	if err := u.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {	
-		u.Log.WithError(err).Error("error getting project")
-		return "", fiber.NewError(fiber.StatusNotFound, "Project not found")
-	}
-	
-	if project.ImageUrl != "" {
-		publicId := utils.ExtractPublicID(project.ImageUrl)
-
-		if err := u.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
-			u.Log.WithError(err).Error("error delete image old")
-			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+	if request.ID != "" {
+		project := new(entity.Project)
+		if err := u.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {
+			u.Log.WithError(err).Error("error getting project")
+		} else if project.ImageUrl != "" {
+			publicId := utils.ExtractPublicID(project.ImageUrl)
+			if err := u.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+				u.Log.WithError(err).Error("error delete image old")
+			}
 		}
 	}
 	
@@ -176,33 +173,34 @@ func (u *ProjectUseCase) UploadThumbnail(ctx context.Context, request *model.Upl
 func (c *ProjectUseCase) UploadGallery(ctx context.Context, request *model.UploadImageRequest) ([]string, error) {
     tx := c.DB.WithContext(ctx)
 
-    project := new(entity.Project)
-    if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {
-        c.Log.WithError(err).Error("error getting project")
-        return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
-    }
+    if request.ID != "" {
+        project := new(entity.Project)
+        if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserID); err != nil {
+            c.Log.WithError(err).Error("error getting project")
+        } else {
+            var deleteWg sync.WaitGroup
+            deletErrChan := make(chan error, len(project.Gallery))
 
-		var deleteWg sync.WaitGroup
-    deletErrChan := make(chan error, len(project.Gallery))
+            for _, gallery := range project.Gallery {
+                if gallery.ImageUrl == "" {
+                    continue
+                }
+                deleteWg.Add(1)
+                go func(imageUrl string) {
+                    defer deleteWg.Done()
+                    publicId := utils.ExtractPublicID(imageUrl)
 
-    for _, gallery := range project.Gallery {
-        if gallery.ImageUrl == "" {
-            continue
-        }
-        deleteWg.Add(1)
-        go func(imageUrl string) {
-            defer deleteWg.Done()
-            publicId := utils.ExtractPublicID(imageUrl)
-
-            if err := c.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
-                c.Log.WithError(err).Error("error delete old image")
-                deletErrChan <- err
+                    if err := c.UploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+                        c.Log.WithError(err).Error("error delete old image")
+                        deletErrChan <- err
+                    }
+                }(gallery.ImageUrl)
             }
-        }(gallery.ImageUrl)
-    }
 
-    deleteWg.Wait()
-    close(deletErrChan)
+            deleteWg.Wait()
+            close(deletErrChan)
+        }
+    }
 
 	var(
 		wg      sync.WaitGroup

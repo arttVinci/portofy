@@ -306,19 +306,15 @@ func (u *AchievementUseCase) UploadImage(ctx context.Context, request *model.Upl
 	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	achievement := new(entity.Achievement)
-	
-	if err := u.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserID); err != nil {	
-		u.Log.WithError(err).Error("error getting profile")
-		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
-	}
-
-	if achievement.ImageUrl != "" {
-		publicId := utils.ExtractPublicID(achievement.ImageUrl)
-
-		if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
-			u.Log.WithError(err).Error("error delete image old")
-			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+	if request.ID != "" {
+		achievement := new(entity.Achievement)
+		if err := u.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserID); err != nil {
+			u.Log.WithError(err).Error("error getting achievement")
+		} else if achievement.ImageUrl != "" {
+			publicId := utils.ExtractPublicID(achievement.ImageUrl)
+			if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+				u.Log.WithError(err).Error("error delete image old")
+			}
 		}
 	}
 

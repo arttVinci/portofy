@@ -7,14 +7,11 @@ interface UseUploadProjectGalleryOptions {
   onError?: (error: ApiError) => void;
 }
 
-interface UploadProjectGalleryVariables {
-  id: string;
-  payload: FormData;
-}
-
-export const useUploadProjectGallery = (options?: UseUploadProjectGalleryOptions) => {
-  return useMutation<string[], ApiError, UploadProjectGalleryVariables>({
-    mutationFn: ({ id, payload }) => projectService.uploadGallery(id, payload),
+export const useUploadProjectGallery = (
+  options?: UseUploadProjectGalleryOptions,
+) => {
+  return useMutation<string[], ApiError, FormData>({
+    mutationFn: (formData) => projectService.uploadGallery(formData),
     onSuccess: (data) => {
       options?.onSuccess?.(data);
     },

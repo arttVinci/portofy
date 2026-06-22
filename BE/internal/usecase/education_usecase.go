@@ -324,19 +324,15 @@ func (u *EducationUseCase) UploadImage(ctx context.Context, request *model.Uploa
 	tx := u.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	education := new(entity.Education)
-	
-	if err := u.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserID); err != nil {	
-		u.Log.WithError(err).Error("error getting profile")
-		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
-	}
-
-	if education.ImageUrl != "" {
-		publicId := utils.ExtractPublicID(education.ImageUrl)
-
-		if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
-			u.Log.WithError(err).Error("error delete image old")
-			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+	if request.ID != "" {
+		education := new(entity.Education)
+		if err := u.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserID); err != nil {
+			u.Log.WithError(err).Error("error getting education")
+		} else if education.ImageUrl != "" {
+			publicId := utils.ExtractPublicID(education.ImageUrl)
+			if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+				u.Log.WithError(err).Error("error delete image old")
+			}
 		}
 	}
 

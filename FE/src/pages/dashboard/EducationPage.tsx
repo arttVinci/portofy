@@ -151,16 +151,15 @@ export default function EducationPage() {
 
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
-        const fd = new FormData();
+        const formData = new FormData();
+        formData.append("image", thumbnailFile);
+
         if (activeView.type === "edit" && education) {
-          fd.append("image", thumbnailFile);
-          const resUrl = await specificUploadMutation.mutateAsync(fd);
-          payload.image_url = resUrl;
-        } else {
-          fd.append("images", thumbnailFile);
-          const res = await uploadMutation.mutateAsync(fd);
-          payload.image_url = res.image_url[0];
+          formData.append("id", education.id);
         }
+
+        const resUrl = await uploadMutation.mutateAsync(formData);
+        payload.image_url = resUrl;
       }
 
       if (activeView.type === "edit" && education) {

@@ -7,14 +7,11 @@ interface UseUploadProjectThumbnailOptions {
   onError?: (error: ApiError) => void;
 }
 
-interface UploadProjectThumbnailVariables {
-  id: string;
-  payload: FormData;
-}
-
-export const useUploadProjectThumbnail = (options?: UseUploadProjectThumbnailOptions) => {
-  return useMutation<string, ApiError, UploadProjectThumbnailVariables>({
-    mutationFn: ({ id, payload }) => projectService.uploadThumbnail(id, payload),
+export const useUploadProjectThumbnail = (
+  options?: UseUploadProjectThumbnailOptions,
+) => {
+  return useMutation<string, ApiError, FormData>({
+    mutationFn: (formData) => projectService.uploadThumbnail(formData),
     onSuccess: (data) => {
       options?.onSuccess?.(data);
     },
