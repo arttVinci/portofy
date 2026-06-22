@@ -81,7 +81,6 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/achievements", c.AchievementController.Create)
 	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
 	c.App.Post("/api/achievements/_image", c.AchievementController.UploadImage)
-	c.App.Post("/api/achievements/:achievementId/_image", c.AchievementController.UploadImage)
 	c.App.Delete("/api/achievements/_bulk", c.AchievementController.BulkDelete)
 	c.App.Delete("/api/achievements/:achievementId", c.AchievementController.Delete)
 
@@ -90,7 +89,8 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/projects/_bulk", c.ProjectController.BulkCreate)
 	c.App.Post("/api/projects", c.ProjectController.Create)
 	c.App.Put("/api/projects/:projectId", c.ProjectController.Update)
-	c.App.Post("/api/projects/_image", c.ProjectController.UploadImage)
+	c.App.Post("/api/projects/_thumbnail", c.ProjectController.UploadThumbnail)
+	c.App.Post("/api/projects/_gallery", c.ProjectController.UploadGallery)
 	c.App.Delete("/api/projects/_bulk", c.ProjectController.BulkDelete)
 	c.App.Delete("/api/projects/:projectId", c.ProjectController.Delete)
 	
@@ -100,7 +100,6 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/experiences", c.ExperienceController.Create)
 	c.App.Put("/api/experiences/:experienceId", c.ExperienceController.Update)
 	c.App.Post("/api/experiences/_image", c.ExperienceController.UploadImage)
-	c.App.Post("/api/experiences/:experienceId/_image", c.ExperienceController.UploadImage)
 	c.App.Delete("/api/experiences/_bulk", c.ExperienceController.BulkDelete)
 	c.App.Delete("/api/experiences/:experienceId", c.ExperienceController.Delete)
 	
@@ -111,7 +110,6 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/educations", c.EducationController.Create)
 	c.App.Put("/api/educations/:educationId", c.EducationController.Update)
 	c.App.Post("/api/educations/_image", c.EducationController.UploadImage)
-	c.App.Post("/api/educations/:educationId/_image", c.EducationController.UploadImage)
 	c.App.Delete("/api/educations/_bulk", c.EducationController.BulkDelete)
 	c.App.Delete("/api/educations/:educationId", c.EducationController.Delete)
 
