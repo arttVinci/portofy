@@ -324,6 +324,7 @@ func (u *AchievementUseCase) UploadImage(ctx context.Context, request *model.Upl
 
 	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, request.Image, "portofy-assets/public/achievements")
 	if err != nil {
+		u.Log.WithError(err).Error("error uploading image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
 

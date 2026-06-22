@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"mime/multipart"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -13,6 +12,7 @@ import (
 	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/model/converter"
+	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/repository"
 )
 
@@ -320,10 +320,36 @@ func (c *EducationUseCase) GetByUsername(ctx context.Context, request *model.Get
 	return converter.EducationToResponse(education), nil
 }
 
-func (u *EducationUseCase) UploadImage(ctx context.Context, oldImageUrl string, file *multipart.FileHeader) (string, error) {
-	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/educations")
+func (u *EducationUseCase) UploadImage(ctx context.Context, request *model.UploadImageRequest) (string, error) {
+	tx := u.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	education := new(entity.Education)
+	
+	if err := u.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserID); err != nil {	
+		u.Log.WithError(err).Error("error getting profile")
+		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
+	}
+
+	if education.ImageUrl != "" {
+		publicId := utils.ExtractPublicID(education.ImageUrl)
+
+		if err := u.uploadImageRepo.DeleteImage(ctx, publicId); err != nil {
+			u.Log.WithError(err).Error("error delete image old")
+			return "", fiber.NewError(fiber.StatusNotFound, "Failed Deleting Image")
+		}
+	}
+
+	imageUrl, err := u.uploadImageRepo.UploadImage(ctx, request.Image, "portofy-assets/public/educations")
 	if err != nil {
+		u.Log.WithError(err).Error("error uploading image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
+
+	if err := tx.Commit().Error; err != nil {
+		u.Log.WithError(err).Error("error committing upload image")
+		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to save image")
+	}
+
 	return imageUrl, nil
 }
