@@ -16,8 +16,7 @@ import { useAdminAchievement, useAdminAchievements } from "@/hooks/queries";
 import { useCreateAchievement } from "@/hooks/mutations/achievement/useCreateAchievement";
 import { useUpdateAchievement } from "@/hooks/mutations/achievement/useUpdateAchievement";
 import { useDeleteAchievement } from "@/hooks/mutations/achievement/useDeleteAchievement";
-import { useUploadImage } from "@/hooks/mutations/useUploadImage";
-import { useUploadAchievementImage } from "@/hooks/mutations/achievement/useUploadAchievementImage";
+import { useUploadImageAchievement } from "@/hooks/mutations/achievement/useUploadImageAchievement";
 import { useFormData } from "@/hooks/ui/useFormData";
 import { useToast } from "@/hooks/ui/useToast";
 
@@ -114,7 +113,7 @@ export default function AchievementPage() {
     onError: (error: ApiError) => toast("error", "Error", error.message),
   });
 
-  const uploadMutation = useUploadAchievementImage({
+  const uploadMutation = useUploadImageAchievement({
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
@@ -122,7 +121,6 @@ export default function AchievementPage() {
     createMutation.isPending ||
     updateMutation.isPending ||
     deleteMutation.isPending ||
-    uploadMutation.isPending ||
     uploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
@@ -137,16 +135,13 @@ export default function AchievementPage() {
 
       // Upload thumbnail jika ada file baru
       if (thumbnailFile) {
-        const fd = new FormData();
+        const formData = new FormData();
 
         if (activeView.type === "edit" && achievement) {
-          fd.append("image", thumbnailFile);
-          const resUrl = await uploadMutation.mutateAsync(fd);
+          formData.append("image", thumbnailFile);
+          formData.append("id", achievement.id);
+          const resUrl = await uploadMutation.mutateAsync(formData);
           payload.image_url = resUrl;
-        } else {
-          fd.append("images", thumbnailFile);
-          const res = await uploadMutation.mutateAsync(fd);
-          payload.image_url = res;
         }
       }
 

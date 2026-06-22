@@ -7,7 +7,7 @@ interface UseUploadImageOptions {
   onError?: (error: ApiError) => void;
 }
 
-export const useUploadAchievementImage = (options?: UseUploadImageOptions) => {
+export const useUploadImageAchievement = (options?: UseUploadImageOptions) => {
   return useMutation<string, ApiError, FormData>({
     mutationFn: (formData) => achievementService.uploadImage(formData),
     onSuccess: (data) => {
