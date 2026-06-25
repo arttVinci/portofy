@@ -18,7 +18,6 @@ import { useAdminExperiences } from "@/hooks/queries";
 import { useCreateExperience } from "@/hooks/mutations/experience/useCreateExperience";
 import { useUpdateExperience } from "@/hooks/mutations/experience/useUpdateExperience";
 import { useDeleteExperience } from "@/hooks/mutations/experience/useDeleteExperience";
-import { useUploadImage } from "@/hooks/mutations/useUploadImage";
 import { useUploadExperienceImage } from "@/hooks/mutations/experience/useUploadExperienceImage";
 import { useGenerateExperienceDescription } from "@/hooks/mutations/agent/generate_description/useGenerateExperienceDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
@@ -110,11 +109,7 @@ export default function ExperiencePage() {
     onError: (error: ApiError) => toast("error", "Error", error.message),
   });
 
-  const uploadMutation = useUploadImage({
-    onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
-  });
-
-  const specificUploadMutation = useUploadExperienceImage({
+  const uploadMutation = useUploadExperienceImage({
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
@@ -138,8 +133,7 @@ export default function ExperiencePage() {
     createMutation.isPending ||
     updateMutation.isPending ||
     deleteMutation.isPending ||
-    uploadMutation.isPending ||
-    specificUploadMutation.isPending;
+    uploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
   const handleSave = async () => {
@@ -165,7 +159,7 @@ export default function ExperiencePage() {
           formData.append("id", experience.id);
         }
 
-        const resUrl = await specificUploadMutation.mutateAsync(formData);
+        const resUrl = await uploadMutation.mutateAsync(formData);
         payload.image_url = resUrl;
       }
 

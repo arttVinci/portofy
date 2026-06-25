@@ -173,6 +173,8 @@ func (c *AchievementController) List(ctx *fiber.Ctx) error {
 		TotalItem: total,
 		TotalPage: int64(math.Ceil(float64(total) / float64(request.Size))),
 	}
+	
+	c.Log.Infof("Responses result : %+v", responses)
 
 	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
 		Data:   responses,

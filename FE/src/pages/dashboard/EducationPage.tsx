@@ -17,7 +17,6 @@ import { useAdminEducations } from "@/hooks/queries";
 import { useCreateEducation } from "@/hooks/mutations/education/useCreateEducation";
 import { useUpdateEducation } from "@/hooks/mutations/education/useUpdateEducation";
 import { useDeleteEducation } from "@/hooks/mutations/education/useDeleteEducation";
-import { useUploadImage } from "@/hooks/mutations/useUploadImage";
 import { useUploadEducationImage } from "@/hooks/mutations/education/useUploadEducationImage";
 import { useGenerateEducationDescription } from "@/hooks/mutations/agent/generate_description/useGenerateEducationDesc";
 import { useFormData } from "@/hooks/ui/useFormData";
@@ -104,11 +103,7 @@ export default function EducationPage() {
     onError: (error: ApiError) => toast("error", "Error", error.message),
   });
 
-  const uploadMutation = useUploadImage({
-    onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
-  });
-
-  const specificUploadMutation = useUploadEducationImage({
+  const uploadMutation = useUploadEducationImage({
     onError: (error: ApiError) => toast("error", "Gagal Upload", error.message),
   });
 
@@ -132,8 +127,7 @@ export default function EducationPage() {
     createMutation.isPending ||
     updateMutation.isPending ||
     deleteMutation.isPending ||
-    uploadMutation.isPending ||
-    specificUploadMutation.isPending;
+    uploadMutation.isPending;
 
   // ── Save handler ──────────────────────────────────────────────────────────
   const handleSave = async () => {

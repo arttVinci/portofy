@@ -64,7 +64,13 @@ export default function AchievementPage() {
 
   const totalPage = achievements?.paging?.total_page || 1;
 
-  console.log("cobaaa", page, totalPage, achievements?.paging);
+  console.log(
+    "cobaaa",
+    page,
+    totalPage,
+    achievements?.paging,
+    achievements?.data,
+  );
 
   const form = useFormData<UpdateAchievementRequest>({
     initialValues: EMPTY_FORM,

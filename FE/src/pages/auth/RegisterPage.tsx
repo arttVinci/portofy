@@ -21,7 +21,7 @@ import OtpCodeStepper from "@/sections/auth/Register/StepperForm/OtpCodeStepper"
 import CreateUserProfile from "@/sections/auth/Register/StepperForm/CreateUserProfile";
 import { useRegister } from "@/hooks/mutations/auth/useRegister";
 import { useCreateProfile } from "@/hooks/mutations/profile/useCreateProfile";
-import { useUploadImage } from "@/hooks/mutations/useUploadImage";
+import { useUploadAvatar } from "@/hooks/mutations/profile/useUploadAvatar";
 import { useSendOtp } from "@/hooks/mutations/auth/useSendOtp";
 
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -110,16 +110,8 @@ export default function RegisterPage() {
     },
   });
 
-  const uploadMutation = useUploadImage({
-    onSuccess: (response) => {
-      setFormData((prev) => ({
-        ...prev,
-        image_url: response.image_url[0],
-      }));
-      toast("success", "Berhasil", "Foto profil berhasil diupload");
-      goNext();
-    },
-    onError: (error: ApiError) => toast("error", "Gagal", error.message),
+  const uploadAvatarMutation = useUploadAvatar({
+    onError: (error: ApiError) => toast("error", "Gagal Upload Avatar", error.message),
   });
 
   const sendOtpMutation = useSendOtp({
@@ -141,11 +133,10 @@ export default function RegisterPage() {
     createUserMutation.mutate(payload);
   };
 
-  const handleCreateProfile = (e?: React.FormEvent) => {
-    handleUploadImage();
-
+  const handleCreateProfile = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const payload: CreateProfileRequest = {
+
+    let payload: CreateProfileRequest = {
       user_id: formData.userId,
       full_name: formData.fullName,
       image_url: formData.image_url,
@@ -155,17 +146,19 @@ export default function RegisterPage() {
       theme: formData.theme,
       tags: formData.tags,
     };
-    createProfileMutation.mutate(payload);
-  };
 
-  const handleUploadImage = () => {
-    if (!avatarImageFile) {
-      goNext();
-      return;
+    if (avatarImageFile) {
+      try {
+        const uploadData = new FormData();
+        uploadData.append("avatar", avatarImageFile);
+        const resUrl = await uploadAvatarMutation.mutateAsync(uploadData);
+        payload.image_url = resUrl;
+      } catch (err) {
+        return; // stop creation if upload fails
+      }
     }
-    const formData = new FormData();
-    formData.append("images", avatarImageFile);
-    uploadMutation.mutateAsync(formData);
+
+    createProfileMutation.mutate(payload);
   };
 
   const handleSendOtp = () => {
@@ -575,13 +568,13 @@ export default function RegisterPage() {
                     ) : (
                       <button
                         onClick={handleCreateProfile}
-                        disabled={createProfileMutation.isPending}
+                        disabled={createProfileMutation.isPending || uploadAvatarMutation.isPending}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-[#070e1b] hover:bg-blue-50 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed"
                       >
-                        {createProfileMutation.isPending
+                        {createProfileMutation.isPending || uploadAvatarMutation.isPending
                           ? "Memproses..."
                           : "Buat Portfolio"}
-                        {!createProfileMutation.isPending && (
+                        {!createProfileMutation.isPending && !uploadAvatarMutation.isPending && (
                           <ArrowRightIcon size={14} />
                         )}
                       </button>

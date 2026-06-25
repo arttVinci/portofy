@@ -4,12 +4,24 @@ import type {
   UpdateProjectRequest,
   ApiResponse,
   BulkDeleteProjectRequest,
+  SearchParams,
 } from "@/@types";
 import type { AxiosResponse } from "axios";
 import apiClient from "@/api/apiClient";
 
 class ProjectService {
   private readonly BASE_PATH = "/projects";
+
+  async search(params: SearchParams): Promise<ApiResponse<ProjectResponse[]>> {
+    const response = await apiClient.get<ApiResponse<ProjectResponse[]>>(
+      this.BASE_PATH,
+      {
+        params: params,
+      },
+    );
+
+    return response.data;
+  }
 
   async create(payload: CreateProjectRequest): Promise<ProjectResponse> {
     const response: AxiosResponse<ApiResponse<ProjectResponse>> =

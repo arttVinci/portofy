@@ -114,20 +114,20 @@ func (c *ProfileUseCase) UploadAvatar(ctx context.Context, userId string, file *
 	tx := c.db.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	profile := new(entity.Profile)
-	
-	if err := c.profileRepo.FindByUserId(tx, profile, userId); err != nil {	
-		c.log.WithError(err).Error("error getting profile")
-		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
-	}
+	// profile := new(entity.Profile)
 
+	// if userId != "" {
+	// 	if err := c.profileRepo.FindByUserId(tx, profile, userId); err != nil {	
+	// 		c.log.WithError(err).Error("error getting profile")
+	// 		return "", fiber.NewError(fiber.StatusNotFound, "Profile not found")
+	// 	}
+	// }
+	
 	imageUrl, err := c.uploadImageRepo.UploadImage(ctx, file, "portofy-assets/public/avatars")
 	if err != nil {
 		c.log.WithError(err).Error("error uploading image")
 		return "", fiber.NewError(fiber.StatusInternalServerError, "Failed to upload image")
 	}
-
-
 
 	if err := tx.Commit().Error; err != nil {
 		c.log.WithError(err).Error("error committing upload profile avatar")

@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import {
-  EyeIcon,
-  EyeOffIcon,
-  ArrowRightIcon,
-} from "lucide-react";
+import { EyeIcon, EyeOffIcon, ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { LoginUserRequest } from "@/@types/entities/auth.types";
 import { ApiError } from "@/api/apiError";
@@ -41,8 +37,7 @@ export default function LoginPage() {
   });
 
   const handleGoogleLogin = () => {
-    window.location.href =
-      "https://portofy-be-482363896451.asia-southeast2.run.app/api/auth/google/login";
+    window.location.href = "http://127.0.0.1:8080/api/auth/google/login";
   };
 
   return (
@@ -178,8 +173,18 @@ export default function LoginPage() {
                 onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-medium border border-white/[0.08] bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all duration-200 cursor-pointer"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={18}
+                  height={18}
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8" />
                 </svg>
                 Masuk dengan Google
@@ -273,7 +278,7 @@ export default function LoginPage() {
                     "Memproses..."
                   ) : (
                     <>
-                       Masuk <ArrowRightIcon size={16} strokeWidth={2} />
+                      Masuk <ArrowRightIcon size={16} strokeWidth={2} />
                     </>
                   )}
                 </button>

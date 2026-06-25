@@ -77,7 +77,7 @@ func (c *OauthController) Callback(ctx *fiber.Ctx) error {
 		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 
-	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url")
+	frontendURL := c.OauthUseCase.Viper.GetString("frontend.url_local")
 
 	response, err := c.OauthUseCase.Callback(ctx.UserContext(), ctx.Query("code"))
 	if err != nil {
